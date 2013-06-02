@@ -15,6 +15,16 @@ class Post_model extends CI_Model {
         return $query->result_array();
     }
 
+    public function set_post() {
+
+        $data = array(
+            'title' => $this->input->post('title'),
+            'text' => $this->input->post('text')
+        );
+
+        return $this->db->insert('post', $data);
+    }
+
 }
 
 ?>

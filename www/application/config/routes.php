@@ -38,8 +38,11 @@
 |
 */
 
+$route['404_override'] = 'my404';
 $route['default_controller'] = 'post';
 $route['post/(:num)'] = 'post/view/$1';
 $route['post'] = 'post';
+$route['post/add'] = 'post/add';
+$route['login'] = 'login';
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

@@ -16,7 +16,7 @@ class Post extends CI_Controller {
     }
 
     public function view($id) {
-        
+
         $data['item'] = $this->post_model->get_post($id);
 
         if (empty($data['item'])) {
@@ -28,6 +28,25 @@ class Post extends CI_Controller {
         $this->load->view('templates/header', $data);
         $this->load->view('post/view', $data);
         $this->load->view('templates/footer');
+    }
+
+    public function add() {
+        $this->load->helper('form');
+        $this->load->library('form_validation');
+
+        $data['title'] = 'Add new post';
+
+        $this->form_validation->set_rules('title', 'Title', 'required');
+        $this->form_validation->set_rules('text', 'text', 'required');
+
+        if ($this->form_validation->run() === FALSE) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('post/add');
+            $this->load->view('templates/footer');
+        } else {
+            $this->post_model->set_post();
+            $this->load->view('info');
+        }
     }
 
 }
