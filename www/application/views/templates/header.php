@@ -17,12 +17,12 @@
                 <header class="bck light padding">
                     <div class="row">
                         <div class="column_6">
-                            <!--<img src="../images/logo-color.png" class="logo on-left"/>-->
-                            <h2 class="text italic thin">Most Wanted blog</h2>
+                            <a href="/">
+                            <img src="/img/logo.png" class="logo"/></a>
                         </div>
                         <nav class="column_6  text right bold">
-                            <a href="login">Login</a>
-                            <a href="#" class="button small">Signup</a>
+                            <a href="#">Signup</a>
+                            <a href="#" class="button small">Login</a>
                         </nav>
                     </div>
                 </header>

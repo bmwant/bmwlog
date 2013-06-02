@@ -5,6 +5,7 @@ class Post extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('post_model');
+        $this->load->model('tag_model');
     }
 
     public function index() {
@@ -18,6 +19,7 @@ class Post extends CI_Controller {
     public function view($id) {
 
         $data['item'] = $this->post_model->get_post($id);
+        $data['tags'] = $this->tag_model->get_all_tags_to_post($id);
 
         if (empty($data['item'])) {
             show_404();
