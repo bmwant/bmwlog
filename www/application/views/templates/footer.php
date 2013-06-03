@@ -1,6 +1,4 @@
-</div>
-<div id="footer">
-<footer class="bck dark padding">
+<div id="footer" class="bck dark padding">
     <div class="row margin-top margin-bottom">
         <div class="column_4 text left">
             <p class="text bold big">What toolset?</p>
@@ -15,8 +13,7 @@
             <a href="mailto:bmwant@gmail.com" class="text underline color theme">Write to admin</a>
         </div>
     </div>
-</footer>
-    </div>
+</div>
 <div id="default_modal" data-tuktuk="modal"  class="column_5">
     <header>
         <h4 class="text thin">Toolkit</h4>
@@ -28,8 +25,10 @@
         <button data-modal="close" class="anchor"><span class="icon remove"></span>Close</button>
     </footer>
 </div>
+
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="/css/tuktuk.js"></script>
-</div> <!-- close id-wrapper -->
+
+</div>
 </body>
 </html>

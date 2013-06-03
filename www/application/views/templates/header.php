@@ -2,7 +2,6 @@
 <html>
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <title><?php echo $title ?></title>
         <link rel="stylesheet" type="text/css" href="/css/tuktuk.css">
         <link rel="stylesheet" type="text/css" href="/css/tuktuk.theme.css">
@@ -10,21 +9,31 @@
         <link rel="stylesheet" type="text/css" href="/css/style.css">
     </head>
 
-
     <body class="text thin">
         <div id="wrapper">
-            <div id="header">
-                <header class="bck light padding">
-                    <div class="row">
-                        <div class="column_6">
-                            <a href="/">
-                            <img src="/img/logo.png" class="logo"/></a>
-                        </div>
-                        <nav class="column_6  text right bold">
-                            <a href="#">Signup</a>
-                            <a href="#" class="button small">Login</a>
-                        </nav>
+            <div id="header" class="bck light padding">
+                <div class="row">
+                    <div class="column_6">
+                        <a href="/"><img src="/img/logo.png" class="logo"/></a>
                     </div>
-                </header>
-            </div>
-            <div id="content">
+                    <div class="column_6  text right bold">
+                        <a href="#">Signup</a>
+                        <a href="#" class="button small">Login</a>
+                    </div>
+                </div>
+                </div>
+                <section class="bck color">
+  <div class="row text center">
+    <nav data-tuktuk="menu" class="column_12 padding text bold">
+      <a href="#">
+        <span class="icon pencil"></span>Posts<small>(100)</small>
+      </a>
+      <a href="#" class="active">
+        <span class="icon folder-open-alt"></span>Categories<small>(3)</small>
+      </a>
+      <a href="#"><span class="icon cog"></span>Administration</a>
+      <a href="#"><span class="icon info-sign"></span>About</a>
+    </nav>
+  </div>
+</section>
+         
