@@ -1,5 +1,5 @@
 <div id="footer" class="bck dark padding">
-    <div class="row margin-top margin-bottom">
+    <div class="row margin-bottom">
         <div class="column_4 text left">
             <p class="text bold big">What toolset?</p>
             <a href="#" data-tuktuk-modal="default_modal" class="text underline color theme">Show me</a>

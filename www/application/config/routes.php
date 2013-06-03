@@ -39,10 +39,23 @@
 */
 
 $route['404_override'] = 'my404';
+
+//work with posts
 $route['default_controller'] = 'post';
 $route['post/(:num)'] = 'post/view/$1';
 $route['post'] = 'post';
 $route['post/add'] = 'post/add';
-$route['login'] = 'login';
+
+//work with users
+$route['login'] = 'user/login';
+$route['signup'] = 'user/signup';
+$route['users'] = 'user';
+$route['user/(:num)'] = 'user/view/$1';
+
+//pages
+$route['about'] = 'pages/about';
+$route['administration'] = 'pages/administration';
+$route['categories'] = 'pages/categories';
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

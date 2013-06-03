@@ -11,6 +11,7 @@ class Post extends CI_Controller {
     public function index() {
         $data['post'] = $this->post_model->get_post();
         $data['title'] = 'All posts';
+        $data['linkid'] = 'pstlink';
         $this->load->view('templates/header', $data);
         $this->load->view('post/index', $data);
         $this->load->view('templates/footer');
