@@ -15,11 +15,11 @@ class Pages extends CI_Controller {
     }
 
     public function about() {
-        $data['title'] = 'About';
-        $data['linkid'] = 'abtlink';
-        $this->load->view('templates/header', $data);
-        $this->load->view('about');
-        $this->load->view('templates/footer');
+        //$data['title'] = 'About';
+        //$data['linkid'] = 'abtlink';
+        //$this->load->view('templates/header', $data);
+        $this->load->view('jquery');
+        //$this->load->view('templates/footer');
     }
 
     public function categories() {

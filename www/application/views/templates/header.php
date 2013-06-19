@@ -7,7 +7,11 @@
         <link rel="stylesheet" type="text/css" href="/css/tuktuk.theme.css">
         <link rel="stylesheet" type="text/css" href="/css/tuktuk.icons.css">
         <link rel="stylesheet" type="text/css" href="/css/style.css">
-        <script type="text/javascript" src="/js/functions.js"></script>
+        <script src="/js/functions.js"></script>
+        
+        <link href="/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+	<script src="/js/jquery-1.9.1.js"></script>
+	<script src="/js/jquery-ui-1.10.3.custom.js"></script>
     </head>
 
     <body class="text thin" onload="setActiveLink('<?php if(isset($linkid)) echo $linkid; ?>')">

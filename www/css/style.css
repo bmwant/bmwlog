@@ -22,3 +22,7 @@ html, body {
 #content {
     padding-bottom: 80px; /* This should match the height of the footer */
 }
+
+.post-header {
+    font-size: large;
+}
