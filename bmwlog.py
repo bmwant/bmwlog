@@ -53,11 +53,13 @@ def categories():
 
 @route('/login')
 def login():
-    return "200 ok"
+    template = env.get_template('info.html')
+    return template.render(info="This is login page")
 
 @route('/signup')
 def signup():
-    return "200 ok"
+    template = env.get_template('info.html')
+    return template.render(info="This is registration page")
 
 @error(404)
 def error404(error):
