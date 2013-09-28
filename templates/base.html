@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+    <title>bmwlog</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/tuktuk.css">
+    <link rel="stylesheet" type="text/css" href="/css/tuktuk.theme.css">
+    <link rel="stylesheet" type="text/css" href="/css/tuktuk.icons.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+
+    <script src="/js/functions.js"></script>
+
+    <link href="/css/ui-lightness/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+    <script src="/js/jquery-1.9.1.js"></script>
+    <script src="/js/jquery-ui-1.10.3.custom.js"></script>
+
+</head>
+<body>
+<div id="wrapper">
+    {% block header %}
+    <div id="header" class="bck light padding">
+        <div class="row">
+            <div class="column_6">
+                <a href="/"><img src="/img/logo.png" class="logo"/></a>
+            </div>
+            <div class="column_6  text right bold">
+                <a href="/signup">Реєстрація</a>
+                <a href="/login" class="button small">Вхід</a>
+            </div>
+        </div>
+    </div>
+    <section class="bck color">
+        <div class="row text center">
+            <nav data-tuktuk="menu" class="column_12 padding text bold">
+                <a href="/post" id="pstlink">
+                    <span class="icon pencil"></span>Статті
+                    <small>(100)</small>
+                </a>
+                <a href="/categories" id="catlink">
+                    <span class="icon folder-open-alt"></span>Категорії
+                    <small>(3)</small>
+                </a>
+                <a href="/administration" id="admlink">
+                    <span class="icon cog"></span>Керування
+                </a>
+                <a href="/about" id="abtlink">
+                    <span class="icon info-sign"></span>Інфо
+                </a>
+            </nav>
+        </div>
+    </section>
+    {% endblock %}
+    {% block content %}{% endblock %}
+    {% block footer %}
+    <div id="footer" class="bck dark padding">
+        <div class="row margin-bottom">
+            <div class="column_4 text left">
+                <p class="text bold big">Цікавить інструментарій?</p>
+                <a href="#" data-tuktuk-modal="default_modal" class="text underline color theme">Показати</a>
+            </div>
+            <div class="column_4 text center">
+                <p class="text bold big">Де знаходиться?</p>
+                <a href="https://github.com/bmwant21/bmwlog" class="text underline color theme">Посилання на github</a>
+            </div>
+            <div class="column_4 text right">
+                <p class="text bold big">Питання?</p>
+                <a href="mailto:bmwant@gmail.com" class="text underline color theme">Напиши адміну</a>
+            </div>
+        </div>
+    </div>
+    <div id="default_modal" data-tuktuk="modal" class="column_5">
+        <header>
+            <h4 class="text thin">Інструментарій</h4>
+        </header>
+        <article>
+            CSS(TukTuk)
+            довгий список
+            +1
+        </article>
+        <footer>
+            <button data-modal="close" class="anchor"><span class="icon remove"></span>Закрити</button>
+        </footer>
+    </div>
+    <script src="/css/tuktuk.js"></script>
+    <script>
+        setActiveLink("{{ link_what }}");
+    </script>
+    {% endblock %}
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
 bmwlog
 ======
-This is my simple blog using CodeIgniter.
+This is my simple blog written with Python
 BmwLOG - Most Wanted blog
