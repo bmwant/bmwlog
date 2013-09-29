@@ -23,9 +23,24 @@ html, body {
 }
 
 #content {
+    height: auto !important;
+    min-height: 100%;
     padding-bottom: 80px; /* This should match the height of the footer */
 }
 
 .post-header {
     font-size: large;
+}
+
+
+.category-item {
+    margin: 10px;
+    padding: 10px;
+}
+
+.all-height {
+    height: auto !important;
+    min-height: 100%;
+    height: 100%;
+    position: relative;
 }

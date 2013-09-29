@@ -1,6 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
 <div id="content">
-    Categories lists
+    <div class="row">
+        <div class="column_8">
+            <div class="category-lst">
+                {% for item in items %}
+                <a href="post/" class="text bold color theme">
+                    <div class="category-item bck light">{{ item.category_name }}</div>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="column_4">
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -11,7 +11,7 @@ class BaseModel(Model):
         database = db
 
 class Category(BaseModel):
-    category = PrimaryKeyField(db_column='category_id')
+    category_id = PrimaryKeyField(db_column='category_id')
     category_name = CharField()
 
     class Meta:

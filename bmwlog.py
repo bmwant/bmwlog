@@ -36,8 +36,9 @@ def post_add():
 
 @route('/categories')
 def categories():
+    cat_list = Category.select()
     template = env.get_template('categories.html')
-    return template.render(link_what="catlink")
+    return template.render(link_what="catlink", items=cat_list)
 
 @route('/about')
 def categories():
@@ -69,7 +70,7 @@ def error404(error):
 #serving static files
 @route('/<folder>/<filename>')
 def server_static(folder, filename):
-    return static_file(filename, root='D:/coding/blogbottle/'+folder)
+    return static_file(filename, root='D:/coding/bmwlog/'+folder)
 
 
 run(host='localhost', port=8081)
