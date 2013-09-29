@@ -2,8 +2,7 @@
 {% block content %}
 <div id="content">
     <div class="row">
-        <div class="column_6">
-
+        <div class="column_8">
             <form action="/post/add" method="post">
             <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script> <script type="text/javascript">
                 //<![CDATA[
@@ -13,32 +12,43 @@
                 //]]>
             </script>
             <script>
-	$(function() {
-		
-		$( "#datepicker" ).datepicker();
-	});
-	</script>
+                //jquery datepicker
+                $(function() {$("#datepicker").datepicker();});
+	        </script>
 
-            <label for="title">Title</label> 
+            <label>Заголовок</label>
             <input type="text" name="title" /><br />
-
-            <label for="datepick">Date posted</label> 
+            <!--
+            <label for="datepick">Дата розміщення</label>
             
             <input type="text" id="datepicker" class="hastDatapicker" /><br />
-            
-            <label for="text">Text</label>
+            -->
+            <label>Виберіть категорію</label>
+            <div class="select">
+                <select name="category_id">
+                    {% for item in categories %}
+                    <option value="{{ item.category_id }}">{{ item.category_name}}</option>
+                    {% endfor %}
+                </select>
+            </div><br />
+
+            <label>Текст</label>
             <textarea id="text1" name="text"></textarea><br />
 
-            <div class="margin-bottom">
-                <a href="#" class="button success small icon ok" onclick="if(nicEditors.findEditor('text1').getContent()!='<br>'){nicEditors.findEditor('text1').saveContent();}$(this).closest('form').submit();">Add</a>
+            <label>Теги</label>
+            <input type="text" name="tags" /><br />
+
+            <div class="margin-bottom margin-top">
+                <a href="#" class="button success small icon ok" onclick="if(nicEditors.findEditor('text1').getContent()!='<br>'){nicEditors.findEditor('text1').saveContent();}$(this).closest('form').submit();">
+                    Опублікувати
+                </a>
             </div>
-        </div>
-        </form>
 
-        <div class="column_6 text center thin italic color theme">
-            <h1>Add new post</h1>
+            </form>
         </div>
-
+        <div class="column_4 text center thin italic color theme">
+            Додати новий пост
+        </div>
     </div>
 </div>
 {% endblock %}

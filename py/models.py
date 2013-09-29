@@ -31,7 +31,7 @@ class User(BaseModel):
         db_table = 'user'
 
 class Post(BaseModel):
-    category = ForeignKeyField(db_column='category_id', rel_model=Category)
+    category_id = ForeignKeyField(db_column='category_id', rel_model=Category)
     date_posted = DateTimeField()
     post_id = PrimaryKeyField(db_column='post_id')
     post_text = CharField(null=True)

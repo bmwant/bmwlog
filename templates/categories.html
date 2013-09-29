@@ -5,7 +5,7 @@
         <div class="column_8">
             <div class="category-lst">
                 {% for item in items %}
-                <a href="post/" class="text bold color theme">
+                <a href="post?category_id={{ item.category_id }}" class="text bold color theme">
                     <div class="category-item bck light">{{ item.category_name }}</div>
                 </a>
                 {% endfor %}

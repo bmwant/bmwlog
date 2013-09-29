@@ -1,7 +1,7 @@
 <div id="content">
     <div class="row">
-        <div class="column_6">
-            <?php echo form_open('user/signup') ?>
+        <div class="column_8">
+            <form>
             <label for="email">E-mail</label> 
             <input type="text" name="email" /><br />
 
@@ -20,13 +20,13 @@
             <div class="margin-bottom margin-top">
                 <a class="button success small icon ok" onclick="$(this).closest('form').submit();">Register me</a>
             </div>
+            </form>
         </div>
-        </form>
 
-        <div class="column_6 margin-bottom padding">
+
+        <div class="column_4 margin-bottom padding">
             <h1 class="text book center color theme">Register account</h1>
             <div class="error text color dark">
-                <?php echo validation_errors(); ?>
             </div>
         </div>
         
