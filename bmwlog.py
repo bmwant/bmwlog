@@ -1,51 +1,23 @@
 # -*- coding: utf-8 -*-
-from bottle import route, run, static_file, redirect, error, request, get, post
-from jinja2 import Environment, PackageLoader
-import sys
-sys.path.insert(0, 'py')
+#load configuration first
+from config import *
+from bottle import route, run, static_file, redirect, error, request, get, post, default_app
 from models import *
 
+from jinja2 import Environment, PackageLoader
+from cork import Cork
+from beaker.middleware import SessionMiddleware
+
+aaa = Cork('proto')
 env = Environment(loader=PackageLoader('bmwlog', 'templates'))
+
+from post_controller import *
+from user_controller import *
+
 
 @route('/')
 def index():
     redirect('/post')
-
-@get('/post')
-#todo: category name -> template
-#todo: check for correct category_id value
-def post_index():
-    all_posts = None
-    if 'category_id' in request.query:
-        all_posts = Post.select().where(Post.category_id == request.query['category_id'])
-        if all_posts.count() == 0:
-            template = env.get_template('info.html')
-            return template.render(info=u'Жодної статті у даній категорії')
-    else:
-        all_posts = Post.select()
-    template = env.get_template('post/index.html')
-    return template.render(posts=all_posts, link_what='pstlink')
-
-@route('/post/<id>')
-def post_view(id):
-    post = Post.get(Post.post_id == id)
-    print post.title
-    template = env.get_template('post/view.html')
-    return template.render(item=post, link_what='')
-
-@route('/post/add', method=['GET', 'POST'])
-def post_add():
-    if request.method == 'GET':
-        all_categories = Category.select()
-        template = env.get_template('post/add.html')
-        return template.render(categories=all_categories)
-    if request.method == 'POST':
-        post = Post.create(category_id=request.forms.get('category_id'),
-                           post_text=request.forms.get('text'),
-                           title=request.forms.get('title'),
-                           user_id=1)
-        redirect('/post/' + str(post.post_id))
-
 
 
 @route('/categories')
@@ -64,18 +36,6 @@ def categories():
     template = env.get_template('administration.html')
     return template.render(link_what='admlink')
 
-
-
-@route('/login')
-def login():
-    template = env.get_template('info.html')
-    return template.render(info="This is login page")
-
-@route('/signup')
-def signup():
-    template = env.get_template('info.html')
-    return template.render(info="This is registration page")
-
 @error(404)
 def error404(error):
     template = env.get_template('404.html')
@@ -87,4 +47,49 @@ def server_static(folder, filename):
     return static_file(filename, root='D:/coding/bmwlog/'+folder)
 
 
-run(host='localhost', port=8081, debug=True)
+@route('/login', method='POST')
+def login():
+    username = request.POST.get('user', '')
+    password = request.POST.get('pwd', '')
+    aaa.login(username, password, success_redirect='/', fail_redirect='/login')
+
+@route('/logout')
+def logout():
+    aaa.current_user.logout(redirect='/login')
+
+# @bottle.route('/')
+# def index():
+#     """Only authenticated users can see this"""
+#     aaa.require(fail_redirect='/sorry_page')
+#     return "Welcome %s" % aaa.current_user.username
+
+@route('/admin')
+def admin():
+    """Only administrators can see this"""
+    aaa.require(role='admin', fail_redirect='/sorry_page')
+    return 'Welcome administrators'
+
+@route('/register', method='POST')
+def register():
+    """Users can create new accounts, but only with 'user' role"""
+    username = request.POST.get('user', '')
+    password = request.POST.get('pwd', '')
+    email_addr = request.POST.get('email_addr', '')
+    aaa.register(username, password, email_addr)
+    return 'Please check your inbox.'
+
+
+# Web application main
+
+def main():
+    session_opts = {
+        'session.type': 'cookie',
+        'session.validate_key': True,
+    }
+    app = default_app()
+    app = SessionMiddleware(app, session_opts)
+
+    run(app=app, host='localhost', port=8081, debug=True)
+
+if __name__ == "__main__":
+    main()

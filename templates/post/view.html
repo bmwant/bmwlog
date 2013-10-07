@@ -2,20 +2,44 @@
 {% block content %}
 <div id="content">
     <div class="row">
+
         <div class="column_8">
             <div class="post-header">
                 <a class="text bold color theme">{{ item.title }}</a>
             </div>
-            <small class="post-date bck light">
-                    {{ item.date_posted }}
-                </small>
-                <div id="main" class="post-small-text text justify">
-                    {{ item.post_text }}
-                </div>
-                <div id="post-delim"><br /></div>
+            <div id="main" class="post-text text justify">
+                {{ item.post_text }}
+            </div>
+            <div id="post-delim"></div>
         </div>
+
         <div class="column_4">
+            <div class="post-info bck light padding margin">
+                <span class="left-info-block">
+                    <div class="info-line">     Автор       </div>
+                    <div class="info-line">       Дата        </div>
+                    <div class="info-line">  Актуальність</div>
+                    <div class="info-line">     Рейтинг     </div>
+                    <div class="info-line">   Коментарів  </div>
+                </span>
+                <span class="right-info-block">
+                    <div class="info-line-r">Author</div>
+                    <div class="info-line-r">{{ item.date_posted.strftime('%d/%m/%Y') }}            </div>
+                    <div class="info-line-r">3,7              </div>
+                    <div class="info-line-r">129                 </div>
+                    <div class="info-line-r">9</div>
+
+                </span>
+            </div>
+            <div class="post-tags padding">
+                {% for item in tags %}
+                    <a class="post-tag" href="/tag/{{ item.tag_id }}">
+                        {{ item.text }}
+                    </a>
+                {% endfor %}
+            </div>
         </div>
+
     </div>
 </div>
 {% endblock %}

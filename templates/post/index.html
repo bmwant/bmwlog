@@ -2,18 +2,19 @@
 {% block content %}
 <div id="content">
     <div class="row">
-        <div class="column_8">
+        <div class="column_8 padding-bottom padding-top margin-bottom margin-top">
             {% for item in posts %}
-            <div class="post-header">
-                <a href="post/{{ item.post_id }}" class="text bold color theme">{{ item.title }}</a>
-            </div>
-            <small class="post-date bck light">
-                    {{ item.date_posted }}
-                </small>
-                <div id="main" class="post-small-text text justify">
+            <div class="box">
+                <a href="/post/{{ item.post_id }}" class="post-header-lst text bold color theme">{{ item.title }}</a>
+                <div class="post-date-lst">
+                    <div class="post-date bck light">{{ item.date_posted.strftime('%d/%m/%Y') }}</div>
+                </div>
+                <div id="main" class="post-text-lst text justify">
                     {{ item.post_text }}
                 </div>
-                <div id="post-delim"><br /></div>
+            </div>
+            <div class="post-delim">
+            </div>
             {% endfor %}
         </div>
         <div class="column_4">

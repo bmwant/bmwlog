@@ -1,6 +1,5 @@
 from peewee import *
 
-
 db = MySQLDatabase('bmwlog', host='localhost', port=3306, user='root')
 
 class UnknownFieldType(object):
@@ -18,6 +17,7 @@ class Category(BaseModel):
         db_table = 'category'
 
 class User(BaseModel):
+    user_id = PrimaryKeyField(db_column='user_id')
     first_name = CharField(null=True)
     last_name = CharField(null=True)
     mail = CharField()
@@ -25,7 +25,6 @@ class User(BaseModel):
     user_password = CharField()
     picture = CharField(null=True)
     role = IntegerField(db_column='role_id')
-    user_id = PrimaryKeyField(db_column='user_id')
 
     class Meta:
         db_table = 'user'
@@ -42,15 +41,15 @@ class Post(BaseModel):
         db_table = 'post'
 
 class Tag(BaseModel):
-    tag = PrimaryKeyField(db_column='tag_id')
+    tag_id = PrimaryKeyField(db_column='tag_id')
     text = CharField()
 
     class Meta:
         db_table = 'tag'
 
-class Tag_To_Post(BaseModel):
-    post = ForeignKeyField(db_column='post_id', rel_model=Post)
-    tag = ForeignKeyField(db_column='tag_id', rel_model=Tag)
+class Tag_to_Post(BaseModel):
+    post_id = ForeignKeyField(db_column='post_id', rel_model=Post)
+    tag_id = ForeignKeyField(db_column='tag_id', rel_model=Tag)
 
     class Meta:
         db_table = 'tag_to_post'
