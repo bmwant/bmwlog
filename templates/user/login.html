@@ -4,25 +4,24 @@
     <div class="row">
         <div class="column_8">
 
-            <form>
-            <label for="email">E-mail</label> 
-            <input type="text" name="email" /><br />
-            
-            <label for="password">Password</label> 
-            <input type="password" name="password" /><br />
-                <!--
-                <fieldset>
-                    <label>Remember me</label>
-                    <div data-control="checkbox">
-                        <input type="checkbox" value="None" id="prueba" />
-                        <label for="prueba"></label>
-                    </div>
-                </fieldset>
-                -->
-            <div class="margin-bottom margin-top">
-                <a class="center button large icon ok" onclick="$(this).closest('form').submit();"></a>
+            <form method="post">
+                <label for="email">E-mail</label>
+                <input type="text" name="email" /><br />
 
-            </div>
+                <label for="password">Password</label>
+                <input type="password" name="password" /><br />
+                    <!--
+                    <fieldset>
+                        <label>Remember me</label>
+                        <div data-control="checkbox">
+                            <input type="checkbox" value="None" id="prueba" />
+                            <label for="prueba"></label>
+                        </div>
+                    </fieldset>
+                    -->
+                <div class="margin-bottom margin-top">
+                    <a class="center button large icon ok" onclick="$(this).closest('form').submit();"></a>
+                </div>
             </form>
         </div>
         <div class="column_4 margin-bottom padding">

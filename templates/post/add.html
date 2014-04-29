@@ -7,7 +7,7 @@
             <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script> <script type="text/javascript">
                 //<![CDATA[
                 bkLib.onDomLoaded(function() {
-                    new nicEditor().panelInstance('text1');
+                    new nicEditor({fullPanel: true}).panelInstance('text1');
                 });
                 //]]>
             </script>
@@ -33,7 +33,7 @@
             </div><br />
 
             <label>Текст</label>
-            <textarea id="text1" name="text"></textarea><br />
+            <textarea id="text1" name="text" style="min-height: 400px"></textarea><br />
 
             <label>Теги</label>
             <input type="text" name="tags" /><br />

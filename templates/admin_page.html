@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="content">
+    Admin page
+    {{ current_user }}
+    {% for u in roles %}
+    {{ u }}
+    {% endfor %}
+</div>
+{% endblock %}

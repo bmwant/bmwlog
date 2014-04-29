@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 from bottle import route, redirect, request, get, post
 from models import Post, Tag, Tag_to_Post, Category
 from helpers import shorten_text
@@ -42,10 +43,23 @@ def post_add():
         post = Post.create(category_id=request.forms.get('category_id'),
                            post_text=request.forms.get('text'),
                            title=request.forms.get('title'),
-                           user_id=1)
+                           user_id=1,
+                           date_posted=datetime.now())
         post_id = post.post_id
         add_new_tags(request.forms.get('tags'), post_id)
         redirect('/post/' + str(post_id))
+
+
+@route('/category/add', method=['GET', 'POST'])
+def category_add():
+    if request.method == 'GET':
+        all_categories = Category.select()
+        template = env.get_template('post/category_add.html')
+        return template.render(categories=all_categories)
+    if request.method == 'POST':
+        new_category = Category.create(category_name=request.forms.get('category_name'))
+        redirect('/category/add')
+
 
 #add new tags or create connection to post with existed
 def add_new_tags(tags_string, post_id):

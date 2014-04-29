@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="content">
+    <div class="row">
+        <div class="column_8">
+            <form action="/category/add" method="post">
+
+            <label>Назва категорії</label>
+            <input type="text" name="category_name" /><br />
+
+            <label>Список існуючих категорій</label>
+            <ul>
+                {% for item in categories %}
+                <li>{{ item.category_name}}</li>
+                {% endfor %}
+            </ul>
+
+            <div class="margin-bottom margin-top">
+                <a href="#" class="button success small icon ok" onclick="$(this).closest('form').submit();">
+                    Додати
+                </a>
+            </div>
+
+            </form>
+        </div>
+        <div class="column_4 text center thin italic color theme">
+            Додати нову категорію
+        </div>
+    </div>
+</div>
+{% endblock %}

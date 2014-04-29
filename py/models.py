@@ -1,6 +1,6 @@
 from peewee import *
 
-db = MySQLDatabase('bmwlog', host='localhost', port=3306, user='root')
+db = MySQLDatabase('bmwlog', host='127.0.0.1', port=3306, user='root', password='')
 
 class UnknownFieldType(object):
     pass
@@ -25,6 +25,13 @@ class User(BaseModel):
     user_password = CharField()
     picture = CharField(null=True)
     role = IntegerField(db_column='role_id')
+
+    @staticmethod
+    def encode_password(password):
+        import hashlib
+        m = hashlib.md5()
+        m.update(password)
+        return m.hexdigest()
 
     class Meta:
         db_table = 'user'

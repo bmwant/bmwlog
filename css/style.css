@@ -96,10 +96,12 @@ html, body {
     border-style: solid;
     border-width: 2px;
     border-color: #ecf0f1;
-    height: 160px;
+    /*height: 160px;*/
+    padding-bottom: 10px;
 }
 
 .post-text-lst {
+	word-wrap: break-word;
     padding-left: 10px;
     padding-right: 5px;
 }

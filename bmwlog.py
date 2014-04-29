@@ -1,16 +1,23 @@
 # -*- coding: utf-8 -*-
 #load configuration first
+import sys
+sys.path.insert(0, 'py')
 from config import *
-from bottle import route, run, static_file, redirect, error, request, get, post, default_app
+from bottle import route, run, static_file, redirect, error, request, get, \
+    post, default_app, view, jinja2_view
 from models import *
+from cork.backends import SqlAlchemyBackend
 
 from jinja2 import Environment, PackageLoader
 from cork import Cork
 from beaker.middleware import SessionMiddleware
 
-aaa = Cork('proto')
+
 env = Environment(loader=PackageLoader('bmwlog', 'templates'))
 
+aaa = Cork('auth')
+
+authorize = aaa.make_auth_decorator(fail_redirect='/login', role='admin')
 from post_controller import *
 from user_controller import *
 
@@ -27,12 +34,32 @@ def categories():
     return template.render(link_what="catlink", items=cat_list)
 
 @route('/about')
-def categories():
+def about():
+    aaa.require(fail_redirect='/login')
     template = env.get_template('about.html')
     return template.render(link_what='abtlink')
 
+
+@route('/admin')
+@authorize(role="admin", fail_redirect='/sorry_page')
+def admin():
+    """Only admin users can see this"""
+    #aaa.require(role='admin', fail_redirect='/sorry_page')
+    #return dict(
+    #    current_user=aaa.current_user,
+    #    users=aaa.list_users(),
+    #    roles=aaa.list_roles()
+    #)
+    template = env.get_template('admin_page.html')
+    return template.render(current_user=aaa.current_user,
+                           users=aaa.list_users(),
+                           roles=aaa.list_roles())
+
+
+
 @route('/administration')
-def categories():
+@authorize(role="admin")
+def administration():
     template = env.get_template('administration.html')
     return template.render(link_what='admlink')
 
@@ -49,13 +76,13 @@ def server_static(folder, filename):
 
 @route('/login', method='POST')
 def login():
-    username = request.POST.get('user', '')
-    password = request.POST.get('pwd', '')
-    aaa.login(username, password, success_redirect='/', fail_redirect='/login')
+    mail = request.POST.get('email', '')
+    user_password = request.POST.get('password', '')
+    aaa.login(mail, user_password, success_redirect='/', fail_redirect='/login')
 
 @route('/logout')
 def logout():
-    aaa.current_user.logout(redirect='/login')
+    aaa.logout(success_redirect='/login')
 
 # @bottle.route('/')
 # def index():
@@ -63,11 +90,6 @@ def logout():
 #     aaa.require(fail_redirect='/sorry_page')
 #     return "Welcome %s" % aaa.current_user.username
 
-@route('/admin')
-def admin():
-    """Only administrators can see this"""
-    aaa.require(role='admin', fail_redirect='/sorry_page')
-    return 'Welcome administrators'
 
 @route('/register', method='POST')
 def register():
@@ -85,11 +107,14 @@ def main():
     session_opts = {
         'session.type': 'cookie',
         'session.validate_key': True,
+        'session.cookie_expires': True,
+        'session.timeout': 3600 * 24 * 5,  # 5 days
+        'session.encrypt_key': 'random-key-combo',
     }
     app = default_app()
     app = SessionMiddleware(app, session_opts)
 
-    run(app=app, host='localhost', port=8081, debug=True)
+    run(app=app, host='localhost', port=8081, debug=True, reloader=True)
 
 if __name__ == "__main__":
     main()
