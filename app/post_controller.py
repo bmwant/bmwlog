@@ -4,10 +4,10 @@ from bottle import route, redirect, request, get, post
 from models import Post, Tag, Tag_to_Post, Category
 from helpers import shorten_text
 from jinja2 import Environment, PackageLoader
-env = Environment(loader=PackageLoader('bmwlog', 'templates'))
+from app import app, env
 
 #retrieve all post date_posted descending
-@get('/post')
+@app.get('/post')
 #todo: category name -> template
 #todo: check for correct category_id value
 def post_index():
@@ -25,7 +25,7 @@ def post_index():
     return template.render(posts=all_posts, link_what='pstlink')
 
 #retrieve post
-@get('/post/<id:int>')
+@app.get('/post/<id:int>')
 def post_view(id):
     post = Post.get(Post.post_id == id)
     tags = Tag.select().join(Tag_to_Post).where(Tag_to_Post.post_id == id)
@@ -33,7 +33,7 @@ def post_view(id):
     template = env.get_template('post/view.html')
     return template.render(item=post, link_what='', tags=tags)
 
-@route('/post/add', method=['GET', 'POST'])
+@app.route('/post/add', method=['GET', 'POST'])
 def post_add():
     if request.method == 'GET':
         all_categories = Category.select()
@@ -50,7 +50,7 @@ def post_add():
         redirect('/post/' + str(post_id))
 
 
-@route('/category/add', method=['GET', 'POST'])
+@app.route('/category/add', method=['GET', 'POST'])
 def category_add():
     if request.method == 'GET':
         all_categories = Category.select()

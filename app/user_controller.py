@@ -1,14 +1,17 @@
 from bottle import route, request, redirect
 from jinja2 import Environment, PackageLoader
 from models import User
-env = Environment(loader=PackageLoader('bmwlog', 'templates'))
+from app import app, env
 
-@route('/login')
+@app.route('/login', method=['GET', 'POST'])
 def login():
-    template = env.get_template('user/login.html')
-    return template.render()
+  template = env.get_template('user/login.html')
+  if request.method == 'POST':
+      app.flash('Login ok')
+      
+  return template.render()
 
-@route('/signup', method=['GET', 'POST'])
+@app.route('/signup', method=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
         template = env.get_template('user/signup.html')

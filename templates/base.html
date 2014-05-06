@@ -6,11 +6,11 @@
 
     <title>bmwlog</title>
 
-    <link rel="stylesheet" type="text/css" href="/css/tuktuk.css">
-    <link rel="stylesheet" type="text/css" href="/css/tuktuk.theme.css">
-    <link rel="stylesheet" type="text/css" href="/css/tuktuk.icons.css">
-    <link rel="stylesheet" type="text/css" href="/css/style.css">
-    <link rel="stylesheet" type="text/css" href="/css/obsidian.css">
+    <link rel="stylesheet" href="/css/tuktuk.css">
+    <link rel="stylesheet" href="/css/tuktuk.theme.css">
+    <link rel="stylesheet" href="/css/tuktuk.icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/obsidian.css">
 
     <script src="/js/functions.js"></script>
     <script src="/js/jquery-1.9.1.js"></script>
@@ -48,6 +48,18 @@
                 </a>
             </nav>
         </div>
+    </section>
+    <section class='bck light padding'>
+    {% set messages = app.get_flashed_messages() %}
+    {% if messages %}
+    <div id="flash_messages">
+        <ul>
+            {% for m in messages %}
+            <li>{{ m }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
     </section>
     {% endblock %}
     {% block content %}{% endblock %}
