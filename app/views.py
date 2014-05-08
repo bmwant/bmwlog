@@ -1,42 +1,34 @@
 # -*- coding: utf-8 -*-
-from bottle import static_file, redirect, error, request, \
-    post, view, jinja2_view, Bottle, install
-from bottle import jinja2_view as view, jinja2_template as template
-from bottle_flash import FlashPlugin
+from bottle import static_file, error, request, post
 from models import *
 from post_controller import *
 from user_controller import *
-
+from helpers import view, redirect
 from app import app
-
-def postd():
-    return bottle.request.forms
-
-
-def post_get(name, default=''):
-    return bottle.request.POST.get(name, default).strip()
 
 
 @app.route('/')
 def index():
+    if app.current_user is not None:
+        print(app.current_user.role.role)
     redirect('/post')
 
 
-
 @app.route('/categories')
+@view('categories.html')
 def categories():
     cat_list = Category.select()
-    template = env.get_template('categories.html')
-    return template.render(link_what="catlink", items=cat_list)
+    return {'link_what': 'catlink', 'items': cat_list}
 
 
 @app.route('/about')
+@view('about.html')
 def about():
-    template = env.get_template('about.html')
-    return template.render(link_what='abtlink')
+    return {'link_what': 'abtlink'}
 
 
 @app.route('/administration')
+@require('admin')
 def administration():
     template = env.get_template('administration.html')
     return template.render(link_what='admlink')

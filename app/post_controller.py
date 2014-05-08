@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from bottle import route, redirect, request, get, post
+from bottle import route, request, get, post, abort
 from models import Post, Tag, Tag_to_Post, Category
-from helpers import shorten_text
+from helpers import shorten_text, redirect
 from jinja2 import Environment, PackageLoader
 from app import app, env
 
@@ -27,7 +27,10 @@ def post_index():
 #retrieve post
 @app.get('/post/<id:int>')
 def post_view(id):
-    post = Post.get(Post.post_id == id)
+    try:
+        post = Post.get(Post.post_id == id)
+    except Post.DoesNotExist:
+        abort(404)
     tags = Tag.select().join(Tag_to_Post).where(Tag_to_Post.post_id == id)
     #Tweet.select().join(User).where(User.username == 'Charlie'):
     template = env.get_template('post/view.html')
@@ -49,6 +52,15 @@ def post_add():
         add_new_tags(request.forms.get('tags'), post_id)
         redirect('/post/' + str(post_id))
 
+
+@app.get('/post/delete/<id:int>')
+def post_delete(id):
+    try:
+        post = Post.get(Post.post_id == id)
+        post.delete_instance()
+        redirect()
+    except Post.DoesNotExist:
+        abort(404)
 
 @app.route('/category/add', method=['GET', 'POST'])
 def category_add():
@@ -74,7 +86,7 @@ def add_new_tags(tags_string, post_id):
     return
 
 
-@get('/tag/<id:int>')
+@app.get('/tag/<id:int>')
 def posts_for_tag(id):
     posts = Post.select().join(Tag_to_Post).where(Tag_to_Post.tag_id == id)
     template = env.get_template('post/index.html')

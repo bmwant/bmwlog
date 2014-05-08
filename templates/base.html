@@ -10,12 +10,9 @@
     <link rel="stylesheet" href="/css/tuktuk.theme.css">
     <link rel="stylesheet" href="/css/tuktuk.icons.css">
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/obsidian.css">
 
     <script src="/js/functions.js"></script>
     <script src="/js/jquery-1.9.1.js"></script>
-    <script src="/js/highlight.pack.js"></script>
-
 </head>
 <body>
 <div id="wrapper">
@@ -26,8 +23,14 @@
                 <a href="/"><img src="/img/logo.png" class="logo"/></a>
             </div>
             <div class="column_6  text right bold">
+            {% set user = app.current_user %}
+            {% if user %}
+                Вітаю, <a href="/user/{{ user.user_id }}">{{ user.nickname }}</a>
+                <a href="/logout" class="button small secondary">Вийти</a>
+            {% else %}
                 <a href="/signup">Реєстрація</a>
                 <a href="/login" class="button small">Вхід</a>
+            {% endif %}
             </div>
         </div>
     </div>

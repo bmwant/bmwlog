@@ -4,7 +4,7 @@
     <div class="row">
 
         <div class="column_8">
-            Misha Behersky
+            <span id="name-text">Misha Behersky</span>
         </div>
 
         <div class="column_4">
@@ -14,3 +14,30 @@
     </div>
 </div>
 {% endblock %}
+{% block footer%}
+    {# adding funny text #}
+    {{ super() }}
+    <link rel="stylesheet" href="/css/funnyText.css" />
+    <script src="/js/funnyText.min.js"></script>
+    <script>
+    $(document).ready(function() {
+    $('#name-text').funnyText({
+        speed: 700,
+        borderColor: 'black',
+        activeColor: 'white',
+        color: 'black',
+        fontSize: '5em',
+        direction: 'both'
+    });
+});
+    </script>
+    <style>
+    #name-text span.active {
+            background-color: #1abc9c;
+        }
+    #name-text {
+        background-color: #c4d2df;
+    }
+        
+    </style>
+{% endblock%}

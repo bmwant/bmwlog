@@ -15,25 +15,21 @@ class FlashPlugin(object):
 
     def setup(self, app):
         self.app = app
-        # self.app.hooks.add('before_request', self.load_flashed)
-        # self.app.hooks.add('after_request', self.set_flashed)
+        self.app.hooks.add('before_request', self.load_flashed)
+        self.app.hooks.add('after_request', self.set_flashed)
         self.app.flash = self.flash
         self.app.get_flashed_messages = self.get_flashed_messages
 
     def load_flashed(self):
-        pass
-        # m = request.get_cookie(key=self.key, secret=self.secret)
-        # print(m)
-        # if m is not None:
-        #     print('Iamhere')
-        #     response.flash_messages = m
+        m = request.get_cookie(key=self.key, secret=self.secret)
+        if m is not None:
+            response.flash_messages = m
 
     def set_flashed(self):
-        pass
-        # if hasattr(response, 'flash_messages'):
-        #     response.set_cookie(name=self.key, 
-        #         value=response.flash_messages, secret=self.secret)
-        #     delattr(response, 'flash_messages')
+        if hasattr(response, 'flash_messages'):
+            response.set_cookie(name=self.key, 
+                value=response.flash_messages, secret=self.secret)
+            delattr(response, 'flash_messages')
 
     def flash(self, message):
         if not hasattr(response, 'flash_messages'):
@@ -44,7 +40,7 @@ class FlashPlugin(object):
         if hasattr(response, 'flash_messages'):
             m = response.flash_messages
             delattr(response, 'flash_messages')
-            # response.delete_cookie(self.key)
+            response.delete_cookie(self.key)
             return m
             
     def apply(self, callback, context):

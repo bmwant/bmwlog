@@ -1,15 +1,25 @@
-from bottle import Bottle
-from flash import FlashPlugin
-from beaker.middleware import SessionMiddleware
+from bottle import Bottle, Jinja2Template
 from jinja2 import Environment, PackageLoader
+from peewee import MySQLDatabase
+import config
 
+
+db = MySQLDatabase(config.DB_NAME, 
+    host=config.DB_HOST, port=config.DB_PORT, 
+    user=config.DB_USER, password=config.DB_PASS)
 
 app = Bottle()
-app.install(FlashPlugin(secret='secreto'))
 
+from .flash import FlashPlugin
+app.install(FlashPlugin(secret=config.SECRET_KEY))
+
+from .login_manager import LoginManager
+app.install(LoginManager(secret=config.SECRET_KEY))
 
 env = Environment(loader=PackageLoader('app', '../templates'))
 env.globals['app'] = app
+
+
 
 from app.views import *
 

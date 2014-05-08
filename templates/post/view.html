@@ -17,8 +17,8 @@
 
             <div class="post-actions">
                 <ul>
-                    <li><a href="#">Редагувати статтю</a></li>
-                    <li><a href="#">Видалити статтю</a></li>
+                    <li><a href="/post/edit/{{ item.post_id }}">Редагувати статтю</a></li>
+                    <li><a href="/post/delete/{{ item.post_id }}">Видалити статтю</a></li>
                     <li><a href="#">Оновити дані</a></li>
                 </ul>
             </div>
@@ -32,7 +32,7 @@
                     <div class="info-line">   Коментарів  </div>
                 </span>
                 <span class="right-info-block">
-                    <div class="info-line-r">Author</div>
+                    <div class="info-line-r">{{ item.user.nickname }}</div>
                     <div class="info-line-r">{{ item.date_posted.strftime('%d/%m/%Y') }}            </div>
                     <div class="info-line-r">3,7              </div>
                     <div class="info-line-r">129                 </div>
