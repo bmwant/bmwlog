@@ -41,9 +41,9 @@
                 </span>
             </div>
             <div class="post-tags padding">
-                {% for item in tags %}
+                {% for tag in tags %}
                     <a class="post-tag" href="/tag/{{ item.tag_id }}">
-                        {{ item.text }}
+                        {{ tag.text }}
                     </a>
                 {% endfor %}
             </div>

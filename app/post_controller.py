@@ -2,7 +2,7 @@
 from datetime import datetime
 from bottle import route, request, get, post, abort
 from models import Post, Tag, Tag_to_Post, Category
-from helpers import shorten_text, redirect
+from helpers import shorten_text, redirect, post_get
 from jinja2 import Environment, PackageLoader
 from app import app, env
 
@@ -13,7 +13,7 @@ from app import app, env
 def post_index():
     all_posts = None
     if 'category_id' in request.query:
-        all_posts = Post.select().where(Post.category_id == request.query['category_id']).order_by(Post.date_posted.desc())
+        all_posts = Post.select().where(Post.category == request.query['category_id']).order_by(Post.date_posted.desc())
         if all_posts.count() == 0:
             template = env.get_template('info.html')
             return template.render(info=u'Жодної статті у даній категорії')
@@ -43,13 +43,13 @@ def post_add():
         template = env.get_template('post/add.html')
         return template.render(categories=all_categories)
     if request.method == 'POST':
-        post = Post.create(category_id=request.forms.get('category_id'),
-                           post_text=request.forms.get('text'),
-                           title=request.forms.get('title'),
-                           user_id=1,
+        post = Post.create(category=post_get('category_id'),
+                           post_text=post_get('text'),
+                           title=post_get('title'),
+                           user=app.current_user.user_id,
                            date_posted=datetime.now())
         post_id = post.post_id
-        add_new_tags(request.forms.get('tags'), post_id)
+        add_new_tags(post_get('tags'), post_id)
         redirect('/post/' + str(post_id))
 
 
@@ -61,6 +61,32 @@ def post_delete(id):
         redirect()
     except Post.DoesNotExist:
         abort(404)
+
+
+@app.route('/post/edit/<id:int>', method=['GET', 'POST'])
+def post_edit(id):
+    if request.method == 'GET':
+        try:
+            post = Post.get(Post.post_id == id)
+        except Post.DoesNotExist:
+            abort(404)
+
+        all_categories = Category.select()
+        tags = Tag.select().join(Tag_to_Post).where(Tag_to_Post.post_id == id)
+        template = env.get_template('post/edit.html')
+        return template.render(item=post, tags=tags,
+            categories=all_categories)
+    if request.method == 'POST':
+        post = Post.get(Post.post_id == id)
+        post.category = post_get('category_id')
+        post.post_text = post_get('text')
+        post.title = post_get('title')
+        # TODO: add new but how about remove old tags? Huh?
+        add_new_tags(post_get('tags'), id)
+        post.save()
+        app.flash(u'Статтю успішно оновлено')
+        redirect('/post/' + str(id))
+
 
 @app.route('/category/add', method=['GET', 'POST'])
 def category_add():

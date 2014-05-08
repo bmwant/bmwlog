@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<div id="content">
+    <div class="row">
+        <div class="column_8">
+            <form action="/post/edit/{{ item.post_id }}" method="post">
+            <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script> <script type="text/javascript">
+                //<![CDATA[
+                bkLib.onDomLoaded(function() {
+                    new nicEditor({fullPanel: true}).panelInstance('text1');
+                });
+                //]]>
+            </script>
+            <script>
+                //jquery datepicker
+                $(function() {$("#datepicker").datepicker();});
+	        </script>
+
+            <label>Заголовок</label>
+            <input type="text" name="title" value={{ item.title }}/><br />
+            <!--
+            <label for="datepick">Дата розміщення</label>
+            
+            <input type="text" id="datepicker" class="hastDatapicker" /><br />
+            -->
+            <label>Виберіть категорію</label>
+            <div class="select">
+                <select name="category_id">
+                    {% for cat in categories %}
+                        {% if item.category.category_id == cat.category_id %}
+                            <option value="{{ cat.category_id }}" selected="true">{{ cat.category_name}}</option>
+                        {% else %}
+                            <option value="{{ cat.category_id }}">{{ cat.category_name}}</option>
+                        {% endif%}
+                    {% endfor %}
+                </select>
+            </div><br />
+
+            <label>Текст</label>
+            <textarea id="text1" name="text" style="min-height: 400px">{{ item.post_text}}</textarea><br />
+
+            <label>Теги</label>
+            <input type="text" name="tags" value="{% for tag in tags %}{{ tag.text }}{% endfor %}"/><br />
+
+            <div class="margin-bottom margin-top">
+                <a href="#" class="button success small icon ok" onclick="if(nicEditors.findEditor('text1').getContent()!='<br>'){nicEditors.findEditor('text1').saveContent();}$(this).closest('form').submit();">
+                    Оновити
+                </a>
+            </div>
+
+            </form>
+        </div>
+        <div class="column_4 text center thin italic color theme">
+            Змінити статтю
+        </div>
+    </div>
+</div>
+{% endblock %}

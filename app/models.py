@@ -47,8 +47,6 @@ class User(BaseModel):
 
 
 
-
-
 class Post(BaseModel):
     category = ForeignKeyField(db_column='category_id', rel_model=Category)
     date_posted = DateTimeField()
