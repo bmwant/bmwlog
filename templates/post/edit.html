@@ -11,13 +11,10 @@
                 });
                 //]]>
             </script>
-            <script>
-                //jquery datepicker
-                $(function() {$("#datepicker").datepicker();});
-	        </script>
+
 
             <label>Заголовок</label>
-            <input type="text" name="title" value={{ item.title }}/><br />
+            <input type="text" name="title" value="{{ item.title }}" /> <br />
             <!--
             <label for="datepick">Дата розміщення</label>
             
@@ -40,10 +37,11 @@
             <textarea id="text1" name="text" style="min-height: 400px">{{ item.post_text}}</textarea><br />
 
             <label>Теги</label>
-            <input type="text" name="tags" value="{% for tag in tags %}{{ tag.text }}{% endfor %}"/><br />
+            <div id="tagBox">{% for tag in tags %}{{ tag.text }};{% endfor %}</div>
+            <input type="hidden" name="tags" />
 
             <div class="margin-bottom margin-top">
-                <a href="#" class="button success small icon ok" onclick="if(nicEditors.findEditor('text1').getContent()!='<br>'){nicEditors.findEditor('text1').saveContent();}$(this).closest('form').submit();">
+                <a class="button success small icon ok" id="submitter">
                     Оновити
                 </a>
             </div>
@@ -55,4 +53,35 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block footer %}
+    {{ super() }}
+    <script src="/js/tagging.min.js"></script>
+    <script>
+        var tag_options = {
+            "no-duplicate": true,
+            "no-duplicate-callback": undefined,
+            "no-duplicate-text": "Duplicate tags",
+            "type-zone-class": "type-zone",
+            "tag-box-class": "tagging",
+            "forbidden-chars": [",", ".", "_", "?", "!", ":", " "],
+            "edit-on-delete": false,
+            "no-comma": true,
+            "no-enter": true,
+            "no-spacebar": false,
+            "pre-tags-separator": ";",
+            "tag-class": "tag_input",
+            "tags-input-name": "tag_input"
+        };
+        $("#tagBox").tagging(tag_options);
+        $("#submitter").click(function(){
+            if(nicEditors.findEditor('text1').getContent()!='<br>') {
+                nicEditors.findEditor('text1').saveContent();
+            }
+            $("input[name=tags]").val(
+                $("#tagBox").tagging('getTags').join(";")
+            );
+            $(this).closest('form').submit();
+        });
+    </script>
 {% endblock %}

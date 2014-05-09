@@ -2,11 +2,11 @@
 from datetime import datetime
 from bottle import route, request, get, post, abort
 from models import Post, Tag, Tag_to_Post, Category
-from helpers import shorten_text, redirect, post_get
+from helpers import shorten_text, redirect, post_get, postd
 from jinja2 import Environment, PackageLoader
 from app import app, env
 
-#retrieve all post date_posted descending
+
 @app.get('/post')
 #todo: category name -> template
 #todo: check for correct category_id value
@@ -24,7 +24,7 @@ def post_index():
     template = env.get_template('post/index.html')
     return template.render(posts=all_posts, link_what='pstlink')
 
-#retrieve post
+
 @app.get('/post/<id:int>')
 def post_view(id):
     try:
@@ -81,8 +81,11 @@ def post_edit(id):
         post.category = post_get('category_id')
         post.post_text = post_get('text')
         post.title = post_get('title')
-        # TODO: add new but how about remove old tags? Huh?
-        add_new_tags(post_get('tags'), id)
+        new_tags = post_get('tags')
+        old_tags = Tag.select().join(Tag_to_Post)\
+            .where(Tag_to_Post.post_id == id)
+        remove_tags(old_tags, new_tags, id)
+        add_new_tags(new_tags, id)
         post.save()
         app.flash(u'Статтю успішно оновлено')
         redirect('/post/' + str(id))
@@ -95,25 +98,47 @@ def category_add():
         template = env.get_template('post/category_add.html')
         return template.render(categories=all_categories)
     if request.method == 'POST':
-        new_category = Category.create(category_name=request.forms.get('category_name'))
+        new_category = Category.create(category_name=post_get('category_name'))
+        app.flash(u'Нова категорія була успішно додана')
         redirect('/category/add')
 
 
-#add new tags or create connection to post with existed
 def add_new_tags(tags_string, post_id):
+    '''
+    Add new tags or create connection to post with existed
+    '''
     tags = tags_string.split(';')
     for tag in tags:
+        tg = tag.replace(' ', '')
+        if not tg:
+            continue
         try:
             old_tag = Tag.get(Tag.text == tag)
-            Tag_to_Post.create(post_id=post_id, tag_id=old_tag.tag_id)
+            try:
+                conn = Tag_to_Post.get(Tag_to_Post.post_id == post_id, \
+                    Tag_to_Post.tag_id == old_tag.tag_id)
+            except Tag_to_Post.DoesNotExist:
+                Tag_to_Post.create(post_id=post_id, tag_id=old_tag.tag_id)
         except Tag.DoesNotExist:
             new_tag = Tag.create(text=tag)
             Tag_to_Post.create(post_id=post_id, tag_id=new_tag.tag_id)
     return
 
 
+def remove_tags(old, new, post_id):
+    # todo: maybe delete unused tags
+    new_tags = [nt.decode('utf-8') for nt in new.split(';')]
+    #print("%s -> %s" % (new_tags[0], type(new_tags[0])))
+    for old_tag in old:
+        if unicode(old_tag.text) not in new_tags:
+            print("We are going to remove: %s" %old_tag.text)
+            Tag_to_Post.delete().where(Tag_to_Post.post_id == post_id and \
+                Tag_to_Post.tag_id == old_tag.tag_id).execute()
+
+
 @app.get('/tag/<id:int>')
 def posts_for_tag(id):
+    # todo: post list not index
     posts = Post.select().join(Tag_to_Post).where(Tag_to_Post.tag_id == id)
     template = env.get_template('post/index.html')
     return template.render(posts=posts)

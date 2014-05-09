@@ -60,7 +60,7 @@ class Post(BaseModel):
 
 class Tag(BaseModel):
     tag_id = PrimaryKeyField(db_column='tag_id')
-    text = CharField()
+    text = CharField(null=False, unique=True)
 
     class Meta:
         db_table = 'tag'
