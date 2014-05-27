@@ -43,4 +43,5 @@ def error404(error):
 #serving static files
 @app.route('/<folder>/<filename>')
 def server_static(folder, filename):
-    return static_file(filename, root='R:/proge/bmwlog/'+folder)
+    from app import Config
+    return static_file(filename, root=Config.STATIC_FOLDER+folder)

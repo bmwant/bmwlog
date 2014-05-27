@@ -13,8 +13,8 @@ class LoginManager(object):
 
     def setup(self, app):
         self.app = app
-        self.app.hooks.add('before_request', self.load_user)
-        self.app.hooks.add('after_request', self.set_user)
+        self.app.add_hook('before_request', self.load_user)
+        self.app.add_hook('after_request', self.set_user)
         self.app.current_user = None
         self.app.login = self.login
         self.app.logout = self.logout
