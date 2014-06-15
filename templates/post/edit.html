@@ -1,16 +1,16 @@
 {% extends "base.html" %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="/js/ckeditor/ckeditor.js"></script>
+    <script src="/js/ckeditor/config.js"></script>
+{% endblock %}
+
 {% block content %}
 <div id="content">
     <div class="row">
         <div class="column_8">
             <form action="/post/edit/{{ item.post_id }}" method="post">
-            <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script> <script type="text/javascript">
-                //<![CDATA[
-                bkLib.onDomLoaded(function() {
-                    new nicEditor({fullPanel: true}).panelInstance('text1');
-                });
-                //]]>
-            </script>
 
 
             <label>Заголовок</label>
@@ -34,14 +34,14 @@
             </div><br />
 
             <label>Текст</label>
-            <textarea id="text1" name="text" style="min-height: 400px">{{ item.post_text}}</textarea><br />
+            <textarea id="article-text" name="text" rows="30" cols="80">{{ item.post_text}}</textarea><br />
 
             <label>Теги</label>
             <div id="tagBox">{% for tag in tags %}{{ tag.text }};{% endfor %}</div>
             <input type="hidden" name="tags" />
 
             <div class="margin-bottom margin-top">
-                <a class="button success small icon ok" id="submitter">
+                <a class="button success small icon ok" id="submitter" onclick="$(this).closest('form').submit();">
                     Оновити
                 </a>
             </div>
@@ -54,7 +54,8 @@
     </div>
 </div>
 {% endblock %}
-{% block footer %}
+
+{% block bottom_scripts %}
     {{ super() }}
     <script src="/js/tagging.min.js"></script>
     <script>
@@ -84,4 +85,9 @@
             $(this).closest('form').submit();
         });
     </script>
+    <script>
+        CKEDITOR.replace('article-text');
+        CKEDITOR.editorConfig = function(config) {};
+    </script>
+
 {% endblock %}

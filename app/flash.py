@@ -31,10 +31,10 @@ class FlashPlugin(object):
                 value=response.flash_messages, secret=self.secret)
             delattr(response, 'flash_messages')
 
-    def flash(self, message):
+    def flash(self, message, category='info'):
         if not hasattr(response, 'flash_messages'):
             response.flash_messages = []
-        response.flash_messages.append(message)
+        response.flash_messages.append((message, category))
 
     def get_flashed_messages(self):
         if hasattr(response, 'flash_messages'):

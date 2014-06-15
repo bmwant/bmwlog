@@ -1,17 +1,44 @@
-{% extends "base.html" %}
-{% block content %}
-<section class="padding bck lightest text center bold">
-    <div class="row margin-bottom">
-        <div class="column_3 padding-top padding-bottom"></div>
-        <div class="column_2 radius bck theme padding-top padding-bottom">4</div>
-        <div class="column_2 radius bck light padding-top padding-bottom">0</div>
-        <div class="column_2 radius bck theme padding-top padding-bottom">4</div>
-        <div class="column_3 padding-top padding-bottom"></div>
-    </div>
-    <div class="row margin-bottom">
-        <div class="column_12 padding-top padding-bottom text italic">
-            <h3>Sorry, page not found</h3>
-        </div>
-    </div>
-</section>
-{% endblock %}
+<!doctype html>
+<html data-xrange="40" data-yrange="40">
+<head>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+
+    <title>bmwlog</title>
+
+
+    <script src="/js/jquery-1.9.1.js"></script>
+    <script src="/js/plax.js"></script>
+
+    <link rel="stylesheet" href="/css/404.css">
+    <script>
+        function goBack() {
+            if (document.referrer == "") {
+                window.location.href = '/';
+            } else {
+                window.history.back();
+            }
+        }
+    </script>
+</head>
+<body>
+
+<nav class="nav-fillpath">
+    <a class="prev" onclick="goBack();">
+        <span class="icon-wrap"></span>
+        <span class="text-back">Назад</span>
+    </a>
+</nav>
+<img src="/img/background404.jpg" data-xrange="60" data-yrange="60" id="back">
+<div id="text" data-xrange="30" data-yrange="80">404</div>
+<div id="little-text" data-xrange="100" data-yrange="40">Сторінка не знайдена</div>
+{#    <img src="earth.png" data-xrange="20" data-yrange="20">#}
+{#    <img src="bg.png" data-xrange="10" data-yrange="10" data-invert="true">#}
+</body>
+<script>
+    $('#back').plaxify();
+    $('#text').plaxify();
+    $('#little-text').plaxify();
+    $.plax.enable();
+</script>
+</html>
