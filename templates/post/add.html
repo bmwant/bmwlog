@@ -1,20 +1,21 @@
 {% extends "base.html" %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="/js/ckeditor/ckeditor.js"></script>
+    <script src="/js/ckeditor/config.js"></script>
+{% endblock %}
+
+
 {% block content %}
 <div id="content">
     <div class="row">
         <div class="column_8">
             <form action="/post/add" method="post">
-            <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script> <script type="text/javascript">
-                //<![CDATA[
-                bkLib.onDomLoaded(function() {
-                    new nicEditor({fullPanel: true}).panelInstance('text1');
-                });
-                //]]>
-            </script>
-            <script>
-                //jquery datepicker
-                $(function() {$("#datepicker").datepicker();});
-	        </script>
+{#            <script>#}
+{#                //jquery datepicker#}
+{#                $(function() {$("#datepicker").datepicker();});#}
+{#	        </script>#}
 
             <label>Заголовок</label>
             <input type="text" name="title" /><br />
@@ -33,13 +34,13 @@
             </div><br />
 
             <label>Текст</label>
-            <textarea id="text1" name="text" style="min-height: 400px"></textarea><br />
+            <textarea id="article-text" name="text" style="min-height: 400px"></textarea><br />
 
             <label>Теги</label>
             <input type="text" name="tags" /><br />
 
             <div class="margin-bottom margin-top">
-                <a href="#" class="button success small icon ok" onclick="if(nicEditors.findEditor('text1').getContent()!='<br>'){nicEditors.findEditor('text1').saveContent();}$(this).closest('form').submit();">
+                <a href="#" class="button success small icon ok" onclick="$(this).closest('form').submit();">
                     Опублікувати
                 </a>
             </div>
@@ -52,7 +53,11 @@
     </div>
 </div>
 {% endblock %}
-{% block footer %}
+{% block bottom_scripts %}
     {{ super() }}
     <script src="/js/tagging.min.js"></script>
+    <script>
+        CKEDITOR.replace('article-text');
+        CKEDITOR.editorConfig = function(config) {};
+    </script>
 {% endblock %}

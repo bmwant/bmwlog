@@ -1,14 +1,49 @@
 {% extends "base.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+{% endblock %}
+
 {% block content %}
 <div id="content">
     <div class="row">
 
         <div class="column_8">
             <span id="name-text">Misha Behersky</span>
+            <table class="margin-top">
+                <tbody>
+                    <tr>
+                        <td><i class="fa fa-envelope-o fa-3x"></i></td>
+                        <td><span class="right"><a href="mailto:bmwant@gmail.com">bmwant@gmail.com</span></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-skype fa-3x"></i></td>
+                        <td><span class="right">most.wanted.21</span></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-mobile fa-3x"></i></td>
+                        <td><span class="right">0986558186</span></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-google-plus-square fa-3x"></i></td>
+                        <td><span class="right"><a href="https://www.google.com/+MishaBehersky" target="_blank">Google+</a></span></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-github-square fa-3x"></i></td>
+                        <td><span class="right"><a href="https://github.com/bmwant21" target="_blank">github</a></span></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-linkedin-square fa-3x"></i></td>
+                        <td><span class="right"><a href="https://www.linkedin.com/in/mostwanted" target="_blank">LinkedIn</a></span></td>
+                    </tr>
+
+                </tbody>
+            </table>
         </div>
 
         <div class="column_4">
-            <img src="http://placehold.it/200x500">
+            <img src="/img/twome.jpg">
         </div>
 
     </div>
