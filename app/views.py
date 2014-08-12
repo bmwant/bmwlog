@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
+
 from bottle import static_file, error, request, post
 from models import *
 from post_controller import *
 from user_controller import *
 from helpers import view, redirect
 from app import app
+
+from helput import get_list_of_files
 
 
 @app.route('/')
@@ -32,6 +35,13 @@ def about():
 def administration():
     template = env.get_template('administration.html')
     return template.render(link_what='admlink')
+
+
+@app.route('/gallery')
+@view('gallery.html')
+def administration():
+    images = get_list_of_files(r'D:\coding\bmwlog\img\gallery', ext='.jpg', full_path=False)
+    return {'link_what': 'gallink', 'images': images}
 
 
 @app.error(404)

@@ -1,2 +1,5 @@
 *.pyc
 **Thumbs.db
+.idea/
+build/
+venv/
