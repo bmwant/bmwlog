@@ -5,7 +5,7 @@ from models import *
 from post_controller import *
 from user_controller import *
 from helpers import view, redirect
-from app import app
+from app import app, Config
 
 from helput import get_list_of_files
 
@@ -53,5 +53,8 @@ def error404(error):
 #serving static files
 @app.route('/<folder>/<filename:path>')
 def server_static(folder, filename):
-    from app import Config
     return static_file(filename, root=Config.STATIC_FOLDER+folder)
+
+@app.route('/favicon.ico')
+def serve_favicon():
+    return static_file('favicon.ico', root=Config.STATIC_FOLDER)

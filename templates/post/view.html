@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block scripts %}
-    {{ super }}
+    {{ super() }}
     <script src="/js/highlight.pack.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 {% endblock %}
@@ -23,17 +23,18 @@
             <div id="main" class="post-text text justify">
                 {{ item.post_text }}
             </div>
-            <div id="post-delim"></div>
 
             <div class="social-sharing">
+{#                <a href="https://plus.google.com/share?url={URL}" onclick="javascript:window.open(this.href,#}
+{#  '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><img src="https://www.gstatic.com/images/icons/gplus-32.png" alt="Поділитись на Google+" />#}
+{#                </a>#}
 
-                <i class="fa fa-vk fa-3x"></i>
-                <i class="fa fa-twitter fa-3x"></i>
-                <i class="fa fa-google-plus fa-3x"></i>
-                <i class="fa fa-facebook fa-3x"></i>
+                <a href="http://vkontakte.ru/share.php?url=" target="_blank"><i class="fa fa-vk fa-2x"></i></a>
+                <a href="https://twitter.com/share?url=" target="_blank"><i class="fa fa-twitter fa-2x"></i></A>
+                <a href="https://plus.google.com/share?url=" target="_blank"><i class="fa fa-google-plus fa-2x"></i></a>
+                <a target="_blank" href="http://www.facebook.com/sharer/sharer.php?u="><i class="fa fa-facebook fa-2x"></i></a>
 
             </div>
-
             <div class="post-comments">
                 <div id="disqus_thread"></div>
                 <script type="text/javascript">
@@ -57,12 +58,12 @@
             {% set user = app.current_user %}
             {% if user %}
                {% if user.role.role == 'admin' %}
-                <div class="post-admin-actions">
-                    <ul>
-                        <li><a href="/post/edit/{{ item.post_id }}">Редагувати статтю</a></li>
-                        <li><a href="/post/delete/{{ item.post_id }}">Видалити статтю</a></li>
-                        <li><a href="#">Оновити дані</a></li>
-                    </ul>
+                <div class="post-admin-actions bck light padding margin">
+
+                        <div class="myrow"><a href="/post/edit/{{ item.post_id }}">Редагувати статтю</a></div>
+                        <div class="myrow"><a href="/post/delete/{{ item.post_id }}">Видалити статтю</a></div>
+                        <div class="myrow"><a href="#">Оновити дані</a></div>
+
                 </div>
                {% endif %}
             {% endif %}
@@ -72,9 +73,9 @@
                 <span class="left-info-block">
                     <div class="info-line">Автор       </div>
                     <div class="info-line">Дата        </div>
-                    <div class="info-line">  Актуальність</div>
-                    <div class="info-line">     Рейтинг     </div>
-                    <div class="info-line">   Коментарів  </div>
+                    <div class="info-line">Актуальність</div>
+                    <div class="info-line">Рейтинг     </div>
+                    <div class="info-line">Коментарів  </div>
                 </span>
                 <span class="right-info-block">
                     <div class="info-line-r">{{ item.user.nickname }}</div>
@@ -85,6 +86,8 @@
 
                 </span>
             </div>
+
+
             <div class="post-tags padding">
                 {% for tag in tags %}
                     <a class="post-tag" href="/tag/{{ item.tag_id }}">
@@ -96,4 +99,18 @@
 
     </div>
 </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+    {{ super() }}
+    <script>
+        $(document).ready(function() {
+            var url = document.URL;
+            $('.social-sharing').children('a').each(function() {
+               var new_href = $(this).attr('href') + url;
+                $(this).attr('href', new_href);
+            });
+        });
+
+    </script>
 {% endblock %}

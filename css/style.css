@@ -28,7 +28,9 @@ html, body {
     padding-bottom: 80px; /* This should match the height of the footer */
 }
 
-
+#about-content {
+    margin-top: 10px;
+}
 /* Gallery styles */
 
 .gallery {
@@ -162,6 +164,7 @@ html, body {
 .post-info {
     display: inline-block;
     height: 100%;
+    width: 80%;
 }
 
 .info-line {
@@ -172,4 +175,17 @@ html, body {
     color: #000000;
     margin-bottom: 5px;
     text-align: right;
+}
+
+.myrow {
+    display: block;
+}
+
+.post-admin-actions {
+    width: 80%
+}
+
+.social-sharing {
+    margin-top: 15px;
+    margin-bottom: 15px;
 }

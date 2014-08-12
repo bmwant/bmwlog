@@ -1,4 +1,4 @@
-from bottle import request, response
+from bottle import request, response, hook
 from .models import User
 
 
@@ -13,12 +13,13 @@ class LoginManager(object):
 
     def setup(self, app):
         self.app = app
-        self.app.add_hook('before_request', self.load_user)
-        self.app.add_hook('after_request', self.set_user)
+        #self.app.add_hook('before_request', self.load_user)
+        #self.app.add_hook('after_request', self.set_user)
         self.app.current_user = None
         self.app.login = self.login
         self.app.logout = self.logout
 
+    @hook('before_request')
     def load_user(self):
         usermail = request.get_cookie(self.key, secret=self.secret)
         if usermail is not None:
@@ -31,6 +32,7 @@ class LoginManager(object):
     def logout(self):
         self.app.current_user = None
 
+    @hook('after_request')
     def set_user(self):
         if self.app.current_user is not None:
             response.set_cookie(name=self.key, 
