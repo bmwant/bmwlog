@@ -19,7 +19,7 @@
         <div class="row">
             <div class="gallery">
                 {% for image in images %}
-                    <a href="img/gallery/{{ image }}"><img class="gallerimg" height="200" src="img/gallery/{{ image }}" alt="{{ image }}"/></a>
+                    <a href="img/gallery/{{ image.photo }}"><img class="gallerimg" height="200" src="img/gallery/{{ image.photo }}" alt="{{ image.desc }}"/></a>
                 {% endfor %}
             </div>
         </div>

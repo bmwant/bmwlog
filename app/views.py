@@ -30,7 +30,7 @@ def about():
     return {'link_what': 'abtlink'}
 
 
-@app.route('/administration')
+@app.route('/ad')
 @require('admin')
 def administration():
     template = env.get_template('administration.html')
@@ -40,8 +40,10 @@ def administration():
 @app.route('/gallery')
 @view('gallery.html')
 def administration():
-    images = get_list_of_files(r'D:\coding\bmwlog\img\gallery', ext='.jpg', full_path=False)
+    #images = get_list_of_files(r'D:\coding\bmwlog\img\gallery', ext='.jpg', full_path=False)
+    images = Photo.select()
     return {'link_what': 'gallink', 'images': images}
+
 
 
 @app.error(404)

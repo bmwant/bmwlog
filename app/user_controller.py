@@ -55,7 +55,7 @@ def login():
                     post_get('password')):
                 app.flash(u'Ви успішно увійшли')
                 app.login(user)
-                redirect('/')
+                redirect()
             else:
                 app.flash(u'Невірний пароль')
 

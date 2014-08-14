@@ -50,8 +50,10 @@ def redirect(where=None):
     if where is not None:
         return bottle.redirect(where)
     back = None
+
     if hasattr(bottle.request.headers, 'Referer'):
         back = bottle.request.headers['Referer']
+    print('refferer:', back)
     if back is not None:
         return bottle.redirect(back)
     return bottle.redirect('/')

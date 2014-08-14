@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from bottle import route, request, get, post, abort
-from models import Post, Tag, Tag_to_Post, Category
+from peewee import fn
+from models import Post, Tag, Tag_to_Post, Category, Banner
 from helpers import shorten_text, redirect, post_get, postd
-from jinja2 import Environment, PackageLoader
 from app import app, env
 
 
@@ -21,8 +21,13 @@ def post_index():
         all_posts = Post.select().order_by(Post.date_posted.desc())
     for item in all_posts:
         item.post_text = shorten_text(item.post_text)
+
+    random_banner = Banner.select().order_by(fn.Rand()).limit(1)[0]
+    print(random_banner.desc)
+
     template = env.get_template('post/index.html')
-    return template.render(posts=all_posts, link_what='pstlink')
+    return template.render(posts=all_posts, banner=random_banner,
+                           link_what='pstlink')
 
 
 @app.get('/post/<id:int>')

@@ -20,6 +20,7 @@ env = Environment(loader=PackageLoader('app', '../templates'))
 env.globals['app'] = app
 
 from app.views import *
+from app.site_managing import *
 
 
 

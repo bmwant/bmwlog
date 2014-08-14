@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}:: Додати новий банер{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div class="row">
+        <div class="column_8">
+            <form action="/banners" method="post" enctype="multipart/form-data">
+                <fieldset class="margin-top">
+                    <label>Опис</label>
+                    <input type="text" name="desc" /><br />
+                </fieldset>
+
+                <fieldset class="margin-top">
+                    <label>Зображення</label>
+                    <input type="file" name="banner_img" /><br />
+                </fieldset>
+
+                <fieldset class="margin-top">
+                    <label>Посилання</label>
+                    <input type="text" name="link" /><br />
+                </fieldset>
+
+                <fieldset class="margin-top text right">
+                        <button class="button success small icon ok" onclick="$(this).closest('form').submit();">
+                            Додати
+                        </button>
+                </fieldset>
+            </form>
+        </div>
+        <div class="column_4 text center thin italic color theme">
+            Додати новий банер
+        </div>
+    </div>
+</div>
+{% endblock %}

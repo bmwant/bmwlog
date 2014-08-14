@@ -9,3 +9,4 @@ class Config(object):
     DB_USER = 'bmwant21'
     DB_PASS = 'try-to-forget'
     STATIC_FOLDER = 'D:/coding/bmwlog/'
+    ROOT_FOLDER = 'D:/coding/bmwlog/'

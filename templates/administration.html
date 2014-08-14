@@ -1,9 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
 <div id="content">
-    Administration panel
-    <a href="/post/add">Додати пост</a>
-    <a href="/category/add">Додати категорію</a>
-    <a href="/post/add">Додати пост</a>
+    <div class="row">
+        <h2>Адмінська панель</h2>
+        <div class="myrow">
+            <a href="/post/add">Додати пост</a>
+        </div>
+        <div class="myrow">
+            <a href="/category/add">Додати категорію</a>
+        </div>
+        <div class="myrow">
+            <a href="/banners">Додати банер</a>
+        </div>
+        <div class="myrow">
+            <a href="/gallery_add">Додати зображення в галерею</a>
+        </div>
+
+    </div>
 </div>
 {% endblock %}
