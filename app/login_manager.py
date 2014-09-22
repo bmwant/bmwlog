@@ -35,9 +35,12 @@ class LoginManager(object):
     @hook('after_request')
     def set_user(self):
         if self.app.current_user is not None:
-            response.set_cookie(name=self.key, 
-                value=self.app.current_user.mail, secret=self.secret)
-        response.delete_cookie(self.key)
+            response.set_cookie(name=self.key,
+                                value=self.app.current_user.mail,
+                                secret=self.secret,
+                                max_age=5 * 24 * 60 * 60)
+        else:
+            response.delete_cookie(self.key)
 
     def apply(self, callback, context):
         return callback

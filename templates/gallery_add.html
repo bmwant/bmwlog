@@ -6,6 +6,14 @@
 <div id="content">
     <div class="row">
         <div class="column_8">
+            <div class="list-block">
+                {% for photo in photos %}
+                    <div class="list-item bck light"><span class="">{{ photo.desc }}</span><span class="delete-item"><a href="/photo/delete/{{ photo.photo_id }}" class="bold color theme"><i class="fa fa-times"></i></a></span></div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="column_4">
+            <h1 class="text book center color theme">Додати нове фото</h1>
             <form action="/gallery_add" method="post" enctype="multipart/form-data">
 
                 <fieldset class="margin-top">
@@ -25,9 +33,6 @@
                 </fieldset>
 
             </form>
-        </div>
-        <div class="column_4 text center thin italic color theme">
-            Додати нове фото
         </div>
     </div>
 </div>

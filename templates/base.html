@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="/css/style.css">
         <link rel="stylesheet" href="/css/toastr.css">
         <link rel="stylesheet" href="/css/tag-basic-style.css" >
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
     {% endblock %}
 
     {% block scripts %}
@@ -73,21 +74,10 @@
     {% block content %}{% endblock %}
 
 {% block footer %}
-    <div id="footer" class="bck dark padding">
-        <div class="row margin-bottom">
-            <div class="column_4 text left">
-                <p class="text bold big">Цікавить інструментарій?</p>
-                <a href="#" data-tuktuk-modal="default_modal" class="text underline color theme">Показати</a>
-            </div>
-            <div class="column_4 text center">
-                <p class="text bold big">Де знаходиться?</p>
-                <a href="https://github.com/bmwant21/bmwlog" target="_blank" class="text underline color theme">Посилання на github</a>
-            </div>
-            <div class="column_4 text right">
-                <p class="text bold big">Питання?</p>
-                <a href="mailto:bmwant@gmail.com" class="text underline color theme">Напиши адміну</a>
-            </div>
-        </div>
+    <div id="footer" class="padding text right">
+        <a href="#" data-tuktuk-modal="default_modal">Під капотом</a>
+        <a href="https://github.com/bmwant21/bmwlog" target="_blank">Github</a>
+        <a href="mailto:bmwant@gmail.com">Пошта</a>
     </div>
     <div id="default_modal" data-tuktuk="modal" class="column_5">
         <header>

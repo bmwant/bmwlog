@@ -1,7 +1,9 @@
-from bottle import run
-from app import app
-
+import os
+from bottle import run, default_app
+from app import app, config as conf
 
 if __name__ == "__main__":
     run(app=app, 
-        host='127.0.0.1', port=8081, debug=True, reloader=True)
+        host=conf.RUN_HOST, port=conf.RUN_PORT, debug=conf.DEBUG, reloader=conf.RELOADER)
+else:
+	application = default_app()

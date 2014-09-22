@@ -10,7 +10,10 @@ def view(tpl_name):
         def wrapper(*args, **kwargs):
             tplvars = func(*args, **kwargs)
             template = env.get_template(tpl_name)
-            return template.render(**tplvars)
+            if tplvars is not None:
+                return template.render(**tplvars)
+            else:
+                return template.render()
         return wrapper
     return decorator
 
@@ -19,8 +22,10 @@ class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
         self.fed = []
+
     def handle_data(self, d):
         self.fed.append(d)
+
     def get_data(self):
         return ''.join(self.fed)
 
@@ -49,11 +54,12 @@ def post_get(name, default=''):
 def redirect(where=None):
     if where is not None:
         return bottle.redirect(where)
-    back = None
-
+    """
+    back=None
     if hasattr(bottle.request.headers, 'Referer'):
         back = bottle.request.headers['Referer']
     print('refferer:', back)
     if back is not None:
         return bottle.redirect(back)
+    """
     return bottle.redirect('/')

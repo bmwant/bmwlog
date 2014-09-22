@@ -3,7 +3,7 @@ from bottle import route, request, response, abort
 from jinja2 import Environment, PackageLoader
 from models import User, DoesNotExist, Role
 from app import app, env
-from helpers import post_get, redirect
+from helpers import post_get, redirect, view
 from functools import wraps
 
 
@@ -21,30 +21,35 @@ def require(role):
                 app.flash(u'У Вас недостатньо прав для перегляду')
                 redirect()
             app.flash(u'Увійдіть, щоб переглянути дану сторінку')
-            redirect('/login')
+            #print(request.path)
+            redirect('/login?back=' + request.path)
         return wrapper
     return decorator
 
 
 def authorize(func):
-    '''
+    """
     User needs to be logged in
-    '''
+    """
     @wraps(func)
     def wrapper(*args, **kwargs):
         if app.current_user is not None:
             return func(*args, **kwargs)
         app.flash(u'Увійдіть, щоб переглянути дану сторінку')
-        redirect('/login')
+        redirect('/login?back=' + request.path)
     return wrapper
 
 
 @app.route('/login', method=['GET', 'POST'])
 def login():
+    if 'back' in request.query:
+        back = request.query['back']
+    else:
+        back = '/'
     if app.current_user is not None:
         print('Ok we are here')
         app.flash(u'Вийдіть з поточної сесії, щоб увійти під іншим акаунтом')
-        redirect()
+        redirect(back)
     if request.method == 'POST':
         try:
             user = User.get(User.mail == post_get('email'))
@@ -55,7 +60,7 @@ def login():
                     post_get('password')):
                 app.flash(u'Ви успішно увійшли')
                 app.login(user)
-                redirect()
+                redirect(back)
             else:
                 app.flash(u'Невірний пароль')
 
@@ -92,3 +97,13 @@ def logout():
     app.logout()
     app.flash(u'Ви успішно вийшли')
     redirect()
+
+
+@app.route('/user/<id:int>')
+@view('user/view.html')
+def user_view(id):
+    try:
+        user = User.get(User.user_id == id)
+    except DoesNotExist:
+        abort(404)
+    return {'user': user}

@@ -6,6 +6,13 @@
 <div id="content">
     <div class="row">
         <div class="column_8">
+            <div class="list-block">
+                {% for banner in banners %}
+                    <div class="list-item bck light">{{ banner.desc }}<span class="delete-item"><a href="/banner/delete/{{ banner.banner_id }}" class="bold color theme"><i class="fa fa-times"></i></a></span></div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="column_4">
             <form action="/banners" method="post" enctype="multipart/form-data">
                 <fieldset class="margin-top">
                     <label>Опис</label>
@@ -28,9 +35,6 @@
                         </button>
                 </fieldset>
             </form>
-        </div>
-        <div class="column_4 text center thin italic color theme">
-            Додати новий банер
         </div>
     </div>
 </div>

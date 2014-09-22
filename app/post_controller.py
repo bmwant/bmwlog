@@ -2,8 +2,9 @@
 from datetime import datetime
 from bottle import route, request, get, post, abort
 from peewee import fn
-from models import Post, Tag, Tag_to_Post, Category, Banner
+from models import Post, Tag, Tag_to_Post, Category, Banner, DoesNotExist
 from helpers import shorten_text, redirect, post_get, postd
+from user_controller import require
 from app import app, env
 
 
@@ -23,7 +24,7 @@ def post_index():
         item.post_text = shorten_text(item.post_text)
 
     random_banner = Banner.select().order_by(fn.Rand()).limit(1)[0]
-    print(random_banner.desc)
+    #print(random_banner.desc.encode('utf-8'))
 
     template = env.get_template('post/index.html')
     return template.render(posts=all_posts, banner=random_banner,
@@ -41,7 +42,9 @@ def post_view(id):
     template = env.get_template('post/view.html')
     return template.render(item=post, link_what='', tags=tags)
 
+
 @app.route('/post/add', method=['GET', 'POST'])
+@require('admin')
 def post_add():
     if request.method == 'GET':
         all_categories = Category.select()
@@ -59,6 +62,7 @@ def post_add():
 
 
 @app.get('/post/delete/<id:int>')
+@require('admin')
 def post_delete(id):
     try:
         post = Post.get(Post.post_id == id)
@@ -69,6 +73,7 @@ def post_delete(id):
 
 
 @app.route('/post/edit/<id:int>', method=['GET', 'POST'])
+@require('admin')
 def post_edit(id):
     if request.method == 'GET':
         try:
@@ -97,6 +102,7 @@ def post_edit(id):
 
 
 @app.route('/category/add', method=['GET', 'POST'])
+@require('admin')
 def category_add():
     if request.method == 'GET':
         all_categories = Category.select()
@@ -147,3 +153,5 @@ def posts_for_tag(id):
     posts = Post.select().join(Tag_to_Post).where(Tag_to_Post.tag_id == id)
     template = env.get_template('post/index.html')
     return template.render(posts=posts)
+
+

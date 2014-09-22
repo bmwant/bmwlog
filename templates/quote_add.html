@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}:: Додати нову фразочку{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div class="row">
+        <div class="column_8">
+            <form action="/quote_add" method="post">
+
+                <fieldset class="margin-top">
+                    <label>Текст цитати</label>
+                    <textarea name="text" /></textarea>
+                </fieldset>
+
+                <fieldset class="margin-top">
+                    <label>Звідки</label>
+                    <textarea name="author" /></textarea>
+                </fieldset>
+
+                <fieldset class="margin-top text right">
+                    <button class="button success small icon ok" onclick="$(this).closest('form').submit();">
+                        Додати
+                    </button>
+                </fieldset>
+
+            </form>
+        </div>
+        <div class="column_4 text">
+            <h1 class="text book center color theme">Додати нову фразу</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}
