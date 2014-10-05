@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}:: Завантажити файл{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div class="row">
+        <div class="column_8">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+
+
+                <fieldset class="margin-top">
+                    {{ form.file_folder.label }}
+                    {{ form.file_folder() }}
+                </fieldset>
+
+                <fieldset class="margin-top">
+                    {{ form.upload_file.label }}
+                    {{ form.upload_file() }}
+                </fieldset>
+
+                <fieldset class="margin-top text right">
+                    <button class="button success small icon ok" onclick="$(this).closest('form').submit();">
+                        Завантажити
+                    </button>
+                </fieldset>
+
+            </form>
+        </div>
+        <div class="column_4 text">
+            <h1 class="text book center color theme">Завантажити файл</h1>
+        </div>
+    </div>
+</div>
+{% endblock %}

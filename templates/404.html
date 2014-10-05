@@ -31,14 +31,16 @@
         <span class="text-back">Назад</span>
     </a>
 </nav>
-<img src="/img/background404.jpg" data-xrange="60" data-yrange="60" id="back">
+{#<img src="/img/background404.jpg" data-xrange="60" data-yrange="60" id="back">#}
+<div id="rectangle" data-xrange="10" data-yrange="10">
 <div id="text" data-xrange="30" data-yrange="80">404</div>
 <div id="little-text" data-xrange="100" data-yrange="40">Сторінка не знайдена</div>
+</div>
 {#    <img src="earth.png" data-xrange="20" data-yrange="20">#}
 {#    <img src="bg.png" data-xrange="10" data-yrange="10" data-invert="true">#}
 </body>
 <script>
-    $('#back').plaxify();
+{#    $('#rectangle').plaxify();  #}
     $('#text').plaxify();
     $('#little-text').plaxify();
     $.plax.enable();

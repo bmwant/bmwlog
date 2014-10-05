@@ -39,8 +39,7 @@ class LoginManager(object):
                                 value=self.app.current_user.mail,
                                 secret=self.secret,
                                 max_age=5 * 24 * 60 * 60)
-        else:
-            response.delete_cookie(self.key)
+        #response.delete_cookie(self.key)
 
     def apply(self, callback, context):
         return callback

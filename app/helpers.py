@@ -17,6 +17,13 @@ def view(tpl_name):
         return wrapper
     return decorator
 
+def only_ajax(func):
+    @wraps(func)
+    def decorated(*args, **kwargs):
+        if bottle.request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return func(*args, **kwargs)
+        return bottle.abort(404)
+    return decorated
 
 class MLStripper(HTMLParser):
     def __init__(self):

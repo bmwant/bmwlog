@@ -51,10 +51,11 @@ def login():
         app.flash(u'Вийдіть з поточної сесії, щоб увійти під іншим акаунтом')
         redirect(back)
     if request.method == 'POST':
+        print(request.get_cookie('login_manager', 'some-secret-key'))
         try:
             user = User.get(User.mail == post_get('email'))
         except DoesNotExist:
-            app.flash('There is no user with such email')
+            app.flash(u'Немає такого користувача')
         else:
             if user.user_password == User.encode_password(
                     post_get('password')):
@@ -99,11 +100,11 @@ def logout():
     redirect()
 
 
-@app.route('/user/<id:int>')
+@app.route('/user/<user_id:int>')
 @view('user/view.html')
-def user_view(id):
+def user_view(user_id):
     try:
-        user = User.get(User.user_id == id)
+        user = User.get(User.user_id == user_id)
     except DoesNotExist:
         abort(404)
     return {'user': user}

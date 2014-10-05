@@ -9,6 +9,7 @@
 {% block scripts %}
     {{ super() }}
     <script src="/js/highlight.pack.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 {% endblock %}
 
@@ -70,27 +71,34 @@
 
 
             <div class="post-info bck light padding margin">
-                <span class="left-info-block">
-                    <div class="info-line">Автор       </div>
-                    <div class="info-line">Дата        </div>
-                    <div class="info-line">Актуальність</div>
-                    <div class="info-line">Рейтинг     </div>
-                    <div class="info-line">Коментарів  </div>
-                </span>
-                <span class="right-info-block">
-                    <div class="info-line-r">{{ item.user.nickname }}</div>
-                    <div class="info-line-r">{{ item.date_posted.strftime('%d/%m/%Y') }}</div>
-                    <div class="info-line-r">3,7              </div>
-                    <div class="info-line-r">129                 </div>
-                    <div class="info-line-r">9</div>
+                <div class="info-block">
+                    <span class="left-info-block">
+                        <div class="info-line">Автор       </div>
+                        <div class="info-line">Дата        </div>
+                        <div class="info-line">Актуальність</div>
+                        <div class="info-line">Рейтинг     </div>
+{#                        <div class="info-line">Коментарів  </div>#}
+                    </span>
+                    <span class="right-info-block">
+                        <div class="info-line-r"><a href="/user/{{ item.user.user_id }}">{{ item.user.nickname }}</a></div>
+                        <div class="info-line-r">{{ item.date_posted.strftime('%d/%m/%Y') }}</div>
+                        <div class="info-line-r">3,7              </div>
+                        <div class="info-line-r">129                 </div>
+{#                        <div class="info-line-r">9</div>#}
 
-                </span>
+                    </span>
+                </div>
+                <a href="#" onclick="return false" id="like-link">
+                    <div id="like-button" class="like-button">
+                        <i class="fa fa-heart" id="like-icon"></i> <span id="like-text">лайк</span> <span id="likes-count">{{ item.likes }}</span>
+                    </div>
+                </a>
             </div>
 
 
             <div class="post-tags padding">
                 {% for tag in tags %}
-                    <a class="post-tag" href="/tag/{{ item.tag_id }}">
+                    <a class="post-tag" href="/tag/{{ tag.tag_id }}">
                         {{ tag.text }}
                     </a>
                 {% endfor %}
@@ -112,5 +120,58 @@
             });
         });
 
+    </script>
+    <script>
+        /*Like button*/
+        function checkThisPostForLike(post_id) {
+            var posts_string = $.cookie('posts_liked');
+            if(posts_string === undefined) {
+                return false;
+            } else {
+                var arr = posts_string.split(",");
+                if(arr.indexOf(post_id.toString()) != -1) {
+                    return true;
+                }
+                return false;
+            }
+        }
+
+        $(document).ready(function() {
+            var post_id = {{ item.post_id }};
+            if(checkThisPostForLike(post_id)) {
+                $("#like-button").removeClass('like-button')
+                        .addClass('like-button-disabled')
+                        .off('click');
+                $("#like-text").hide();
+                $("#likes-count").show();
+                $("#like-icon").addClass('love');
+
+            }
+            else {
+                $("#like-button").click(function() {
+                $.ajax({
+                    url: "/like/{{ item.post_id }}"
+                }).done(function() {
+                    $.cookie.raw = true;
+                    $("#like-text").hide();
+                    var counter = parseInt($("#likes-count").text());
+                    $("#likes-count").text(counter+1).show();
+                    $("#like-icon").addClass('love');
+                    $("#like-button").removeClass('like-button').addClass('like-button-disabled').off('click');
+
+                    var posts_string = $.cookie('posts_liked');
+
+                    if(posts_string === undefined) {
+                        $.cookie("posts_liked", post_id, { expires : 12*30 });
+                    }
+                    else {
+                        var new_posts = posts_string + "," + post_id;
+                        $.cookie("posts_liked", new_posts, { expires : 12*30 });
+                    }
+                });
+            });
+            }
+
+        });
     </script>
 {% endblock %}

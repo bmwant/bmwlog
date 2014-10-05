@@ -39,10 +39,14 @@
             <label>Теги</label>
             <div id="tagBox">{% for tag in tags %}{{ tag.text }};{% endfor %}</div>
             <input type="hidden" name="tags" />
+            <input type="hidden" name="draft">
 
             <div class="margin-bottom margin-top">
-                <a class="button success small icon ok" id="submitter" onclick="$(this).closest('form').submit();">
-                    Оновити
+                <a id="submitter" class="button success icon ok">
+                    Опублікувати
+                </a>
+                <a id="drafter" class="button secondary small icon edit">
+                    Зберегти в чорновики
                 </a>
             </div>
 
@@ -58,6 +62,21 @@
 {% block bottom_scripts %}
     {{ super() }}
     <script src="/js/tagging.min.js"></script>
+
+    <script>
+        function toDrafts() {
+            $("input[name=draft]").val(1);
+        }
+        function publish() {
+            $("input[name=draft]").val(0);
+        }
+        function applyTags() {
+            $("input[name=tags]").val(
+                $("#tagBox").tagging('getTags').join(";")
+            );
+        }
+    </script>
+
     <script>
         var tag_options = {
             "no-duplicate": true,
@@ -76,12 +95,13 @@
         };
         $("#tagBox").tagging(tag_options);
         $("#submitter").click(function(){
-            if(nicEditors.findEditor('text1').getContent()!='<br>') {
-                nicEditors.findEditor('text1').saveContent();
-            }
-            $("input[name=tags]").val(
-                $("#tagBox").tagging('getTags').join(";")
-            );
+            applyTags();
+            publish();
+            $(this).closest('form').submit();
+        });
+        $("#drafter").click(function(){
+            applyTags();
+            toDrafts();
             $(this).closest('form').submit();
         });
     </script>

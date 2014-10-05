@@ -60,8 +60,42 @@ class Post(BaseModel):
     title = CharField(null=True)
     user = ForeignKeyField(db_column='user_id', rel_model=User)
 
+    likes = IntegerField()
+    draft = BooleanField()
+    deleted = BooleanField()
+
     class Meta:
         db_table = 'post'
+
+
+    @classmethod
+    def get_drafts(cls):
+        """
+        Return only draft posts
+        """
+        return cls.select().where(Post.deleted == False,
+                                  Post.draft == True)
+
+    @classmethod
+    def get_deleted(cls):
+        """
+        Return only deleted
+        """
+        return cls.select().where(Post.deleted == True)
+
+    @classmethod
+    def get_posts(cls):
+        """
+        Get not deleted and not drafts to display in post list
+        """
+        return cls.select().where(Post.deleted == False,
+                                  Post.draft == False)
+
+    def get_for_user(self, user_id):
+        raise NotImplemented
+
+    def get_all(self):
+        raise NotImplemented
 
 
 class Photo(BaseModel):

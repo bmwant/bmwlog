@@ -4,9 +4,9 @@
     <div class="row">
         <div class="column_8">
             <div class="category-lst">
-                {% for item in items %}
-                <a href="post?category_id={{ item.category_id }}" class="text bold color theme">
-                    <div class="category-item bck light">{{ item.category_name }}</div>
+                {% for category, data in categories.iteritems() %}
+                <a href="category/{{ category }}" class="text bold color theme">
+                    <div class="category-item bck light">{{ data['name'] }} {{ data['posts_count'] }}</div>
                 </a>
                 {% endfor %}
             </div>

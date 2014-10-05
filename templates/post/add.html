@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 
+{% block title %}:: Додати новий пост{% endblock %}
+
 {% block scripts %}
     {{ super() }}
     <script src="/js/ckeditor/ckeditor.js"></script>
     <script src="/js/ckeditor/config.js"></script>
+    <script src="/js/dropzone.js"></script>
 {% endblock %}
 
 
@@ -37,18 +40,24 @@
             <textarea id="article-text" name="text" style="min-height: 400px"></textarea><br />
 
             <label>Теги</label>
-            <input type="text" name="tags" /><br />
+            <div id="tagBox"></div>
+            <input type="hidden" name="tags" />
+            <input type="hidden" name="draft"/>
 
             <div class="margin-bottom margin-top">
-                <a href="#" class="button success small icon ok" onclick="$(this).closest('form').submit();">
+                <a id="submitter" class="button success icon ok">
                     Опублікувати
+                </a>
+                <a id="drafter" class="button secondary small icon edit">
+                    В чорновики
                 </a>
             </div>
 
             </form>
         </div>
-        <div class="column_4 text center thin italic color theme">
+        <div class="column_4">
             Додати новий пост
+            <form action="/up" class="dropzone" id="image-dropzone"></form>
         </div>
     </div>
 </div>
@@ -56,8 +65,78 @@
 {% block bottom_scripts %}
     {{ super() }}
     <script src="/js/tagging.min.js"></script>
+
+    <script>
+        function toDrafts() {
+            $("input[name=draft]").val(1);
+        }
+        function publish() {
+            $("input[name=draft]").val(0);
+        }
+        function applyTags() {
+            $("input[name=tags]").val(
+                $("#tagBox").tagging('getTags').join(";")
+            );
+        }
+    </script>
+
+    <script>
+        var tag_options = {
+            "no-duplicate": true,
+            "no-duplicate-callback": undefined,
+            "no-duplicate-text": "Duplicate tags",
+            "type-zone-class": "type-zone",
+            "tag-box-class": "tagging",
+            "forbidden-chars": [",", ".", "_", "?", "!", ":", " "],
+            "edit-on-delete": false,
+            "no-comma": true,
+            "no-enter": true,
+            "no-spacebar": false,
+            "pre-tags-separator": ";",
+            "tag-class": "tag_input",
+            "tags-input-name": "tag_input"
+        };
+        $("#tagBox").tagging(tag_options);
+        $("#submitter").click(function(){
+            applyTags();
+            publish();
+            $(this).closest('form').submit();
+        });
+        $("#drafter").click(function(){
+            applyTags();
+            toDrafts();
+            $(this).closest('form').submit();
+        });
+    </script>
+
     <script>
         CKEDITOR.replace('article-text');
         CKEDITOR.editorConfig = function(config) {};
     </script>
+
+
+    <script>
+    Dropzone.options.imageDropzone = {
+        paramName: "file", // The name that will be used to transfer the file
+        maxFilesize: 3, // MB
+        dictDefaultMessage: "Завантажити картинку",
+        success: function(file, status) {
+            console.log(status);
+        }
+    };
+    </script>
 {% endblock %}
+
+{#
+<div class="dz-preview dz-file-preview">
+  <div class="dz-details">
+    <div class="dz-filename"><span data-dz-name></span></div>
+    <div class="dz-size" data-dz-size></div>
+    <img data-dz-thumbnail />
+  </div>
+  <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+  <div class="dz-success-mark"><span>✔</span></div>
+  <div class="dz-error-mark"><span>✘</span></div>
+  <div class="dz-error-message"><span data-dz-errormessage></span></div>
+</div>
+#}

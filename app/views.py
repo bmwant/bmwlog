@@ -15,6 +15,9 @@ from app import app, config
 
 @app.route('/')
 def index():
+    for c in request.cookies:
+        print(c)
+    print(request.get_cookie('login_manager', 'some-secret-key'))
     if app.current_user is not None:
         print(app.current_user.role.role)
     redirect('/post')
@@ -23,8 +26,15 @@ def index():
 @app.route('/categories')
 @view('categories.html')
 def categories():
+    #todo: think and apply some join to get posts count
     cat_list = Category.select()
-    return {'link_what': 'catlink', 'items': cat_list}
+    categ = {}
+    for category in cat_list:
+        categ[category.category_id] = {
+            'name': category.category_name,
+            'posts_count': Post.select().where(Post.category == category).count()
+        }
+    return {'link_what': 'catlink', 'categories': categ}
 
 
 @app.route('/about')

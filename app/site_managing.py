@@ -7,7 +7,9 @@ from bottle import request, abort
 
 from models import Photo, Banner, Quote, DoesNotExist
 from helpers import post_get, redirect, view
+from helput import unique_filename
 from user_controller import require
+from forms import SimpleUploadForm
 from app import app, env, config
 
 
@@ -30,6 +32,18 @@ def gallery():
                              photo=photo_file.filename)
         app.flash(u'Фото успішно додане')
         redirect('/gallery_add')
+
+
+@app.get('/photo/delete/<id:int>')
+@require('admin')
+def photo_delete(id):
+    try:
+        photo = Photo.get(Photo.photo_id == id)
+        photo.delete_instance()
+        redirect('/gallery_add')
+    except DoesNotExist:
+        abort(404)
+
 
 @app.route('/banners', method=['GET', 'POST'])
 @require('admin')
@@ -69,9 +83,6 @@ def banner_delete(id):
         abort(404)
 
 
-
-
-
 @app.route('/quote_add', method=['GET', 'POST'])
 @require('admin')
 def quote_add():
@@ -82,3 +93,44 @@ def quote_add():
     elif request.method == 'POST':
         return template.render()
 
+
+@app.get('/quote/delete/<id:int>')
+@require('admin')
+def quote_delete(id):
+    try:
+        quote = Quote.get(Quote.quote_id == id)
+        quote.delete_instance()
+        redirect('/quote_add')
+    except DoesNotExist:
+        abort(404)
+
+
+@app.route('/upload', method=['GET', 'POST'])
+@require('admin')
+def upload():
+    form = SimpleUploadForm()
+    template = env.get_template('upload.html')
+    if request.method == 'GET':
+        return template.render(form=form)
+    elif request.method == 'POST':
+        up_file = request.files.get('file')
+        folder = os.path.join(config.ROOT_FOLDER, 'img/article/')
+        file_path = os.path.join(folder, up_file.filename)
+        # photo_file.save('/img/gallery/')  # new Bottle
+        with open(file_path, 'wb') as open_file:
+            open_file.write(up_file.file.read())
+
+        app.flash(u'Файл завантажено')
+        redirect('/upload')
+
+
+@app.route('/up', method=['POST'])
+def up_file():
+    up_file = request.files.get('file')
+    folder = os.path.join(config.ROOT_FOLDER, 'img/article/')
+    new_filename = unique_filename(up_file.filename)
+    file_path = os.path.join(folder, new_filename)
+    # photo_file.save('/img/gallery/')  # new Bottle
+    with open(file_path, 'wb') as open_file:
+        open_file.write(up_file.file.read())
+    return 'Ok'

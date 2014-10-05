@@ -1,6 +1,24 @@
 @import url(http://webfonts.ru/import/lobstertwo.css);
 @import url(http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700&subset=latin,cyrillic);
 
+body, html {
+    background-color: #1abc9c;
+}
+
+#rectangle {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    background-color: rgb(255, 192, 79);
+    min-height: 400px;
+    min-width: 700px;
+    margin-left: -350px;
+    margin-top: -200px;
+    overflow: hidden;
+    /*#ecf0f1*/
+    /*#FFC04F*/
+}
+
 #text {
     font-size: 10em;
     font-family: 'Lobster Two';
@@ -9,7 +27,7 @@
     color: #fff;
     text-shadow: 2px 2px 4px #000;
     text-align: center;
-    padding-top: 15%;
+    /*padding-top: 15%;*/
 }
 #little-text {
     font-size: 4em;
