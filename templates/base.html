@@ -38,7 +38,7 @@
             <div class="column_6  text right bold">
             {% set user = app.current_user %}
             {% if user %}
-                Вітаю, <a href="/user/{{ user.user_id }}">{{ user.nickname }}</a>
+                Вітаю, <a href="/account">{{ user.nickname }}</a>
                 <a href="/logout" class="button small secondary">Вийти</a>
             {% else %}
                 <a href="/signup">Реєстрація</a>
@@ -83,13 +83,16 @@
         <header>
             <h4 class="text thin">Інструментарій</h4>
         </header>
-        <article>
-            MySQL
-            Python (Bottle)
-            CSS (TukTuk)
-            jQuery
+        <article class="tools-list">
+            <a href="http://www.mysql.com" target="_blank">MySQL</a>
+            <a href="https://www.python.org" target="_blank">Python</a>
+            <a href="http://bottlepy.org/docs/dev/index.html" target="_blank">Bottle</a>
+            <a href="http://tuktuk.tapquo.com" target="_blank">TukTuk</a>
+            <a href="http://jquery.com" target="_blank">jQuery</a>
+            {#
             ImageLightBox http://osvaldas.info/image-lightbox-responsive-touch-friendly
             Collage Plus http://collageplus.edlea.com
+            #}
         </article>
         <footer>
             <button data-modal="close" class="anchor"><span class="icon remove"></span>Закрити</button>

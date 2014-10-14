@@ -4,6 +4,7 @@
     {{ super() }}
     <script src="/js/ckeditor/ckeditor.js"></script>
     <script src="/js/ckeditor/config.js"></script>
+    <script src="/js/dropzone.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -34,7 +35,7 @@
             </div><br />
 
             <label>Текст</label>
-            <textarea id="article-text" name="text" rows="30" cols="80">{{ item.post_text}}</textarea><br />
+            <textarea id="article-text" name="text" rows="60" cols="80">{{ item.post_text}}</textarea><br />
 
             <label>Теги</label>
             <div id="tagBox">{% for tag in tags %}{{ tag.text }};{% endfor %}</div>
@@ -52,8 +53,9 @@
 
             </form>
         </div>
-        <div class="column_4 text center thin italic color theme">
+        <div class="column_4">
             Змінити статтю
+            <form action="/up" class="dropzone" id="image-dropzone"></form>
         </div>
     </div>
 </div>
@@ -62,52 +64,5 @@
 {% block bottom_scripts %}
     {{ super() }}
     <script src="/js/tagging.min.js"></script>
-
-    <script>
-        function toDrafts() {
-            $("input[name=draft]").val(1);
-        }
-        function publish() {
-            $("input[name=draft]").val(0);
-        }
-        function applyTags() {
-            $("input[name=tags]").val(
-                $("#tagBox").tagging('getTags').join(";")
-            );
-        }
-    </script>
-
-    <script>
-        var tag_options = {
-            "no-duplicate": true,
-            "no-duplicate-callback": undefined,
-            "no-duplicate-text": "Duplicate tags",
-            "type-zone-class": "type-zone",
-            "tag-box-class": "tagging",
-            "forbidden-chars": [",", ".", "_", "?", "!", ":", " "],
-            "edit-on-delete": false,
-            "no-comma": true,
-            "no-enter": true,
-            "no-spacebar": false,
-            "pre-tags-separator": ";",
-            "tag-class": "tag_input",
-            "tags-input-name": "tag_input"
-        };
-        $("#tagBox").tagging(tag_options);
-        $("#submitter").click(function(){
-            applyTags();
-            publish();
-            $(this).closest('form').submit();
-        });
-        $("#drafter").click(function(){
-            applyTags();
-            toDrafts();
-            $(this).closest('form').submit();
-        });
-    </script>
-    <script>
-        CKEDITOR.replace('article-text');
-        CKEDITOR.editorConfig = function(config) {};
-    </script>
-
+    <script src="/js/post.scripts.js"></script>
 {% endblock %}

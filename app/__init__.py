@@ -22,6 +22,9 @@ app.install(FlashPlugin(secret=config.SECRET_KEY))
 from .login_manager import LoginManager
 app.install(LoginManager(secret=config.SECRET_KEY))
 
+from .logging_plugin import LoggingPlugin
+app.install(LoggingPlugin())
+
 env = Environment(loader=PackageLoader('app', '../templates'))
 env.globals['app'] = app
 

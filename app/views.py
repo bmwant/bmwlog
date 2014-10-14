@@ -15,11 +15,8 @@ from app import app, config
 
 @app.route('/')
 def index():
-    for c in request.cookies:
-        print(c)
-    print(request.get_cookie('login_manager', 'some-secret-key'))
-    if app.current_user is not None:
-        print(app.current_user.role.role)
+    app.log(request.get_cookie('login_manager', secret='some-secret-key'), 'info')
+    print('what is it')
     redirect('/post')
 
 
@@ -52,7 +49,7 @@ def administration():
 
 @app.route('/gallery')
 @view('gallery.html')
-def administration():
+def gallery():
     #images = get_list_of_files(r'D:\coding\bmwlog\img\gallery', ext='.jpg', full_path=False)
     images = Photo.select()
     return {'link_what': 'gallink', 'images': images}

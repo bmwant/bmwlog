@@ -9,14 +9,19 @@
             <h2>Профіль користувача <strong>{{ user.nickname }}</strong></h2>
 
             <div class="myrow">
-                {{ user.picture }}
+                <img class="avatar-img" src="/img/users/{{ user.picture }}" />
             </div>
 
             <div class="myrow">
-                <label>Ім'я</label> {{ user.first_name }}
+                {{ user.first_name }} {{ user.last_name }}
             </div>
-            <div class="myrow">
-                <label>Прізвище</label> {{ user.last_name }}
+
+            <div class="post-little-lst">
+                {% for post in posts %}
+                <a href="/post/{{ post.post_id }}" class="text bold color theme">
+                    <div class="little-lst-item bck light">{{ post.title }}</div>
+                </a>
+                {% endfor %}
             </div>
 
         </div>

@@ -37,7 +37,7 @@
             </div><br />
 
             <label>Текст</label>
-            <textarea id="article-text" name="text" style="min-height: 400px"></textarea><br />
+            <textarea id="article-text" name="text" rows="60" cols="80"></textarea><br />
 
             <label>Теги</label>
             <div id="tagBox"></div>
@@ -65,66 +65,7 @@
 {% block bottom_scripts %}
     {{ super() }}
     <script src="/js/tagging.min.js"></script>
-
-    <script>
-        function toDrafts() {
-            $("input[name=draft]").val(1);
-        }
-        function publish() {
-            $("input[name=draft]").val(0);
-        }
-        function applyTags() {
-            $("input[name=tags]").val(
-                $("#tagBox").tagging('getTags').join(";")
-            );
-        }
-    </script>
-
-    <script>
-        var tag_options = {
-            "no-duplicate": true,
-            "no-duplicate-callback": undefined,
-            "no-duplicate-text": "Duplicate tags",
-            "type-zone-class": "type-zone",
-            "tag-box-class": "tagging",
-            "forbidden-chars": [",", ".", "_", "?", "!", ":", " "],
-            "edit-on-delete": false,
-            "no-comma": true,
-            "no-enter": true,
-            "no-spacebar": false,
-            "pre-tags-separator": ";",
-            "tag-class": "tag_input",
-            "tags-input-name": "tag_input"
-        };
-        $("#tagBox").tagging(tag_options);
-        $("#submitter").click(function(){
-            applyTags();
-            publish();
-            $(this).closest('form').submit();
-        });
-        $("#drafter").click(function(){
-            applyTags();
-            toDrafts();
-            $(this).closest('form').submit();
-        });
-    </script>
-
-    <script>
-        CKEDITOR.replace('article-text');
-        CKEDITOR.editorConfig = function(config) {};
-    </script>
-
-
-    <script>
-    Dropzone.options.imageDropzone = {
-        paramName: "file", // The name that will be used to transfer the file
-        maxFilesize: 3, // MB
-        dictDefaultMessage: "Завантажити картинку",
-        success: function(file, status) {
-            console.log(status);
-        }
-    };
-    </script>
+    <script src="/js/post.scripts.js"></script>
 {% endblock %}
 
 {#

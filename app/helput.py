@@ -31,7 +31,11 @@ def unique_filename_r(file_obj):
     hash = hashlib.md5(file_obj).hexdigest()
     return
 
+
 def unique_filename(filename):
+    """
+    The same files have the same filenames
+    """
     name, ext = os.path.splitext(filename)
     new_name = uuid.uuid3(uuid.NAMESPACE_OID, filename.encode('utf-8')).hex
     return new_name + ext

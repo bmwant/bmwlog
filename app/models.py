@@ -53,16 +53,28 @@ class User(BaseModel):
 
 
 class Post(BaseModel):
-    category = ForeignKeyField(db_column='category_id', rel_model=Category)
-    date_posted = DateTimeField()
     post_id = PrimaryKeyField(db_column='post_id')
-    post_text = CharField(null=True)
-    title = CharField(null=True)
+    category = ForeignKeyField(db_column='category_id', rel_model=Category)
     user = ForeignKeyField(db_column='user_id', rel_model=User)
 
-    likes = IntegerField()
+    date_posted = DateTimeField(default=datetime.datetime.now())
+    date_updated = DateTimeField(default=datetime.datetime.now())
+
+    post_text = CharField(null=True)
+    title = CharField(null=True)
+
+    likes = IntegerField(default=0)
+    views = IntegerField(default=0)
+
     draft = BooleanField()
     deleted = BooleanField()
+
+    @property
+    def comments(self):
+        """
+        Get comments count
+        """
+        return 10
 
     class Meta:
         db_table = 'post'
@@ -91,8 +103,14 @@ class Post(BaseModel):
         return cls.select().where(Post.deleted == False,
                                   Post.draft == False)
 
-    def get_for_user(self, user_id):
-        raise NotImplemented
+    @classmethod
+    def get_for_user(cls, user_id):
+        """
+        Get published posts for this specific user
+        """
+        return cls.select().where(Post.deleted == False,
+                                  Post.draft == False,
+                                  Post.user == user_id)
 
     def get_all(self):
         raise NotImplemented

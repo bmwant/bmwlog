@@ -1,14 +1,15 @@
 /* Tagging Basic Style */
 .tagging {
-	border: 1px solid #CCCCCC;
+	border: 2px solid #dce4ec;
+    border-radius: 4px;
 	cursor: text;
 	font-size: 1em;
 	height: auto;
-	padding: 10px 10px 15px;
+	padding: 5px;
 }
 
 .tag_input {
-	background: none repeat scroll 0 0 #EE7407;
+	background: none repeat scroll 0 0 #fd797b;
 	border-radius: 2px;
 	color: white;
 	cursor: default;
@@ -16,14 +17,15 @@
 	position: relative;
 	white-space: nowrap;
 	padding: 4px 20px 4px 0;
-	margin: 5px 10px 0 0;
+	margin: 3px;
+    margin-right: 10px;
 }
 
 .tag_input span {
-	background: none repeat scroll 0 0 #D66806;
+	background: none repeat scroll 0 0 #2ecc71;
 	border-radius: 2px 0 0 2px;
 	margin-right: 5px;
-	padding: 5px 10px 5px;
+	padding: 4px 10px 4px;
 }
 
 .tag_input .tag-i {
@@ -41,9 +43,16 @@
 
 .tag_input .tag-i:hover {
 	color: black;
-	text-decoration: underline;
+	/*text-decoration: underline;*/
 }
 
+a.tag-i {
+    color: black !important;
+}
+
+a.tag-i:hover {
+    color: #ecf0f1 !important;
+}
 .type-zone {
 	border: 0 none;
 	height: auto;

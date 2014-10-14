@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from bottle import route, request, response, abort
-from jinja2 import Environment, PackageLoader
-from models import User, DoesNotExist, Role
+from models import User, DoesNotExist, Role, Post
+from forms import UserEditForm
 from app import app, env
-from helpers import post_get, redirect, view
+from helpers import post_get, redirect, view, save_file
 from functools import wraps
 
 
@@ -47,11 +47,9 @@ def login():
     else:
         back = '/'
     if app.current_user is not None:
-        print('Ok we are here')
         app.flash(u'Вийдіть з поточної сесії, щоб увійти під іншим акаунтом')
         redirect(back)
     if request.method == 'POST':
-        print(request.get_cookie('login_manager', 'some-secret-key'))
         try:
             user = User.get(User.mail == post_get('email'))
         except DoesNotExist:
@@ -107,4 +105,33 @@ def user_view(user_id):
         user = User.get(User.user_id == user_id)
     except DoesNotExist:
         abort(404)
-    return {'user': user}
+    user_posts = Post.get_for_user(user_id)
+    return {'user': user, 'posts': user_posts}
+
+
+@app.get('/account')
+@authorize
+@view('user/account.html')
+def my_account():
+    user = app.current_user
+    form = UserEditForm(obj=user)
+    print(form.data)
+    my_drafts = Post.get_drafts().where(Post.user == user.user_id)
+    return {'user': user, 'posts': my_drafts, 'form': form}
+
+
+@app.post('/account/update')
+@authorize
+def update_account():
+    user = app.current_user
+    update_form = UserEditForm(request.POST, user)
+    if update_form.validate():
+        #user.update(**update_form.data).execute()
+        update_form.populate_obj(user)
+        print(update_form.data)
+        user.save()
+        print(user.picture)
+        app.flash(u'Дані успішно оновлено')
+    else:
+        app.flash(u'Incorrect somtethisd')
+    redirect('/account')  # without return redirect because of raise inside

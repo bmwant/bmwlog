@@ -1,4 +1,4 @@
-from bottle import request, response, hook
+from bottle import request, response
 from .models import User
 
 
@@ -19,8 +19,8 @@ class LoginManager(object):
         self.app.login = self.login
         self.app.logout = self.logout
 
-    @hook('before_request')
     def load_user(self):
+        #todo: add check if invalid cookie is provided
         usermail = request.get_cookie(self.key, secret=self.secret)
         if usermail is not None:
             self.app.current_user = User.get(User.mail == usermail)
@@ -31,15 +31,19 @@ class LoginManager(object):
 
     def logout(self):
         self.app.current_user = None
+        response.delete_cookie(self.key)
 
-    @hook('after_request')
     def set_user(self):
         if self.app.current_user is not None:
             response.set_cookie(name=self.key,
                                 value=self.app.current_user.mail,
                                 secret=self.secret,
-                                max_age=5 * 24 * 60 * 60)
-        #response.delete_cookie(self.key)
+                                max_age=5 * 24 * 60 * 60)  # 5 days in seconds
 
-    def apply(self, callback, context):
-        return callback
+    def apply(self, callback, route):
+        def wrapper(*args, **kwargs):
+            self.load_user()
+            rv = callback(*args, **kwargs)
+            self.set_user()
+            return rv
+        return wrapper

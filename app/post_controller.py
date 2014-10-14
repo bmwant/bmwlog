@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
+from datetime import datetime, timedelta
 from bottle import route, request, get, post, abort
 from peewee import fn
 from models import Post, Tag, Tag_to_Post, Category, Banner, DoesNotExist
@@ -8,9 +8,24 @@ from user_controller import require
 from app import app, env
 
 
+def post_actuality(post):
+    """
+    Return sophisticated value of post actuality
+    """
+
+    cv = lambda x, y: float(x)/y if x < y else 1.0  # ceil part-value
+    now_time = datetime.now()
+    int_posted = (now_time - post.date_posted).total_seconds()
+    int_updt = (now_time - post.date_updated).total_seconds()
+    int_years = timedelta(days=365*5).total_seconds()
+
+    act = cv(post.comments, 10)*15 + cv(post.likes, 30)*15 + \
+          cv(post.views, 100)*10 + (1-cv(int_posted, int_years))*40 + \
+          (1-cv(int_updt, int_years))*20
+
+    return act
+
 @app.get('/post')
-#todo: category name -> template
-#todo: check for correct category_id value
 def post_index():
 
     all_posts = Post.get_posts().order_by(Post.date_posted.desc())
@@ -44,7 +59,11 @@ def post_view(post_id):
     tags = Tag.select().join(Tag_to_Post).where(Tag_to_Post.post_id == post_id)
     #Tweet.select().join(User).where(User.username == 'Charlie'):
     template = env.get_template('post/view.html')
-    return template.render(item=post, link_what='', tags=tags)
+    #post.update(views=post.views+1).execute() #classmethod!
+    post.views += 1
+    post.save()  # instance method!
+    return template.render(item=post, tags=tags,
+                           actuality=post_actuality(post))
 
 
 @app.route('/post/add', method=['GET', 'POST'])
@@ -104,7 +123,7 @@ def post_edit(post_id):
         post.category = post_get('category_id')
         post.post_text = post_get('text')
         post.title = post_get('title')
-        post.draft = post_get('draft')
+        post.draft = bool(int(post_get('draft')))  # zero int is False
         new_tags = post_get('tags')
         old_tags = Tag.select().join(Tag_to_Post)\
             .where(Tag_to_Post.post_id == post_id)
@@ -182,7 +201,7 @@ def posts_for_tag(tag_id):
     except DoesNotExist:
         #todo: enable logging for all these exceptions
         abort(404)
-    posts = Post.select().join(Tag_to_Post).where(Tag_to_Post.tag_id == tag_id)
+    posts = Post.get_posts().join(Tag_to_Post).where(Tag_to_Post.tag_id == tag_id)
     how = posts.count()
     if how:
         info = u'Статті, відмічені тегом "%s" (%s)' % (tag.text, how)

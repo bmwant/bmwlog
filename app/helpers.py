@@ -1,7 +1,9 @@
 from HTMLParser import HTMLParser
+import os
 import bottle
 from functools import wraps
-from app import env
+from app import env, config
+from helput import unique_filename
 
 
 def view(tpl_name):
@@ -24,6 +26,7 @@ def only_ajax(func):
             return func(*args, **kwargs)
         return bottle.abort(404)
     return decorated
+
 
 class MLStripper(HTMLParser):
     def __init__(self):
@@ -70,3 +73,17 @@ def redirect(where=None):
         return bottle.redirect(back)
     """
     return bottle.redirect('/')
+
+
+def save_file(file_obj, where='uploaded'):
+    """
+    Saves file to where directory on the server
+    """
+    #todo: check for errors, types or file_obj properties
+    folder = os.path.join(config.ROOT_FOLDER, where)
+    new_filename = unique_filename(file_obj.filename)
+    file_path = os.path.join(folder, new_filename)
+    with open(file_path, 'wb') as open_file:
+        open_file.write(file_obj.file.read())
+    return new_filename  # returns new filename
+    # ? returns relative to browser path to file

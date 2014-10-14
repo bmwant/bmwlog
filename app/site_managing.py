@@ -108,6 +108,9 @@ def quote_delete(id):
 @app.route('/upload', method=['GET', 'POST'])
 @require('admin')
 def upload():
+    """
+    Uploads a file to the site storage on the server
+    """
     form = SimpleUploadForm()
     template = env.get_template('upload.html')
     if request.method == 'GET':
@@ -126,11 +129,15 @@ def upload():
 
 @app.route('/up', method=['POST'])
 def up_file():
+    """
+    Uploads a picture to the article
+    """
     up_file = request.files.get('file')
-    folder = os.path.join(config.ROOT_FOLDER, 'img/article/')
+    web_folder = '/img/article/'
+    folder = os.path.join(config.ROOT_FOLDER, web_folder)
     new_filename = unique_filename(up_file.filename)
     file_path = os.path.join(folder, new_filename)
     # photo_file.save('/img/gallery/')  # new Bottle
     with open(file_path, 'wb') as open_file:
         open_file.write(up_file.file.read())
-    return 'Ok'
+    return os.path.join(web_folder, new_filename)
