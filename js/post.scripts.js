@@ -56,6 +56,12 @@ $(document).ready(function() {
         maxFilesize: 3, // MB
         dictDefaultMessage: "Завантажити картинку",
         success: function(file, status) {
+            var path = $("<input/>", {
+                type: 'text',
+                value: status,
+                readonly: 1
+            });
+            $(".dz-success-mark").append(path);
             console.log(status);
         }
     };

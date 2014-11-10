@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Most Wanted'
+import os
 import logging
-from bottle import request, response, hook
+import traceback
 
 
 class LoggingPlugin(object):
@@ -18,13 +19,10 @@ class LoggingPlugin(object):
 
     def setup(self, app):
         self.app = app
-
-        #self.app.add_hook('before_request', self.load_flashed)
-        #self.app.add_hook('after_request', self.set_flashed)
         logger = logging.getLogger(__name__)
         logger.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(module)s:%(asctime)s:[%(levelname)s] %(message)s')
-        formatter.datefmt = '%d/%m/%y %H:%M'
+        formatter = logging.Formatter('%(asctime)s :: %(mod_name)s, line %(mod_line)d :: [%(levelname)s] %(message)s')
+        formatter.datefmt = '%H:%M:%S %d/%m/%y'
         handler = logging.StreamHandler()
         handler.setFormatter(formatter)
         logger.addHandler(handler)
@@ -32,7 +30,19 @@ class LoggingPlugin(object):
         self.app.log = self.log
 
     def log(self, msg, level=None):
-        self.logger.log(30, msg)
+        tb = traceback.extract_stack(limit=2)
+        mod_name = os.path.basename(tb[0][0])
+        lineno = tb[0][1]
+        levels = {
+            'critical': 50,
+            'error': 40,
+            'warning': 30,
+            'info': 20,
+            'debug': 10,
+        }
+        cur_level = levels.get(level, 20)
+        self.logger.log(cur_level, msg, extra={'mod_name': mod_name,
+                                               'mod_line': lineno})
 
     def apply(self, callback, route):
         return callback

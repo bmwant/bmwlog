@@ -38,7 +38,7 @@ class User(BaseModel):
     mail = CharField(null=False, unique=True)
     nickname = CharField()
     user_password = CharField()
-    picture = CharField(null=True)
+    picture = CharField(default='default.png')
     role = ForeignKeyField(db_column='role_id', rel_model=Role)
 
     @staticmethod
@@ -48,6 +48,18 @@ class User(BaseModel):
         m.update(password)
         return m.hexdigest()
 
+    @classmethod
+    def create(cls, **query):
+        role = Role.get(Role.role == 'user')  # default role is user
+        #cls.role = role
+        return super(User, cls).create(role=role, **query)
+
+    def is_admin(self):
+        return self.role.role == 'admin'
+
+    def __repr__(self):
+        return '{nickname} [{mail}]'.format(nickname=self.nickname,
+                                            mail=self.mail)
     class Meta:
         db_table = 'user'
 
@@ -68,6 +80,8 @@ class Post(BaseModel):
 
     draft = BooleanField()
     deleted = BooleanField()
+
+
 
     @property
     def comments(self):
@@ -160,3 +174,35 @@ class Tag_to_Post(BaseModel):
     class Meta:
         db_table = 'tag_to_post'
 
+
+class StreamMessage(BaseModel):
+    id = PrimaryKeyField()
+    date = DateTimeField(default=datetime.datetime.now)
+    message = CharField()
+
+    class Meta:
+        db_table = 'stream_message'
+
+
+class StaticPage(BaseModel):
+    id = PrimaryKeyField()
+
+    url = CharField(unique=True)
+    date = DateTimeField(default=datetime.datetime.now)
+    title = CharField()
+    text = TextField()
+
+    class Meta:
+        db_table = 'static_page'
+
+
+class Session(BaseModel):
+    session_id = PrimaryKeyField()
+    mail = CharField(null=False)
+    expires = IntegerField(default=0)
+    ip = CharField(null=True)
+    login_date = DateTimeField(default=datetime.datetime.now)
+    active = BooleanField(default=True)
+
+    class Meta:
+        db_table = 'session'

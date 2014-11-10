@@ -6,16 +6,26 @@
 <div id="content">
     <div class="row">
         <div class="column_8">
-            <form action="/quote_add" method="post">
+
+            <div class="list-block">
+                    {% for item in quotes %}
+                        <div class="list-item bck light">{{ item.text }}<span class="delete-item"><a href="/quote/delete/{{ item.quote_id }}" class="bold color theme"><i class="fa fa-times"></i></a></span></div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        <div class="column_4 text">
+            <h1 class="text book center color theme">Додати нову фразу</h1>
+            <form action="/quote/add" method="post">
 
                 <fieldset class="margin-top">
                     <label>Текст цитати</label>
-                    <textarea name="text" /></textarea>
+                    <textarea name="text"></textarea>
                 </fieldset>
 
                 <fieldset class="margin-top">
                     <label>Звідки</label>
-                    <textarea name="author" /></textarea>
+                    <input name="author" type="text"/>
                 </fieldset>
 
                 <fieldset class="margin-top text right">
@@ -25,9 +35,6 @@
                 </fieldset>
 
             </form>
-        </div>
-        <div class="column_4 text">
-            <h1 class="text book center color theme">Додати нову фразу</h1>
         </div>
     </div>
 </div>

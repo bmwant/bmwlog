@@ -6,7 +6,7 @@
             <div class="category-lst">
                 {% for category, data in categories.iteritems() %}
                 <a href="category/{{ category }}" class="text bold color theme">
-                    <div class="category-item bck light">{{ data['name'] }} {{ data['posts_count'] }}</div>
+                    <div class="category-item bck light">{{ data['name'] }} <span class="posts-count">{{ data['posts_count'] }}</span></div>
                 </a>
                 {% endfor %}
             </div>

@@ -4,7 +4,7 @@
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 
-    <title>BmwLog {% block title %}{% endblock %}</title>
+    <title>{% block sitename %}BmwLog{% endblock %} {% block title %}{% endblock %}</title>
 
 
     <link rel="shortcut icon" href="/favicon.ico"/>
@@ -59,6 +59,14 @@
                 <a href="/gallery" id="gallink">
                     <span class="icon camera"></span>Галерея
                 </a>
+                {% if user and user.is_admin() %}
+                    <a href="/ad" id="admlink">
+                        <span class="icon cog"></span>Адмінка
+                    </a>
+                    <a href="/playground" id="plglink">
+                        <span class="icon beaker"></span>Пісочниця
+                    </a>
+                {% endif %}
                 <a href="/about" id="abtlink">
                     <span class="icon info-sign"></span>Інфо
                 </a>
@@ -75,7 +83,7 @@
 
 {% block footer %}
     <div id="footer" class="padding text right">
-        <a href="#" data-tuktuk-modal="default_modal">Під капотом</a>
+        <a data-tuktuk-modal="default_modal">Під капотом</a>
         <a href="https://github.com/bmwant21/bmwlog" target="_blank">Github</a>
         <a href="mailto:bmwant@gmail.com">Пошта</a>
     </div>
@@ -84,9 +92,13 @@
             <h4 class="text thin">Інструментарій</h4>
         </header>
         <article class="tools-list">
+            <a href="https://www.freebsd.org" target="_blank">FreeBSD</a>
+            <a href="http://nginx.org" target="_blank">nginx</a>
+            <a href="http://gunicorn.org" target="_blank">Gunicorn</a>
             <a href="http://www.mysql.com" target="_blank">MySQL</a>
             <a href="https://www.python.org" target="_blank">Python</a>
             <a href="http://bottlepy.org/docs/dev/index.html" target="_blank">Bottle</a>
+            <a href="http://jinja.pocoo.org/docs/dev/" target="_blank">Jinja2</a>
             <a href="http://tuktuk.tapquo.com" target="_blank">TukTuk</a>
             <a href="http://jquery.com" target="_blank">jQuery</a>
             {#
@@ -111,8 +123,8 @@
           "onclick": null,
           "showDuration": "0",
           "hideDuration": "0",
-          "timeOut": "0",
-          "extendedTimeOut": "0",
+          "timeOut": "5000",
+          "extendedTimeOut": "15000",
           "showEasing": "swing",
           "hideEasing": "linear",
           "showMethod": "fadeIn",

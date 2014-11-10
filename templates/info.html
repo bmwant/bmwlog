@@ -1,6 +1,39 @@
 {% extends "base.html" %}
+
+{% block header %}
+    Nothing
+{% endblock %}
+
 {% block content %}
 <div id="content">
-    {{ info }}
+
+        <div class="column_8">
+            text
+        </div>
+
+        <div class="column_4">
+
+            <div class="padding margin">
+                <ul class="streamer">
+                    {% for lm in messages %}
+                        <li class="stream-message"><span class="message-date">{{ lm.date.strftime('[%a %H:%M:%S]')  }}</span> {{ lm.message }}</li>
+                    {% else %}
+                        <li class="no-message">...немає повідомлень за останній тиждень</li>
+                    {% endfor %}
+
+                </ul>
+            </div>
+
+            <div class="padding margin">
+                <div class="quote-text">
+                    {{ quote.text }}
+                </div>
+                <div class="quote-author">
+                    {{ quote.author }}
+                </div>
+            </div>
+
+        </div>
+
 </div>
 {% endblock %}

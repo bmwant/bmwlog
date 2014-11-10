@@ -65,7 +65,7 @@
 
                         <div class="myrow"><a href="/post/edit/{{ item.post_id }}">Редагувати статтю</a></div>
                         <div class="myrow"><a href="/post/delete/{{ item.post_id }}">Видалити статтю</a></div>
-                        <div class="myrow"><a href="#">Оновити дані</a></div>
+                        <div class="myrow"><a href="/post/renew/{{ item.post_id }}">Актуалізувати</a></div>
 
                 </div>
                {% endif %}
@@ -77,6 +77,7 @@
                     <span class="left-info-block">
                         <div class="info-line">Автор       </div>
                         <div class="info-line">Дата        </div>
+                        <div class="info-line">Категорія</div>
                         <div class="info-line">Переглядів</div>
                         <div class="info-line">Актуальність</div>
 
@@ -85,6 +86,7 @@
                     <span class="right-info-block">
                         <div class="info-line-r"><a href="/user/{{ item.user.user_id }}">{{ item.user.nickname }}</a></div>
                         <div class="info-line-r">{{ item.date_posted.strftime('%d/%m/%Y') }}</div>
+                        <div class="info-line-r"><a href="/category/{{ item.category.category_id }}">{{ item.category.category_name }}</a></div>
                         <div class="info-line-r">{{ item.views }}</div>
                         <div class="info-line-r">{{ actuality|int }}%</div>
 {#                        <div class="info-line-r">9</div>#}

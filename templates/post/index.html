@@ -17,15 +17,37 @@
             </div>
             {% endfor %}
         </div>
-        <div class="column_4">
-            <div class=" bck light padding margin">
+        <div class="column_4 hide-tablet hide-phone">
+
+            <div class="padding margin banner-block">
                 {% if banner %}
                     <div class="myrow">Проплачено</div>
                     <div class="myrow"><a href="{{ banner.link }}" target="_blank"><img width="300" src="/img/banners/{{ banner.img }}" alt="{{ banner.desc }}" title="{{ banner.desc }}"/></a></div>
                 {% endif %}
-
             </div>
+
+
+            <div class="padding margin">
+                <div class="quote-text">
+                    {{ quote.text }}
+                </div>
+                <div class="quote-author">
+                    {{ quote.author }}
+                </div>
+            </div>
+
         </div>
     </div>
+
 </div>
+
+    <script>
+    {# Format a qoute nice way #}
+        $(document).ready(function(){
+            var k = $(".quote-text").html().trim();
+            var re = new RegExp("\n", "g");
+            k = k.replace(re, "<br/>");
+            $(".quote-text").html(k);
+        });
+    </script>
 {% endblock %}

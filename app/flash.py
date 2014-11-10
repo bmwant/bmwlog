@@ -23,6 +23,7 @@ class FlashPlugin(object):
         m = request.get_cookie(key=self.key, secret=self.secret)
         if m is not None:
             response.flash_messages = m
+            response.delete_cookie(self.key)
 
     def set_flashed(self):
         if hasattr(response, 'flash_messages'):
@@ -31,6 +32,9 @@ class FlashPlugin(object):
             delattr(response, 'flash_messages')
 
     def flash(self, message, category='info'):
+        """
+        Categories: error, success, info
+        """
         if not hasattr(response, 'flash_messages'):
             response.flash_messages = []
         response.flash_messages.append((message, category))
@@ -44,8 +48,8 @@ class FlashPlugin(object):
             
     def apply(self, callback, route):
         def wrapper(*args, **kwargs):
-            self.load_flashed()
+            #self.load_flashed()
             rv = callback(*args, **kwargs)
-            self.set_flashed()
+            #self.set_flashed()
             return rv
         return wrapper

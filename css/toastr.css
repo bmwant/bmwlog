@@ -79,7 +79,7 @@ button.toast-close-button {
   bottom: 12px;
 }
 .toast-bottom-left {
-  bottom: 60px; /* bottom easy */
+  bottom: 12px; /* bottom easy */
   left: 12px;
 }
 #toast-container {
@@ -140,7 +140,7 @@ button.toast-close-button {
   background-color: #030303;
 }
 .toast-success {
-  background-color: #51a351;
+  background-color: #1abc9c;
 }
 .toast-error {
   background-color: #bd362f;

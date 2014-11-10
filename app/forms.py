@@ -2,7 +2,8 @@
 __author__ = 'Most Wanted'
 
 import os
-from wtforms import Form, FileField, SelectField, StringField, validators
+from wtforms import Form, FileField, SelectField, StringField, PasswordField,\
+    validators
 from helput import get_all_dirs, join_all_path
 from helpers import save_file
 from app import config
@@ -14,7 +15,7 @@ def get_up_folders():
 
 class SimpleUploadForm(Form):
     file_folder = SelectField(u'Куди завантажити',
-                              choices=[('/img/article', u'Зображення до статті'), ('/uploaded', u'Інші файли')],
+                              choices=[('img/article', u'Зображення до статті'), ('uploaded', u'Інші файли')],
                               validators=[validators.InputRequired()])
     upload_file = FileField(u'Виберіть файл',
                             validators=[validators.InputRequired()])
@@ -50,4 +51,12 @@ class UserEditForm(Form):
         if not self.picture.data:
             delattr(self, 'picture')
         super(UserEditForm, self).populate_obj(obj)
+
+
+class SignupForm(Form):
+    mail = StringField(u'E-mail', validators=[validators.Email()])
+    password = PasswordField(u'Пароль', validators=[validators.InputRequired(), validators.Length(min=6)])
+    first_name = StringField(u'Ім\'я', validators=[validators.InputRequired()])
+    last_name = StringField(u'Прізвище', validators=[validators.InputRequired()])
+    nickname = StringField(u'Нік', validators=[validators.InputRequired()])
 

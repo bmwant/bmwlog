@@ -3,11 +3,11 @@ __author__ = 'Most Wanted'
 
 import os
 from urlparse import urlparse
-from bottle import request, abort
+from bottle import request, abort, static_file
 
 from models import Photo, Banner, Quote, DoesNotExist
-from helpers import post_get, redirect, view
-from helput import unique_filename
+from helpers import post_get, redirect, view, backup_db
+from helput import unique_filename, join_all_path
 from user_controller import require
 from forms import SimpleUploadForm
 from app import app, env, config
@@ -83,24 +83,26 @@ def banner_delete(id):
         abort(404)
 
 
-@app.route('/quote_add', method=['GET', 'POST'])
+@app.route('/quote/add', method=['GET', 'POST'])
 @require('admin')
 def quote_add():
     template = env.get_template('quote_add.html')
-    if request.method == 'GET':
-        quotes = Quote.select()
-        return template.render({'quotes': quotes})
-    elif request.method == 'POST':
-        return template.render()
+    all_quotes = Quote.select()
+    if request.method == 'POST':
+        quote = Quote.create(text=post_get('text'),
+                             author=post_get('author'))
+        app.flash(u'Цитата додана', 'success')
+    return template.render({'quotes': all_quotes})
 
 
-@app.get('/quote/delete/<id:int>')
+@app.get('/quote/delete/<quote_id:int>')
 @require('admin')
-def quote_delete(id):
+def quote_delete(quote_id):
     try:
-        quote = Quote.get(Quote.quote_id == id)
+        quote = Quote.get(Quote.quote_id == quote_id)
         quote.delete_instance()
-        redirect('/quote_add')
+        app.flash(u'Цитата видалена', 'success')
+        redirect('/quote/add')
     except DoesNotExist:
         abort(404)
 
@@ -111,13 +113,13 @@ def upload():
     """
     Uploads a file to the site storage on the server
     """
-    form = SimpleUploadForm()
+    #todo: add auto-rename
+    #todo: add format checking and size for pictures
+    form = SimpleUploadForm(request.POST)
     template = env.get_template('upload.html')
-    if request.method == 'GET':
-        return template.render(form=form)
-    elif request.method == 'POST':
-        up_file = request.files.get('file')
-        folder = os.path.join(config.ROOT_FOLDER, 'img/article/')
+    if form.validate():
+        up_file = form.upload_file.data
+        folder = os.path.join(config.ROOT_FOLDER, form.file_folder.data)
         file_path = os.path.join(folder, up_file.filename)
         # photo_file.save('/img/gallery/')  # new Bottle
         with open(file_path, 'wb') as open_file:
@@ -125,6 +127,7 @@ def upload():
 
         app.flash(u'Файл завантажено')
         redirect('/upload')
+    return template.render(form=form)
 
 
 @app.route('/up', method=['POST'])
@@ -133,11 +136,20 @@ def up_file():
     Uploads a picture to the article
     """
     up_file = request.files.get('file')
-    web_folder = '/img/article/'
+    web_folder = 'img/article/'
     folder = os.path.join(config.ROOT_FOLDER, web_folder)
     new_filename = unique_filename(up_file.filename)
     file_path = os.path.join(folder, new_filename)
+    #todo: check for file existence
     # photo_file.save('/img/gallery/')  # new Bottle
     with open(file_path, 'wb') as open_file:
         open_file.write(up_file.file.read())
-    return os.path.join(web_folder, new_filename)
+    return join_all_path(['/', web_folder, new_filename])
+
+
+@app.get('/ad/backupdb')
+def backdb():
+    backup_name = backup_db()
+    backup_file = join_all_path([config.ROOT_FOLDER, 'uploaded', backup_name])
+    root_f = join_all_path([config.ROOT_FOLDER, 'uploaded'])
+    return static_file(backup_name, root=root_f, download=backup_name)

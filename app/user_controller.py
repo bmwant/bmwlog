@@ -4,6 +4,7 @@ from models import User, DoesNotExist, Role, Post
 from forms import UserEditForm
 from app import app, env
 from helpers import post_get, redirect, view, save_file
+from .forms import SignupForm
 from functools import wraps
 
 
@@ -70,24 +71,28 @@ def login():
 
 @app.route('/signup', method=['GET', 'POST'])
 def signup():
+
     template = env.get_template('user/signup.html')
     if request.method == 'GET':
-        return template.render()
+        form = SignupForm()
+        return template.render(form=form)
     if request.method == 'POST':
-        try:
-            user = User.get(User.mail == post_get('email'))
-        except DoesNotExist:
-            new_user = User.create(first_name=request.forms.get('fname'),
-                                   last_name=request.forms.get('lname'),
-                                   nickname=request.forms.get('nickname'),
-                                   user_password=User.encode_password(
-                                       request.forms.get('password')),
-                                   mail=request.forms.get('email'))
-            app.flash(u'Реєстрація пройшла успішно')
-            return redirect('/')
-        else:
-            app.flash(u'Користувач з такою поштою уже існує')
-            return template.render()
+        form = SignupForm(request.POST)
+        if form.validate():
+            try:
+                user = User.get(User.mail == form.mail.data)
+            except DoesNotExist:
+                new_user = User.create(mail=form.mail.data,
+                                       user_password=User.encode_password(form.password.data),
+                                       first_name=form.first_name.data,
+                                       last_name=form.last_name.data,
+                                       nickname=form.nickname.data
+                )
+                app.flash(u'Успішна реєстрація. Тепер ви можете увійти')
+                return redirect('/login')
+            else:
+                app.flash(u'Користувач з такою поштою уже існує')
+        return template.render(form=form)
 
 
 @app.get('/logout')
@@ -135,3 +140,11 @@ def update_account():
     else:
         app.flash(u'Incorrect somtethisd')
     redirect('/account')  # without return redirect because of raise inside
+
+
+@app.get('/user/list')
+@require('admin')
+def list_users():
+    users = User.select()
+    template = env.get_template('user/index.html')
+    return template.render(users=users)

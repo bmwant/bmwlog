@@ -5,16 +5,20 @@
         <div class="column_8 padding-bottom padding-top margin-bottom margin-top">
 
             <div class="info-row text bold color theme">
-                    {% if info %}
-                        <h3>{{ info }}</h3>
-                    {% endif %}
+                {% if info %}
+                    <h3>{{ info }}</h3>
+                {% endif %}
             </div>
             <div class="post-little-lst">
-                {% for post in posts %}
-                <a href="/post/{{ post.post_id }}" class="text bold color theme">
-                    <div class="little-lst-item bck light">{{ post.title }}</div>
-                </a>
-                {% endfor %}
+                {% if posts | p_count %}
+                    {% for post in posts %}
+                    <a href="/post/{{ post.post_id }}" class="text bold color theme">
+                        <div class="little-lst-item bck light">{{ post.title }}</div>
+                    </a>
+                    {% endfor %}
+                {% else %}
+                    <div class="">Немає жодної статті</div>
+                {% endif %}
             </div>
 
             {#

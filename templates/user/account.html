@@ -19,15 +19,16 @@
             <div class="myrow">
                 <label>Прізвище</label> {{ user.last_name }}
             </div>
-
-            <strong>Мої чорновики</strong>
-            <div class="post-little-lst">
-                {% for post in posts %}
-                <a href="/post/{{ post.post_id }}" class="text bold color theme">
-                    <div class="little-lst-item bck light">{{ post.title }}</div>
-                </a>
-                {% endfor %}
-            </div>
+            {% if posts | p_count %}
+                <strong>Мої чорновики</strong>
+                <div class="post-little-lst">
+                    {% for post in posts %}
+                    <a href="/post/{{ post.post_id }}" class="text bold color theme">
+                        <div class="little-lst-item bck light">{{ post.title }}</div>
+                    </a>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         <div class="column_4">
             <h1 class="text book center color theme">Профіль</h1>
@@ -42,16 +43,12 @@
         </header>
         <article class="">
             <form id="acc-form" action="/account/update" method="post" enctype="multipart/form-data">
-
                 {% for field in form %}
                 <fieldset class="margin-top">
                     {{ field.label }}
                     {{ field() }}
                 </fieldset>
                 {% endfor %}
-
-
-
             </form>
         </article>
         <footer class="text right">

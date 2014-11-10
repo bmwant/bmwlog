@@ -2,30 +2,35 @@
 {% block content %}
 <div id="content">
     <div class="row">
+
         <div class="column_8">
+
+            <div class="list-block">
+                {% for item in categories %}
+                    <div class="list-item bck light"><a href="/category/{{ item.category_id }}">{{ item.category_name }}</a><span class="delete-item"><a href="/category/delete/{{ item.category_id }}" class="bold color theme"><i class="fa fa-times"></i></a></span></div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div class="column_4">
+            <h1 class="text book center color theme">Додати нову категорію</h1>
             <form action="/category/add" method="post">
 
-            <label>Назва категорії</label>
-            <input type="text" name="category_name" /><br />
+                <fieldset class="margin-top">
+                    <label>Назва категорії</label>
+                    <input type="text" name="category_name" /><br />
+                </fieldset>
 
-            <label>Список існуючих категорій</label>
-            <ul>
-                {% for item in categories %}
-                <li>{{ item.category_name}}</li>
-                {% endfor %}
-            </ul>
-
-            <div class="margin-bottom margin-top">
-                <a href="#" class="button success small icon ok" onclick="$(this).closest('form').submit();">
-                    Додати
-                </a>
-            </div>
+                <fieldset class="margin-top text right">
+                        <button class="button success small icon ok" onclick="$(this).closest('form').submit();">
+                            Додати
+                        </button>
+                </fieldset>
 
             </form>
         </div>
-        <div class="column_4 text center thin italic color theme">
-            Додати нову категорію
-        </div>
+
     </div>
 </div>
 {% endblock %}

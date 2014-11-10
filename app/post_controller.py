@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
+import sqlite3
 from datetime import datetime, timedelta
 from bottle import route, request, get, post, abort
-from peewee import fn
-from models import Post, Tag, Tag_to_Post, Category, Banner, DoesNotExist
+from peewee import fn, IntegrityError
+from models import Post, Tag, Tag_to_Post, Category, Banner, DoesNotExist, \
+    StreamMessage, Quote
 from helpers import shorten_text, redirect, post_get, postd, only_ajax
 from user_controller import require
 from app import app, env
 
-
+#todo: make as class property
 def post_actuality(post):
     """
     Return sophisticated value of post actuality
@@ -27,16 +29,19 @@ def post_actuality(post):
 
 @app.get('/post')
 def post_index():
-
     all_posts = Post.get_posts().order_by(Post.date_posted.desc())
     for item in all_posts:
         item.post_text = shorten_text(item.post_text)
 
-    random_banner = Banner.select().order_by(fn.Rand()).limit(1)[0]
+    random_banner = Banner.select().order_by(fn.Rand()).first() #limit(1)[0]
+    quote = Quote.select().order_by(fn.Rand()).first()
+    messages = StreamMessage.select()
     #print(random_banner.desc.encode('utf-8'))
 
     template = env.get_template('post/index.html')
     return template.render(posts=all_posts, banner=random_banner,
+                           stream_messages=messages,
+                           quote=quote,
                            link_what='pstlink')
 
 
@@ -81,11 +86,8 @@ def post_add():
                            date_posted=datetime.now(),
                            draft=False,
                            )
-        print(post_get('draft'))
         if int(post_get('draft')) == 1:
-            print('It is a draft')
             post.draft = True
-            redirect('/about')
 
         post_id = post.post_id
         post.save()
@@ -100,9 +102,32 @@ def post_delete(post_id):
         post = Post.get(Post.post_id == post_id)
         post.deleted = True
         post.save()
+        app.flash(u'Статтю видалено', 'success')
         redirect()
     except Post.DoesNotExist:
         abort(404)
+
+
+@app.get('/post/renew/<post_id:int>')
+@require('admin')
+def post_renew(post_id):
+    try:
+        post = Post.get(Post.post_id == post_id)
+        post.date_updated = datetime.now()
+        post.save()
+        app.flash(u'Стаття актуалізована')
+        redirect('/post/%s' % post_id)
+    except DoesNotExist:
+        abort(404)
+
+
+@app.get('/post/deleted')
+@require('admin')
+def deleted_posts():
+    posts = Post.get_deleted()
+    info = u'Видалені статті'
+    template = env.get_template('post/list.html')
+    return template.render(posts=posts, info=info)
 
 
 @app.route('/post/edit/<post_id:int>', method=['GET', 'POST'])
@@ -159,6 +184,21 @@ def category_list(category_id):
     all_posts = Post.get_posts().where(Post.category == category_id).order_by(Post.date_posted.desc())
     template = env.get_template('post/list.html')
     return template.render(posts=all_posts, info=u'Статті у категорії "%s"' % category.category_name)
+
+
+@app.get('/category/delete/<category_id:int>')
+@require('admin')
+def category_delete(category_id):
+    try:
+        category = Category.get(Category.category_id == category_id)
+    except DoesNotExist:
+        abort(404)
+    try:
+        category.delete_instance()
+    except IntegrityError, e:
+        app.flash(u'Категорія містить статті. Неможливо видалити', 'error')
+
+    redirect('/category/add')
 
 
 def add_new_tags(tags_string, post_id):

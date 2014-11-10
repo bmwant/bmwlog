@@ -1,9 +1,11 @@
 from HTMLParser import HTMLParser
 import os
+import time
+import subprocess
 import bottle
 from functools import wraps
-from app import env, config
-from helput import unique_filename
+from app import app, env, config
+from helput import unique_filename, join_all_path
 
 
 def view(tpl_name):
@@ -18,6 +20,22 @@ def view(tpl_name):
                 return template.render()
         return wrapper
     return decorator
+
+
+def p_count(value):
+    """
+    Jinja2 custom filter to use for Peewee query count
+    """
+    return value.count()
+
+
+def dollars(value):
+    try:
+        new_value = str(int(value)) + '$'
+    except ValueError:
+        new_value = value + ' dollars'
+    return new_value
+
 
 def only_ajax(func):
     @wraps(func)
@@ -38,6 +56,18 @@ class MLStripper(HTMLParser):
 
     def get_data(self):
         return ''.join(self.fed)
+
+
+class StripPathMiddleware(object):
+    """
+    Middleware for stripping trailing slashes
+    """
+    def __init__(self, app):
+        self.app = app
+
+    def __call__(self, e, h):
+        e['PATH_INFO'] = e['PATH_INFO'].rstrip('/')
+        return self.app(e, h)
 
 
 def strip_tags(html):
@@ -87,3 +117,18 @@ def save_file(file_obj, where='uploaded'):
         open_file.write(file_obj.file.read())
     return new_filename  # returns new filename
     # ? returns relative to browser path to file
+
+
+def backup_db():
+    backup_name = '{db}_backup_{date}.sql'.format(
+        db=config.DB_NAME,
+        date=time.strftime('%d_%m_%Y_%H-%M'))
+    backup_file = join_all_path([config.ROOT_FOLDER, 'uploaded', backup_name])
+    command = '/usr/local/bin/mysqldump -u{user} -p{password} {db}'.format(
+        user=config.DB_USER, password=config.DB_PASS, db=config.DB_NAME)
+
+    output = open(backup_file, 'w')
+    p = subprocess.Popen(command, shell=True, stdout=output).wait()
+    output.close()
+    #todo: remove the file
+    return backup_name
