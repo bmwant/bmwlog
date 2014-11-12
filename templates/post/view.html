@@ -74,24 +74,13 @@
 
             <div class="post-info bck light padding margin">
                 <div class="info-block">
-                    <span class="left-info-block">
-                        <div class="info-line">Автор       </div>
-                        <div class="info-line">Дата        </div>
-                        <div class="info-line">Категорія</div>
-                        <div class="info-line">Переглядів</div>
-                        <div class="info-line">Актуальність</div>
 
-{#                        <div class="info-line">Коментарів  </div>#}
-                    </span>
-                    <span class="right-info-block">
-                        <div class="info-line-r"><a href="/user/{{ item.user.user_id }}">{{ item.user.nickname }}</a></div>
-                        <div class="info-line-r">{{ item.date_posted.strftime('%d/%m/%Y') }}</div>
-                        <div class="info-line-r"><a href="/category/{{ item.category.category_id }}">{{ item.category.category_name }}</a></div>
-                        <div class="info-line-r">{{ item.views }}</div>
-                        <div class="info-line-r">{{ actuality|int }}%</div>
-{#                        <div class="info-line-r">9</div>#}
+                        <div class="info-line">Автор <span class="info-line-r"><a href="/user/{{ item.user.user_id }}">{{ item.user.nickname }}</a></span></div>
+                        <div class="info-line">Дата <span class="info-line-r">{{ item.date_posted.strftime('%d/%m/%Y') }}</span></div>
+                        <div class="info-line">Категорія <span class="info-line-r"><a href="/category/{{ item.category.category_id }}">{{ item.category.category_name }}</a></span></div>
+                        <div class="info-line">Переглядів <span class="info-line-r">{{ item.views }}</span></div>
+                        <div class="info-line">Актуальність<span class="info-line-r">{{ actuality|int }}%</span></div>
 
-                    </span>
                 </div>
                 <a href="#" onclick="return false" id="like-link">
                     <div id="like-button" class="like-button">

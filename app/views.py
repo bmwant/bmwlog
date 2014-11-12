@@ -83,10 +83,7 @@ def error404(error):
 
 @app.route('/sp/<page_name:re:[a-z\d_]+>')
 def server_static(page_name):
-    try:
-        page = StaticPage.get(StaticPage.url == page_name)
-    except DoesNotExist:
-        abort(404)
+    page = StaticPage.get_or_404(StaticPage.url == page_name)
     template = env.get_template('static_page.html')
     return template.render(page=page)
 

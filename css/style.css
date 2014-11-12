@@ -188,12 +188,12 @@ html, body {
 }
 
 .info-line {
+    display: block;
     margin-bottom: 5px;
 }
 
 .info-line-r {
-    color: #000000;
-    margin-bottom: 5px;
+    float: right:
     text-align: right;
 }
 

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block sitename %}{{ page.title }}{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div class="row">
+
+        <div class="column_8">
+
+
+        </div>
+
+        <div class="column_4">
+            {{ form() }}
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block bottom_scripts %}
+{% endblock %}

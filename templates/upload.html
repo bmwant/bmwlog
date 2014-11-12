@@ -10,8 +10,10 @@
 
 
                 <fieldset class="margin-top">
-                    {{ form.file_folder.label }}
-                    {{ form.file_folder() }}
+                    <div class="select">
+                        {{ form.file_folder.label }}
+                        {{ form.file_folder() }}
+                    </div>
                 </fieldset>
 
                 <fieldset class="margin-top">
@@ -29,6 +31,17 @@
         </div>
         <div class="column_4 text">
             <h1 class="text book center color theme">Завантажити файл</h1>
+            <div class="error-text">
+                {% if form.errors %}
+                    <ul class="errors">
+                        {% for field_name, field_errors in form.errors|dictsort if field_errors %}
+                            {% for error in field_errors %}
+                                <li>{{ form[field_name].label }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>

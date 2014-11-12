@@ -1,5 +1,6 @@
 import datetime
 
+from bottle import abort
 from peewee import *
 from app import db
 
@@ -12,6 +13,15 @@ class UnknownFieldType(object):
 class BaseModel(Model):
     class Meta:
         database = db
+
+    @classmethod
+    def get_or_404(cls, *query, **kwargs):
+        try:
+            inst = cls.get(*query, **kwargs)
+            return inst
+        except DoesNotExist:
+            abort(404)
+
 
 
 class Category(BaseModel):

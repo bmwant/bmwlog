@@ -2,15 +2,21 @@
 __author__ = 'Most Wanted'
 
 import os
-from wtforms import Form, FileField, SelectField, StringField, PasswordField,\
-    validators
+import wtforms
+from bottle import request
+from wtforms import FileField, SelectField, StringField, PasswordField,\
+    validators, TextAreaField
+from wtforms.validators import InputRequired, Email, EqualTo
 from helput import get_all_dirs, join_all_path
 from helpers import save_file
 from app import config
 
 
-def get_up_folders():
-    pass
+class Form(wtforms.Form):
+    def validate_on_post(self):
+        if request.method in ('POST', 'PUT'):
+            return super(Form, self).validate()
+        return False
 
 
 class SimpleUploadForm(Form):
@@ -60,3 +66,7 @@ class SignupForm(Form):
     last_name = StringField(u'Прізвище', validators=[validators.InputRequired()])
     nickname = StringField(u'Нік', validators=[validators.InputRequired()])
 
+
+class StaticPageForm(Form):
+    title = StringField(u'Назва сторінки', validators=[InputRequired()])
+    text = TextAreaField(u'Текст сторінки', validators=[InputRequired()])

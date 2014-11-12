@@ -73,11 +73,8 @@ def login():
 def signup():
 
     template = env.get_template('user/signup.html')
-    if request.method == 'GET':
-        form = SignupForm()
-        return template.render(form=form)
+    form = SignupForm(request.POST)
     if request.method == 'POST':
-        form = SignupForm(request.POST)
         if form.validate():
             try:
                 user = User.get(User.mail == form.mail.data)
@@ -89,10 +86,10 @@ def signup():
                                        nickname=form.nickname.data
                 )
                 app.flash(u'Успішна реєстрація. Тепер ви можете увійти')
-                return redirect('/login')
+                redirect('/login')
             else:
                 app.flash(u'Користувач з такою поштою уже існує')
-        return template.render(form=form)
+    return template.render(form=form)
 
 
 @app.get('/logout')

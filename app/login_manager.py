@@ -31,6 +31,8 @@ class LoginManager(object):
                 self.app.current_user = User.get(User.mail == usermail)
             except DoesNotExist:
                 self.logout()
+        else:
+            self.app.current_user = None
         self.app.log('User loaded: %s' % self.app.current_user)
 
     def login(self, user):
@@ -42,7 +44,6 @@ class LoginManager(object):
         self.app.current_user = None
         self.app.log('Now offline?: %s.' % self.app.current_user)
         response.delete_cookie(self.key, path='/')
-
 
     def set_user(self):
         self.app.log('Setting user after request: %s.' % self.app.current_user)
@@ -59,7 +60,5 @@ class LoginManager(object):
             self.load_user()
             rv = callback(*args, **kwargs)
             self.set_user()
-            cookie_del = request.get_cookie(self.key, secret=self.secret)
-            self.app.log('Delete cookie: %s' % cookie_del)
             return rv
         return wrapper

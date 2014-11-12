@@ -9,7 +9,7 @@ from models import Photo, Banner, Quote, DoesNotExist
 from helpers import post_get, redirect, view, backup_db
 from helput import unique_filename, join_all_path
 from user_controller import require
-from forms import SimpleUploadForm
+from forms import SimpleUploadForm, StaticPageForm
 from app import app, env, config
 
 
@@ -117,7 +117,7 @@ def upload():
     #todo: add format checking and size for pictures
     form = SimpleUploadForm(request.POST)
     template = env.get_template('upload.html')
-    if form.validate():
+    if request.method == 'POST' and form.validate():
         up_file = form.upload_file.data
         folder = os.path.join(config.ROOT_FOLDER, form.file_folder.data)
         file_path = os.path.join(folder, up_file.filename)
@@ -153,3 +153,13 @@ def backdb():
     backup_file = join_all_path([config.ROOT_FOLDER, 'uploaded', backup_name])
     root_f = join_all_path([config.ROOT_FOLDER, 'uploaded'])
     return static_file(backup_name, root=root_f, download=backup_name)
+
+
+@app.get('/sp/add>')
+@require('admin')
+def sp_add():
+    form = StaticPageForm(request.POST)
+    template = env.get_template('static_page_admin.html')
+    if form.validate_on_post():
+        return 'Success'
+    return template.render()
