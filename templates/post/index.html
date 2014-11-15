@@ -1,4 +1,8 @@
 {% extends "base.html" %}
+
+{% block title %}:: Статті{% endblock %}
+
+
 {% block content %}
 <div id="content">
     <div class="row">
@@ -7,7 +11,7 @@
             <div class="box">
                 <a href="/post/{{ item.post_id }}" class="post-header-lst text bold color theme">{{ item.title }}</a>
                 <div class="post-date-lst">
-                    <div class="post-date bck light">{{ item.date_posted.strftime('%d/%m/%Y') }}</div>
+                    <div class="post-date bck light"><time>{{ item.date_posted.strftime('%d/%m/%Y') }}</time></div>
                 </div>
                 <div id="main" class="post-text-lst text justify">
                     {{ item.post_text }}
