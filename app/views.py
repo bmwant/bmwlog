@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from bottle import static_file, error, request, post
-from helpers import view, redirect
+from helpers import view, redirect, render_template
 from helput import get_list_of_files
 
 from models import *
@@ -23,10 +23,9 @@ def tr():
     from .helput import translit_url
     print(translit_url())
     app.log('Message')
-    template = env.get_template('info.html')
     quote = Quote.select().first()
     messages = StreamMessage.select()
-    return template.render(messages=messages, quote=quote)
+    return render_template('info.html', messages=messages, quote=quote)
 
 
 @app.route('/categories')
@@ -52,8 +51,7 @@ def about():
 @app.route('/ad')
 @require('admin')
 def administration():
-    template = env.get_template('administration.html')
-    return template.render(link_what='admlink')
+    return render_template('administration.html', link_what='admlink')
 
 
 @app.route('/gallery')
@@ -67,12 +65,6 @@ def gallery():
 @app.get('/playground')
 def playground():
     return 'NotImplementedError :)'
-
-
-@app.route('/tr')
-def try_route():
-    template = env.get_template('info.html')
-    return template.render(value='one hundred')
 
 
 @app.error(404)

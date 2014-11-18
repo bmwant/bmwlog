@@ -416,6 +416,8 @@ table.admin-table td:hover {
     font-size: 20px;
     font-weight: bold;
     color: #2ecc71;
+    margin-top: 15px;
+    margin-bottom: 10px;
 }
 
 .quote-text {

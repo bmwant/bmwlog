@@ -13,6 +13,7 @@ else:
 db = MySQLDatabase(config.DB_NAME,
     host=config.DB_HOST, port=config.DB_PORT,
     user=config.DB_USER, password=config.DB_PASS)
+db.get_conn().ping(True)
 
 app = Bottle()
 

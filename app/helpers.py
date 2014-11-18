@@ -22,6 +22,14 @@ def view(tpl_name):
     return decorator
 
 
+def render_template(tpl_name, *args, **kwagrs):
+    """
+    Render template helper function
+    """
+    template = env.get_template(tpl_name)
+    return template.render(*args, **kwagrs)
+
+
 def p_count(value):
     """
     Jinja2 custom filter to use for Peewee query count
