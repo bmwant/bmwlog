@@ -5,7 +5,7 @@ import os
 from urlparse import urlparse
 from bottle import request, abort, static_file
 
-from models import Photo, Banner, Quote, DoesNotExist
+from models import Photo, Banner, Quote, DoesNotExist, StaticPage, StreamMessage
 from helpers import post_get, redirect, view, backup_db
 from helput import unique_filename, join_all_path
 from user_controller import require
@@ -155,11 +155,40 @@ def backdb():
     return static_file(backup_name, root=root_f, download=backup_name)
 
 
-@app.get('/sp/add>')
+@app.route('/sp/add', method=['GET', 'POST'])
 @require('admin')
 def sp_add():
     form = StaticPageForm(request.POST)
     template = env.get_template('static_page_admin.html')
+
     if form.validate_on_post():
-        return 'Success'
-    return template.render()
+        app.log(form.page_url.data)
+        new_page = StaticPage.create(title=form.title.data,
+                                     url=form.page_url.data,
+                                     text=form.text.data)
+        app.flash('New page!')
+    pages = StaticPage.select()
+    return template.render(form=form, pages=pages)
+
+
+@app.get('/sp/delete/<sp_id:int>')
+@require('admin')
+def sp_delete(sp_id):
+    try:
+        sp = StaticPage.get(StaticPage.id == sp_id)
+        sp.delete_instance()
+        app.flash(u'Сторінка видалена', 'success')
+        redirect('/sp/add')
+    except DoesNotExist:
+        abort(404)
+
+
+@app.post('/sm/add')
+def sm_add():
+    """
+    Add new stream message
+    """
+    message = post_get('message')
+    new_message = StreamMessage(message=message)
+    new_message.save()
+    return 'Ok'

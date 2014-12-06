@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block sitename %}{{ page.title }}{% endblock %}
+{% block sitename %}dfads{% endblock %}
 
 {% block styles %}
     {{ super() }}
@@ -16,12 +16,25 @@
     <div class="row">
 
         <div class="column_8">
-
-
+            <div class="list-block">
+                {% for page in pages %}
+                    <div class="list-item bck light"><a href="/sp/{{ page.url }}">{{ page.title }}</a>
+                        <span class="delete-item"><a href="/sp/delete/{{ page.id }}" class="bold color theme"><i class="fa fa-times"></i></a></span>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
 
         <div class="column_4">
-            {{ form() }}
+            <form action="/sp/add" method="post">
+                {% for field in form %}
+                    {{ field.label }}
+                    {{ field }}
+                {% endfor %}
+                <div class="margin-bottom margin-top">
+                    <button class="button success small icon ok">Додати сторінку</button>
+                </div>
+            </form>
         </div>
 
     </div>

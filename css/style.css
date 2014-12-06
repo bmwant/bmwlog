@@ -482,3 +482,8 @@ ul.streamer li.stream-message {
 .banner-block img {
     max-width: 100%;
 }
+
+.disable-item {
+    float: left;
+    padding-right: 5px;
+}
