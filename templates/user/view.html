@@ -26,12 +26,15 @@
                     <img class="avatar-img" src="/img/users/{{ user.picture }}" />
 
                 </div>
-                <div class="column_2">
+                <div class="column_2 user-info">
                     <div class="myrow">
-                        {{ user.first_name }}
+                        <strong>{{ user.first_name }}</strong>
                     </div>
                     <div class="myrow">
-                        {{ user.last_name }}
+                        <strong>{{ user.last_name }}</strong>
+                    </div>
+                    <div class="myrow">
+                        <small>{{ user.mail }}</small>
                     </div>
                 </div>
             </div>

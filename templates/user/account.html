@@ -6,21 +6,8 @@
 <div id="content">
     <div class="row">
         <div class="column_8">
-            <h2>Профіль користувача <strong>{{ user.nickname }}</strong></h2>
-
-            <div class="myrow">
-                <img class="avatar-img" src="/img/users/{{ user.picture }}" />
-            </div>
-
-            <div class="myrow">
-                <label>Ім'я</label> {{ user.first_name }}
-            </div>
-
-            <div class="myrow">
-                <label>Прізвище</label> {{ user.last_name }}
-            </div>
             {% if posts | p_count %}
-                <strong>Мої чорновики</strong>
+                <h2>Мої чорновики</h2>
                 <div class="post-little-lst">
                     {% for post in posts %}
                     <a href="/post/{{ post.post_id }}" class="text bold color theme">
@@ -28,11 +15,36 @@
                     </a>
                     {% endfor %}
                 </div>
+            {% else %}
+                <h2>Немає збережених чорновиків</h2>
+                <p>Напишіть статтю прямо зараз. <a class="button small" href="/post/add">Додати нову</a></p>
             {% endif %}
         </div>
         <div class="column_4">
-            <h1 class="text book center color theme">Профіль</h1>
-            <button class="button success "data-tuktuk-modal="edit-modal">Редагувати дані</button>
+
+            <h2 class="text book center color theme"><strong>{{ user.nickname }}</strong></h2>
+
+            <div class="row">
+                <div class="column_2 text center">
+                    <img class="avatar-img" src="/img/users/{{ user.picture }}" />
+                    <button class="button success "data-tuktuk-modal="edit-modal">Редагувати дані</button>
+                </div>
+                <div class="column_2 user-info">
+                    <div class="myrow">
+                        <strong>{{ user.first_name }}</strong>
+                    </div>
+                    <div class="myrow">
+                        <strong>{{ user.last_name }}</strong>
+                    </div>
+                    <div class="myrow">
+                        <small>{{ user.mail }}</small>
+                    </div>
+                    <div class="myrow">
+                        <a href="/user/{{ user.user_id }}">Як виглядає мій профіль?</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

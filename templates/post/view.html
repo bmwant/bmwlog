@@ -2,6 +2,10 @@
 
 {% block title %}:: {{ item.title }}{% endblock %}
 
+{% block meta_tags %}
+    <meta name="keywords" content="{% for tag in tags %}{{ tag.text }}, {% endfor %}">
+{% endblock %}
+
 {% block styles %}
     {{ super() }}
     <link rel="stylesheet" href="/css/font-awesome.min.css">

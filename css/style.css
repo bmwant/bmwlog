@@ -487,3 +487,8 @@ ul.streamer li.stream-message {
     float: left;
     padding-right: 5px;
 }
+
+/* User view */
+.user-info {
+    padding-top: 5px;
+}

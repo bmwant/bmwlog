@@ -4,9 +4,10 @@ __author__ = 'Most Wanted'
 import os
 from urlparse import urlparse
 from bottle import request, abort, static_file
+from geventwebsocket import WebSocketError
 
 from models import Photo, Banner, Quote, DoesNotExist, StaticPage, StreamMessage
-from helpers import post_get, redirect, view, backup_db
+from helpers import post_get, redirect, view, backup_db, only_ajax
 from helput import unique_filename, join_all_path
 from user_controller import require
 from forms import SimpleUploadForm, StaticPageForm
@@ -192,3 +193,27 @@ def sm_add():
     new_message = StreamMessage(message=message)
     new_message.save()
     return 'Ok'
+
+
+@app.get('/banner/disable/<banner_id:int>')
+@only_ajax
+@require('admin')
+def disable_banner(banner_id):
+    banner = Banner.get_or_404(Banner.banner_id == banner_id)
+    banner.disabled = not banner.disabled
+    banner.save()
+    return 'Ok'
+
+
+@app.route('/websocket')
+def handle_websocket():
+    wsock = request.environ.get('wsgi.websocket')
+    if not wsock:
+        abort(400, 'Expected WebSocket request.')
+
+    while True:
+        try:
+            message = wsock.receive()
+            wsock.send("Your message was: %r" % message)
+        except WebSocketError:
+            break

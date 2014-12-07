@@ -107,7 +107,7 @@ def user_view(user_id):
         user = User.get(User.user_id == user_id)
     except DoesNotExist:
         abort(404)
-    user_posts = Post.get_for_user(user_id)
+    user_posts = Post.get_for_user(user_id).limit(10)
     return {'user': user, 'posts': user_posts}
 
 

@@ -158,6 +158,7 @@ class Banner(BaseModel):
     desc = CharField()
     link = CharField()
     img = CharField()
+    disabled = BooleanField(default=False)
 
 
 class Quote(BaseModel):

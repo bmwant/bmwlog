@@ -33,7 +33,7 @@ def post_index():
     for item in all_posts:
         item.post_text = shorten_text(item.post_text)
 
-    random_banner = Banner.select().order_by(fn.Rand()).first() #limit(1)[0]
+    random_banner = Banner.select().where(Banner.disabled == False).order_by(fn.Rand()).first() #limit(1)[0]
     quote = Quote.select().order_by(fn.Rand()).first()
     messages = StreamMessage.select()
     #print(random_banner.desc.encode('utf-8'))

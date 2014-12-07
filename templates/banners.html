@@ -14,7 +14,10 @@
         <div class="column_8">
             <div class="list-block">
                 {% for banner in banners %}
-                    <div class="list-item bck light">{{ banner.desc }}<span class="disable-item"><input type="checkbox" checked></span><span class="delete-item"><a href="/banner/delete/{{ banner.banner_id }}" class="bold color theme"><i class="fa fa-times"></i></a></span></div>
+                    <div class="list-item bck light">{{ banner.desc }}
+                        <span class="disable-item"><input type="checkbox" data-id="{{ banner.banner_id }}" {% if not banner.disabled %}checked{% endif %}></span>
+                        <span class="delete-item"><a href="/banner/delete/{{ banner.banner_id }}" class="bold color theme"><i class="fa fa-times"></i></a></span>
+                    </div>
                 {% endfor %}
             </div>
         </div>
@@ -52,5 +55,18 @@
     <script src="/js/jquery.onoff.js"></script>
     <script>
         $('input[type=checkbox]').onoff();
+        $('input[type=checkbox]').click(function() {
+
+            var banner_id = $(this).attr("data-id");
+            console.log(banner_id);
+            $.ajax({
+                type: "GET",
+                url: "/banner/disable/" + banner_id
+            })
+            .done(function(msg) {
+                console.log(msg);
+            });
+        });
+
     </script>
 {% endblock %}

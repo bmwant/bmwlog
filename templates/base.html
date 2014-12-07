@@ -2,17 +2,19 @@
 <html>
 <head>
 
-    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-    <meta name="description" content="">
-    <meta name="keywords" content="HTML, CSS, XML, XHTML, JavaScript">
-    <meta name="author" content="Misha Behersky">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+        <meta name="title" content="BmwLog - IT blog by Misha Behersky">
+        <meta name="author" content="Misha Behersky">
+        <meta name="rating" content="general">
 
+    {% block meta_tags %}
+        <meta name="keywords" content="HTML, CSS, IT, programming, python">
+        <meta name="description" content="">
+    {% endblock %}
 
     <title>{% block sitename %}BmwLog{% endblock %} {% block title %}{% endblock %}</title>
 
-
     <link rel="shortcut icon" href="/favicon.ico"/>
-
 
     {% block styles %}
         <link rel="stylesheet" href="/css/tuktuk.css">
@@ -29,8 +31,6 @@
         <script src="/js/jquery-1.9.1.js"></script>
         <script src="/js/toastr.min.js"></script> <!--For message flashing-->
     {% endblock %}
-
-
 
 </head>
 <body>
