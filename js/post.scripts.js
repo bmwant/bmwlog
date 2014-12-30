@@ -49,7 +49,6 @@ $(document).ready(function() {
 
 
     CKEDITOR.replace('article-text');
-    CKEDITOR.editorConfig = function(config) {};
 
     Dropzone.options.imageDropzone = {
         paramName: "file", // The name that will be used to transfer the file

@@ -1,5 +1,5 @@
 *.pyc
-**Thumbs.db
+**/Thumbs.db
 .idea/
 build/
 venv/

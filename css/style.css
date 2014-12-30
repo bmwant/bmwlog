@@ -376,7 +376,7 @@ table.admin-table td:hover {
 .post-text a {
     color: #1abc9c !important;
     text-decoration: none;
-    border-bottom: 3px dotted;
+    /*border-bottom: 3px dotted;*/
 }
 
 .post-text a:hover {
@@ -405,10 +405,14 @@ table.admin-table td:hover {
     float: right;
 }
 
-.post-text pre code {
+.post-text {
     font-size: 16px;
+}
+
+.post-text pre code {
+    font-size: 14px;
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 3px;
 }
 
 .post-text h3 {

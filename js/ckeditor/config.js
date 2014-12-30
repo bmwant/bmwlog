@@ -37,4 +37,5 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeDialogTabs = 'image:advanced;link:advanced';
 	config.language = 'uk';
 	config.skin = 'moono';
+    config.height = 450;
 };
