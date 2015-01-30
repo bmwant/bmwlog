@@ -22,10 +22,14 @@ class BaseModel(Model):
             abort(404)
 
 
-
 class Category(BaseModel):
     category_id = PrimaryKeyField(db_column='category_id')
     category_name = CharField()
+
+    @property
+    def posts_count(self):
+        return Post.get_posts().where(Post.category == self.category_id).count()
+
 
     class Meta:
         db_table = 'category'

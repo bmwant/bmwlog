@@ -33,13 +33,12 @@ def tr():
 def categories():
     #todo: think and apply some join to get posts count
     cat_list = Category.select()
-    categ = {}
-    for category in cat_list:
-        categ[category.category_id] = {
-            'name': category.category_name,
-            'posts_count': Post.get_posts().where(Post.category == category).count()
-        }
-    return {'link_what': 'catlink', 'categories': categ}
+
+    def get_count(categ):
+        return categ.posts_count
+    categ_sorted = sorted(cat_list, key=get_count, reverse=True)
+
+    return {'link_what': 'catlink', 'categories': categ_sorted}
 
 
 @app.route('/about')

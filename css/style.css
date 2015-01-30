@@ -411,8 +411,8 @@ table.admin-table td:hover {
 
 .post-text pre code {
     font-size: 14px;
-    margin-top: 10px;
-    margin-bottom: 3px;
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .post-text h3 {
