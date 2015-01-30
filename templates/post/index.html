@@ -2,24 +2,29 @@
 
 {% block title %}:: Статті{% endblock %}
 
-
 {% block content %}
 <div id="content">
     <div class="row">
         <div class="column_8 padding-bottom padding-top margin-bottom margin-top">
-            {% for item in posts %}
-            <div class="box">
-                <a href="/post/{{ item.post_id }}" class="post-header-lst text bold color theme">{{ item.title }}</a>
-                <div class="post-date-lst">
-                    <div class="post-date bck light"><time>{{ item.date_posted.strftime('%d/%m/%Y') }}</time></div>
+            <div id="posts-container">
+                {% for item in posts %}
+                <div class="box">
+                    <a href="/post/{{ item.post_id }}" class="post-header-lst text bold color theme">{{ item.title }}</a>
+                    <div class="post-date-lst">
+                        <div class="post-date bck light"><time>{{ item.date_posted.strftime('%d/%m/%Y') }}</time></div>
+                    </div>
+                    <div class="post-text-lst text justify">
+                        {{ item.post_text }}
+                    </div>
                 </div>
-                <div id="main" class="post-text-lst text justify">
-                    {{ item.post_text }}
-                </div>
+
+                <div class="post-delim"></div>
+
+                {% endfor %}
             </div>
-            <div class="post-delim">
+            <div class="load-more">
+                <button id="load-button" class="button success" onclick="loadMore()">Мені потрібно ще!</button>
             </div>
-            {% endfor %}
         </div>
         <div class="column_4 hide-tablet hide-phone">
 
@@ -52,6 +57,8 @@
             var re = new RegExp("\n", "g");
             k = k.replace(re, "<br/>");
             $(".quote-text").html(k);
+
+            $.cookie("currentPage", 2); //set additional posts page
         });
     </script>
 {% endblock %}

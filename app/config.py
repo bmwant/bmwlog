@@ -10,6 +10,17 @@ class Config(object):
     RELOADER = True
 
 
+class LocalConfig(Config):
+    DB_HOST = '127.0.0.1'
+    DB_PORT = 3306
+    STATIC_FOLDER = 'D:/coding/bmwlog/'
+    ROOT_FOLDER = 'D:/coding/bmwlog/'
+    RUN_HOST = '127.0.0.1'
+    RUN_PORT = 8081
+    DB_USER = 'root'
+    DB_PASS = ''
+
+
 class DevelopmentConfig(Config):
     DB_HOST = '94.45.76.62'
     DB_PORT = 3306

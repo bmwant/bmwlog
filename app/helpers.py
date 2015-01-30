@@ -4,7 +4,7 @@ import time
 import subprocess
 import bottle
 from functools import wraps
-from app import app, env, config
+from app import env, config
 from helput import unique_filename, join_all_path
 
 

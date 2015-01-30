@@ -9,7 +9,7 @@
 
     {% block meta_tags %}
         <meta name="keywords" content="HTML, CSS, IT, programming, python">
-        <meta name="description" content="">
+        <meta name="description" content="Блог про ІТ, програмування">
     {% endblock %}
 
     <title>{% block sitename %}BmwLog{% endblock %} {% block title %}{% endblock %}</title>
@@ -27,8 +27,9 @@
     {% endblock %}
 
     {% block scripts %}
-        <script src="/js/functions.js"></script>
         <script src="/js/jquery-1.9.1.js"></script>
+        <script src="/js/jquery.cookie.js"></script>
+        <script src="/js/functions.js"></script>
         <script src="/js/toastr.min.js"></script> <!--For message flashing-->
     {% endblock %}
 

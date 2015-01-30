@@ -5,7 +5,6 @@ from peewee import *
 from app import db
 
 
-
 class UnknownFieldType(object):
     pass
 
@@ -91,7 +90,14 @@ class Post(BaseModel):
     draft = BooleanField()
     deleted = BooleanField()
 
-
+    def serialize(self):
+        from helpers import shorten_text
+        return {
+            'id': self.post_id,
+            'title': self.title,
+            'date': self.date_posted.strftime('%d/%m/%Y'),
+            'short_text': shorten_text(self.post_text)
+        }
 
     @property
     def comments(self):

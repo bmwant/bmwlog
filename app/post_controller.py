@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import sqlite3
+import json
 from datetime import datetime, timedelta
 from bottle import route, request, get, post, abort
 from peewee import fn, IntegrityError
@@ -27,9 +27,10 @@ def post_actuality(post):
 
     return act
 
+
 @app.get('/post')
 def post_index():
-    all_posts = Post.get_posts().order_by(Post.date_posted.desc())
+    all_posts = Post.get_posts().order_by(Post.date_posted.desc()).limit(5)
     for item in all_posts:
         item.post_text = shorten_text(item.post_text)
 
@@ -43,6 +44,14 @@ def post_index():
                            stream_messages=messages,
                            quote=quote,
                            link_what='pstlink')
+
+
+@app.get('/loadmore')
+@only_ajax
+def load_more():
+    page = request.GET.get('page', 2)
+    next_posts = Post.get_posts().order_by(Post.date_posted.desc()).paginate(int(page), 5)
+    return json.dumps([p.serialize() for p in next_posts])
 
 
 @app.get('/post/<post_id:int>')

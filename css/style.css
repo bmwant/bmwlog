@@ -496,3 +496,7 @@ ul.streamer li.stream-message {
 .user-info {
     padding-top: 5px;
 }
+
+.load-more button {
+    width: 100%;
+}

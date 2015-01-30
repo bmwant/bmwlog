@@ -5,7 +5,7 @@ import sys
 import platform
 
 if platform.system() == 'Windows':  # or 'FreeBSD' on production
-    from config import DevelopmentConfig as config
+    from config import LocalConfig as config  # DevelopmentConfig as config
 else:
     from config import ProductionConfig as config
 
