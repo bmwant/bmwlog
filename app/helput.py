@@ -3,6 +3,8 @@ __author__ = 'Most Wanted'
 import os
 import hashlib
 import uuid
+from random import sample
+from string import letters, digits
 
 
 def get_list_of_files(directory, ext='', full_path=True):
@@ -38,6 +40,17 @@ def unique_filename(filename):
     name, ext = os.path.splitext(filename)
     new_name = uuid.uuid3(uuid.NAMESPACE_OID, filename.encode('utf-8')).hex
     return new_name + ext
+
+
+def generate_filename(prefix='', suffix='', length=5):
+    """
+    Generate random filename with given parameters
+    """
+    chars = letters + digits
+    f_name = ''.join(sample(chars, length))
+    print(f_name)
+    return '{prefix}{f_name}{suffix}'.format(prefix=prefix, f_name=f_name,
+                                             suffix=suffix)
 
 
 def translit_url(url_text=u''):

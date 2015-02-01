@@ -8,7 +8,7 @@ from geventwebsocket import WebSocketError
 
 from models import Photo, Banner, Quote, DoesNotExist, StaticPage, StreamMessage
 from helpers import post_get, redirect, view, backup_db, only_ajax
-from helput import unique_filename, join_all_path
+from helput import unique_filename, join_all_path, generate_filename
 from user_controller import require
 from forms import SimpleUploadForm, StaticPageForm
 from app import app, env, config
@@ -23,14 +23,18 @@ def gallery():
         return template.render(photos=photos)
     elif request.method == 'POST':
         photo_file = request.files.get('photo')
+
+        file_ext = os.path.splitext(photo_file.filename)[1]
+        print(file_ext)
         gallery_folder = os.path.join(config.ROOT_FOLDER, 'img/gallery/')
-        file_path = os.path.join(gallery_folder, photo_file.filename)
+        f_name = generate_filename(prefix='photo') + file_ext
+        file_path = os.path.join(gallery_folder, f_name)
         # photo_file.save('/img/gallery/')  # new Bottle
         with open(file_path, 'wb') as open_file:
             open_file.write(photo_file.file.read())
 
         photo = Photo.create(desc=post_get('desc'),
-                             photo=photo_file.filename)
+                             photo=f_name)
         app.flash(u'Фото успішно додане')
         redirect('/gallery_add')
 
