@@ -28,6 +28,9 @@
                 </fieldset>
 
             </form>
+            {% if uploaded_file %}
+                <p>{{ uploaded_file }}</p>
+            {% endif %}
         </div>
         <div class="column_4 text">
             <h1 class="text book center color theme">Завантажити файл</h1>

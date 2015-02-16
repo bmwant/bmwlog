@@ -53,6 +53,16 @@ def generate_filename(prefix='', suffix='', length=5):
                                              suffix=suffix)
 
 
+def distort_filename(filename):
+    """
+    Generate modified filename based on the original filename
+    """
+    name, ext = os.path.splitext(filename)
+    return '{original_name}_{appendix}{extension}'.format(original_name=name,
+                                                          appendix=generate_filename(length=4),
+                                                          extension=ext)
+
+
 def translit_url(url_text=u''):
     """
     Generate a correct url based on static page title

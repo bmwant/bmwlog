@@ -48,8 +48,8 @@ class FlashPlugin(object):
             
     def apply(self, callback, route):
         def wrapper(*args, **kwargs):
-            #self.load_flashed()
+            self.load_flashed()
             rv = callback(*args, **kwargs)
-            #self.set_flashed()
+            self.set_flashed()
             return rv
         return wrapper

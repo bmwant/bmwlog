@@ -8,7 +8,7 @@
         <div class="column_8">
             <div class="category-lst">
                 {% for category in categories %}
-                <a href="category/{{ category.id }}" class="text bold color theme">
+                <a href="category/{{ category.category_id }}" class="text bold color theme">
                     <div class="category-item bck light">{{ category.category_name }} <span class="posts-count">{{ category.posts_count }}</span></div>
                 </a>
                 {% endfor %}

@@ -184,6 +184,13 @@ class Tag(BaseModel):
     tag_id = PrimaryKeyField(db_column='tag_id')
     text = CharField(null=False, unique=True)
 
+    @property
+    def posts_count(self):
+        """
+        How many posts there are with current tag
+        """
+        return Tag_to_Post.select().where(Tag_to_Post.tag_id == self.tag_id).count()
+
     class Meta:
         db_table = 'tag'
 

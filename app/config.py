@@ -3,8 +3,8 @@ __author__ = 'Most Wanted'
 
 class Config(object):
     SECRET_KEY = 'some-secret-key'
-    DB_NAME = 'bmwlog'
-    DB_USER = 'bmwant21'
+    DB_NAME = 'bmwlogdb'
+    DB_USER = 'bmwlog'
     DB_PASS = 'try-to-forget'
     DEBUG = True
     RELOADER = True
@@ -19,6 +19,7 @@ class LocalConfig(Config):
     RUN_PORT = 8081
     DB_USER = 'root'
     DB_PASS = ''
+    DB_NAME = 'bmwlog'
 
 
 class DevelopmentConfig(Config):
@@ -28,6 +29,7 @@ class DevelopmentConfig(Config):
     ROOT_FOLDER = 'D:/coding/bmwlog/'
     RUN_HOST = '127.0.0.1'
     RUN_PORT = 8081
+    DB_NAME = 'bmwlogdb'
 
 
 class ProductionConfig(Config):

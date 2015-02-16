@@ -8,7 +8,7 @@ from geventwebsocket import WebSocketError
 
 from models import Photo, Banner, Quote, DoesNotExist, StaticPage, StreamMessage
 from helpers import post_get, redirect, view, backup_db, only_ajax
-from helput import unique_filename, join_all_path, generate_filename
+from helput import unique_filename, join_all_path, generate_filename, distort_filename
 from user_controller import require
 from forms import SimpleUploadForm, StaticPageForm
 from app import app, env, config
@@ -125,13 +125,20 @@ def upload():
     if request.method == 'POST' and form.validate():
         up_file = form.upload_file.data
         folder = os.path.join(config.ROOT_FOLDER, form.file_folder.data)
-        file_path = os.path.join(folder, up_file.filename)
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+        new_filename = up_file.filename
+        file_path = os.path.join(folder, new_filename)
+        #Generate unique filename if one already exists
+        if os.path.exists(file_path):
+            new_filename = distort_filename(up_file.filename)
+            file_path = os.path.join(folder, new_filename)
         # photo_file.save('/img/gallery/')  # new Bottle
         with open(file_path, 'wb') as open_file:
             open_file.write(up_file.file.read())
-
+        uploaded_file = join_all_path(['/', form.file_folder.data, new_filename]).replace('\\', '/')
         app.flash(u'Файл завантажено')
-        redirect('/upload')
+        return template.render(form=form, uploaded_file=uploaded_file)
     return template.render(form=form)
 
 

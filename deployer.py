@@ -3,7 +3,7 @@ from fabric.api import env, run, put, cd, local
 import os
 
 env.user = 'bmwant'
-env.password = 'try-to-forget'
+env.password = 'gtthrfst58'
 
 env.hosts = ['94.45.76.62']
 env.shell = "bash -c"
@@ -19,10 +19,13 @@ def start_service():
 
 
 def deploy():
-
-    # copy distribution file to remote server
+    """
+    Copy all application files to the remote server. Ignores 'img' and
+    'uploded' folders.
+    """
     folders = ('app', 'css', 'fonts', 'js', 'templates',)
-    files = ('favicon.ico', 'run.py', 'requirements.txt', 'gunicorn_settings.py')
+    files = ('favicon.ico', 'run.py', 'requirements.txt', 'gunicorn_settings.py',
+             'nginx_bmwlog.conf', 'supervisor_bmwlog.conf')
     for fold in folders:
         put(fold, path)
 

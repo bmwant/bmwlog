@@ -20,9 +20,9 @@ def index():
 
 @app.get('/try')
 def tr():
-    from .helput import translit_url
-    print(translit_url())
-    app.log('Message')
+    app.flash('Trying flashing bying', 'error')
+    tg = Tag.get(Tag.tag_id == 36)
+    print(tg.posts_count)
     quote = Quote.select().first()
     messages = StreamMessage.select()
     return render_template('info.html', messages=messages, quote=quote)
@@ -78,11 +78,13 @@ def server_static(page_name):
     template = env.get_template('static_page.html')
     return template.render(page=page)
 
-#serving static files
-@app.route('/<folder>/<filename:path>')
-def server_static(folder, filename):
-    return static_file(filename, root=config.STATIC_FOLDER+folder)
 
-@app.route('/favicon.ico')
-def serve_favicon():
-    return static_file('favicon.ico', root=config.STATIC_FOLDER)
+if config.DEBUG:
+    #serving static files
+    @app.route('/<folder>/<filename:path>')
+    def server_static(folder, filename):
+        return static_file(filename, root=config.STATIC_FOLDER+folder)
+
+    @app.route('/favicon.ico')
+    def serve_favicon():
+        return static_file('favicon.ico', root=config.STATIC_FOLDER)
