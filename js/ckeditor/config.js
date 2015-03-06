@@ -38,4 +38,5 @@ CKEDITOR.editorConfig = function( config ) {
 	config.language = 'uk';
 	config.skin = 'moono';
     config.height = 450;
+    config.extraPlugins = 'entities';
 };

@@ -8,4 +8,4 @@ if __name__ == '__main__':
         debug=conf.DEBUG, reloader=conf.RELOADER)
 else:
     #for gunicorn launch
-    app = default_app()
+    app = app

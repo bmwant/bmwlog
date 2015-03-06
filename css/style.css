@@ -363,6 +363,7 @@ table.admin-table td:hover {
     /*background-color: #ffc04f;*/
 }
 
+/* Post styles */
 .post-text *::selection {
     background: #fd797b;
     color: #fff;
@@ -382,6 +383,35 @@ table.admin-table td:hover {
 .post-text a:hover {
     color: #fd797b !important;
     border-bottom: 3px dotted #fd797b;
+}
+
+.post-text ul {
+    list-style-type: none;
+    margin: 3px 0;
+    border-left: 10px solid #1abc9c;
+    padding-left: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.post-text ol {
+    list-style-type: none;
+    margin: 3px 0;
+    font-size: 1.1em;
+}
+
+.post-text ol {
+    counter-reset: section;
+}
+
+.post-text ol li::before {
+    padding: 0 5px;
+    margin: 3px 5px 3px 0;
+    background-color: #1abc9c;
+    counter-increment: section;
+    content: counter(section);
+    color: white;
+    font-weight: bold;
 }
 
 .error-text {
