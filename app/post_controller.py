@@ -7,7 +7,7 @@ from models import Post, Tag, Tag_to_Post, Category, Banner, DoesNotExist, \
     StreamMessage, Quote
 from helpers import shorten_text, redirect, post_get, postd, only_ajax
 from user_controller import require
-from app import app, env
+from app import app, env, config
 
 #todo: make as class property
 def post_actuality(post):
@@ -30,7 +30,7 @@ def post_actuality(post):
 
 @app.get('/post')
 def post_index():
-    all_posts = Post.get_posts().order_by(Post.date_posted.desc()).limit(5)
+    all_posts = Post.get_posts().order_by(Post.date_posted.desc()).limit(config.POSTS_PER_PAGE)
     for item in all_posts:
         item.post_text = shorten_text(item.post_text)
 
@@ -50,7 +50,7 @@ def post_index():
 @only_ajax
 def load_more():
     page = request.GET.get('page', 2)
-    next_posts = Post.get_posts().order_by(Post.date_posted.desc()).paginate(int(page), 5)
+    next_posts = Post.get_posts().order_by(Post.date_posted.desc()).paginate(int(page), config.POSTS_PER_PAGE)
     return json.dumps([p.serialize() for p in next_posts])
 
 

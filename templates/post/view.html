@@ -67,7 +67,7 @@
                 <div class="post-admin-actions bck light padding margin">
 
                         <div class="myrow"><a href="/post/edit/{{ item.post_id }}">Редагувати статтю</a></div>
-                        <div class="myrow"><a href="/post/delete/{{ item.post_id }}">Видалити статтю</a></div>
+                        <div class="myrow"><a href="/post/delete/{{ item.post_id }}" onclick="return confirm('Видалити статтю?')">Видалити статтю</a></div>
                         <div class="myrow"><a href="/post/renew/{{ item.post_id }}">Актуалізувати</a></div>
 
                 </div>

@@ -1,5 +1,5 @@
 import datetime
-
+import cgi
 from bottle import abort
 from peewee import *
 from app import db
@@ -109,6 +109,10 @@ class Post(BaseModel):
         Get comments count
         """
         return 10
+
+    def save(self, *args, **kwargs):
+        #self.post_text = cgi.escape(self.post_text)
+        return super(Post, self).save(args, kwargs)
 
     class Meta:
         db_table = 'post'
@@ -234,3 +238,11 @@ class Session(BaseModel):
 
     class Meta:
         db_table = 'session'
+
+
+class SiteJoke(BaseModel):
+    id = PrimaryKeyField()
+    text = CharField(null=False)
+
+    class Meta:
+        db_table = 'site_joke'

@@ -8,6 +8,7 @@ class Config(object):
     DB_PASS = 'try-to-forget'
     DEBUG = True
     RELOADER = True
+    POSTS_PER_PAGE = 10
 
 
 class LocalConfig(Config):

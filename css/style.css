@@ -414,6 +414,21 @@ table.admin-table td:hover {
     font-weight: bold;
 }
 
+kbd {
+    padding: .1em .6em;
+    border: 1px solid #ccc;
+    font-size: 11px;
+    background-color: #f7f7f7;
+    color: #333;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2),0 0 0 2px #fff inset;
+    border-radius: 3px;
+    display: inline-block;
+    margin: 0 .1em;
+    text-shadow: 0 1px 0 #fff;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
 .error-text {
     border-radius: 4px;
     background: #fd797b;
@@ -529,4 +544,17 @@ ul.streamer li.stream-message {
 
 .load-more button {
     width: 100%;
+}
+
+#site-joke {
+    display: none;
+    position: fixed;
+    background-color: #1abc9c;
+    width: 100%;
+    z-index: 99;
+    opacity: 0.91;
+    color: white;
+    text-shadow: 1px 1px black;
+    font-size: 1.1em;
+    vertical-align: middle;
 }

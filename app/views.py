@@ -28,6 +28,13 @@ def tr():
     return render_template('info.html', messages=messages, quote=quote)
 
 
+@app.get('/joke')
+@only_ajax
+def get_joke():
+    joke = SiteJoke.select().order_by(fn.Rand()).first()
+    return json.dumps({'text': joke.text})
+
+
 @app.route('/categories')
 @view('categories.html')
 def categories():

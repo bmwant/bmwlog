@@ -1,5 +1,5 @@
 /**
- * Created by Administrator on 06.10.14.
+ * Created by Most Wanted on 06.10.14.
  */
 function toDrafts() {
     $("input[name=draft]").val(1);

@@ -10,8 +10,8 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// The toolbar groups arrangement, optimized for two toolbar rows.
 	config.toolbarGroups = [
-		{ name: 'clipboard',   groups: [ 'clipboard', 'undo' ] },
-		{ name: 'editing',     groups: [ 'find', 'selection', 'spellchecker' ] },
+		{ name: 'clipboard',   groups: [ 'clipboard' ] },
+		{ name: 'editing',     groups: [ 'find', 'selection' ] },
 		{ name: 'links' },
 		{ name: 'insert' },
 		{ name: 'forms' },
@@ -20,7 +20,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'others' },
 		'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+		{ name: 'paragraph',   groups: [ 'list', 'blocks', 'align', 'bidi' ] },
 		{ name: 'styles' },
 		{ name: 'colors' },
 		{ name: 'about' }
@@ -38,5 +38,8 @@ CKEDITOR.editorConfig = function( config ) {
 	config.language = 'uk';
 	config.skin = 'moono';
     config.height = 450;
+    config.basicEntities = false;
+    config.entities = true;
+    //config.htmlEncodeOutput = true;
     config.extraPlugins = 'entities';
 };

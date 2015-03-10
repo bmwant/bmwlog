@@ -55,7 +55,15 @@
         </div>
     </div>
 
-    <section class="bck color">
+    <section id="site-joke" class="bck color">
+        <div class="row text center bold">
+            <div class="column_12 padding text bold" id="joke-text">
+                {{ site_joke }}
+            </div>
+        </div>
+    </section>
+
+    <section id="site-menu" class="bck color">
         <div class="row text center">
             <nav data-tuktuk="menu" class="column_12 padding text bold">
                 <a href="/post" id="pstlink">
@@ -81,6 +89,8 @@
             </nav>
         </div>
     </section>
+
+
     {#
     <section class='bck light padding'>
 
@@ -138,7 +148,18 @@
           "showMethod": "fadeIn",
           "hideMethod": "fadeOut"
         }
-
+        var jokeHeight = $("#site-menu").height();
+        $("#site-joke").height(jokeHeight);
+        $("#site-joke").css("line-height", jokeHeight/2 + "px");
+        $(".logo").hover(function() {
+           $("#site-joke").slideDown("fast");
+        }, function() {
+            $("#site-joke").slideUp("fast");
+        });
+        $.getJSON("/joke", function(data) {
+            console.log(data);
+            $("#joke-text").text(data.text);
+        });
     </script>
 
     {# Google analytics #}
