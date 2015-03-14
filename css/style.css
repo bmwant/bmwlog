@@ -558,3 +558,15 @@ ul.streamer li.stream-message {
     font-size: 1.1em;
     vertical-align: middle;
 }
+
+.doge {
+    background-image: url("/img/laika.png");
+    background-size: 100px 100px;
+    height: 100px;
+    width: 100px;
+    position: fixed;
+    z-index: 99;
+    bottom: 0px;
+    right: 50px;
+    display: none;
+}

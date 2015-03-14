@@ -4,14 +4,19 @@
 
 {% block content %}
 <div id="content">
+    <div class="row">
         <script type="text/javascript">
+            /*
             var ws = new WebSocket("ws://bmwlog.pp.ua/websocket");
                 ws.onopen = function() {
                 ws.send("Hello, world");
             };
                 ws.onmessage = function (evt) {
                 alert(evt.data);
-            };
+            };*/
+            function showDoge() {
+                $(".doge").slideDown("fast");
+            }
         </script>
         <div class="column_8">
             text
@@ -34,7 +39,7 @@
                     <button>Submit</button>
                 </form>
             </div>
-
+            <button onclick="showDoge()">Show doge</button>
             <div class="padding margin">
                 <div class="quote-text">
                     {{ quote.text }}
@@ -47,7 +52,13 @@
             <div class="row">
                 <p><kbd>CTRL</kbd>+<kbd>a</kbd> , <kbd>d</kbd> to detatch from your screen session</p>
             </div>
+            <div class="row" style="height: 500px">
+                </div>
         </div>
 
+
+    </div>
+</div>
+<div class="doge">
 </div>
 {% endblock %}

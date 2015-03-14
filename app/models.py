@@ -112,7 +112,7 @@ class Post(BaseModel):
 
     def save(self, *args, **kwargs):
         #self.post_text = cgi.escape(self.post_text)
-        return super(Post, self).save(args, kwargs)
+        return super(Post, self).save(*args, **kwargs)
 
     class Meta:
         db_table = 'post'

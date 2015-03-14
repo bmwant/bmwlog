@@ -38,8 +38,17 @@ CKEDITOR.editorConfig = function( config ) {
 	config.language = 'uk';
 	config.skin = 'moono';
     config.height = 450;
-    config.basicEntities = false;
-    config.entities = true;
+    //config.basicEntities = false;
+    //config.entities = true;
     //config.htmlEncodeOutput = true;
     config.extraPlugins = 'entities';
+    config.extraPlugins = 'htmlbuttons';
+    config.htmlbuttons = [
+        {
+            name: 'key_combo',
+            icon: 'kbdicon.ico',
+            html: '<kbd> </kbd>',
+            title: 'Key combination'
+        }
+    ];
 };
