@@ -1,0 +1,11 @@
+@font-face {
+    font-family: "Lobster";
+    src: url("/fonts/Lobster-Regular.ttf")
+}
+
+h2.admin-header {
+    font-family: "Lobster", cursive;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}

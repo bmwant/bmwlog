@@ -1,5 +1,7 @@
 import datetime
 import cgi
+
+from bs4 import BeautifulSoup
 from bottle import abort
 from peewee import *
 from app import db
@@ -111,8 +113,21 @@ class Post(BaseModel):
         return 10
 
     def save(self, *args, **kwargs):
-        #self.post_text = cgi.escape(self.post_text)
+        post_html = self.post_text
+        soup = BeautifulSoup(post_html)
+        for elem in soup.select('pre > code.language-html'):
+            soup[elem] = elem.replace_with(cgi.escape(elem.renderContents()))
+
+        self.post_text = soup.decode('utf-8')
         return super(Post, self).save(*args, **kwargs)
+
+    @classmethod
+    def create(cls, **query):
+        #soup = BeautifulSoup(cls.post_text)
+        #for elem in soup.select('pre > code.language-html'):
+        #    soup[elem] = elem.replace_with(cgi.escape(elem.renderContents()))
+        #cls.post_text = soup
+        return super(Post, cls).create(**query)
 
     class Meta:
         db_table = 'post'

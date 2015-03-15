@@ -146,27 +146,30 @@
             }
             else {
                 $("#like-button").click(function() {
-                $.ajax({
-                    url: "/like/{{ item.post_id }}"
-                }).done(function() {
-                    $.cookie.raw = true;
-                    $("#like-text").hide();
-                    var counter = parseInt($("#likes-count").text());
-                    $("#likes-count").text(counter+1).show();
-                    $("#like-icon").addClass('love');
-                    $("#like-button").removeClass('like-button').addClass('like-button-disabled').off('click');
+                    $(".doge").slideToggle("fast");
+                    setTimeout(function() {$(".doge").slideToggle("fast");}, 1100);
 
-                    var posts_string = $.cookie('posts_liked');
+                    $.ajax({
+                        url: "/like/{{ item.post_id }}"
+                    }).done(function() {
+                        $.cookie.raw = true;
+                        $("#like-text").hide();
+                        var counter = parseInt($("#likes-count").text());
+                        $("#likes-count").text(counter+1).show();
+                        $("#like-icon").addClass('love');
+                        $("#like-button").removeClass('like-button').addClass('like-button-disabled').off('click');
 
-                    if(posts_string === undefined) {
-                        $.cookie("posts_liked", post_id, { expires : 12*30 });
-                    }
-                    else {
-                        var new_posts = posts_string + "," + post_id;
-                        $.cookie("posts_liked", new_posts, { expires : 12*30 });
-                    }
+                        var posts_string = $.cookie('posts_liked');
+
+                        if(posts_string === undefined) {
+                            $.cookie("posts_liked", post_id, { expires : 12*30 });
+                        }
+                        else {
+                            var new_posts = posts_string + "," + post_id;
+                            $.cookie("posts_liked", new_posts, { expires : 12*30 });
+                        }
+                    });
                 });
-            });
             }
 
         });

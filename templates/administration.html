@@ -2,36 +2,41 @@
 
 {% block title %}:: Адмінка{% endblock %}
 
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="/css/admin.page.css">
+{% endblock %}
+
 {% block content %}
 <div id="content">
     <div class="row">
-        <h2>Адмінська панель</h2>
-    <div class="column_12">
-        <table class="admin-table">
-            <tbody>
-                <tr>
-                    <td><a href="/post/add"><i class="fa fa-file-text fa-4x"></i>Додати статтю</a></td>
-                    <td><a href="/post/deleted"><i class="fa fa-trash fa-4x"></i>Видалені статті</a></td>
-                    <td><a href="/category/add"><i class="fa fa-list-alt fa-4x"></i>Додати категорію</a></td>
-                    <td><a href="/upload"><i class="fa fa-cloud-upload fa-4x"></i>Завантажити файл</a></td>
-                </tr>
+        <div class="column_12">
+            <h2 class="admin-header">Адмінська панель</h2>
+            <table class="admin-table">
+                <tbody>
+                    <tr>
+                        <td><a href="/post/add"><i class="fa fa-file-text fa-4x"></i>Додати статтю</a></td>
+                        <td><a href="/post/deleted"><i class="fa fa-trash fa-4x"></i>Видалені статті</a></td>
+                        <td><a href="/category/add"><i class="fa fa-list-alt fa-4x"></i>Додати категорію</a></td>
+                        <td><a href="/upload"><i class="fa fa-cloud-upload fa-4x"></i>Завантажити файл</a></td>
+                    </tr>
 
-                <tr>
-                    <td><a href="/user/list"><i class="fa fa-user fa-4x"></i>Список користувачів</a></td>
-                    <td><a href="/banners"><i class="fa fa-newspaper-o fa-4x"></i>Додати банер</a></td>
-                    <td><a href="/gallery_add"><i class="fa fa-picture-o fa-4x"></i>Додати зображення в галерею</a></td>
-                    <td><a href="http://phpmyadmin.mfhoster.net" target="_blank"><i class="fa fa-send fa-4x"></i>phpMyAdmin mfhoster</a></td>
-                </tr>
+                    <tr>
+                        <td><a href="/user/list"><i class="fa fa-user fa-4x"></i>Список користувачів</a></td>
+                        <td><a href="/banners"><i class="fa fa-newspaper-o fa-4x"></i>Додати банер</a></td>
+                        <td><a href="/gallery_add"><i class="fa fa-picture-o fa-4x"></i>Додати зображення в галерею</a></td>
+                        <td><a href="http://phpmyadmin.mfhoster.net" target="_blank"><i class="fa fa-send fa-4x"></i>phpMyAdmin mfhoster</a></td>
+                    </tr>
 
-                <tr>
-                    <td><a href="/ad/backupdb"><i class="fa fa-database fa-4x"></i>Резервна копія БД</a></td>
-                    <td><a href="#"><i class="fa fa-folder-o fa-4x"></i>Менеджер файлів</a></td>
-                    <td><a href="/quote/add"><i class="fa fa-quote-right fa-4x"></i>Додати цитату</a></td>
-                    <td><a href="/sp/add"><i class="fa fa-bookmark-o fa-4x"></i>Додати cторінку</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                    <tr>
+                        <td><a href="/ad/backupdb"><i class="fa fa-database fa-4x"></i>Резервна копія БД</a></td>
+                        <td><a href="#"><i class="fa fa-folder-o fa-4x"></i>Менеджер файлів</a></td>
+                        <td><a href="/quote/add"><i class="fa fa-quote-right fa-4x"></i>Додати цитату</a></td>
+                        <td><a href="/sp/add"><i class="fa fa-bookmark-o fa-4x"></i>Додати cторінку</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock %}
