@@ -69,8 +69,9 @@ def gallery():
 
 
 @app.get('/playground')
+@view('playground.html')
 def playground():
-    return 'NotImplementedError :)'
+    return {'link_what': 'playground'}
 
 
 @app.error(404)

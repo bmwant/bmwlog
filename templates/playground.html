@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}:: Проекти{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="/css/playground.page.css">
+{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div class="row">
+        <div class="column_8">
+            <div class="project-lst">
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+						    <img src="/img/projects/webart.png">
+					    </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">Webart Studio <span class="pr-date">з грудня 2013</span> <i class="fa fa-thumb-tack" title="Неактивний"></i></div>
+                        <div class="pr-text">
+                            <p>webart.in.ua</p>
+                            Студія веб-розробки. Створювали як звичайні сайт-сторінку/блог/інтернет-магазин на різноманітних CMS та фреймворках для php (Joomla, yii), так і
+                            складні індивідуальні рішення на Python. Забезпечували хостингом, доменним ім'ям та просуванням в пошуковиках.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+						    <img src="/img/projects/webart.png">
+					    </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">Webart Studio <span class="pr-date">з грудня 2013</span> <i class="fa fa-thumb-tack" title="Неактивний"></i></div>
+                        <div class="pr-text">
+                            <p>webart.in.ua</p>
+                            Студія веб-розробки. Створювали як звичайні сайт-сторінку/блог/інтернет-магазин на різноманітних CMS та фреймворках для php (Joomla, yii), так і
+                            складні індивідуальні рішення на Python. Забезпечували хостингом, доменним ім'ям та просуванням в пошуковиках.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="column_4">
+        </div>
+    </div>
+</div>
+{% endblock %}

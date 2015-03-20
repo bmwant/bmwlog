@@ -55,7 +55,11 @@ def soupec():
     import cgi
     soup = BeautifulSoup(html)
     for elem in soup.select('pre > code.language-html'):
-        soup[elem] = elem.replace_with(cgi.escape(elem.renderContents()))
+        new_content = cgi.escape(elem.renderContents())
+        elem.string = new_content
+        print(elem.children)
+        #elem.contents = new_content
+
     print(soup)
 
     """

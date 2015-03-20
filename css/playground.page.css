@@ -1,0 +1,101 @@
+.project {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 7px;
+}
+
+.pr-description {
+    display: inline-block;
+    width: 65%;
+    vertical-align: top;
+}
+
+.pr-image {
+    width: 30%;
+    display: inline-block;
+}
+
+
+/* Common style */
+.grid figure {
+	/*position: relative;*/
+	float: left;
+	overflow: hidden;
+	background: #1abc9c;
+	text-align: center;
+	cursor: pointer;
+}
+
+.grid figure img {
+	/*position: relative;*/
+	display: block;
+	min-height: 100%;
+	max-width: 100%;
+	opacity: 0.8;
+}
+
+
+/*---------------*/
+/***** Roxy *****/
+/*---------------*/
+
+figure.effect-roxy {
+	background: -webkit-linear-gradient(45deg, #ffc04f 0%, #1abc9c 100%);
+	background: linear-gradient(45deg, #ffc04f 0%, #1abc9c 100%);
+}
+
+figure.effect-roxy img {
+	max-width: none;
+	width: -webkit-calc(100% + 30px);
+	width: calc(100% + 30px);
+	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+	transition: opacity 0.35s, transform 0.35s;
+	-webkit-transform: translate3d(-30px,0,0);
+	transform: translate3d(-30px,0,0);
+}
+
+figure.effect-roxy figcaption::before {
+	position: absolute;
+	top: 30px;
+	right: 30px;
+	bottom: 30px;
+	left: 30px;
+	border: 1px solid #fff;
+	content: '';
+	opacity: 0;
+	-webkit-transition: opacity 0.35s, -webkit-transform 0.35s;
+	transition: opacity 0.35s, transform 0.35s;
+	-webkit-transform: translate3d(-20px,0,0);
+	transform: translate3d(-20px,0,0);
+}
+
+figure.effect-roxy:hover img {
+	opacity: 0.7;
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+
+figure.effect-roxy:hover figcaption::before,
+figure.effect-roxy:hover p {
+	opacity: 1;
+	-webkit-transform: translate3d(0,0,0);
+	transform: translate3d(0,0,0);
+}
+
+.pr-name {
+    color: #34495e;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.pr-date {
+    font-size: 14px;
+    font-weight: normal;
+    color: #000;
+}
+
+.pr-text p {
+    color: #1abc9c;
+    font-size: 16px;
+    font-weight: bold;
+}

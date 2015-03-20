@@ -288,6 +288,7 @@ html, body {
 .post-text img {
     max-width: 100% !important; /* overload for inline */
     height: auto !important;
+    margin-top: 5px;
 }
 
 .avatar-img {
