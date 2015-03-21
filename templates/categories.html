@@ -15,7 +15,30 @@
             </div>
         </div>
         <div class="column_4">
+
+            <div class="search-row">
+                <form class="search-form" id="search-form" action="/search">
+                    <input type="text" name="search" placeholder="Пошук..."/>
+                    <button class="button success"><span class="icon search"></span></button>
+                </form>
+            </div>
+
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+<script>
+    $("#search-form").submit(function (event) {
+        var action = $(this).attr('action');
+        var query = $("input[name='search']").val();
+        $.get(action, {
+            query: query
+        }, function(data) {
+            console.log(data);
+        });
+        event.preventDefault();
+    });
+</script>
 {% endblock %}

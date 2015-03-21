@@ -270,3 +270,12 @@ def like(post_id):
     except DoesNotExist:
         abort(404)
     return 'Ok'
+
+
+@app.get('/search')
+def search():
+    title_text = request.query.get('query', '')
+    posts = Post.select().where(Post.title.contains(title_text))
+    for p in posts:
+        print(p.title)
+    return 'Twenty'

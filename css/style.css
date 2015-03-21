@@ -571,3 +571,23 @@ ul.streamer li.stream-message {
     right: 50px;
     display: none;
 }
+
+
+.search-row {
+    padding-top: 5px;
+    width: 100%;
+    text-align: center;
+}
+
+form.search-form {
+    width: 100%;
+}
+
+form.search-form .button .icon {
+    margin: 0px;
+}
+
+form.search-form input[type="text"] {
+    width: 80%;
+    display: inline-block;
+}

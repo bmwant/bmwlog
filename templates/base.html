@@ -164,7 +164,6 @@
             clearTimeout(timer);
         });
         $.getJSON("/joke", function(data) {
-            console.log(data);
             $("#joke-text").text(data.text);
         });
     </script>
