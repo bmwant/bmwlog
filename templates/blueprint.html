@@ -1,9 +1,43 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block title %}:: Автоматично згенеровано{% endblock %}
+
+{% block content %}
+<div id="content">
+    <div class="row">
+        <div class="column_8">
+            <div class="list-block">
+                {% for item in items %}
+                    <div class="list-item bck light">
+                        <span class="">{{ item }}</span>
+                        <span class="edit-item"><a href="/photo/edit/{{ photo.photo_id }}" class="bold color theme"><i class="fa fa-pencil"></i></a></span>
+                        <span class="delete-item"><a href="/photo/delete/{{ photo.photo_id }}" class="bold color theme"><i class="fa fa-times"></i></a></span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="column_4">
+            <h1 class="text book center color theme">Додати нове фото</h1>
+            <form action="/gallery_add" method="post" enctype="multipart/form-data">
+
+                <fieldset class="margin-top">
+                    <label>Опис</label>
+                    <input type="text" name="desc" /><br />
+                </fieldset>
+
+                <fieldset class="margin-top">
+                    <label>Фото</label>
+                    <input type="file" name="photo" /><br />
+                </fieldset>
+
+                <fieldset class="margin-top text right">
+                    <button class="button success small icon ok" onclick="$(this).closest('form').submit();">
+                        Додати
+                    </button>
+                </fieldset>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
