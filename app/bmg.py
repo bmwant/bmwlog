@@ -19,6 +19,9 @@ from jinja2 import Template
 current_module = sys.modules[__name__]
 
 
+FORMS_FILE = 'gen_forms.py'
+VIEWS_FILE = 'gen_views.py'
+
 PEEWEE_TO_WTFORMS = {
     peewee.CharField: wtforms.StringField,
     peewee.IntegerField: wtforms.IntegerField,
@@ -40,20 +43,30 @@ class BMG:
         else:
             raise ValueError('Incorrect command')
 
+    def __call__(self, command, model_name):
+        if command == 'create':
+            self.generate_model_data(model_name)
+        else:
+            raise ValueError('What you are trying to do?')
+
     def create_files(self):
-        views_header = 'from models import *\n' \
+        views_header = 'from bottle import request\n' \
+                       'from models import *\n' \
+                       'from {forms} import *\n' \
                        'from user_controller import require\n' \
-                       'from app import app\n'
+                       'from app import app, env\n'.format(forms=os.path.splitext(FORMS_FILE)[0])
 
         forms_header = '# -*- coding: utf-8 -*-\n' \
                        'import wtforms\n'
 
-        if not os.path.exists('gen_forms.py'):
-            with open('gen_forms.py', 'w') as fout:
+        if not os.path.exists(FORMS_FILE):
+            with open(FORMS_FILE, 'w') as fout:
+                #log action
                 fout.writelines(forms_header)
 
-        if not os.path.exists('gen_views.py'):
-            with open('gen_views.py', 'w') as fout:
+        if not os.path.exists(VIEWS_FILE):
+            with open(VIEWS_FILE, 'w') as fout:
+                #log action
                 fout.writelines(views_header)
 
     def list_models(self, module_name='models'):
@@ -69,26 +82,61 @@ class BMG:
                     print('[%s]: %s' % (counter, value.name))
                     counter += 1
 
+    def _create(self, obj):
+        print('Creating all for %s' % obj.__name__)
+        new_form_name = obj.__name__ + 'Form'  # e.g. UserForm
+        new_view_name = obj.__name__.lower()
+        #new_form_class = type(new_form_name, (wtforms.Form, ), {})
+        j = Jumbotron(new_form_name)
+        for field_name, field in vars(obj).iteritems():
+            if isinstance(field, peewee.FieldDescriptor):
+                for key in PEEWEE_TO_WTFORMS.iterkeys():
+                    if key is type(field.field):
+                        j.add_field(field_name, PEEWEE_TO_WTFORMS[key].__name__)
+                        #setattr(new_form_class, field_name, PEEWEE_TO_WTFORMS[key])
+                        #print('%s -> %s' % (field.field, PEEWEE_TO_WTFORMS[key]))
+        #print(j.render())
+        j.write()
+        v = ViewCreator(new_view_name, obj.__name__)
+        v.write()
+
+    def generate_model_data(self, model_name=None):
+        self.create_files()
+
+        from app import models
+
+        for name, obj in inspect.getmembers(models, inspect.isclass):
+            if obj.__module__ == models.__name__:
+                if model_name is None:
+                    self._create(obj)
+                elif obj.__name__ == model_name:
+                    self._create(obj)
+                    break
+
+
 class ViewCreator():
     template = """
 @app.route('/{{ view_name }}_admin', method=['GET', 'POST'])
 @require('admin')
 def {{ view_name }}_admin():
     template = env.get_template('gen_views/{{ view_name }}_admin.html')
-    if request.method == 'GET':
-        items = {{ peewee_model }}.select()
-        return template.render(items)
+    form = {{ peewee_model }}Form(request.POST)
+    items = {{ peewee_model }}.select()
+    if request.method == 'POST':
+        pass
+    return template.render(items=items, form=form)
+
 """
 
-    def __init__(self, name):
+    def __init__(self, name, peewee_model):
         self.name = name
-        self.peewee_model = name.title()
+        self.peewee_model = peewee_model
 
     def write(self):
         t = Template(self.template)
         bottle_view = t.render(view_name=self.name,
                                peewee_model=self.peewee_model)
-        with open('gen_views.py', 'a') as fout:
+        with open(VIEWS_FILE, 'a') as fout:
             fout.writelines(bottle_view)
 
         self.create_template()
@@ -118,29 +166,10 @@ class {{ class_name }}(wtforms.Form):
         return t.render(class_name=self.name, class_fields=self.fields)
 
     def write(self):
-        with open('created_forms.py', 'a') as fout:
+        with open(FORMS_FILE, 'a') as fout:
             fout.writelines(self.render())
 
-def form_creator(obj):
-    new_form_name = obj.__name__ + 'Form'  # e.g. UserForm
-    new_view_name = obj.__name__.lower()
-    #new_form_class = type(new_form_name, (wtforms.Form, ), {})
-    j = Jumbotron(new_form_name)
-    for field_name, field in vars(obj).iteritems():
-        if isinstance(field, peewee.FieldDescriptor):
-            for key in PEEWEE_TO_WTFORMS.iterkeys():
-                if key is type(field.field):
-                    j.add_field(field_name, PEEWEE_TO_WTFORMS[key].__name__)
-                    #setattr(new_form_class, field_name, PEEWEE_TO_WTFORMS[key])
-                    #print('%s -> %s' % (field.field, PEEWEE_TO_WTFORMS[key]))
-    #print(j.render())
-    j.write()
-    v = ViewCreator(new_view_name)
-    v.write()
 
-
-def class_serializer(class_):
-    pass
 
 
 def print_classes():
@@ -218,3 +247,4 @@ if __name__ == '__main__':
     #args = parser.parse_args()
     #bmg = BMG(args.command)
     bmg = BMG('list')
+    bmg('create', 'SiteJoke')

@@ -9,24 +9,6 @@ from helpers import shorten_text, redirect, post_get, postd, only_ajax
 from user_controller import require
 from app import app, env, config
 
-#todo: make as class property
-def post_actuality(post):
-    """
-    Return sophisticated value of post actuality
-    """
-
-    cv = lambda x, y: float(x)/y if x < y else 1.0  # ceil part-value
-    now_time = datetime.now()
-    int_posted = (now_time - post.date_posted).total_seconds()
-    int_updt = (now_time - post.date_updated).total_seconds()
-    int_years = timedelta(days=365*5).total_seconds()
-
-    act = cv(post.comments, 10)*15 + cv(post.likes, 30)*15 + \
-          cv(post.views, 100)*10 + (1-cv(int_posted, int_years))*40 + \
-          (1-cv(int_updt, int_years))*20
-
-    return act
-
 
 @app.get('/post')
 def post_index():
@@ -76,8 +58,7 @@ def post_view(post_id):
     #post.update(views=post.views+1).execute() #classmethod!
     post.views += 1
     post.save()  # instance method!
-    return template.render(item=post, tags=tags,
-                           actuality=post_actuality(post))
+    return template.render(item=post, tags=tags)
 
 
 @app.route('/post/add', method=['GET', 'POST'])
@@ -275,7 +256,5 @@ def like(post_id):
 @app.get('/search')
 def search():
     title_text = request.query.get('query', '')
-    posts = Post.select().where(Post.title.contains(title_text))
-    for p in posts:
-        print(p.title)
-    return 'Twenty'
+    posts = Post.search(title_text)
+    return json.dumps([p.serialize() for p in posts])

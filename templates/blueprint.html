@@ -10,33 +10,30 @@
                 {% for item in items %}
                     <div class="list-item bck light">
                         <span class="">{{ item }}</span>
-                        <span class="edit-item"><a href="/photo/edit/{{ photo.photo_id }}" class="bold color theme"><i class="fa fa-pencil"></i></a></span>
-                        <span class="delete-item"><a href="/photo/delete/{{ photo.photo_id }}" class="bold color theme"><i class="fa fa-times"></i></a></span>
+                        <span class="controls">
+                            <span class="edit-item"><a href="/photo/edit/{{ item.id }}" class="bold color theme"><i class="fa fa-pencil"></i></a></span>
+                            <span class="delete-item"><a href="/photo/delete/{{ item.id }}" class="bold color theme"><i class="fa fa-times"></i></a></span>
+                        </span>
                     </div>
                 {% endfor %}
             </div>
         </div>
         <div class="column_4">
-            <h1 class="text book center color theme">Додати нове фото</h1>
-            <form action="/gallery_add" method="post" enctype="multipart/form-data">
 
-                <fieldset class="margin-top">
-                    <label>Опис</label>
-                    <input type="text" name="desc" /><br />
-                </fieldset>
+            <h1 class="text book center color theme">Додати новий</h1>
 
-                <fieldset class="margin-top">
-                    <label>Фото</label>
-                    <input type="file" name="photo" /><br />
-                </fieldset>
+            <form action="" method="post">
+                {% for field in form %}
+                    {{ field.label }}
+                    {{ field() }}
+                {% endfor %}
 
                 <fieldset class="margin-top text right">
-                    <button class="button success small icon ok" onclick="$(this).closest('form').submit();">
-                        Додати
-                    </button>
+                    <a class="button success small icon ok" onclick="$(this).closest('form').submit();">Додати</a>
                 </fieldset>
 
             </form>
+
         </div>
     </div>
 </div>

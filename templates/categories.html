@@ -30,14 +30,37 @@
 
 {% block bottom_scripts %}
 <script>
+    function showSearchResults(data) {
+        var list = $(".category-lst");
+        list.empty();
+        if($.isEmptyObject(data)){
+            $("<div />", {
+                class: "no-results",
+                text: "Жодних збігів із запитом --->"
+            }).appendTo(list);
+            return;
+        }
+
+        $.each(data, function(index, post) {
+            var postLink = $("<a />", {
+                href: "post/" + post.id,
+                class: "text bold color theme"
+            });
+
+            $("<div />", {
+                class: "category-item bck light",
+                text: post.title
+            }).appendTo(postLink);
+            list.append(postLink);
+        });
+    }
+
     $("#search-form").submit(function (event) {
         var action = $(this).attr('action');
         var query = $("input[name='search']").val();
-        $.get(action, {
+        $.getJSON(action, {
             query: query
-        }, function(data) {
-            console.log(data);
-        });
+        }, showSearchResults);
         event.preventDefault();
     });
 </script>

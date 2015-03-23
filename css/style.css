@@ -210,9 +210,16 @@ html, body {
     margin-bottom: 15px;
 }
 
-.delete-item {
+.controls {
     float: right;
 }
+
+.delete-item, .edit-item {
+    text-align: right;
+    display: inline-block;
+    margin-left: 5px;
+}
+
 
 .post-little-lst {
 
@@ -590,4 +597,12 @@ form.search-form .button .icon {
 form.search-form input[type="text"] {
     width: 80%;
     display: inline-block;
+}
+
+.no-results {
+    margin-top: 15px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #1abc9c;
 }

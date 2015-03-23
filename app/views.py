@@ -9,6 +9,7 @@ from models import *
 from post_controller import *
 from user_controller import *
 from site_managing import *
+from gen_views import *
 
 from app import app, config
 

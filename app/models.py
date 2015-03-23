@@ -1,7 +1,4 @@
-import datetime
-import cgi
-
-from bs4 import BeautifulSoup
+from datetime import timedelta, datetime
 from bottle import abort
 from peewee import *
 from app import db
@@ -84,8 +81,8 @@ class Post(BaseModel):
     category = ForeignKeyField(db_column='category_id', rel_model=Category)
     user = ForeignKeyField(db_column='user_id', rel_model=User)
 
-    date_posted = DateTimeField(default=datetime.datetime.now())
-    date_updated = DateTimeField(default=datetime.datetime.now())
+    date_posted = DateTimeField(default=datetime.now)
+    date_updated = DateTimeField(default=datetime.now)
 
     post_text = CharField(null=True)
     title = CharField(null=True)
@@ -106,6 +103,24 @@ class Post(BaseModel):
         }
 
     @property
+    def actuality(self):
+        """
+        Return sophisticated value of post actuality
+        """
+
+        cv = lambda x, y: float(x)/y if x < y else 1.0  # ceil part-value
+        now_time = datetime.now()
+        int_posted = (now_time - self.date_posted).total_seconds()
+        int_updt = (now_time - self.date_updated).total_seconds()
+        int_years = timedelta(days=365*5).total_seconds()
+
+        act = cv(self.comments, 10)*15 + cv(self.likes, 30)*15 + \
+              cv(self.views, 100)*10 + (1-cv(int_posted, int_years))*40 + \
+              (1-cv(int_updt, int_years))*20
+
+        return act
+
+    @property
     def comments(self):
         """
         Get comments count
@@ -121,6 +136,10 @@ class Post(BaseModel):
 
     class Meta:
         db_table = 'post'
+
+    @classmethod
+    def search(cls, query):
+        return cls.get_posts().where(Post.title.contains(query))
 
 
     @classmethod
@@ -166,7 +185,8 @@ class Photo(BaseModel):
     photo_id = PrimaryKeyField(db_column='photo_id')
     photo = CharField()
     desc = CharField()
-    date_added = DateTimeField(default=datetime.datetime.now)
+    date_added = DateTimeField(default=datetime.now)
+    date_added = DateTimeField(default=datetime.now)
 
 
 class Banner(BaseModel):
@@ -214,7 +234,7 @@ class Tag_to_Post(BaseModel):
 
 class StreamMessage(BaseModel):
     id = PrimaryKeyField()
-    date = DateTimeField(default=datetime.datetime.now)
+    date = DateTimeField(default=datetime.now)
     message = CharField()
 
     class Meta:
@@ -225,7 +245,7 @@ class StaticPage(BaseModel):
     id = PrimaryKeyField()
 
     url = CharField(unique=True)
-    date = DateTimeField(default=datetime.datetime.now)
+    date = DateTimeField(default=datetime.now)
     title = CharField()
     text = TextField()
 
@@ -238,7 +258,7 @@ class Session(BaseModel):
     mail = CharField(null=False)
     expires = IntegerField(default=0)
     ip = CharField(null=True)
-    login_date = DateTimeField(default=datetime.datetime.now)
+    login_date = DateTimeField(default=datetime.now)
     active = BooleanField(default=True)
 
     class Meta:
@@ -251,3 +271,6 @@ class SiteJoke(BaseModel):
 
     class Meta:
         db_table = 'site_joke'
+
+    def __str__(self):
+        return self.text[:40]
