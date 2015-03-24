@@ -97,3 +97,17 @@ if config.DEBUG:
     @app.route('/favicon.ico')
     def serve_favicon():
         return static_file('favicon.ico', root=config.STATIC_FOLDER)
+
+
+@app.route('/websocket')
+def handle_websocket():
+    wsock = request.environ.get('wsgi.websocket')
+    if not wsock:
+        abort(400, 'Expected Weesoo request.')
+
+    while True:
+        try:
+            message = wsock.receive()
+            wsock.send('Your message %s' % message)
+        except WebSocketError:
+            break
