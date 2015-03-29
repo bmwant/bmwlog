@@ -50,24 +50,12 @@ class BMG:
             raise ValueError('What you are trying to do?')
 
     def create_files(self):
-        views_header = 'from bottle import request\n' \
-                       'from models import *\n' \
-                       'from {forms} import *\n' \
-                       'from user_controller import require\n' \
-                       'from app import app, env\n'.format(forms=os.path.splitext(FORMS_FILE)[0])
-
-        forms_header = '# -*- coding: utf-8 -*-\n' \
-                       'import wtforms\n'
 
         if not os.path.exists(FORMS_FILE):
-            with open(FORMS_FILE, 'w') as fout:
-                #log action
-                fout.writelines(forms_header)
+            copyfile('bmg/forms_header.py', 'gen_forms.py')
 
         if not os.path.exists(VIEWS_FILE):
-            with open(VIEWS_FILE, 'w') as fout:
-                #log action
-                fout.writelines(views_header)
+            copyfile('bmg/views_header.py', 'gen_views.py')
 
     def list_models(self, module_name='models'):
         import pyclbr
@@ -82,10 +70,16 @@ class BMG:
                     print('[%s]: %s' % (counter, value.name))
                     counter += 1
 
+    def generate_view(self, view_name, model_name):
+        #log action
+        v = ViewCreator(view_name, model_name)
+        v.write()
+
     def _create(self, obj):
         print('Creating all for %s' % obj.__name__)
         new_form_name = obj.__name__ + 'Form'  # e.g. UserForm
         new_view_name = obj.__name__.lower()
+
         #new_form_class = type(new_form_name, (wtforms.Form, ), {})
         j = Jumbotron(new_form_name)
         for field_name, field in vars(obj).iteritems():
@@ -97,8 +91,8 @@ class BMG:
                         #print('%s -> %s' % (field.field, PEEWEE_TO_WTFORMS[key]))
         #print(j.render())
         j.write()
-        v = ViewCreator(new_view_name, obj.__name__)
-        v.write()
+        self.generate_view(new_view_name, obj.__name__)
+
 
     def generate_model_data(self, model_name=None):
         self.create_files()
@@ -116,6 +110,8 @@ class BMG:
 
 class ViewCreator():
     template = """
+
+
 @app.route('/{{ view_name }}_admin', method=['GET', 'POST'])
 @require('admin')
 def {{ view_name }}_admin():
@@ -123,9 +119,39 @@ def {{ view_name }}_admin():
     form = {{ peewee_model }}Form(request.POST)
     items = {{ peewee_model }}.select()
     if request.method == 'POST':
-        pass
+        if form.validate():
+            new_item = SiteJoke.create(**form.data)
+            form = {{ peewee_model }}Form()
     return template.render(items=items, form=form)
 
+
+@app.route('/{{ view_name }}_admin/edit/<{{ view_name }}_id:int>', method=['GET', 'POST'])
+def {{ view_name }}_edit({{ view_name }}_id):
+    item = {{ peewee_model }}.get_or_404({{ peewee_model }}.id == {{ view_name }}_id)
+    if request.method == 'GET':
+        return json.dumps(item, cls=PeeweeModelEncoder)
+
+    form = {{ peewee_model }}Form(request.POST)
+    if form.validate():
+        for attr, value in form.data.iteritems():
+            setattr(item, attr, value)
+        item.save()
+        redirect('/{{ view_name }}_admin')
+
+    items = {{ peewee_model }}.select()
+    template = env.get_template('gen_views/{{ view_name }}_admin.html')
+    return template.render(items=items, form=form)
+
+
+@app.get('/{{ view_name }}_admin/delete/<{{ view_name }}_id:int>')
+@require('admin')
+def {{ view_name }}_delete({{ view_name }}_id):
+    item = {{ peewee_model }}.get({{ peewee_model }}.id == {{ view_name }}_id)
+    item.delete_instance()
+    return json.dumps({
+        'status': 'success',
+        'message': 'Item was deleted'
+    })
 """
 
     def __init__(self, name, peewee_model):
@@ -149,8 +175,10 @@ def {{ view_name }}_admin():
 
 class Jumbotron():
     template = """
-class {{ class_name }}(wtforms.Form):
-    {% for field in class_fields %}{{ field.name }} = wtforms.{{ field.type_}}()
+
+
+class {{ class_name }}(Form):
+    {% for field in class_fields %}{{ field.name }} = wtforms.{{ field.type_}}(validators=[validators.InputRequired()])
     {% endfor %}
 """
 
@@ -248,3 +276,4 @@ if __name__ == '__main__':
     #bmg = BMG(args.command)
     bmg = BMG('list')
     bmg('create', 'SiteJoke')
+    #bmg.generate_view('sitejoke', 'SiteJoke')

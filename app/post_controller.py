@@ -61,6 +61,15 @@ def post_view(post_id):
     return template.render(item=post, tags=tags)
 
 
+@app.get('/post/publish/<post_id:int>')
+def post_publish(post_id):
+    p = Post.get_or_404(Post.post_id == post_id)
+    p.draft = False
+    p.save()
+    app.flash(u'Стаття опублікована', 'success')
+    redirect('/post/%s' % post_id)
+
+
 @app.route('/post/add', method=['GET', 'POST'])
 @require('admin')
 def post_add():

@@ -606,3 +606,15 @@ form.search-form input[type="text"] {
     font-size: 1.2em;
     color: #1abc9c;
 }
+
+#cancel-button, #update-button {
+    display: none;
+}
+
+.no-list-results {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    /*color: #1abc9c;*/
+}

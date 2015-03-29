@@ -179,6 +179,18 @@
       ga('send', 'pageview');
     </script>
 
+    {# Author #}
+    <script type="application/ld+json">
+    { "@context" : "http://schema.org",
+      "@type" : "Person",
+      "name" : "Misha Behersky",
+      "url" : "http://bmwlog.pp.ua",
+      "sameAs" : [
+          "http://plus.google.com/+MishaBehersky"
+          ]
+    }
+    </script>
+
 {% endblock %}
     {# Flash messages #}
     {% set messages = app.get_flashed_messages() %}

@@ -33,7 +33,9 @@ def tr():
 @only_ajax
 def get_joke():
     joke = SiteJoke.select().order_by(fn.Rand()).first()
-    return json.dumps({'text': joke.text})
+    if joke is not None:
+        return json.dumps({'text': joke.text})
+    return json.dumps({'text': u'ᕦ(ò_ó*)ᕤ     неочікуваний результат'})
 
 
 @app.route('/categories')
