@@ -1,13 +1,13 @@
 from bottle import Bottle, Jinja2Template
 from jinja2 import Environment, PackageLoader
 from peewee import MySQLDatabase
-import sys
-import platform
+import os
 
-if platform.system() == 'Windows':  # or 'FreeBSD' on production
-    from config import DevelopmentConfig as config  # LocalConfig as config  #
-else:
+
+if 'BMWLOG_MODE' in os.environ and os.environ['BMWLOG_MODE'] == 'PROD':
     from config import ProductionConfig as config
+else:
+    from config import DevelopmentConfig as config  # LocalConfig as config  #
 
 
 db = MySQLDatabase(config.DB_NAME,

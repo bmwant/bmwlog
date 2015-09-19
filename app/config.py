@@ -26,8 +26,8 @@ class LocalConfig(Config):
 class DevelopmentConfig(Config):
     DB_HOST = '94.45.76.62'
     DB_PORT = 3306
-    STATIC_FOLDER = 'D:/coding/bmwlog/'
-    ROOT_FOLDER = 'D:/coding/bmwlog/'
+    STATIC_FOLDER = '/Users/bmwant/code/bmwlog/'
+    ROOT_FOLDER = '/Users/bmwant/code/bmwlog/'
     RUN_HOST = '127.0.0.1'
     RUN_PORT = 8081
     DB_NAME = 'bmwlogdb'

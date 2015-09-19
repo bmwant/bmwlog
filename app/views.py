@@ -9,7 +9,11 @@ from models import *
 from post_controller import *
 from user_controller import *
 from site_managing import *
-from gen_views import *
+try:
+    from gen_views import *
+except ImportError:
+    pass
+
 
 from app import app, config
 
@@ -92,13 +96,14 @@ def server_static(page_name):
 
 if config.DEBUG:
     #serving static files
+    root = os.path.expanduser(config.STATIC_FOLDER)
     @app.route('/<folder>/<filename:path>')
     def server_static(folder, filename):
-        return static_file(filename, root=config.STATIC_FOLDER+folder)
+        return static_file(filename, root=root+folder)
 
     @app.route('/favicon.ico')
     def serve_favicon():
-        return static_file('favicon.ico', root=config.STATIC_FOLDER)
+        return static_file('favicon.ico', root=root)
 
 
 @app.route('/websocket')
