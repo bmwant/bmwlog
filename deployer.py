@@ -18,6 +18,12 @@ def start_service():
     run('supervisorctl start bmwlog')
 
 
+def restart_service(service_name='bmwlog'):
+    run('supervisorctl reread')
+    run('supervisorctl update')
+    run('supervisorctl restart ' + service_name)
+
+
 def deploy():
     """
     Copy all application files to the remote server. Ignores 'img' and
