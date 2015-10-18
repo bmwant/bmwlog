@@ -47,7 +47,7 @@ CKEDITOR.editorConfig = function( config ) {
         {
             name: 'key_combo',
             icon: 'kbdicon.ico',
-            html: '<kbd> </kbd>',
+            html: "kbd",
             title: 'Key combination'
         }
     ];
