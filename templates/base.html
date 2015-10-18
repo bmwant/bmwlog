@@ -66,24 +66,24 @@
     <section id="site-menu" class="bck color">
         <div class="row text center">
             <nav data-tuktuk="menu" class="column_12 padding text bold">
-                <a href="/post" id="pstlink">
+                <a href="/post">
                     <span class="icon pencil"></span>Статті
                 </a>
-                <a href="/categories" id="catlink">
+                <a href="/categories">
                     <span class="icon folder-open-alt"></span>Категорії
                 </a>
-                <a href="/gallery" id="gallink">
+                <a href="/gallery">
                     <span class="icon camera"></span>Галерея
                 </a>
                 {% if user and user.is_admin() %}
-                    <a href="/ad" id="admlink">
+                    <a href="/ad">
                         <span class="icon cog"></span>Адмінка
                     </a>
-                    <a href="/playground" id="plglink">
+                    <a href="/playground">
                         <span class="icon beaker"></span>Пісочниця
                     </a>
                 {% endif %}
-                <a href="/about" id="abtlink">
+                <a href="/about">
                     <span class="icon info-sign"></span>Інфо
                 </a>
             </nav>
@@ -150,7 +150,7 @@
           "hideEasing": "linear",
           "showMethod": "fadeIn",
           "hideMethod": "fadeOut"
-        }
+        };
         var jokeHeight = $("#site-menu").height();
         $("#site-joke").height(jokeHeight);
         $("#site-joke").css("line-height", jokeHeight/2 + "px");

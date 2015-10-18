@@ -52,13 +52,13 @@ def categories():
         return categ.posts_count
     categ_sorted = sorted(cat_list, key=get_count, reverse=True)
 
-    return {'link_what': 'catlink', 'categories': categ_sorted}
+    return {'categories': categ_sorted}
 
 
 @app.route('/about')
 @view('about.html')
 def about():
-    return {'link_what': 'abtlink'}
+    pass
 
 
 @app.route('/ad')
@@ -72,13 +72,13 @@ def administration():
 def gallery():
     #images = get_list_of_files(r'D:\coding\bmwlog\img\gallery', ext='.jpg', full_path=False)
     images = Photo.select()
-    return {'link_what': 'gallink', 'images': images}
+    return {'images': images}
 
 
 @app.get('/playground')
 @view('playground.html')
 def playground():
-    return {'link_what': 'playground'}
+    pass
 
 
 @app.error(404)

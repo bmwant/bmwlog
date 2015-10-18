@@ -29,6 +29,7 @@
 {% endblock %}
 
 {% block bottom_scripts %}
+{{ super() }}
 <script>
     function showSearchResults(data) {
         var list = $(".category-lst");
