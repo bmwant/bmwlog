@@ -1,9 +1,13 @@
 function setActiveLink() {
     var currentPath = document.location.pathname;
-    console.log(currentPath);
     var selector = "a[href='" + currentPath + "']";
-    $("nav a").removeClass("active");  //Clear all previous active link in navbar for sure
-    $(selector).addClass("active");
+    var elem = document.querySelector(selector);
+    if(elem !== null) {
+        elem.setAttribute("class", "active");
+    }
+    //.setAttribute("class", "active");
+    //$("nav a").removeClass("active");  //Clear all previous active link in navbar for sure
+    //$(selector).addClass("active");
 
     //document.getElementById(what).setAttribute("class", "active");
 }
