@@ -1,0 +1,1 @@
+"C:\Python27\Scripts\fab.exe" stop_service deploy start_service -f ..\deployer.py
