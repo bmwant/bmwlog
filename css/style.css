@@ -394,10 +394,9 @@ table.admin-table td:hover {
 }
 
 .post-text ul {
-    list-style-type: none;
+    list-style-image: url('/img/bullet.png');
     margin: 3px 0;
-    border-left: 10px solid #1abc9c;
-    padding-left: 10px;
+    padding-left: 30px;
     font-size: 1.1em;
 }
 
