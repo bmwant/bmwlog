@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+import time
 
 from bottle import static_file, error, request, post
 from helpers import view, redirect, render_template
@@ -96,7 +98,31 @@ def server_static(page_name):
 
 @app.get('/healthcheck')
 def healthcheck():
-    pass
+    import psutil
+    import humanfriendly
+
+    now = time.time()
+    pid = os.getgid()
+    ppid = os.getppid()
+
+    current_process = psutil.Process(pid=ppid)  # how about launching under gunicorn?
+    process_uptime = current_process.create_time()
+    process_uptime_delta = now - process_uptime
+    process_uptime_human = humanfriendly.format_timespan(process_uptime_delta)
+
+    system_uptime = psutil.boot_time()
+    system_uptime_delta = now - system_uptime
+    system_uptime_human = humanfriendly.format_timespan(system_uptime_delta)
+
+    free_memory = psutil.disk_usage('/').free
+    free_memory_human = humanfriendly.format_size(free_memory)
+
+    return {
+        'status': 'Operational',
+        'free_disk_space': free_memory_human,
+        'system_uptime': system_uptime_human,
+        'process_uptime': process_uptime_human,
+    }
 
 
 if config.DEBUG:

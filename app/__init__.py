@@ -1,7 +1,9 @@
+import os
+import time
+
 from bottle import Bottle, Jinja2Template
 from jinja2 import Environment, PackageLoader
 from peewee import MySQLDatabase
-import os
 
 
 if 'BMWLOG_MODE' in os.environ and os.environ['BMWLOG_MODE'] == 'PROD':

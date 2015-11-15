@@ -122,12 +122,9 @@ class Post(BaseModel):
         views_weight = cv(self.views, 100)*10
         posted_weight = (1-cv(int_posted, int_years))*40  # less time passed away - higher value
         updated_weight = (1-cv(int_updt, int_years))*20
-        print('Comments', comments_weight)
-        print('Likes', likes_weight)
-        print('Views', views_weight)
-        print('Posted', posted_weight)
-        print('updated', updated_weight)
+
         act = comments_weight + likes_weight + views_weight + posted_weight + updated_weight
+
         assert act < 100
 
         if act < 10:
