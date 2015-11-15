@@ -39,15 +39,16 @@ def tr():
 @only_ajax
 def get_joke():
     joke = SiteJoke.select().order_by(fn.Rand()).first()
+    joke_text = u'ᕦ(ò_ó*)ᕤ     неочікуваний результат'
     if joke is not None:
-        return json.dumps({'text': joke.text})
-    return json.dumps({'text': u'ᕦ(ò_ó*)ᕤ     неочікуваний результат'})
+        joke_text = joke.text
+    return {'text': joke_text}
 
 
 @app.route('/categories')
 @view('categories.html')
 def categories():
-    #todo: think and apply some join to get posts count
+    # todo: think and apply some join to get posts count
     cat_list = Category.select()
 
     def get_count(categ):
