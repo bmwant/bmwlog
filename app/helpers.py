@@ -1,9 +1,12 @@
-from HTMLParser import HTMLParser
 import os
 import time
 import subprocess
+
 import bottle
+
 from functools import wraps
+from HTMLParser import HTMLParser
+
 from app import env, config
 from helput import unique_filename, join_all_path
 
@@ -117,7 +120,7 @@ def save_file(file_obj, where='uploaded'):
     """
     Saves file to where directory on the server
     """
-    #todo: check for errors, types or file_obj properties
+    # todo: check for errors, types or file_obj properties
     folder = os.path.join(config.ROOT_FOLDER, where)
     new_filename = unique_filename(file_obj.filename)
     file_path = os.path.join(folder, new_filename)
@@ -138,5 +141,10 @@ def backup_db():
     output = open(backup_file, 'w')
     p = subprocess.Popen(command, shell=True, stdout=output).wait()
     output.close()
-    #todo: remove the file
+    # todo: remove the file
     return backup_name
+
+
+def root_path(path):
+    root_full_path = os.path.expanduser(config.ROOT_FOLDER)
+    return os.path.join(root_full_path, path)

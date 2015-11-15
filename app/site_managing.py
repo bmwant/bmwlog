@@ -2,12 +2,13 @@
 __author__ = 'Most Wanted'
 
 import os
+
 from urlparse import urlparse
 from bottle import request, abort, static_file
 from geventwebsocket import WebSocketError
 
 from models import Photo, Banner, Quote, DoesNotExist, StaticPage, StreamMessage
-from helpers import post_get, redirect, view, backup_db, only_ajax
+from helpers import post_get, redirect, view, backup_db, only_ajax, root_path
 from helput import unique_filename, join_all_path, generate_filename, distort_filename
 from user_controller import require
 from forms import SimpleUploadForm, StaticPageForm
@@ -59,16 +60,19 @@ def banners():
         return template.render({'banners': all_banners})
     elif request.method == 'POST':
         banner_img = request.files.get('banner_img')
-        banners_folder = os.path.join(config.ROOT_FOLDER, 'img/banners/')
+        banners_folder = root_path('img/banners/')
         file_path = os.path.join(banners_folder, banner_img.filename)
         # photo_file.save('/img/gallery/')  # new Bottle
         with open(file_path, 'wb') as open_file:
             open_file.write(banner_img.file.read())
 
         link = post_get('link')
-        up = urlparse(link)
-        if up.scheme == '':
+        parsed_link = urlparse(link)
+        if parsed_link.scheme == '':
             link = 'http://{0}'.format(link)
+
+        if not parsed_link.path or parsed_link.path == '#':
+            link = '#'
 
         banner = Banner.create(desc=post_get('desc'),
                                link=link,

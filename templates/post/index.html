@@ -31,7 +31,10 @@
             <div class="padding margin banner-block">
                 {% if banner %}
                     <div class="myrow">Проплачено</div>
-                    <div class="myrow"><a href="{{ banner.link }}" target="_blank"><img width="300" src="/img/banners/{{ banner.img }}" alt="{{ banner.desc }}" title="{{ banner.desc }}"/></a></div>
+                    <div class="myrow"><a href="{{ banner.link }}"
+                                          {% if banner.link != "#" %}target="_blank"{% endif %}>
+                        <img width="300" src="/img/banners/{{ banner.img }}" alt="{{ banner.desc }}" title="{{ banner.desc }}"/></a>
+                    </div>
                 {% endif %}
             </div>
 

@@ -94,9 +94,15 @@ def server_static(page_name):
     return template.render(page=page)
 
 
+@app.get('/healthcheck')
+def healthcheck():
+    pass
+
+
 if config.DEBUG:
-    #serving static files
+    # serving static files
     root = os.path.expanduser(config.STATIC_FOLDER)
+
     @app.route('/<folder>/<filename:path>')
     def server_static(folder, filename):
         return static_file(filename, root=root+folder)
