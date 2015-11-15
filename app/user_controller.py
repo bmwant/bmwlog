@@ -142,6 +142,6 @@ def update_account():
 @app.get('/user/list')
 @require('admin')
 def list_users():
-    users = User.select()
+    users = User.select().order_by(User.date_registered.desc())
     template = env.get_template('user/index.html')
     return template.render(users=users)

@@ -1,7 +1,7 @@
 from datetime import timedelta, datetime
 from bottle import abort
 from peewee import *
-from app import db
+from app import app, db
 
 
 class UnknownFieldType(object):
@@ -52,6 +52,7 @@ class User(BaseModel):
     user_password = CharField()
     picture = CharField(default='default.png')
     role = ForeignKeyField(db_column='role_id', rel_model=Role)
+    date_registered = DateTimeField(default=datetime.now)
 
     @staticmethod
     def encode_password(password):
@@ -70,8 +71,10 @@ class User(BaseModel):
         return self.role.role == 'admin'
 
     def __repr__(self):
-        return '{nickname} [{mail}]'.format(nickname=self.nickname,
-                                            mail=self.mail)
+        date_registered_str = self.date_registered.strftime('%d/%m/%Y')
+        return '{nickname} [{mail}] ({date_registered})'.format(nickname=self.nickname,
+                                                                mail=self.mail,
+                                                                date_registered=date_registered_str)
     class Meta:
         db_table = 'user'
 
@@ -114,10 +117,21 @@ class Post(BaseModel):
         int_updt = (now_time - self.date_updated).total_seconds()
         int_years = timedelta(days=365*5).total_seconds()
 
-        act = cv(self.comments, 10)*15 + cv(self.likes, 30)*15 + \
-              cv(self.views, 100)*10 + (1-cv(int_posted, int_years))*40 + \
-              (1-cv(int_updt, int_years))*20
+        comments_weight = cv(self.comments, 10)*15
+        likes_weight = cv(self.likes, 30)*15
+        views_weight = cv(self.views, 100)*10
+        posted_weight = (1-cv(int_posted, int_years))*40  # less time passed away - higher value
+        updated_weight = (1-cv(int_updt, int_years))*20
+        print('Comments', comments_weight)
+        print('Likes', likes_weight)
+        print('Views', views_weight)
+        print('Posted', posted_weight)
+        print('updated', updated_weight)
+        act = comments_weight + likes_weight + views_weight + posted_weight + updated_weight
+        assert act < 100
 
+        if act < 10:
+            app.log('Post %d is not relevant' % self.post_id, 'warning')
         return act
 
     @property
