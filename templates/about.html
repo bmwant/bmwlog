@@ -4,14 +4,14 @@
 
 {% block styles %}
     {{ super() }}
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/cube-transition.css">
+    <link rel="stylesheet" href="/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/css/cube-transition.css" />
     <link rel="stylesheet" href="/css/funnyText.css" />
 {% endblock %}
 
 {% block scripts %}
     {{ super() }}
-    <script type="text/javascript" src="/js/modernizr.js"></script>
+    <script src="/js/modernizr.js"></script>
 {% endblock%}
 
 {% block content %}
@@ -47,7 +47,16 @@
                             <td><i class="fa fa-linkedin-square fa-3x"></i></td>
                             <td><span class="right"><a href="https://www.linkedin.com/in/mostwanted" target="_blank">LinkedIn</a></span></td>
                         </tr>
-
+                        <tr>
+                            <td><i class="fa fa-stack-overflow fa-3x"></i></td>
+                            <td>
+                                <a href="http://stackoverflow.com/users/1744914/most-wanted" target="_blank">
+                                    <img src="http://stackoverflow.com/users/flair/1744914.png"
+                                         width="208" height="58" alt="profile for Most Wanted at Stack Overflow"
+                                         title="My profile at StackOverflow">
+                                </a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -76,29 +85,20 @@
 {% endblock %}
 {% block bottom_scripts %}
     {{ super() }}
-    <script type="text/javascript" src="/js/cube.transitions.js"></script>
+    <script src="/js/cube.transitions.js"></script>
     <script src="/js/funnyText.min.js"></script>
     <script>
     $(document).ready(function() {
-    $('#name-text').funnyText({
-        speed: 700,
-        borderColor: 'black',
-        activeColor: 'white',
-        color: 'black',
-        fontSize: '5em',
-        direction: 'both'
+        $('#name-text').funnyText({
+            speed: 700,
+            borderColor: 'black',
+            activeColor: 'white',
+            color: 'black',
+            fontSize: '5em',
+            direction: 'both'
+        });
     });
-});
     </script>
-    <style>
-    #name-text span.active {
-            background-color: #1abc9c;
-        }
-    #name-text {
-        background-color: #c4d2df;
-    }
-        
-    </style>
 {% endblock%}
 
 

@@ -20,14 +20,15 @@ class LoginManager(object):
         self.app.logout = self.logout
 
     def load_user(self):
-        #todo: add check if invalid cookie is provided
+        # todo: add check if invalid cookie is provided
         usermail = request.get_cookie(self.key, secret=self.secret)
-        self.app.log('Try to login this user: %s' % usermail)
+
         if len(request.cookies.getall(self.key)) > 1:
             return self.logout()
 
         if usermail is not None:
             try:
+                self.app.log('Try to login this user: %s' % usermail)
                 self.app.current_user = User.get(User.mail == usermail)
             except DoesNotExist:
                 self.logout()
@@ -46,8 +47,8 @@ class LoginManager(object):
         response.delete_cookie(self.key, path='/')
 
     def set_user(self):
-        self.app.log('Setting user after request: %s.' % self.app.current_user)
         if self.app.current_user is not None:
+            self.app.log('Setting user after request: %s.' % self.app.current_user)
             response.set_cookie(name=self.key,
                                 value=self.app.current_user.mail,
                                 secret=self.secret,
