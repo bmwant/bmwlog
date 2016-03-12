@@ -1,0 +1,7 @@
+---
+# This playbook just update already deployed application
+- name: Update blog to newer version
+  hosts: all
+
+  roles:
+    - common

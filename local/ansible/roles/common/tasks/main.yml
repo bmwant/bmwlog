@@ -1,0 +1,33 @@
+---
+- name: Pull changes from remote repository
+  git: repo={{ app_repository }} dest={{ app_directory }} accept_hostkey=true
+  when: app_repository is defined and app_repository
+  tags: app
+
+- stat: path={{ app_config }}
+  delegate_to: localhost
+  sudo: false
+  register: app_config_file
+  when: app_config is defined and app_config
+  tags:
+    - app
+    - config
+
+- name: Copy application config to remote
+  copy:
+    src={{ app_config }}
+    dest={{ app_directory }}
+  when: app_config_file is defined and app_config_file.stat.exists
+  tags:
+    - app
+    - config
+
+
+- name: Install application dependencies into virtualenv
+  pip:
+    requirements={{ app_requirements }}
+    virtualenv="{{ app_directory }}/venv"
+    state=absent
+  tags:
+    - app
+    - pip

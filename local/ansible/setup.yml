@@ -1,0 +1,32 @@
+---
+- hosts: all
+
+  vars:
+    ansible_python_interpreter: "/usr/local/bin/python"
+    repository_url: "git@github.com:bmwant/bmwlog.git"
+    project_home: "~/workspace/bmwlog"
+    project_venv: "~/workspace/venv"
+
+  tasks:
+    - name: install packages
+      pkgng: name="{{ item }}" state=present
+      with_items:
+        - git
+        - py27-pip
+        - py27-virtualenv
+        - nginx
+        - mysql56-server
+      become: true
+
+    - name: clone bmwlog repository
+      git:
+        repo: "{{ repository_url }}"
+        dest: "{{ project_home }}"
+        version: origin/dev
+        accept_hostkey: true
+
+    - name: create virtual environment
+      shell: "virtualenv {{ project_venv }}"
+#
+#
+#    - name: copy config
