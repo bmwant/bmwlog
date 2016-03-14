@@ -5,7 +5,8 @@
   vars:
     ansible_python_interpreter: "/usr/local/bin/python"
     repository_url: "git@github.com:bmwant/bmwlog.git"
-    repository_branch: origin/master
+    repository_branch: "origin/master"
+    database_name: "bmwlogdb"
 
   tasks:
     # hack to allow run via 'ansible-playbook' and via 'vagrant provision'
@@ -39,6 +40,9 @@
         name: mysql-server
         state: started
       become: true
+
+    - name: create mysql database
+      command: 'mysql -u root -e "create database if not exists {{ database_name }}";'
 
     - name: enable nginx at startup
       lineinfile: dest=/etc/rc.conf line='nginx_enable="YES"'

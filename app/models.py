@@ -152,7 +152,6 @@ class Post(BaseModel):
     def search(cls, query):
         return cls.get_posts().where(Post.title.contains(query))
 
-
     @classmethod
     def get_drafts(cls):
         """
@@ -186,7 +185,7 @@ class Post(BaseModel):
                                   Post.user == user_id)
 
     def get_all(self):
-        raise NotImplemented
+        raise NotImplementedError()
 
 
 class Photo(BaseModel):
