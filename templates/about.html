@@ -4,14 +4,14 @@
 
 {% block styles %}
     {{ super() }}
-    <link rel="stylesheet" href="/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="/css/cube-transition.css" />
-    <link rel="stylesheet" href="/css/funnyText.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/static/css/cube-transition.css" />
+    <link rel="stylesheet" href="/static/css/funnyText.css" />
 {% endblock %}
 
 {% block scripts %}
     {{ super() }}
-    <script src="/js/modernizr.js"></script>
+    <script src="/static/js/modernizr.js"></script>
 {% endblock%}
 
 {% block content %}
@@ -42,6 +42,10 @@
                         <tr>
                             <td><i class="fa fa-github-square fa-3x"></i></td>
                             <td><span class="right"><a href="https://github.com/bmwant" target="_blank">github</a></span></td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-twitter-square fa-3x"></i></td>
+                            <td><span class="right"><a href="https://twitter.com/bmwant" target="_blank">twitter</a></span></td>
                         </tr>
                         <tr>
                             <td><i class="fa fa-linkedin-square fa-3x"></i></td>
@@ -85,8 +89,8 @@
 {% endblock %}
 {% block bottom_scripts %}
     {{ super() }}
-    <script src="/js/cube.transitions.js"></script>
-    <script src="/js/funnyText.min.js"></script>
+    <script src="/static/js/cube.transitions.js"></script>
+    <script src="/static/js/funnyText.min.js"></script>
     <script>
     $(document).ready(function() {
         $('#name-text').funnyText({
