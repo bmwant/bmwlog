@@ -73,11 +73,10 @@
         chdir: "~/workspace"
 
     - name: modify nginx config
-      lineinfile:
+      copy:
+        src: files/nginx.conf
         dest: /usr/local/etc/nginx/nginx.conf
-        insertbefore: "}$"
-        line: "include /usr/local/etc/sites-enabled/*.conf;"
-        state: present
+      notify: nginx reload
       become: true
 
     - name: create nginx config for project
