@@ -566,13 +566,13 @@ ul.streamer li.stream-message {
 }
 
 .doge {
-    background-image: url("/img/laika.png");
+    background-image: url("/static/img/laika.png");
     background-size: 100px 100px;
     height: 100px;
     width: 100px;
     position: fixed;
     z-index: 99;
-    bottom: 0px;
+    bottom: 0;
     right: 50px;
     display: none;
 }
@@ -589,7 +589,7 @@ form.search-form {
 }
 
 form.search-form .button .icon {
-    margin: 0px;
+    margin: 0;
 }
 
 form.search-form input[type="text"] {

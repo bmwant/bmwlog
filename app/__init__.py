@@ -1,16 +1,32 @@
+from __future__ import print_function
 import os
-import time
+import sys
 
 from bottle import Bottle, Jinja2Template
 from jinja2 import Environment, PackageLoader
 from peewee import MySQLDatabase
 
 
-if 'BMWLOG_MODE' in os.environ and os.environ['BMWLOG_MODE'] == 'PROD':
-    from config import ProductionConfig as config
-else:
-    from config import DevelopmentConfig as config  # LocalConfig as config  #
+def load_config():
+    try:
+        import config
+    except ImportError:
+        print('You haven\'t created config file', file=sys.stderr)
+        sys.exit(1)
 
+    run_mode = os.environ.get('BMWLOG_MODE', 'development')
+    config_object = '%sConfig' % run_mode.capitalize()
+    try:
+        config_module = getattr(config, config_object)
+    except AttributeError:
+        print('Invalid config or environment variable. '
+              'No such configuration: %s' % config_object,
+              file=sys.stderr)
+        sys.exit(1)
+    return config_module
+
+
+config = load_config()
 
 db = MySQLDatabase(config.DB_NAME,
     host=config.DB_HOST, port=config.DB_PORT,
@@ -30,13 +46,11 @@ app.install(LoggingPlugin())
 
 env = Environment(loader=PackageLoader('app', '../templates'))
 env.globals['app'] = app
+
 from .helpers import p_count, dollars
+
 env.filters['p_count'] = p_count
 env.filters['dollars'] = dollars
 
-#if you want to add some views - import them in views.py
+# if you want to add some views - import them in views.py
 from app.views import *
-
-
-
-

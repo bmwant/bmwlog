@@ -4,15 +4,15 @@
 
 {% block styles %}
     {{ super() }}
-    <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/gallery-transitions.css" />
-    <link rel="stylesheet" href="/css/imagebox.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/gallery-transitions.css" />
+    <link rel="stylesheet" href="/static/css/imagebox.css" />
 {% endblock %}
 
 {% block scripts %}
     {{ super() }}
-    <script type="text/javascript" src="/js/imagelightbox.js"></script>
-    <script type="text/javascript" src="/js/jquery.collagePlus.js"></script>
+    <script src="/static/js/imagelightbox.js"></script>
+    <script src="/static/js/jquery.collagePlus.js"></script>
 {% endblock%}
 
 {% block content %}
@@ -21,7 +21,7 @@
         <div class="row">
             <div class="gallery">
                 {% for image in images %}
-                    <a href="img/gallery/{{ image.photo }}"><img class="gallerimg" height="200" src="img/gallery/{{ image.photo }}" alt="{{ image.desc }}"/></a>
+                    <a href="/static/img/gallery/{{ image.photo }}"><img class="gallerimg" height="200" src="/static/img/gallery/{{ image.photo }}" alt="{{ image.desc }}"/></a>
                 {% endfor %}
             </div>
         </div>
@@ -42,5 +42,5 @@
         });
     });
     </script>
-    <script type="text/javascript" src="/js/imagebox.js"></script>
+    <script type="text/javascript" src="/static/js/imagebox.js"></script>
 {% endblock %}

@@ -4,14 +4,14 @@
 
 {% block styles %}
     {{ super() }}
-    <link rel="stylesheet" href="/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="/css/cube-transition.css" />
-    <link rel="stylesheet" href="/css/funnyText.css" />
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/static/css/cube-transition.css" />
+    <link rel="stylesheet" href="/static/css/funnyText.css" />
 {% endblock %}
 
 {% block scripts %}
     {{ super() }}
-    <script src="/js/modernizr.js"></script>
+    <script src="/static/js/modernizr.js"></script>
 {% endblock%}
 
 {% block content %}
@@ -44,6 +44,10 @@
                             <td><span class="right"><a href="https://github.com/bmwant" target="_blank">github</a></span></td>
                         </tr>
                         <tr>
+                            <td><i class="fa fa-twitter-square fa-3x"></i></td>
+                            <td><span class="right"><a href="https://twitter.com/bmwant" target="_blank">twitter</a></span></td>
+                        </tr>
+                        <tr>
                             <td><i class="fa fa-linkedin-square fa-3x"></i></td>
                             <td><span class="right"><a href="https://www.linkedin.com/in/bmwant" target="_blank">LinkedIn</a></span></td>
                         </tr>
@@ -64,12 +68,11 @@
             <div class="column_4">
                 <div id="te-wrapper" class="te-wrapper">
                         <div class="te-images">
-                            <img src="img/oneme.jpg"/>
-                            <img src="img/twome.jpg"/>
-
+                            <img src="/static/img/oneme.jpg"/>
+                            <img src="/static/img/twome.jpg"/>
                         </div>
                         <div class="te-cover">
-                            <img src="img/oneme.jpg"/>
+                            <img src="/static/img/oneme.jpg"/>
                         </div>
                         <div class="te-transition">
                             <div class="te-cube-front te-cube-face te-front"></div>
@@ -85,8 +88,8 @@
 {% endblock %}
 {% block bottom_scripts %}
     {{ super() }}
-    <script src="/js/cube.transitions.js"></script>
-    <script src="/js/funnyText.min.js"></script>
+    <script src="/static/js/cube.transitions.js"></script>
+    <script src="/static/js/funnyText.min.js"></script>
     <script>
     $(document).ready(function() {
         $('#name-text').funnyText({

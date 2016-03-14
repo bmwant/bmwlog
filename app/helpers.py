@@ -4,7 +4,7 @@ import subprocess
 
 import bottle
 
-from functools import wraps
+from functools import wraps, partial
 from HTMLParser import HTMLParser
 
 from app import env, config

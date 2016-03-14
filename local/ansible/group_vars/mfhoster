@@ -1,2 +1,4 @@
 ansible_python_interpreter: /usr/local/bin/python
 ansible_user: bmwant
+project_root: "/data/projects/bmwlog"
+project_venv: "/home/vagrant/workspace/venv"
