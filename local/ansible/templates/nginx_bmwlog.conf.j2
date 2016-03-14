@@ -1,5 +1,5 @@
 upstream bmwlog {
-    server 127.0.0.1:8031;
+    server 127.0.0.1:{{ bottle_run_port }};
 }
 
 server {
@@ -7,7 +7,7 @@ server {
     server_name bmwlog.pp.ua *.bmwlog.pp.ua;
     charset utf-8;
 
-    root /data/projects/bmwlog;
+    root {{ project_root }};
     
     location / {
         try_files $uri @proxy_to_app;

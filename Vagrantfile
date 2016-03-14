@@ -11,7 +11,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "freebsd"
   config.vm.network "private_network", ip: "10.0.7.7"
-  #config.vm.synced_folder ".", "/home/vagrant/workspace/shrink"
+  config.vm.synced_folder ".", "/home/vagrant/workspace/bmwlog", type: "nfs"
   config.vm.provision "shell", inline: $script
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "vv"

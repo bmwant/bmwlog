@@ -1,0 +1,3 @@
+project_root: "/home/vagrant/workspace/bmwlog"
+project_venv: "/home/vagrant/workspace/venv"
+bottle_run_port: 8081

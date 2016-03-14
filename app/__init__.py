@@ -1,15 +1,20 @@
+from __future__ import print_function
 import os
-import time
+import sys
 
 from bottle import Bottle, Jinja2Template
 from jinja2 import Environment, PackageLoader
 from peewee import MySQLDatabase
 
 
-if 'BMWLOG_MODE' in os.environ and os.environ['BMWLOG_MODE'] == 'PROD':
-    from config import ProductionConfig as config
-else:
-    from config import DevelopmentConfig as config  # LocalConfig as config  #
+try:
+    if os.environ.get('BMWLOG_MODE') == 'PROD':
+        from config import ProductionConfig as config
+    else:
+        from config import DevelopmentConfig as config  # LocalConfig as config  #
+except ImportError:
+    print('You haven\'t created config file', file=sys.stderr)
+    sys.exit(1)
 
 
 db = MySQLDatabase(config.DB_NAME,
@@ -36,7 +41,3 @@ env.filters['dollars'] = dollars
 
 #if you want to add some views - import them in views.py
 from app.views import *
-
-
-
-

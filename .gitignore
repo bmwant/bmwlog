@@ -5,4 +5,5 @@ Thumbs.db
 .idea/
 build/
 venv/
+prod/
 app/config.py
