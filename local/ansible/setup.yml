@@ -5,77 +5,81 @@
   vars:
     ansible_python_interpreter: "/usr/local/bin/python"
     repository_url: "git@github.com:bmwant/bmwlog.git"
+    repository_branch: origin/master
 
   tasks:
+    # hack to allow run via 'ansible-playbook' and via 'vagrant provision'
+    - include_vars: "group_vars/vagrant"
+      when: ansible_ssh_user == "vagrant"
+
     - name: create directories
       file:
         path: "{{ item }}"
         state: directory
       with_items:
-        - "{{ project_root }}/prod"
         - "/usr/local/etc/nginx/sites-enabled/"
       become: true
 
-#    - name: install packages
-#      pkgng: name="{{ item }}" state=present
-#      with_items:
-#        - git
-#        - py27-pip
-#        - py27-virtualenv
-#        - nginx
-#        - mysql56-server
-#      become: true
-#
-#    - name: enable mysql at startup
-#      lineinfile: dest=/etc/rc.conf line='mysql_enable="YES"'
-#      become: true
-#
-#    - name: start mysql
-#      service:
-#        name: mysql-server
-#        state: started
-#      become: true
-#
-#    - name: enable nginx at startup
-#      lineinfile: dest=/etc/rc.conf line='nginx_enable="YES"'
-#      become: true
-#
-#    - name: start nginx
-#      service:
-#        name: nginx
-#        state: started
-#      become: true
-#
-#    - name: clone bmwlog repository
-#      git:
-#        repo: "{{ repository_url }}"
-#        dest: "{{ project_home }}"
-#        version: origin/dev
-#        accept_hostkey: true
-#      when: ansible_ssh_user != "vagrant"
-#
-#    - name: create virtual environment
-#      shell: "virtualenv {{ project_venv }}"
-#      args:
-#        creates: "{{ project_venv }}"
-#
-#    - name: install requirements
-#      shell: "venv/bin/pip install -r bmwlog/requirements.txt"
-#      args:
-#        chdir: "~/workspace"
-#
-#    - name: modify nginx config
-#      lineinfile:
-#        dest: /usr/local/etc/nginx/nginx.conf
-#        insertbefore: "}$"
-#        line: "include /usr/local/etc/sites-enabled/*.conf;"
-#        state: present
-#      become: true
-#
-#    - name: create nginx config for project
-#      template:
-#        src: "templates/nginx_bmwlog.conf.j2"
-#        dest: "{{ project_root }}/prod/nginx_bmwlog.conf"
+    - name: install packages
+      pkgng: name="{{ item }}" state=present
+      with_items:
+        - git
+        - py27-pip
+        - py27-virtualenv
+        - nginx
+        - mysql56-server
+      become: true
+
+    - name: enable mysql at startup
+      lineinfile: dest=/etc/rc.conf line='mysql_enable="YES"'
+      become: true
+
+    - name: start mysql
+      service:
+        name: mysql-server
+        state: started
+      become: true
+
+    - name: enable nginx at startup
+      lineinfile: dest=/etc/rc.conf line='nginx_enable="YES"'
+      become: true
+
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
+      become: true
+
+    - name: clone bmwlog repository
+      git:
+        repo: "{{ repository_url }}"
+        dest: "{{ project_root }}"
+        version: "{{ repository_branch }}"
+        accept_hostkey: true
+      when: ansible_ssh_user != "vagrant"
+
+    - name: create virtual environment
+      shell: "virtualenv {{ project_venv }}"
+      args:
+        creates: "{{ project_venv }}"
+
+    - name: install requirements
+      shell: "venv/bin/pip install -r bmwlog/requirements.txt"
+      args:
+        chdir: "~/workspace"
+
+    - name: modify nginx config
+      lineinfile:
+        dest: /usr/local/etc/nginx/nginx.conf
+        insertbefore: "}$"
+        line: "include /usr/local/etc/sites-enabled/*.conf;"
+        state: present
+      become: true
+
+    - name: create nginx config for project
+      template:
+        src: "templates/nginx_bmwlog.conf.j2"
+        dest: "{{ project_root }}/prod/nginx_bmwlog.conf"
 
     - name: create symlink to nginx config
       file:
