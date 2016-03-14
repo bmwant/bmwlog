@@ -46,7 +46,9 @@ app.install(LoggingPlugin())
 
 env = Environment(loader=PackageLoader('app', '../templates'))
 env.globals['app'] = app
+
 from .helpers import p_count, dollars
+
 env.filters['p_count'] = p_count
 env.filters['dollars'] = dollars
 

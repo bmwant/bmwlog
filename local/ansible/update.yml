@@ -1,7 +1,11 @@
 ---
-# This playbook just update already deployed application
-- name: Update blog to newer version
-  hosts: all
+- hosts: all
 
-  roles:
-    - common
+  tasks:
+
+    - name: clone project repository
+      git:
+        repo: "{{ repository_url }}"
+        dest: "{{ project_root }}"
+        version: "{{ repository_branch }}"
+        accept_hostkey: true
