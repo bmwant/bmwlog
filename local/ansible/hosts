@@ -3,3 +3,6 @@ mfhoster.net
 
 [vagrant]
 10.0.7.7
+
+[mfhoster:vars]
+ansible_become_method=su
