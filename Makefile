@@ -2,4 +2,5 @@ install:
 	@local/scripts/install.sh
 
 update:
-    @echo "Updating..."
+    cd local/ansible
+    @ansible-playbook update.yml

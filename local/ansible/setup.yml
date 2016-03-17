@@ -10,7 +10,7 @@
 
   tasks:
     # hack to allow run via 'ansible-playbook' and via 'vagrant provision'
-    - include_vars: "group_vars/vagrant"
+    - include_vars: "group_vars/vagrant.yml"
       when: ansible_ssh_user == "vagrant"
 
     - name: create directories

@@ -3,9 +3,44 @@
 
   tasks:
 
+    - include_vars: "group_vars/mfhoster.yml"
+
     - name: clone project repository
       git:
         repo: "{{ repository_url }}"
         dest: "{{ project_root }}"
         version: "{{ repository_branch }}"
         accept_hostkey: true
+
+    - name: copy gunicorn config
+      template:
+        src: templates/gunicorn_settings.py.j2
+        dest: "{{ project_root }}/prod/gunicorn_settings.py"
+      notify: gunicorn reload
+
+    - name: copy supervisor config
+      template:
+        src: templates/supervisor_bmwlog.conf.j2
+        dest: "{{ project_root }}/prod/supervisor_bmwlog.conf"
+      notify: supervisor reload
+
+    - name: copy nginx config
+      template:
+        src: templates/nginx_bmwlog.conf.j2
+        dest: "{{ project_root }}/prod/nginx_bmwlog.conf"
+      notify: nginx reload
+
+
+  handlers:
+
+    - name: nginx reload
+      shell: "nginx -t && nginx -s reload"
+      become: true
+
+    - name: gunicorn reload
+      shell: "supervisorctl restart bmwlog"
+      become: true
+
+    - name: supervisor reload
+      shell: "supervisorctl reread && supervisorctl update"
+      become: true
