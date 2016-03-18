@@ -78,7 +78,7 @@ def gallery():
     return {'images': images}
 
 
-@app.get('/playground')
+@app.get('/play')
 @view('playground.html')
 def playground():
     pass
