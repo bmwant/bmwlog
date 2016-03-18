@@ -6,4 +6,5 @@ Thumbs.db
 build/
 venv/
 prod/
+uploaded/
 app/config.py
