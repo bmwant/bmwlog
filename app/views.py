@@ -86,7 +86,7 @@ def playground():
 
 @app.error(404)
 def error404(error):
-    template = env.get_template('404.html')
+    template = env.get_template('errors/404.html')
     return template.render()
 
 
