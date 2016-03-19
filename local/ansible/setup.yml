@@ -62,6 +62,14 @@
         accept_hostkey: true
       when: ansible_ssh_user != "vagrant"
 
+    - name: create local directories for project
+      file:
+        path: "{{ project_root }}/{{ item }}"
+        state: directory
+      with_items:
+        - "prod"
+        - "uploaded"
+
     - name: create virtual environment
       shell: "virtualenv {{ project_venv }}"
       args:

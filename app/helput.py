@@ -3,6 +3,7 @@ __author__ = 'Most Wanted'
 import os
 import hashlib
 import uuid
+import collections
 
 from random import sample
 from string import letters, digits
@@ -28,7 +29,7 @@ def get_all_dirs(directory, full_path=True):
 
 def join_all_path(path):
     # todo: make it normpath
-    if isinstance(path, list):
+    if isinstance(path, (list, tuple)):
         return reduce(os.path.join, path)
     else:
         raise ValueError('Give the list of folders to join')

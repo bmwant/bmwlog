@@ -3,7 +3,9 @@ Thumbs.db
 .DS_Store
 .vagrant/
 .idea/
+.cache/
 build/
 venv/
 prod/
+uploaded/
 app/config.py

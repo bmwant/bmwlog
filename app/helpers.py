@@ -138,9 +138,8 @@ def backup_db():
     command = '/usr/local/bin/mysqldump -u{user} -p{password} {db}'.format(
         user=config.DB_USER, password=config.DB_PASS, db=config.DB_NAME)
 
-    output = open(backup_file, 'w')
-    p = subprocess.Popen(command, shell=True, stdout=output).wait()
-    output.close()
+    with open(backup_file, 'w') as output:
+        p = subprocess.Popen(command, shell=True, stdout=output).wait()
     # todo: remove the file
     return backup_name
 
