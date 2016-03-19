@@ -17,10 +17,13 @@
       args:
         chdir: "{{ project_root }}"
 
-    - name: create project for remote config
+    - name: create local directories for project
       file:
-        path: "{{ project_root }}/prod"
+        path: "{{ project_root }}/{{ item }}"
         state: directory
+      with_items:
+        - "prod"
+        - "uploaded"
 
     - name: copy gunicorn config
       template:

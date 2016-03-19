@@ -20,6 +20,11 @@ server {
         proxy_set_header Connection "upgrade";
     }
 
+    location /img {
+        root {{ project_root }}/static;
+        try_files $uri @proxy_to_app;
+    }
+
     location /files {
         autoindex on;
     }
@@ -31,5 +36,10 @@ server {
         proxy_buffering off;
         proxy_pass http://bmwlog;
     }
-}
 
+    error_page 502 /502.html;
+    location = /502.html {
+        root {{ project_root }}/templates/errors;
+        internal;
+    }
+}
