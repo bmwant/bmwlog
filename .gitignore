@@ -5,7 +5,12 @@ Thumbs.db
 .idea/
 .cache/
 build/
+
+# project-specific
 venv/
 prod/
+files/
 uploaded/
+static/img/banners
+static/img/users
 app/config.py
