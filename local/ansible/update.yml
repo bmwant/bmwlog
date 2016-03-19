@@ -35,18 +35,19 @@
       template:
         src: templates/supervisor_bmwlog.conf.j2
         dest: "{{ project_root }}/prod/supervisor_bmwlog.conf"
+      notify: supervisor reload
 
     - name: copy nginx config
       template:
         src: templates/nginx_bmwlog.conf.j2
         dest: "{{ project_root }}/prod/nginx_bmwlog.conf"
+      notify: nginx reload
 
     - name: ensure supervisor config linked
       file:
         src: "{{ project_root }}/prod/supervisor_bmwlog.conf"
         dest: /usr/local/etc/supervisor/bmwlog.conf
         state: link
-      notify: supervisor reload
       become: true
 
     - name: ensure nginx config linked
@@ -54,7 +55,6 @@
         src: "{{ project_root }}/prod/nginx_bmwlog.conf"
         dest: /etc/nginx/sites-enabled/bmwlog.conf
         state: link
-      notify: nginx reload
       become: true
 
 
