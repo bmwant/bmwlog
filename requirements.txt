@@ -2,7 +2,6 @@ Beaker==1.6.4
 bottle==0.12.7
 bottle-cork==0.10
 gunicorn==19.4.5
-gunicorn==19.4.5
 gevent==1.0.2
 gevent-websocket==0.9.5
 greenlet==0.4.9
