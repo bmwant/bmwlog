@@ -187,6 +187,10 @@ class Post(BaseModel):
     def get_all(self):
         raise NotImplementedError()
 
+    def __str__(self):
+        return '#{post_id}. {post_title}'.format(post_id=self.post_id,
+                                                 post_title=self.title.encode('utf-8'))
+
 
 class Photo(BaseModel):
     class Meta:
