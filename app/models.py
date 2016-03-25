@@ -110,7 +110,6 @@ class Post(BaseModel):
         """
         Return sophisticated value of post actuality
         """
-
         cv = lambda x, y: float(x)/y if x < y else 1.0  # ceil part-value
         now_time = datetime.now()
         int_posted = (now_time - self.date_posted).total_seconds()
@@ -199,7 +198,6 @@ class Photo(BaseModel):
     photo_id = PrimaryKeyField(db_column='photo_id')
     photo = CharField()
     desc = CharField()
-    date_added = DateTimeField(default=datetime.now)
     date_added = DateTimeField(default=datetime.now)
 
 

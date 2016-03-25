@@ -84,7 +84,6 @@ def generate_filename(prefix='', suffix='', length=5):
     """
     chars = letters + digits
     f_name = ''.join(sample(chars, length))
-    print(f_name)
     return '{prefix}{f_name}{suffix}'.format(prefix=prefix, f_name=f_name,
                                              suffix=suffix)
 

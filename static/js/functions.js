@@ -6,9 +6,11 @@ function setActiveLink() {
 }
 
 function noLoadButton() {
-    $("#load-button").removeClass("success").addClass("secondary")
-            .text("Немає потрібної? Пошукайте за категорією.");
-    $("#load-button").attr("onclick","window.location='/categories'");
+    $("#load-button")
+        .removeClass("success")
+        .addClass("secondary")
+        .text("Немає потрібної? Пошукайте за категорією.")
+        .attr("onclick","window.location='/categories'");
 }
 
 function loadMore() {
@@ -50,4 +52,3 @@ function loadMore() {
     );
     $.cookie("currentPage", nextpage+1);
 }
-

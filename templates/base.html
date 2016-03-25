@@ -105,7 +105,7 @@
 {% block footer %}
     <div id="footer" class="padding text right">
         <a data-tuktuk-modal="hood">Під капотом</a>
-        <a href="https://github.com/bmwant21/bmwlog" target="_blank">Github</a>
+        <a href="https://github.com/bmwant/bmwlog" target="_blank">Github</a>
         <a href="mailto:bmwant@gmail.com">Пошта</a>
     </div>
     <div id="hood" data-tuktuk="modal" class="column_5">
@@ -152,8 +152,7 @@
           "hideMethod": "fadeOut"
         };
         var jokeHeight = $("#site-menu").height();
-        $("#site-joke").height(jokeHeight);
-        $("#site-joke").css("line-height", jokeHeight/2 + "px");
+        $("#site-joke").height(jokeHeight).css("line-height", jokeHeight/2 + "px");
         var timer; //Show joke only after ~2 seconds
         $(".logo").mouseenter(function() {
            timer = setTimeout(function() {
