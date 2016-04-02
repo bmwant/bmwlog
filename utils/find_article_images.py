@@ -20,8 +20,20 @@ class ImgParser(HTMLParser):
     def clear(self):
         self._captured_tags = []
 
+        
+def get_images_list():
+    """
+    Return list of image names found in articles
+    """
+    all_posts = Post.select()
+    parser = ImgParser()
+    for post in all_posts:
+        parser.feed(post.post_text)
 
-if __name__ == '__main__':
+    return parser._captured_tags
+
+    
+def show_images_statistics():
     """
     Iterate through all articles and find img tags in them
     """
@@ -43,3 +55,7 @@ if __name__ == '__main__':
 
     print('Total posts affected %d' % posts_affected)
     print('Total images to restore %d' % images_to_restore)
+    
+    
+if __name__ == '__main__':
+    show_images_statistics()
