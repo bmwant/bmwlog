@@ -16,10 +16,9 @@ def post_index():
     for item in all_posts:
         item.post_text = shorten_text(item.post_text)
 
-    random_banner = Banner.select().where(Banner.disabled == False).order_by(fn.Rand()).first() #limit(1)[0]
+    random_banner = Banner.select().where(Banner.disabled == False).order_by(fn.Rand()).first()
     quote = Quote.select().order_by(fn.Rand()).first()
     messages = StreamMessage.select()
-    #print(random_banner.desc.encode('utf-8'))
 
     template = env.get_template('post/index.html')
     return template.render(posts=all_posts, banner=random_banner,
@@ -32,17 +31,18 @@ def post_index():
 @only_ajax
 def load_more():
     page = request.GET.get('page', 2)
-    next_posts = Post.get_posts().order_by(Post.date_posted.desc()).paginate(int(page), config.POSTS_PER_PAGE)
+    next_posts = Post.get_posts().order_by(Post.date_posted.desc()).paginate(int(page),
+                                                                             config.POSTS_PER_PAGE)
     return json.dumps([p.serialize() for p in next_posts])
 
 
 @app.get('/post/<post_id:int>')
 def post_view(post_id):
     try:
-        #todo: rewrite with func in Post
+        # todo: rewrite with func in Post
         post = Post.get(Post.post_id == post_id)
         if post.deleted:
-            #todo: make it visible to its creator
+            # todo: make it visible to its creator
             raise DoesNotExist
         cu = app.current_user
         if post.draft:
@@ -53,7 +53,6 @@ def post_view(post_id):
     except DoesNotExist:
         abort(404)
     tags = Tag.select().join(Tag_to_Post).where(Tag_to_Post.post_id == post_id)
-    #Tweet.select().join(User).where(User.username == 'Charlie'):
     template = env.get_template('post/view.html')
     #post.update(views=post.views+1).execute() #classmethod!
     post.views += 1
@@ -134,7 +133,7 @@ def deleted_posts():
 def post_edit(post_id):
     if request.method == 'GET':
         try:
-            post = Post.get(Post.post_id == post_id)  #todo:get not deleted
+            post = Post.get(Post.post_id == post_id)  # todo: get not deleted
         except Post.DoesNotExist:
             abort(404)
 
@@ -180,9 +179,11 @@ def category_list(category_id):
         category = Category.get(Category.category_id == category_id)
     except DoesNotExist:
         abort(404)
-    all_posts = Post.get_posts().where(Post.category == category_id).order_by(Post.date_posted.desc())
+    all_posts = Post.get_posts()\
+        .where(Post.category == category_id).order_by(Post.date_posted.desc())
     template = env.get_template('post/list.html')
-    return template.render(posts=all_posts, info=u'Статті у категорії "%s"' % category.category_name)
+    return template.render(posts=all_posts,
+                           info=u'Статті у категорії "%s"' % category.category_name)
 
 
 @app.get('/category/delete/<category_id:int>')
@@ -194,7 +195,7 @@ def category_delete(category_id):
         abort(404)
     try:
         category.delete_instance()
-    except IntegrityError, e:
+    except IntegrityError as e:
         app.flash(u'Категорія містить статті. Неможливо видалити', 'error')
 
     redirect('/category/add')
@@ -225,12 +226,11 @@ def add_new_tags(tags_string, post_id):
 def remove_tags(old, new, post_id):
     # todo: maybe delete unused tags
     new_tags = [nt.decode('utf-8') for nt in new.split(';')]
-    #print("%s -> %s" % (new_tags[0], type(new_tags[0])))
     for old_tag in old:
         if unicode(old_tag.text) not in new_tags:
             print("We are going to remove: %s" % old_tag.text)
-            Tag_to_Post.delete().where(Tag_to_Post.post_id == post_id and \
-                Tag_to_Post.tag_id == old_tag.tag_id).execute()
+            Tag_to_Post.delete().where(Tag_to_Post.post_id == post_id and
+                                       Tag_to_Post.tag_id == old_tag.tag_id).execute()
 
 
 @app.get('/tag/<tag_id:int>')
@@ -238,7 +238,7 @@ def posts_for_tag(tag_id):
     try:
         tag = Tag.get(Tag.tag_id == tag_id)
     except DoesNotExist:
-        #todo: enable logging for all these exceptions
+        # todo: enable logging for all these exceptions
         abort(404)
     posts = Post.get_posts().join(Tag_to_Post).where(Tag_to_Post.tag_id == tag_id)
     how = posts.count()

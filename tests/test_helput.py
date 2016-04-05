@@ -1,7 +1,7 @@
 import os
 import pytest
 
-from app.helput import join_all_path, unique_filename
+from app.helput import join_all_path, unique_filename, generate_filename
 
 
 def test_join_all_path():
@@ -23,3 +23,17 @@ def test_unique_filename():
     assert result_ext == original_ext
     # UUID is a string from 32 hexadecimal digits
     assert len(result_name) == 32
+
+
+def test_generate_filename():
+    filename_length = 10
+    first_filename = generate_filename(length=filename_length)
+    second_filename = generate_filename(length=filename_length)
+
+    assert first_filename != second_filename
+    assert len(first_filename) == filename_length
+    assert len(second_filename) == filename_length
+
+    third_filename = generate_filename(prefix='prefix', suffix='suffix')
+    assert third_filename.startswith('prefix')
+    assert third_filename.endswith('suffix')

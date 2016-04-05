@@ -10,12 +10,46 @@ from string import letters, digits
 
 
 def get_list_of_files(directory, ext='', full_path=True):
+    """
+    Return list of files in directory specified
+    :param directory: path to directory you want to perform search in. Not
+    work with nested directories, just files that are present directly here
+    :param ext: if set then only files with this extension will be matched
+    :param full_path: if True that full path for each file will be as result
+    :return: list of files that matched query
+    """
     files = []
     for file_name in os.listdir(directory):
         if file_name.endswith(ext):
             file_path = os.path.join(directory, file_name) if full_path else file_name
             files.append(file_path)
     return files
+
+
+def get_files_under_dir(directory, ext='', case_sensitive=False):
+    """
+    Perform recursive search in directory to match files with one of the
+    extensions provided
+    :param directory: path to directory you want to perform search in.
+    :param ext: list of extensions of simple extension for files to match
+    :param case_sensitive: is case of filename takes into consideration
+    :return: list of files that matched query
+    """
+    if isinstance(ext, (list, tuple)):
+        allowed_exensions = ext
+    else:
+        allowed_exensions = [ext]
+
+    if not case_sensitive:
+        allowed_exensions = map(str.lower, allowed_exensions)
+
+    result = []
+    for root, dirs, files in os.walk(directory):
+        for filename in files:
+            check_filename = filename if case_sensitive else filename.lower()
+            if any(map(check_filename.endswith, allowed_exensions)):
+                result.append(filename)
+    return result
 
 
 def get_all_dirs(directory, full_path=True):
@@ -50,7 +84,6 @@ def generate_filename(prefix='', suffix='', length=5):
     """
     chars = letters + digits
     f_name = ''.join(sample(chars, length))
-    print(f_name)
     return '{prefix}{f_name}{suffix}'.format(prefix=prefix, f_name=f_name,
                                              suffix=suffix)
 

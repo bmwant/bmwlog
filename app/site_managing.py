@@ -26,9 +26,8 @@ def gallery():
         photo_file = request.files.get('photo')
 
         file_ext = os.path.splitext(photo_file.filename)[1]
-        print(file_ext)
         gallery_folder = os.path.join(config.ROOT_FOLDER, 'img/gallery/')
-        f_name = generate_filename(prefix='photo') + file_ext
+        f_name = generate_filename(prefix='photo', suffix=file_ext)
         file_path = os.path.join(gallery_folder, f_name)
         # photo_file.save('/img/gallery/')  # new Bottle
         with open(file_path, 'wb') as open_file:
@@ -40,11 +39,11 @@ def gallery():
         redirect('/gallery_add')
 
 
-@app.get('/photo/delete/<id:int>')
+@app.get('/photo/delete/<photo_id:int>')
 @require('admin')
-def photo_delete(id):
+def photo_delete(photo_id):
     try:
-        photo = Photo.get(Photo.photo_id == id)
+        photo = Photo.get(Photo.photo_id == photo_id)
         photo.delete_instance()
         redirect('/gallery_add')
     except DoesNotExist:
@@ -81,11 +80,11 @@ def banners():
         redirect('/banners')
 
 
-@app.get('/banner/delete/<id:int>')
+@app.get('/banner/delete/<banner_id:int>')
 @require('admin')
-def banner_delete(id):
+def banner_delete(banner_id):
     try:
-        banner = Banner.get(Banner.banner_id == id)
+        banner = Banner.get(Banner.banner_id == banner_id)
         banner.delete_instance()
         redirect('/banners')
     except DoesNotExist:
@@ -153,7 +152,7 @@ def up_file():
     """
     up_file = request.files.get('file')
     web_folder = 'img/article/'
-    folder = os.path.join(config.ROOT_FOLDER, web_folder)
+    folder = os.path.join(config.STATIC_FOLDER, web_folder)
     new_filename = unique_filename(up_file.filename)
     file_path = os.path.join(folder, new_filename)
     #todo: check for file existence
