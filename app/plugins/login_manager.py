@@ -1,5 +1,5 @@
 from bottle import request, response
-from .models import User, DoesNotExist
+from app.models import User, DoesNotExist
 
 
 class LoginManager(object):

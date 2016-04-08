@@ -11,9 +11,12 @@ class LoggingPlugin(object):
     """
     name = 'logging_plugin'
     api = 2
+    date_format = '%H:%M:%S %d/%m/%y'
+    message_format = ('%(asctime)s :: %(mod_name)s, line %(mod_line)d :: '
+                      '[%(levelname)s] %(message)s')
 
     def __init__(self):
-        #todo: add stream and format parameters
+        # todo: add stream and format parameters
         self.app = None
         self.logger = None
 
@@ -21,8 +24,8 @@ class LoggingPlugin(object):
         self.app = app
         logger = logging.getLogger(__name__)
         logger.setLevel(logging.DEBUG)
-        formatter = logging.Formatter('%(asctime)s :: %(mod_name)s, line %(mod_line)d :: [%(levelname)s] %(message)s')
-        formatter.datefmt = '%H:%M:%S %d/%m/%y'
+        formatter = logging.Formatter(self.message_format)
+        formatter.datefmt = self.date_format
         handler = logging.StreamHandler()
         handler.setFormatter(formatter)
         logger.addHandler(handler)

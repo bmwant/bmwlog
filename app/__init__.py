@@ -35,19 +35,19 @@ db.get_conn().ping(True)
 
 app = Bottle()
 
-from .flash import FlashPlugin
+from plugins.flash import FlashPlugin
 app.install(FlashPlugin(secret=config.SECRET_KEY))
 
-from .login_manager import LoginManager
+from plugins.login_manager import LoginManager
 app.install(LoginManager(secret=config.SECRET_KEY))
 
-from .logging_plugin import LoggingPlugin
+from plugins.logging_plugin import LoggingPlugin
 app.install(LoggingPlugin())
 
 env = Environment(loader=PackageLoader('app', '../templates'))
 env.globals['app'] = app
 
-from .helpers import p_count, dollars
+from app.helpers import p_count, dollars
 
 env.filters['p_count'] = p_count
 env.filters['dollars'] = dollars

@@ -17,3 +17,4 @@ wheel==0.24.0
 WTForms==2.0.1
 pytest==2.9.1
 py-term==0.6
+pep8==1.7.0
