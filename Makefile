@@ -1,3 +1,5 @@
+.PHONY: tests
+
 install:
 	@local/scripts/install.sh
 
@@ -6,7 +8,7 @@ update:
 	@cd local/ansible && \
 	ansible-playbook update.yml -i hosts -l mfhoster -vv --ask-sudo-pass
 
-test:
+tests:
 	@py.test -sv -rs tests
 
 
