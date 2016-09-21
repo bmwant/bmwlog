@@ -93,9 +93,10 @@ def distort_filename(filename):
     Generate modified filename based on the original filename
     """
     name, ext = os.path.splitext(filename)
-    return '{original_name}_{appendix}{extension}'.format(original_name=name,
-                                                          appendix=generate_filename(length=4),
-                                                          extension=ext)
+    return '{original_name}_{appendix}{extension}'.format(
+            original_name=name,
+            appendix=generate_filename(length=4),
+            extension=ext)
 
 
 def translit_url(url_text=u''):
@@ -114,7 +115,7 @@ def translit_url(url_text=u''):
         u'є': 'je',
         u'ж': 'zh',
         u'з': 'z',
-        u'и': 'y',
+        u'и': 'u',
         u'і': 'i',
         u'ї': 'ji',
         u'й': 'ji',
@@ -127,7 +128,7 @@ def translit_url(url_text=u''):
         u'р': 'r',
         u'с': 's',
         u'т': 't',
-        u'у': 'u',
+        u'у': 'y',
         u'ф': 'f',
         u'х': 'kh',
         u'ц': 'c',
@@ -140,10 +141,11 @@ def translit_url(url_text=u''):
         u' ': '_'
     }
 
+    allowed = '-_'
     result = ''
     for char in url_text:
         if char in char_table:
             result += char_table[char]
-        elif char.isalnum():
+        elif char.isalnum() or char in allowed:
             result += char
     return result

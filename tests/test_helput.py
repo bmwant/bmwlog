@@ -1,7 +1,13 @@
+# -*- coding: utf-8 -*-
 import os
 import pytest
 
-from app.helput import join_all_path, unique_filename, generate_filename
+from app.helput import (
+    join_all_path,
+    unique_filename,
+    generate_filename,
+    translit_url,
+)
 
 
 def test_join_all_path():
@@ -37,3 +43,27 @@ def test_generate_filename():
     third_filename = generate_filename(prefix='prefix', suffix='suffix')
     assert third_filename.startswith('prefix')
     assert third_filename.endswith('suffix')
+
+
+def test_translit_url():
+    data_one = u'дуже довга назва з пробелом'
+    expected_one = 'dyzhe_dovha_nazva_z_probelom'
+
+    data_two = u'тут повинні бути циферки 1234-and-stay_the_same'
+    expected_two = 'tyt_povunni_bytu_cuferku_1234-and-stay_the_same'
+
+    data_three = u'всякі щ і жчш'
+    expected_three = 'vsjaki_sch_i_zhchsh'
+
+    data_four = '`~@#$%^&*()-_-+={[]};:/?,.<>'
+    expected_four = '-_-'
+
+    result_one = translit_url(data_one)
+    result_two = translit_url(data_two)
+    result_three = translit_url(data_three)
+    result_four = translit_url(data_four)
+
+    assert result_one == expected_one
+    assert result_two == expected_two
+    assert result_three == expected_three
+    assert result_four == expected_four
