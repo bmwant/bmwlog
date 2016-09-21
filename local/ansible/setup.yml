@@ -2,13 +2,9 @@
 - hosts: all
   gather_facts: no
 
-  vars:
-    ansible_python_interpreter: "/usr/local/bin/python"
-    repository_url: "git@github.com:bmwant/bmwlog.git"
-    repository_branch: "origin/master"
-    database_name: "bmwlogdb"
-
   tasks:
+    - include_vars: "vars/common.yml"
+
     # hack to allow run via 'ansible-playbook' and via 'vagrant provision'
     - include_vars: "group_vars/vagrant.yml"
       when: ansible_ssh_user == "vagrant"
@@ -76,9 +72,9 @@
         creates: "{{ project_venv }}"
 
     - name: install requirements
-      shell: "venv/bin/pip install -r bmwlog/requirements.txt"
+      shell: "{{ project_venv }}/bin/pip install -r requirements.txt"
       args:
-        chdir: "~/workspace"
+        chdir: "{{ project_root }}"
 
     - name: modify nginx config
       copy:
