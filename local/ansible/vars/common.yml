@@ -1,8 +1,5 @@
 repository_url: "git@github.com:bmwant/bmwlog.git"
 repository_branch: "origin/master"
-project_root: "/data/projects/bmwlog"
-project_static: "/data/projects/bmwlog/static"
-project_venv: "/data/virtualenvs/bmwlog"
 
 database_name: "bmwlogdb"
 

@@ -9,6 +9,10 @@
     - include_vars: "group_vars/vagrant.yml"
       when: ansible_ssh_user == "vagrant"
 
+    - name: update package manager
+      shell: "pkg update"
+      become: true
+
     - name: create directories
       file:
         path: "{{ item }}"

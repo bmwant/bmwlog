@@ -1,3 +1,6 @@
+ansible_ssh_private_key_file: '/Users/mihailbehersky/code/bmwlog/.vagrant/machines/default/virtualbox/private_key'
+ansible_python_interpreter: /usr/local/bin/python
+
 project_root: "/home/vagrant/workspace/bmwlog"
+project_static: "/home/vagrant/workspace/bmwlog/static"
 project_venv: "/home/vagrant/workspace/venv"
-bottle_run_port: 8081

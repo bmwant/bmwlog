@@ -27,7 +27,8 @@ class Category(BaseModel):
 
     @property
     def posts_count(self):
-        return Post.get_posts().where(Post.category == self.category_id).count()
+        return Post.get_posts().\
+            where(Post.category == self.category_id).count()
 
 
     class Meta:
@@ -72,14 +73,18 @@ class User(BaseModel):
 
     def __repr__(self):
         date_registered_str = self.date_registered.strftime('%d/%m/%Y')
-        return '{nickname} [{mail}] ({date_registered})'.format(nickname=self.nickname,
-                                                                mail=self.mail,
-                                                                date_registered=date_registered_str)
+        return '{nickname} [{mail}] ({date_registered})'.format(
+            nickname=self.nickname,
+            mail=self.mail,
+            date_registered=date_registered_str)
     class Meta:
         db_table = 'user'
 
 
 class Post(BaseModel):
+    class Meta:
+        db_table = 'post'
+
     post_id = PrimaryKeyField(db_column='post_id')
     category = ForeignKeyField(db_column='category_id', rel_model=Category)
     user = ForeignKeyField(db_column='user_id', rel_model=User)
@@ -119,10 +124,12 @@ class Post(BaseModel):
         comments_weight = cv(self.comments, 10)*15
         likes_weight = cv(self.likes, 30)*15
         views_weight = cv(self.views, 100)*10
-        posted_weight = (1-cv(int_posted, int_years))*40  # less time passed away - higher value
+        # the less time passed the higher value
+        posted_weight = (1-cv(int_posted, int_years))*40
         updated_weight = (1-cv(int_updt, int_years))*20
 
-        act = comments_weight + likes_weight + views_weight + posted_weight + updated_weight
+        act = (comments_weight + likes_weight + views_weight +
+               posted_weight + updated_weight)
 
         assert act < 100
 
@@ -137,15 +144,17 @@ class Post(BaseModel):
         """
         return 10
 
+    @property
+    def tags(self):
+        return Tag.select().join(Tag_to_Post).\
+            where(Tag_to_Post.post_id == self.post_id)
+
     def save(self, *args, **kwargs):
         return super(Post, self).save(*args, **kwargs)
 
     @classmethod
     def create(cls, **query):
         return super(Post, cls).create(**query)
-
-    class Meta:
-        db_table = 'post'
 
     @classmethod
     def search(cls, query):
@@ -187,8 +196,8 @@ class Post(BaseModel):
         raise NotImplementedError()
 
     def __str__(self):
-        return '#{post_id}. {post_title}'.format(post_id=self.post_id,
-                                                 post_title=self.title.encode('utf-8'))
+        return '#{post_id}. {post_title}'.format(
+            post_id=self.post_id, post_title=self.title.encode('utf-8'))
 
 
 class Photo(BaseModel):
@@ -230,7 +239,8 @@ class Tag(BaseModel):
         """
         How many posts there are with current tag
         """
-        return Tag_to_Post.select().where(Tag_to_Post.tag_id == self.tag_id).count()
+        return Tag_to_Post.select().\
+            where(Tag_to_Post.tag_id == self.tag_id).count()
 
     class Meta:
         db_table = 'tag'

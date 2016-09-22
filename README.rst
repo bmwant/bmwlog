@@ -9,3 +9,16 @@ Try to visit `site <http://bmwlog.pp.ua/>`_ to see some interesting articles.
 Run Ansible provisioning manually
 
 ansible-playbook local/ansible/setup.yml -u vagrant -vv -i local/ansible/hosts -l vagrant --ask-pass
+
+
+Development
+
+make install
+
+make tests
+make style-check
+
+
+Deployment
+make setup
+make update
