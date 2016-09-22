@@ -15,6 +15,7 @@
         state: directory
       with_items:
         - "/usr/local/etc/nginx/sites-enabled/"
+        - "/usr/local/etc/supervisor/"
       become: true
 
     - name: install packages
@@ -23,12 +24,34 @@
         - git
         - py27-pip
         - py27-virtualenv
+        - py27-supervisor
         - nginx
         - mysql56-server
       become: true
 
+    - name: enable supervisor at startup
+      lineinfile:
+        dest: /etc/rc.conf
+        line: 'supervisord_enable="YES"'
+      become: true
+
+    # the default will replace the remote file when contents are different than the source
+    - name: modify supervisor config
+      copy:
+        src: files/supervisord.conf
+        dest: /usr/local/etc/supervisord.conf
+      become: true
+
+    - name: start supervisor
+      service:
+        name: supervisord
+        state: started
+      become: true
+
     - name: enable mysql at startup
-      lineinfile: dest=/etc/rc.conf line='mysql_enable="YES"'
+      lineinfile:
+        dest: /etc/rc.conf
+        line: 'mysql_enable="YES"'
       become: true
 
     - name: start mysql
@@ -41,7 +64,9 @@
       command: 'mysql -u root -e "create database if not exists {{ database_name }}";'
 
     - name: enable nginx at startup
-      lineinfile: dest=/etc/rc.conf line='nginx_enable="YES"'
+      lineinfile:
+        dest: /etc/rc.conf
+        line: 'nginx_enable="YES"'
       become: true
 
     - name: start nginx
@@ -96,7 +121,9 @@
       notify: nginx reload
       become: true
 
+
   handlers:
+
     - name: nginx reload
       shell: "nginx -t && nginx -s reload"
       become: true
