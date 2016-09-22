@@ -83,14 +83,6 @@
         accept_hostkey: true
       when: ansible_ssh_user != "vagrant"
 
-    - name: create local directories for project
-      file:
-        path: "{{ project_root }}/{{ item }}"
-        state: directory
-      with_items:
-        - "prod"
-        - "uploaded"
-
     - name: create virtual environment
       shell: "virtualenv {{ project_venv }}"
       args:
@@ -98,6 +90,11 @@
 
     - name: install requirements
       shell: "{{ project_venv }}/bin/pip install -r requirements.txt"
+      args:
+        chdir: "{{ project_root }}"
+
+    - name: create local directories for project
+      shell: "{{ project_venv }}/bin/python utils/init_folders.py"
       args:
         chdir: "{{ project_root }}"
 
