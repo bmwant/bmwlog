@@ -14,6 +14,7 @@ FOLDERS_LIST = [
     {'path': 'static/img/projects'},
     {'path': 'files', 'create': True},
     {'path': 'uploaded', 'create': True},
+    {'path': 'prod', 'create': True},
 ]
 
 

@@ -1,0 +1,22 @@
+class Config(object):
+    """
+    Shared properties for all configurations. Feel free
+    to override some of them in inherited class
+    """
+    SECRET_KEY = 'some-secret-key'
+    DEBUG = True
+    RELOADER = True
+    POSTS_PER_PAGE = 10
+
+
+class ProductionConfig(Config):
+    DB_HOST = '127.0.0.1'
+    DB_PORT = 3306
+    STATIC_FOLDER = '{{ project_static }}'
+    ROOT_FOLDER = '{{ project_root }}'
+    #  only applicable if will run as standalone app
+    RUN_HOST = '127.0.0.1'  #
+    RUN_PORT = {{ bottle_run_port }}
+    DB_USER = 'root'
+    DB_PASS = ''
+    DB_NAME = '{{ database_name }}'

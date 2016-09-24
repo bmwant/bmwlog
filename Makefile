@@ -16,6 +16,5 @@ update:
 tests:
 	@py.test -sv -rs tests
 
-
 style-check:
 	@pep8 . --first --count
