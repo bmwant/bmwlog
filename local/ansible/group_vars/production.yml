@@ -1,0 +1,14 @@
+project_root: "/data/projects/bmwlog"
+project_venv: "/data/virtualenvs/bmwlog"
+
+ansible_python_interpreter: /usr/local/bin/python
+ansible_user: bmwant
+
+repository_url: "git@github.com:bmwant/bmwlog.git"
+repository_branch: "origin/master"
+project_root: "/data/projects/bmwlog"
+project_venv: "/data/virtualenvs/bmwlog"
+
+run_mode: production
+bottle_run_port: 8031
+gunicorn_workers_count: 1

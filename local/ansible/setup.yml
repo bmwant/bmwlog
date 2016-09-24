@@ -2,18 +2,14 @@
 - hosts: all
   gather_facts: no
 
-  vars:
-    ansible_python_interpreter: "/usr/local/bin/python"
-    repository_url: "git@github.com:bmwant/bmwlog.git"
-    repository_branch: "origin/master"
-    database_name: "bmwlogdb"
-
   tasks:
+    - include_vars: "vars/common.yml"
+
     # hack to allow run via 'ansible-playbook' and via 'vagrant provision'
     - include_vars: "group_vars/vagrant.yml"
       when: ansible_ssh_user == "vagrant"
 
-    - name: create directories
+    - name: create system directories
       file:
         path: "{{ item }}"
         state: directory
@@ -24,11 +20,18 @@
     - name: install packages
       pkgng: name="{{ item }}" state=present
       with_items:
+        - bash
         - git
         - py27-pip
         - py27-virtualenv
         - nginx
         - mysql56-server
+      become: true
+
+    - name: mount file-descriptor file system
+      lineinfile:
+        dest: /etc/fstab
+        line: "fdesc  /dev/fd   fdescfs   rw  0   0"
       become: true
 
     - name: enable mysql at startup
@@ -76,9 +79,9 @@
         creates: "{{ project_venv }}"
 
     - name: install requirements
-      shell: "venv/bin/pip install -r bmwlog/requirements.txt"
+      shell: "bin/pip install -r {{ project_root }}/requirements.txt"
       args:
-        chdir: "~/workspace"
+        chdir: "{{ project_venv }}"
 
     - name: modify nginx config
       copy:

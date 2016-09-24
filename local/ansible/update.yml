@@ -3,7 +3,7 @@
 
   tasks:
 
-    - include_vars: "group_vars/mfhoster.yml"
+    - include_vars: "group_vars/production.yml"
 
     - name: clone project repository
       git:
