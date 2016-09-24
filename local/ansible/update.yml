@@ -3,7 +3,7 @@
 
   tasks:
 
-    - include_vars: "group_vars/production.yml"
+    - include_vars: "vars/common.yml"
 
     - name: clone project repository
       git:
@@ -16,6 +16,12 @@
       shell: "{{ project_venv }}/bin/pip install -r requirements.txt"
       args:
         chdir: "{{ project_root }}"
+
+    - name: update project config
+      template:
+        src: templates/app_config.py.j2
+        dest: "{{ project_root }}/app/config.py"
+      notify: gunicorn reload
 
     - name: create local directories for project
       file:
@@ -53,7 +59,7 @@
     - name: ensure nginx config linked
       file:
         src: "{{ project_root }}/prod/nginx_bmwlog.conf"
-        dest: /etc/nginx/sites-enabled/bmwlog.conf
+        dest: /usr/local/etc/nginx/sites-enabled/bmwlog.conf
         state: link
       become: true
 

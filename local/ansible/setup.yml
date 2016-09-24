@@ -9,12 +9,17 @@
     - include_vars: "group_vars/vagrant.yml"
       when: ansible_ssh_user == "vagrant"
 
-    - name: create system directories
+    - name: update package manager
+      shell: "pkg update"
+      become: true
+
+    - name: create directories
       file:
         path: "{{ item }}"
         state: directory
       with_items:
         - "/usr/local/etc/nginx/sites-enabled/"
+        - "/usr/local/etc/supervisor/"
       become: true
 
     - name: install packages
@@ -24,6 +29,7 @@
         - git
         - py27-pip
         - py27-virtualenv
+        - py27-supervisor
         - nginx
         - mysql56-server
       become: true
@@ -34,8 +40,29 @@
         line: "fdesc  /dev/fd   fdescfs   rw  0   0"
       become: true
 
+    - name: enable supervisor at startup
+      lineinfile:
+        dest: /etc/rc.conf
+        line: 'supervisord_enable="YES"'
+      become: true
+
+    # the default will replace the remote file when contents are different than the source
+    - name: modify supervisor config
+      copy:
+        src: files/supervisord.conf
+        dest: /usr/local/etc/supervisord.conf
+      become: true
+
+    - name: start supervisor
+      service:
+        name: supervisord
+        state: started
+      become: true
+
     - name: enable mysql at startup
-      lineinfile: dest=/etc/rc.conf line='mysql_enable="YES"'
+      lineinfile:
+        dest: /etc/rc.conf
+        line: 'mysql_enable="YES"'
       become: true
 
     - name: start mysql
@@ -48,7 +75,9 @@
       command: 'mysql -u root -e "create database if not exists {{ database_name }}";'
 
     - name: enable nginx at startup
-      lineinfile: dest=/etc/rc.conf line='nginx_enable="YES"'
+      lineinfile:
+        dest: /etc/rc.conf
+        line: 'nginx_enable="YES"'
       become: true
 
     - name: start nginx
@@ -65,23 +94,20 @@
         accept_hostkey: true
       when: ansible_ssh_user != "vagrant"
 
-    - name: create local directories for project
-      file:
-        path: "{{ project_root }}/{{ item }}"
-        state: directory
-      with_items:
-        - "prod"
-        - "uploaded"
-
     - name: create virtual environment
       shell: "virtualenv {{ project_venv }}"
       args:
         creates: "{{ project_venv }}"
 
     - name: install requirements
-      shell: "bin/pip install -r {{ project_root }}/requirements.txt"
+      shell: "{{ project_venv }}/bin/pip install -r requirements.txt"
       args:
-        chdir: "{{ project_venv }}"
+        chdir: "{{ project_root }}"
+
+    - name: create local directories for project
+      shell: "{{ project_venv }}/bin/python utils/init_folders.py"
+      args:
+        chdir: "{{ project_root }}"
 
     - name: modify nginx config
       copy:
@@ -103,7 +129,9 @@
       notify: nginx reload
       become: true
 
+
   handlers:
+
     - name: nginx reload
       shell: "nginx -t && nginx -s reload"
       become: true

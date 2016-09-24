@@ -40,13 +40,13 @@
             <textarea id="article-text" name="text" rows="60" cols="80">{{ item.post_text}}</textarea><br />
 
             <label>Теги</label>
-            <div id="tagBox">{% for tag in tags %}{{ tag.text }};{% endfor %}</div>
+            <div id="tagBox">{% for tag in post.tags %}{{ tag.text }};{% endfor %}</div>
             <input type="hidden" name="tags" />
             <input type="hidden" name="draft">
 
             <div class="margin-bottom margin-top">
                 <a id="submitter" class="button success icon ok">
-                    Опублікувати
+                    {{ submit_button|default('Опублікувати') }}
                 </a>
                 <a id="drafter" class="button secondary small icon edit">
                     Зберегти в чорновики

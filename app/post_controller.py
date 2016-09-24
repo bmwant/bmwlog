@@ -138,10 +138,11 @@ def post_edit(post_id):
             abort(404)
 
         all_categories = Category.select()
-        tags = Tag.select().join(Tag_to_Post).where(Tag_to_Post.post_id == post_id)
         template = env.get_template('post/edit.html')
-        return template.render(item=post, tags=tags, categories=all_categories)
-    if request.method == 'POST':
+        return template.render(item=post,
+                               categories=all_categories,
+                               submit_button=u'Оновити')
+    elif request.method == 'POST':
         post = Post.get(Post.post_id == post_id)
         post.category = post_get('category_id')
         post.post_text = post_get('text')

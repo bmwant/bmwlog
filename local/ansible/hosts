@@ -1,11 +1,6 @@
+; ansible 1.9.4
 [vagrant]
 10.0.7.7
 
 [digital_ocean]
-178.62.36.92
-
-[mfhoster:vars]
-ansible_become_method=su
-
-[digital_ocean:vars]
-ansible_ssh_user=freebsd
+178.62.55.199
