@@ -30,4 +30,4 @@ class TravisConfig(Config):
     DB_PORT = 3306
     DB_USER = 'root'
     DB_PASS = ''
-    DB_NAME = 'test'
+    DB_NAME = 'testdb'
