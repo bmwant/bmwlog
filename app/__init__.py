@@ -6,11 +6,6 @@ from bottle import Bottle, Jinja2Template
 from jinja2 import Environment, PackageLoader
 from peewee import MySQLDatabase
 
-from plugins.flash import FlashPlugin
-from plugins.login_manager import LoginManager
-from plugins.logging_plugin import LoggingPlugin
-from app.helpers import p_count, dollars
-
 
 def load_config():
     try:
@@ -40,12 +35,19 @@ db.get_conn().ping(True)
 
 app = Bottle()
 
+from plugins.flash import FlashPlugin
+from plugins.login_manager import LoginManager
+from plugins.logging_plugin import LoggingPlugin
+
 app.install(FlashPlugin(secret=config.SECRET_KEY))
 app.install(LoginManager(secret=config.SECRET_KEY))
 app.install(LoggingPlugin())
 
 env = Environment(loader=PackageLoader('app', '../templates'))
 env.globals['app'] = app
+
+from app.helpers import p_count, dollars
+
 env.filters['p_count'] = p_count
 env.filters['dollars'] = dollars
 
