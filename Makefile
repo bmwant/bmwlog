@@ -17,4 +17,4 @@ tests:
 	@py.test -sv -rs tests
 
 style-check:
-	@pep8 . --first --count
+	@pep8 . --count
