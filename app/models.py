@@ -38,13 +38,16 @@ class Category(BaseModel):
 class Role(BaseModel):
     class Meta:
         db_table = 'role'
-        
+
     role_id = PrimaryKeyField()
     level = IntegerField(default=40)
     role = CharField(null=False)
 
 
 class User(BaseModel):
+    class Meta:
+        db_table = 'user'
+
     user_id = PrimaryKeyField(db_column='user_id')
     first_name = CharField(null=True)
     last_name = CharField(null=True)
@@ -65,7 +68,7 @@ class User(BaseModel):
     @classmethod
     def create(cls, **query):
         role = Role.get(Role.role == 'user')  # default role is user
-        #cls.role = role
+        # cls.role = role
         return super(User, cls).create(role=role, **query)
 
     def is_admin(self):
@@ -77,8 +80,6 @@ class User(BaseModel):
             nickname=self.nickname,
             mail=self.mail,
             date_registered=date_registered_str)
-    class Meta:
-        db_table = 'user'
 
 
 class Post(BaseModel):

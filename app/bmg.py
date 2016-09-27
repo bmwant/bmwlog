@@ -2,8 +2,6 @@
 """
 Bottle generator for forms and templates based on models
 """
-__author__ = 'Most Wanted'
-
 import os
 import sys
 import inspect
@@ -71,7 +69,6 @@ class BMG:
                     counter += 1
 
     def generate_view(self, view_name, model_name):
-        #log action
         v = ViewCreator(view_name, model_name)
         v.write()
 
@@ -80,19 +77,16 @@ class BMG:
         new_form_name = obj.__name__ + 'Form'  # e.g. UserForm
         new_view_name = obj.__name__.lower()
 
-        #new_form_class = type(new_form_name, (wtforms.Form, ), {})
+        # new_form_class = type(new_form_name, (wtforms.Form, ), {})
         j = Jumbotron(new_form_name)
         for field_name, field in vars(obj).iteritems():
             if isinstance(field, peewee.FieldDescriptor):
                 for key in PEEWEE_TO_WTFORMS.iterkeys():
                     if key is type(field.field):
-                        j.add_field(field_name, PEEWEE_TO_WTFORMS[key].__name__)
-                        #setattr(new_form_class, field_name, PEEWEE_TO_WTFORMS[key])
-                        #print('%s -> %s' % (field.field, PEEWEE_TO_WTFORMS[key]))
-        #print(j.render())
+                        j.add_field(field_name,
+                                    PEEWEE_TO_WTFORMS[key].__name__)
         j.write()
         self.generate_view(new_view_name, obj.__name__)
-
 
     def generate_model_data(self, model_name=None):
         self.create_files()
@@ -108,7 +102,7 @@ class BMG:
                     break
 
 
-class ViewCreator():
+class ViewCreator(object):
     template = """
 
 
@@ -173,7 +167,7 @@ def {{ view_name }}_delete({{ view_name }}_id):
                  '{0}/gen_views/{1}_admin.html'.format(templates_dir, self.name))
 
 
-class Jumbotron():
+class Jumbotron(object):
     template = """
 
 

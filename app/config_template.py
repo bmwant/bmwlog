@@ -6,6 +6,7 @@ class Config(object):
     Shared properties for all configurations. Feel free
     to override some of them in inherited class
     """
+    DO_NOT_WRITE_BYTECODE = False
     SECRET_KEY = 'some-secret-key'
     DEBUG = True
     RELOADER = True

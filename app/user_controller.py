@@ -22,7 +22,6 @@ def require(role):
                 app.flash(u'У Вас недостатньо прав для перегляду')
                 redirect()
             app.flash(u'Увійдіть, щоб переглянути дану сторінку')
-            #print(request.path)
             redirect('/login?back=' + request.path)
         return wrapper
     return decorator
@@ -79,11 +78,12 @@ def signup():
             try:
                 user = User.get(User.mail == form.mail.data)
             except DoesNotExist:
-                new_user = User.create(mail=form.mail.data,
-                                       user_password=User.encode_password(form.password.data),
-                                       first_name=form.first_name.data,
-                                       last_name=form.last_name.data,
-                                       nickname=form.nickname.data
+                new_user = User.create(
+                    mail=form.mail.data,
+                    user_password=User.encode_password(form.password.data),
+                    first_name=form.first_name.data,
+                    last_name=form.last_name.data,
+                    nickname=form.nickname.data
                 )
                 app.flash(u'Успішна реєстрація. Тепер ви можете увійти')
                 redirect('/login')
@@ -127,7 +127,7 @@ def update_account():
     user = app.current_user
     update_form = UserEditForm(request.POST, user)
     if update_form.validate():
-        #user.update(**update_form.data).execute()
+        # user.update(**update_form.data).execute()
         update_form.populate_obj(user)
         print(update_form.data)
         user.save()

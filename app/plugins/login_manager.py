@@ -13,8 +13,8 @@ class LoginManager(object):
 
     def setup(self, app):
         self.app = app
-        #self.app.add_hook('before_request', self.load_user)
-        #self.app.add_hook('after_request', self.set_user)
+        # self.app.add_hook('before_request', self.load_user)
+        # self.app.add_hook('after_request', self.set_user)
         self.app.current_user = None
         self.app.login = self.login
         self.app.logout = self.logout
@@ -48,7 +48,9 @@ class LoginManager(object):
 
     def set_user(self):
         if self.app.current_user is not None:
-            self.app.log('Setting user after request: %s.' % self.app.current_user)
+            self.app.log('Setting user after request: {current_user}'.format(
+                current_user=self.app.current_user))
+
             response.set_cookie(name=self.key,
                                 value=self.app.current_user.mail,
                                 secret=self.secret,
