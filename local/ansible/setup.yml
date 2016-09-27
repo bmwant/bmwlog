@@ -25,12 +25,19 @@
     - name: install packages
       pkgng: name="{{ item }}" state=present
       with_items:
+        - bash
         - git
         - py27-pip
         - py27-virtualenv
         - py27-supervisor
         - nginx
         - mysql56-server
+      become: true
+
+    - name: mount file-descriptor file system
+      lineinfile:
+        dest: /etc/fstab
+        line: "fdesc  /dev/fd   fdescfs   rw  0   0"
       become: true
 
     - name: enable supervisor at startup
