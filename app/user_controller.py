@@ -117,7 +117,6 @@ def user_view(user_id):
 def my_account():
     user = app.current_user
     form = UserEditForm(obj=user)
-    print(form.data)
     my_drafts = Post.get_drafts().where(Post.user == user.user_id)
     return {'user': user, 'posts': my_drafts, 'form': form}
 
