@@ -29,19 +29,18 @@ def load_config():
 config = load_config()
 
 db = MySQLDatabase(config.DB_NAME,
-    host=config.DB_HOST, port=config.DB_PORT,
-    user=config.DB_USER, password=config.DB_PASS)
+                   host=config.DB_HOST, port=config.DB_PORT,
+                   user=config.DB_USER, password=config.DB_PASS)
 db.get_conn().ping(True)
 
 app = Bottle()
 
 from plugins.flash import FlashPlugin
-app.install(FlashPlugin(secret=config.SECRET_KEY))
-
 from plugins.login_manager import LoginManager
-app.install(LoginManager(secret=config.SECRET_KEY))
-
 from plugins.logging_plugin import LoggingPlugin
+
+app.install(FlashPlugin(secret=config.SECRET_KEY))
+app.install(LoginManager(secret=config.SECRET_KEY))
 app.install(LoggingPlugin())
 
 env = Environment(loader=PackageLoader('app', '../templates'))

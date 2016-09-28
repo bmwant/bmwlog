@@ -6,6 +6,8 @@ class Config(object):
     Shared properties for all configurations. Feel free
     to override some of them in inherited class
     """
+    # todo (misha): add trafaret validator to config
+    DO_NOT_WRITE_BYTECODE = False
     SECRET_KEY = 'some-secret-key'
     DEBUG = True
     RELOADER = True
@@ -22,3 +24,13 @@ class SpecificConfig(Config):
     DB_USER = 'root'
     DB_PASS = ''
     DB_NAME = 'bmwlog'
+
+
+class TravisConfig(Config):
+    DB_HOST = '127.0.0.1'
+    DB_PORT = 3306
+    DB_USER = 'root'
+    STATIC_FOLDER = '/home/travis/build/bmwant/bmwlog/static/'
+    ROOT_FOLDER = '/home/travis/build/bmwant/bmwlog/'
+    DB_PASS = ''
+    DB_NAME = 'testdb'

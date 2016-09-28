@@ -11,6 +11,7 @@
         dest: "{{ project_root }}"
         version: "{{ repository_branch }}"
         accept_hostkey: true
+      when: ansible_ssh_user != "vagrant"
 
     - name: update project requirements
       shell: "{{ project_venv }}/bin/pip install -r requirements.txt"

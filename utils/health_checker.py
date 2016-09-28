@@ -78,4 +78,3 @@ if __name__ == '__main__':
         checker.check()
     except KeyboardInterrupt:
         pass
-

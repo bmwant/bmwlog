@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Most Wanted'
-
 import os
 
 from urlparse import urlparse
 from bottle import request, abort, static_file
 from geventwebsocket import WebSocketError
 
-from models import Photo, Banner, Quote, DoesNotExist, StaticPage, StreamMessage
+from models import (Photo, Banner, Quote, DoesNotExist, StaticPage,
+                    StreamMessage)
 from helpers import post_get, redirect, view, backup_db, only_ajax, root_path
-from helput import unique_filename, join_all_path, generate_filename, distort_filename
+from helput import (unique_filename, join_all_path, generate_filename,
+                    distort_filename)
 from user_controller import require
 from forms import SimpleUploadForm, StaticPageForm
 from app import app, env, config
@@ -121,8 +121,8 @@ def upload():
     """
     Uploads a file to the site storage on the server
     """
-    #todo: add auto-rename
-    #todo: add format checking and size for pictures
+    # todo: add auto-rename
+    # todo: add format checking and size for pictures
     form = SimpleUploadForm(request.POST)
     template = env.get_template('upload.html')
     if request.method == 'POST' and form.validate():
@@ -132,14 +132,16 @@ def upload():
             os.makedirs(folder)
         new_filename = up_file.filename
         file_path = os.path.join(folder, new_filename)
-        #Generate unique filename if one already exists
+        # Generate unique filename if one already exists
         if os.path.exists(file_path):
             new_filename = distort_filename(up_file.filename)
             file_path = os.path.join(folder, new_filename)
         # photo_file.save('/img/gallery/')  # new Bottle
         with open(file_path, 'wb') as open_file:
             open_file.write(up_file.file.read())
-        uploaded_file = join_all_path(['/', form.file_folder.data, new_filename]).replace('\\', '/')
+        uploaded_file = join_all_path(['/',
+                                       form.file_folder.data,
+                                       new_filename]).replace('\\', '/')
         app.flash(u'Файл завантажено')
         return template.render(form=form, uploaded_file=uploaded_file)
     return template.render(form=form)
@@ -155,7 +157,7 @@ def up_file():
     folder = os.path.join(config.STATIC_FOLDER, web_folder)
     new_filename = unique_filename(up_file.filename)
     file_path = os.path.join(folder, new_filename)
-    #todo: check for file existence
+    # todo: check for file existence
     # photo_file.save('/img/gallery/')  # new Bottle
     with open(file_path, 'wb') as open_file:
         open_file.write(up_file.file.read())

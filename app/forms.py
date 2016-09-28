@@ -20,13 +20,15 @@ class Form(wtforms.Form):
 
 
 class SimpleUploadForm(Form):
+    upload_choices = (
+        ('img/article', u'Зображення до статті'),
+        ('uploaded', u'Інші файли'),
+    )
     file_folder = SelectField(u'Куди завантажити',
-                              choices=[('img/article', u'Зображення до статті'), ('uploaded', u'Інші файли')],
+                              choices=upload_choices,
                               validators=[validators.InputRequired()])
     upload_file = FileField(u'Виберіть файл',
                             validators=[validators.InputRequired()])
-    """StringField('Email Address', [validators.Length(min=6, max=35)])
-    accept_rules = BooleanField('I accept the site rules', [validators.InputRequired()])"""
 
 
 class UploadFileField(FileField):
@@ -39,12 +41,17 @@ class UploadFileField(FileField):
             f = save_file(self.data, 'img/users')
             self.data = f
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, **kwargs):
         """
         Renders field with small pictogram
         """
-        file_input = super(UploadFileField, self).__call__(*args, **kwargs)
+        file_input = super(UploadFileField, self).__call__(**kwargs)
         return file_input
+
+
+class ConfirmPasswordField(PasswordField):
+    def __call__(self, **kwargs):
+        return super(ConfirmPasswordField, self).__call__(**kwargs)
 
 
 class UserEditForm(Form):
@@ -52,6 +59,7 @@ class UserEditForm(Form):
     last_name = StringField(u'Прізвище')
     nickname = StringField(u'Псевдонім')
     picture = UploadFileField(u'Фото')
+    change_password = ConfirmPasswordField()
 
     def populate_obj(self, obj):
         if not self.picture.data:
@@ -61,9 +69,12 @@ class UserEditForm(Form):
 
 class SignupForm(Form):
     mail = StringField(u'E-mail', validators=[validators.Email()])
-    password = PasswordField(u'Пароль', validators=[validators.InputRequired(), validators.Length(min=6)])
+    password = PasswordField(u'Пароль',
+                             validators=[validators.InputRequired(),
+                                         validators.Length(min=6)])
     first_name = StringField(u'Ім\'я', validators=[validators.InputRequired()])
-    last_name = StringField(u'Прізвище', validators=[validators.InputRequired()])
+    last_name = StringField(u'Прізвище',
+                            validators=[validators.InputRequired()])
     nickname = StringField(u'Нік', validators=[validators.InputRequired()])
 
 
@@ -72,6 +83,6 @@ class StaticPageForm(Form):
     page_url = StringField('Url')
     text = TextAreaField(u'Текст сторінки', validators=[InputRequired()])
 
-    def validate_page_url(form, field):
+    def validate_page_url(self, field):
         if not field.data:
-            field.data = translit_url(form.title.data)
+            field.data = translit_url(self.title.data)
