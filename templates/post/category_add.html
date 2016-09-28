@@ -11,7 +11,12 @@
 
             <div class="list-block">
                 {% for item in categories %}
-                    <div class="list-item bck light"><a href="/category/{{ item.category_id }}">{{ item.category_name }}</a><span class="delete-item"><a href="/category/delete/{{ item.category_id }}" class="bold color theme"><i class="fa fa-times"></i></a></span></div>
+                    <div class="list-item bck light">
+                        <a href="/category/{{ item.category_id }}">{{ item.category_name }}</a>
+                        <span class="delete-item">
+                            <a href="/category/delete/{{ item.category_id }}" class="bold color theme"><i class="fa fa-times"></i></a>
+                        </span>
+                    </div>
                 {% endfor %}
             </div>
 
