@@ -26,7 +26,7 @@ def gallery():
         photo_file = request.files.get('photo')
 
         file_ext = os.path.splitext(photo_file.filename)[1]
-        gallery_folder = os.path.join(config.ROOT_FOLDER, 'img/gallery/')
+        gallery_folder = os.path.join(config.STATIC_FOLDER, 'img/gallery/')
         f_name = generate_filename(prefix='photo', suffix=file_ext)
         file_path = os.path.join(gallery_folder, f_name)
         # photo_file.save('/img/gallery/')  # new Bottle
@@ -165,6 +165,7 @@ def up_file():
 
 
 @app.get('/ad/backupdb')
+@require('admin')
 def backdb():
     backup_name = backup_db()
     backup_file = join_all_path([config.ROOT_FOLDER, 'uploaded', backup_name])
