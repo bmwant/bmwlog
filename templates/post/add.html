@@ -9,6 +9,10 @@
     <script src="/static/js/dropzone.js"></script>
 {% endblock %}
 
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/flag-icon.min.css">
+{% endblock %}
 
 {% block content %}
 <div id="content">
@@ -27,14 +31,29 @@
             
             <input type="text" id="datepicker" class="hastDatapicker" /><br />
             -->
-            <label>Виберіть категорію</label>
-            <div class="select">
-                <select name="category_id">
-                    {% for item in categories %}
-                    <option value="{{ item.category_id }}">{{ item.category_name}}</option>
-                    {% endfor %}
-                </select>
-            </div><br />
+            <div class="form-field">
+                <label>Виберіть категорію</label>
+                <div class="select">
+                    <select name="category_id">
+                        {% for item in categories %}
+                        <option value="{{ item.category_id }}">{{ item.category_name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-field">
+                <div class="lang-icon" data-lang="eng">
+                    <span class="flag-icon flag-icon-gb"></span>
+                </div>
+                <div class="lang-icon radio-selected" data-lang="ukr">
+                    <span class="flag-icon flag-icon-ua"></span>
+                </div>
+                <div class="lang-icon" data-lang="rus">
+                    <span class="flag-icon flag-icon-ru"></span>
+                </div>
+                <input type="hidden" name="language" value="ukr">
+            </div>
 
             <label>Текст</label>
             <textarea id="article-text" name="text"></textarea><br />

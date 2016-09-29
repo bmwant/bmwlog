@@ -9,6 +9,11 @@
     <script src="/static/js/dropzone.js"></script>
 {% endblock %}
 
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/flag-icon.min.css">
+{% endblock %}
+
 {% block content %}
 <div id="content">
     <div class="row">
@@ -35,6 +40,19 @@
                     {% endfor %}
                 </select>
             </div><br />
+
+            <div class="form-field">
+                <div class="lang-icon" data-lang="eng">
+                    <span class="flag-icon flag-icon-gb"></span>
+                </div>
+                <div class="lang-icon radio-selected" data-lang="ukr">
+                    <span class="flag-icon flag-icon-ua"></span>
+                </div>
+                <div class="lang-icon" data-lang="rus">
+                    <span class="flag-icon flag-icon-ru"></span>
+                </div>
+                <input type="hidden" name="language" value="ukr">
+            </div>
 
             <label>Текст</label>
             <textarea id="article-text" name="text" rows="60" cols="80">{{ item.post_text}}</textarea><br />

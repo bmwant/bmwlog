@@ -140,6 +140,41 @@ html, body {
     background-color: #ecf0f1;
 }
 
+.form-field {
+    margin-bottom: 10px;
+}
+
+.form-field .flag-icon {
+    width: 2em;
+    height: 2em;
+    margin: 3px;
+}
+
+.radio-selected {
+    background-color: #1abc9c !important;
+}
+
+.lang-icon {
+    margin-right: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
+    background-color: #ecf0f1;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.lang-icon:hover {
+    background-color: #ffc04f;
+}
+
+.form-field input[type="radio"] {
+    display: none !important;
+}
+
+.lang-icon {
+    display: inline-block;
+}
+
 .all-height {
     height: auto !important;
     min-height: 100%;
@@ -157,7 +192,7 @@ html, body {
 }
 
 .post-text-lst {
-	word-wrap: break-word;
+    word-wrap: break-word;
     padding-left: 10px;
     padding-right: 5px;
 }

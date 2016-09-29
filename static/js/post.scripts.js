@@ -33,6 +33,12 @@ $(document).ready(function() {
         "tags-input-name": "tag_input"
     };
 
+    $(".lang-icon").click(function() {
+        $(".lang-icon").removeClass("radio-selected");
+        $(this).addClass("radio-selected");
+        $("input[name=language]").val($(this).data("lang"));
+    });
+    
     $("#tagBox").tagging(tag_options);
 
     $("#submitter").click(function(){
@@ -64,4 +70,4 @@ $(document).ready(function() {
             console.log(status);
         }
     };
-})
+});
