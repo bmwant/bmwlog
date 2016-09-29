@@ -33,6 +33,8 @@ $(document).ready(function() {
         "tags-input-name": "tag_input"
     };
 
+    var currentLanguage = $("input[name=language]").val();
+    $(" .lang-icon[data-lang="+currentLanguage+"]").addClass("radio-selected");
     $(".lang-icon").click(function() {
         $(".lang-icon").removeClass("radio-selected");
         $(this).addClass("radio-selected");

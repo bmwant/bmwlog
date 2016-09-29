@@ -79,16 +79,15 @@ def post_add():
         template = env.get_template('post/add.html')
         return template.render(categories=all_categories)
     if request.method == 'POST':
-        post = Post.create(category=post_get('category_id'),
-                           post_text=post_get('text'),
-                           title=post_get('title'),
-                           user=app.current_user.user_id,
-                           date_posted=datetime.now(),
-                           draft=False,
-                           )
-        if int(post_get('draft')) == 1:
-            post.draft = True
-
+        post = Post.create(
+            category=post_get('category_id'),
+            post_text=post_get('text'),
+            title=post_get('title'),
+            user=app.current_user.user_id,
+            date_posted=datetime.now(),
+            draft=int(post_get('draft')) == 1,
+            language=post_get('language')
+        )
         post_id = post.post_id
         post.save()
         add_new_tags(post_get('tags'), post_id)
@@ -150,6 +149,7 @@ def post_edit(post_id):
         post.post_text = post_get('text')
         post.title = post_get('title')
         post.draft = bool(int(post_get('draft')))  # zero int is False
+        post.language = post_get('language')
         new_tags = post_get('tags')
         old_tags = Tag.select().join(Tag_to_Post)\
             .where(Tag_to_Post.post_id == post_id)
@@ -185,8 +185,10 @@ def category_list(category_id):
     all_posts = Post.get_posts()\
         .where(Post.category == category_id).order_by(Post.date_posted.desc())
     template = env.get_template('post/list.html')
-    return template.render(posts=all_posts,
-                           info=u'Статті у категорії "%s"' % category.category_name)
+    return template.render(
+        posts=all_posts,
+        info=u'Статті у категорії "%s"' % category.category_name
+    )
 
 
 @app.get('/category/delete/<category_id:int>')
@@ -216,8 +218,8 @@ def add_new_tags(tags_string, post_id):
         try:
             old_tag = Tag.get(Tag.text == tag)
             try:
-                conn = Tag_to_Post.get(Tag_to_Post.post_id == post_id,
-                                       Tag_to_Post.tag_id == old_tag.tag_id)
+                tmp = Tag_to_Post.get(Tag_to_Post.post_id == post_id,
+                                      Tag_to_Post.tag_id == old_tag.tag_id)
             except Tag_to_Post.DoesNotExist:
                 Tag_to_Post.create(post_id=post_id, tag_id=old_tag.tag_id)
         except Tag.DoesNotExist:

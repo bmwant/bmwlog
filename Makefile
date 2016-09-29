@@ -18,3 +18,7 @@ tests:
 
 style-check:
 	@pep8 . --count
+
+clean:
+	@echo "Removing cached files"
+	@find . -name "*.pyc" -delete

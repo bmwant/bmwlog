@@ -21,8 +21,10 @@
             <form action="/post/edit/{{ item.post_id }}" method="post">
 
 
-            <label>Заголовок</label>
-            <input type="text" name="title" value="{{ item.title }}" /> <br />
+            <div class="form-field">
+                <label>Заголовок</label>
+                <input type="text" name="title" value="{{ item.title }}" autofocus/>
+            </div>
             <!--
             <label for="datepick">Дата розміщення</label>
             
@@ -45,13 +47,13 @@
                 <div class="lang-icon" data-lang="eng">
                     <span class="flag-icon flag-icon-gb"></span>
                 </div>
-                <div class="lang-icon radio-selected" data-lang="ukr">
+                <div class="lang-icon" data-lang="ukr">
                     <span class="flag-icon flag-icon-ua"></span>
                 </div>
                 <div class="lang-icon" data-lang="rus">
                     <span class="flag-icon flag-icon-ru"></span>
                 </div>
-                <input type="hidden" name="language" value="ukr">
+                <input type="hidden" name="language" value="{{ item.language }}">
             </div>
 
             <label>Текст</label>
