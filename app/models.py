@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from datetime import timedelta, datetime
 from bottle import abort
 from peewee import *
@@ -86,6 +87,12 @@ class Post(BaseModel):
     class Meta:
         db_table = 'post'
 
+    languages = (
+        ('ukr', u'Українська'),
+        ('eng', 'English'),
+        ('rus', u'Русский'),
+    )
+
     post_id = PrimaryKeyField(db_column='post_id')
     category = ForeignKeyField(db_column='category_id', rel_model=Category)
     user = ForeignKeyField(db_column='user_id', rel_model=User)
@@ -93,8 +100,9 @@ class Post(BaseModel):
     date_posted = DateTimeField(default=datetime.now)
     date_updated = DateTimeField(default=datetime.now)
 
-    post_text = CharField(null=True)
-    title = CharField(null=True)
+    post_text = CharField()
+    title = CharField()
+    language = CharField(default=languages[0][0], choices=languages)
 
     likes = IntegerField(default=0)
     views = IntegerField(default=0)

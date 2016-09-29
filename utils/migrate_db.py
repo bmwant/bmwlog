@@ -8,16 +8,10 @@ from app import models
 
 
 def v1(migrator):
-    languages = (
-        ('eng', 'English'),
-        ('rus', u'Русский'),
-        ('ukr', u'Українська'),
-    )
-    language_field = CharField(default=languages[-1], choices=languages)
+    language_field = CharField(null=False, default='ukr')
 
     table_name = models.Post._meta.name
     migrate(
-        migrator.drop_column(table_name, 'language'),
         migrator.add_column(table_name, 'language', language_field),
     )
 

@@ -3,7 +3,7 @@
 {% block title %}:: {{ item.title }}{% endblock %}
 
 {% block meta_tags %}
-    <meta name="keywords" content="{% for tag in tags %}{{ tag.text }}, {% endfor %}">
+    <meta name="keywords" content="{% for tag in item.tags %}{{ tag.text }}, {% endfor %}">
 
 {% endblock %}
 
@@ -99,7 +99,7 @@
 
 
             <div class="post-tags padding">
-                {% for tag in tags %}
+                {% for tag in item.tags %}
                     <a class="post-tag" href="/tag/{{ tag.tag_id }}">
                         {{ tag.text }}
                     </a>
