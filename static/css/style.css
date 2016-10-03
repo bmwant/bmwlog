@@ -245,6 +245,22 @@ html, body {
     margin-bottom: 15px;
 }
 
+.social-sharing .fa-facebook {
+    background-color: #3b5998;
+}
+
+.social-sharing .fa-google-plus {
+    background-color: #dc4e41;
+}
+
+.social-sharing .fa-twitter {
+    background-color: #55acee;
+}
+
+.social-sharing .fa-vk {
+    background-color: #0E2231;
+}
+
 .controls {
     float: right;
 }
