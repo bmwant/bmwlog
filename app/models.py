@@ -23,6 +23,9 @@ class BaseModel(Model):
 
 
 class Category(BaseModel):
+    class Meta:
+        db_table = 'category'
+
     category_id = PrimaryKeyField(db_column='category_id')
     category_name = CharField()
 
@@ -30,10 +33,6 @@ class Category(BaseModel):
     def posts_count(self):
         return Post.get_posts().\
             where(Post.category == self.category_id).count()
-
-
-    class Meta:
-        db_table = 'category'
 
 
 class Role(BaseModel):
@@ -240,6 +239,9 @@ class Quote(BaseModel):
 
 
 class Tag(BaseModel):
+    class Meta:
+        db_table = 'tag'
+
     tag_id = PrimaryKeyField(db_column='tag_id')
     text = CharField(null=False, unique=True)
 
@@ -251,28 +253,28 @@ class Tag(BaseModel):
         return Tag_to_Post.select().\
             where(Tag_to_Post.tag_id == self.tag_id).count()
 
-    class Meta:
-        db_table = 'tag'
-
 
 class Tag_to_Post(BaseModel):
-    post_id = ForeignKeyField(db_column='post_id', rel_model=Post)
-    tag_id = ForeignKeyField(db_column='tag_id', rel_model=Tag)
-
     class Meta:
         db_table = 'tag_to_post'
 
+    post_id = ForeignKeyField(db_column='post_id', rel_model=Post)
+    tag_id = ForeignKeyField(db_column='tag_id', rel_model=Tag)
+
 
 class StreamMessage(BaseModel):
+    class Meta:
+        db_table = 'stream_message'
+
     id = PrimaryKeyField()
     date = DateTimeField(default=datetime.now)
     message = CharField()
 
-    class Meta:
-        db_table = 'stream_message'
-
 
 class StaticPage(BaseModel):
+    class Meta:
+        db_table = 'static_page'
+
     id = PrimaryKeyField()
 
     url = CharField(unique=True)
@@ -280,11 +282,11 @@ class StaticPage(BaseModel):
     title = CharField()
     text = TextField()
 
-    class Meta:
-        db_table = 'static_page'
-
 
 class Session(BaseModel):
+    class Meta:
+        db_table = 'session'
+
     session_id = PrimaryKeyField()
     mail = CharField(null=False)
     expires = IntegerField(default=0)
@@ -292,16 +294,13 @@ class Session(BaseModel):
     login_date = DateTimeField(default=datetime.now)
     active = BooleanField(default=True)
 
-    class Meta:
-        db_table = 'session'
-
 
 class SiteJoke(BaseModel):
-    id = PrimaryKeyField()
-    text = CharField(null=False)
-
     class Meta:
         db_table = 'site_joke'
+
+    id = PrimaryKeyField()
+    text = CharField(null=False)
 
     def __str__(self):
         return self.text[:40]
