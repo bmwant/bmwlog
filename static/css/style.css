@@ -245,6 +245,24 @@ html, body {
     margin-bottom: 15px;
 }
 
+.social-sharing i {
+    min-width: 48px;
+    text-align: center;
+    border: 3px solid transparent;
+}
+
+.social-sharing i:hover {
+    background-color: #ffc04f;
+}
+
+.social-sharing .fa {
+    background-color: #dc4e41;
+    padding: 7px;
+    border-radius: 4px;
+    margin: 0 3px;
+    color: whitesmoke;
+}
+
 .social-sharing .fa-facebook {
     background-color: #3b5998;
 }
@@ -258,7 +276,7 @@ html, body {
 }
 
 .social-sharing .fa-vk {
-    background-color: #0E2231;
+    background-color: #507299;
 }
 
 .controls {
@@ -515,10 +533,11 @@ kbd {
     font-size: 14px;
     margin-top: 5px;
     margin-bottom: 10px;
+    overflow-x: scroll;
 }
 
 .post-text h3 {
-    /*subheadings-paragraphs for articles */
+    /* subheadings-paragraphs for articles */
     font-size: 20px;
     font-weight: bold;
     color: #2ecc71;
