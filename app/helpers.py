@@ -147,3 +147,8 @@ def backup_db():
 def root_path(path):
     root_full_path = os.path.expanduser(config.ROOT_FOLDER)
     return os.path.join(root_full_path, path)
+
+
+def static_path(path):
+    static_full_path = os.path.expanduser(config.STATIC_FOLDER)
+    return os.path.join(static_full_path, path)
