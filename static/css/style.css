@@ -533,10 +533,11 @@ kbd {
     font-size: 14px;
     margin-top: 5px;
     margin-bottom: 10px;
+    overflow-x: scroll;
 }
 
 .post-text h3 {
-    /*subheadings-paragraphs for articles */
+    /* subheadings-paragraphs for articles */
     font-size: 20px;
     font-weight: bold;
     color: #2ecc71;
