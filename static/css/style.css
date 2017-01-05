@@ -506,7 +506,7 @@ kbd {
 
 .inline-code {
     white-space: pre-wrap;
-    padding: 3px;
+    padding: 1px 3px;
     border: #c4dae9 1px solid;
     background: #ecf0f1;
     border-radius: 2px;
@@ -541,7 +541,7 @@ kbd {
     font-size: 14px;
     margin-top: 5px;
     margin-bottom: 10px;
-    overflow-x: scroll;
+    overflow-x: auto;
 }
 
 .post-text h3 {
@@ -555,7 +555,7 @@ kbd {
 
 .quote-text {
     color: #34495e;
-    text-shadow: 0px 1px #fff;
+    text-shadow: 0 1px #fff;
     font-weight: bold;
     font-size: 16px;
     padding: 10px;
