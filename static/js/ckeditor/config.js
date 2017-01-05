@@ -4,39 +4,39 @@
  */
 
 CKEDITOR.editorConfig = function( config ) {
-	// Define changes to default configuration here.
-	// For complete reference see:
-	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
+    // Define changes to default configuration here.
+    // For complete reference see:
+    // http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
-	// The toolbar groups arrangement, optimized for two toolbar rows.
-	config.toolbarGroups = [
-		{ name: 'clipboard',   groups: [ 'clipboard' ] },
-		{ name: 'editing',     groups: [ 'find', 'selection' ] },
-		{ name: 'links' },
-		{ name: 'insert' },
-		{ name: 'forms' },
-		{ name: 'tools' },
-		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
-		{ name: 'others' },
-		'/',
-		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		{ name: 'paragraph',   groups: [ 'list', 'blocks', 'align', 'bidi' ] },
-		{ name: 'styles' },
-		{ name: 'colors' },
-		{ name: 'about' }
-	];
+    // The toolbar groups arrangement, optimized for two toolbar rows.
+    config.toolbarGroups = [
+        { name: 'clipboard',   groups: [ 'clipboard' ] },
+        { name: 'editing',     groups: [ 'find', 'selection' ] },
+        { name: 'links' },
+        { name: 'insert' },
+        { name: 'forms' },
+        { name: 'tools' },
+        { name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+        { name: 'others' },
+        '/',
+        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+        { name: 'paragraph',   groups: [ 'list', 'blocks', 'align', 'bidi' ] },
+        { name: 'styles' },
+        { name: 'colors' },
+        { name: 'about' }
+    ];
 
-	// Remove some buttons provided by the standard plugins, which are
-	// not needed in the Standard(s) toolbar.
-	config.removeButtons = 'Underline,Subscript,Superscript';
+    // Remove some buttons provided by the standard plugins, which are
+    // not needed in the Standard(s) toolbar.
+    config.removeButtons = 'Underline,Subscript,Superscript';
 
-	// Set the most common block elements.
-	config.format_tags = 'p;h1;h2;h3;pre';
+    // Set the most common block elements.
+    config.format_tags = 'p;h1;h2;h3;pre';
 
-	// Simplify the dialog windows.
-	config.removeDialogTabs = 'image:advanced;link:advanced';
-	config.language = 'uk';
-	config.skin = 'moono';
+    // Simplify the dialog windows.
+    config.removeDialogTabs = 'image:advanced;link:advanced';
+    config.language = 'uk';
+    config.skin = 'moono';
     config.height = 450;
     //config.basicEntities = false;
     //config.entities = true;
@@ -49,6 +49,13 @@ CKEDITOR.editorConfig = function( config ) {
             icon: 'kbdicon.ico',
             html: "kbd",
             title: 'Key combination'
+        },
+        {
+            name: 'inline_code',
+            icon: 'incicon.ico',
+            html: 'span',
+            className: 'inline-code',
+            title: 'Inline code'
         }
     ];
 };
