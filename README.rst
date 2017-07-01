@@ -1,24 +1,31 @@
 bmwlog
 ======
 This is my simple blog written with Python 2.7 (bottle)
-BmwLOG - Most Wanted blog
+BmwLOG - *Most Wanted*'s blog.
 
-Try to visit `site <http://bmwlog.pp.ua/>`_ to see some interesting articles.
+Try visiting `the web-site <http://bmwlog.pp.ua/>`_ to see some boring articles.
 
 
 Run Ansible provisioning manually
 
-ansible-playbook local/ansible/setup.yml -u vagrant -vv -i local/ansible/hosts -l vagrant --ask-pass
+``ansible-playbook local/ansible/setup.yml -u vagrant -vv -i local/ansible/hosts -l vagrant --ask-pass``
 
 
 Development
+-----------
 
-make install
+.. code-block:: bash
 
-make tests
-make style-check
+    make install
+
+    make tests
+    make style-check
 
 
 Deployment
-make setup
-make update
+----------
+
+.. code-block:: bash
+
+    make setup
+    make update
