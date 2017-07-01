@@ -51,7 +51,7 @@ $(document).ready(function() {
         toDrafts();
         $(this).closest('form').submit();
     });
-    
+
     var editorInstance = CKEDITOR.replace('article-text');
 
     Dropzone.options.imageDropzone = {
