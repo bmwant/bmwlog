@@ -7,7 +7,7 @@ from geventwebsocket import WebSocketError
 
 from models import (Photo, Banner, Quote, DoesNotExist, StaticPage,
                     StreamMessage)
-from helpers import post_get, redirect, view, backup_db, only_ajax, root_path
+from helpers import post_get, redirect, backup_db, only_ajax, static_path
 from helput import (unique_filename, join_all_path, generate_filename,
                     distort_filename)
 from user_controller import require
@@ -26,7 +26,7 @@ def gallery():
         photo_file = request.files.get('photo')
 
         file_ext = os.path.splitext(photo_file.filename)[1]
-        gallery_folder = os.path.join(config.STATIC_FOLDER, 'img/gallery/')
+        gallery_folder = static_path('img/gallery/')
         f_name = generate_filename(prefix='photo', suffix=file_ext)
         file_path = os.path.join(gallery_folder, f_name)
         # photo_file.save('/img/gallery/')  # new Bottle
@@ -59,7 +59,7 @@ def banners():
         return template.render({'banners': all_banners})
     elif request.method == 'POST':
         banner_img = request.files.get('banner_img')
-        banners_folder = root_path('img/banners/')
+        banners_folder = static_path('img/banners/')
         file_path = os.path.join(banners_folder, banner_img.filename)
         # photo_file.save('/img/gallery/')  # new Bottle
         with open(file_path, 'wb') as open_file:
@@ -154,9 +154,9 @@ def up_file():
     """
     up_file = request.files.get('file')
     web_folder = 'img/article/'
-    folder = os.path.join(config.STATIC_FOLDER, web_folder)
+    pictures_folder = static_path(web_folder)
     new_filename = unique_filename(up_file.filename)
-    file_path = os.path.join(folder, new_filename)
+    file_path = os.path.join(pictures_folder, new_filename)
     # todo: check for file existence
     # photo_file.save('/img/gallery/')  # new Bottle
     with open(file_path, 'wb') as open_file:

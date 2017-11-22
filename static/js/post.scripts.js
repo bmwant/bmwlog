@@ -31,7 +31,7 @@ $(document).ready(function() {
     };
 
     var currentLanguage = $("input[name=language]").val();
-    $(" .lang-icon[data-lang="+currentLanguage+"]").addClass("radio-selected");
+    $(".lang-icon[data-lang="+currentLanguage+"]").addClass("radio-selected");
     $(".lang-icon").click(function() {
         $(".lang-icon").removeClass("radio-selected");
         $(this).addClass("radio-selected");
@@ -52,13 +52,12 @@ $(document).ready(function() {
         $(this).closest('form').submit();
     });
 
-
-    CKEDITOR.replace('article-text');
+    var editorInstance = CKEDITOR.replace('article-text');
 
     Dropzone.options.imageDropzone = {
         paramName: "file", // The name that will be used to transfer the file
         maxFilesize: 3, // MB
-        dictDefaultMessage: "Завантажити картинку",
+        dictDefaultMessage: "Upload image",
         success: function(file, status) {
             var path = $("<input/>", {
                 type: 'text',
@@ -70,3 +69,12 @@ $(document).ready(function() {
         }
     };
 });
+
+window.onbeforeunload = function () {
+    var editorInstance = CKEDITOR.instances["article-text"];
+    var isDirty = editorInstance.getData() !== "";
+    if (isDirty) {
+        return "There are unsaved data.";
+    }
+    return undefined;
+};
