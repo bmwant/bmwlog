@@ -1,5 +1,3 @@
-ansible_python_interpreter: /usr/local/bin/python
-
 repository_url: "git@github.com:bmwant/bmwlog.git"
 repository_branch: "origin/master"
 
