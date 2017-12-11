@@ -1,22 +1,20 @@
-class Config(object):
-    """
-    Shared properties for all configurations. Feel free
-    to override some of them in inherited class
-    """
-    SECRET_KEY = 'some-secret-key'
-    DEBUG = True
-    RELOADER = True
-    POSTS_PER_PAGE = 10
+"""
+Config module. File generated automatically by Ansible {{ ansible_version.full }}
+"""
+SECRET_KEY = 'some-secret-key'
+DEBUG = True
+RELOADER = True
+POSTS_PER_PAGE = 10
 
+STATIC_FOLDER = '{{ project_static }}'
+ROOT_FOLDER = '{{ project_root }}''
 
-class ProductionConfig(Config):
-    DB_HOST = '127.0.0.1'
-    DB_PORT = 3306
-    STATIC_FOLDER = '{{ project_static }}'
-    ROOT_FOLDER = '{{ project_root }}'
-    #  only applicable if will run as standalone app
-    RUN_HOST = '127.0.0.1'  #
-    RUN_PORT = {{ bottle_run_port }}
-    DB_USER = 'root'
-    DB_PASS = ''
-    DB_NAME = '{{ database_name }}'
+RUN_HOST = '{{ bottle_run_host }}'
+RUN_PORT = {{ bottle_run_port }}
+
+# Database
+DB_HOST = '127.0.0.1'
+DB_PORT = 3306
+DB_USER = '{{ database_user }}'
+DB_PASS = '{{ database_password }}'
+DB_NAME = '{{ database_name }}'

@@ -13,4 +13,6 @@ build/
 /uploaded/
 /static/img/banners
 /static/img/users
+/static/img/article
+/static/img/gallery
 /app/config.py
