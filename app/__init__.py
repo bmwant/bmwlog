@@ -1,5 +1,4 @@
 from __future__ import print_function
-import os
 import sys
 
 from bottle import Bottle, Jinja2Template
@@ -7,26 +6,12 @@ from jinja2 import Environment, PackageLoader
 from peewee import MySQLDatabase
 
 
-def load_config():
-    try:
-        import config
-    except ImportError:
-        print('You haven\'t created config file', file=sys.stderr)
-        sys.exit(1)
+try:
+    import config
+except ImportError:
+    print('No production config. Trying to local local settings', file=sys.stderr)
+    import config_local as config
 
-    run_mode = os.environ.get('BMWLOG_MODE', 'development')
-    config_object = '%sConfig' % run_mode.capitalize()
-    try:
-        config_module = getattr(config, config_object)
-    except AttributeError:
-        print('Invalid config or environment variable. '
-              'No such configuration: %s' % config_object,
-              file=sys.stderr)
-        sys.exit(1)
-    return config_module
-
-
-config = load_config()
 
 db = MySQLDatabase(config.DB_NAME,
                    host=config.DB_HOST, port=config.DB_PORT,
