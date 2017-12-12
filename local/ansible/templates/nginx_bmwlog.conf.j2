@@ -1,5 +1,5 @@
 upstream bmwlog {
-    server 127.0.0.1:{{ bottle_run_port }};
+    server {{ bottle_run_host }}:{{ bottle_run_port }};
 }
 
 server {
@@ -21,7 +21,7 @@ server {
     }
 
     location /img {
-        root {{ project_root }}/static;
+        root {{ project_static }};
         try_files $uri @proxy_to_app;
     }
 

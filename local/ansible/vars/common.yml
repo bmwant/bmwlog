@@ -1,9 +1,7 @@
-ansible_python_interpreter: /usr/local/bin/python
-
 repository_url: "git@github.com:bmwant/bmwlog.git"
 repository_branch: "origin/master"
 
-run_mode: production
+bottle_run_host: "127.0.0.1"
 bottle_run_port: 8031
 database_name: "bmwlogdb"
 gunicorn_workers_count: 1

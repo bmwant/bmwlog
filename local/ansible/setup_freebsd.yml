@@ -94,11 +94,6 @@
         accept_hostkey: true
       when: ansible_ssh_user != "vagrant"
 
-    - name: create virtual environment
-      shell: "virtualenv {{ project_venv }}"
-      args:
-        creates: "{{ project_venv }}"
-
     - name: install requirements
       shell: "{{ project_venv }}/bin/pip install -r requirements.txt"
       args:

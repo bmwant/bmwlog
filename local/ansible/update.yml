@@ -13,6 +13,11 @@
         accept_hostkey: true
       when: ansible_ssh_user != "vagrant"
 
+    - name: create virtual environment
+      shell: "virtualenv {{ project_venv }}"
+      args:
+        creates: "{{ project_venv }}"
+
     - name: update project requirements
       shell: "{{ project_venv }}/bin/pip install -r requirements.txt"
       args:
@@ -53,14 +58,14 @@
     - name: ensure supervisor config linked
       file:
         src: "{{ project_root }}/prod/supervisor_bmwlog.conf"
-        dest: /usr/local/etc/supervisor/bmwlog.conf
+        dest: /etc/supervisor/conf.d/bmwlog.conf
         state: link
       become: true
 
     - name: ensure nginx config linked
       file:
         src: "{{ project_root }}/prod/nginx_bmwlog.conf"
-        dest: /usr/local/etc/nginx/sites-enabled/bmwlog.conf
+        dest: /etc/nginx/conf.d/bmwlog.conf
         state: link
       become: true
 
