@@ -1,5 +1,4 @@
 [program:bmwlog]
-environment=BMWLOG_MODE="{{ run_mode }}"
 command={{ project_venv }}/bin/gunicorn run:app --config prod/gunicorn_settings.py
 directory={{ project_root }}
 user={{ ansible_ssh_user }}
