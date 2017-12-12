@@ -1,13 +1,13 @@
 """
 Config module. File generated automatically by Ansible {{ ansible_version.full }}
 """
-SECRET_KEY = 'some-secret-key'
+SECRET_KEY = '{{ secret_key }}'
 DEBUG = True
 RELOADER = True
 POSTS_PER_PAGE = 10
 
 STATIC_FOLDER = '{{ project_static }}'
-ROOT_FOLDER = '{{ project_root }}''
+ROOT_FOLDER = '{{ project_root }}
 
 RUN_HOST = '{{ bottle_run_host }}'
 RUN_PORT = {{ bottle_run_port }}
