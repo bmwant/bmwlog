@@ -43,12 +43,14 @@ $(document).ready(function() {
     $("#submitter").click(function(){
         applyTags();
         publish();
+        window.onbeforeunload = undefined;
         $(this).closest('form').submit();
     });
 
     $("#drafter").click(function(){
         applyTags();
         toDrafts();
+        window.onbeforeunload = undefined;
         $(this).closest('form').submit();
     });
 
@@ -70,7 +72,7 @@ $(document).ready(function() {
     };
 });
 
-window.onbeforeunload = function () {
+notifyChangesPresent = function () {
     var editorInstance = CKEDITOR.instances["article-text"];
     var isDirty = editorInstance.getData() !== "";
     if (isDirty) {
@@ -78,3 +80,5 @@ window.onbeforeunload = function () {
     }
     return undefined;
 };
+
+window.onbeforeunload = notifyChangesPresent;
