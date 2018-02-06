@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-import os
 import time
 
-from bottle import static_file, error, request, post
+from bottle import static_file, error, request, post, abort
+from geventwebsocket import WebSocketError
 from helpers import view, redirect, render_template
 from helput import get_list_of_files
+
 
 from models import *
 
@@ -73,7 +74,7 @@ def administration():
 @app.route('/gallery')
 @view('gallery.html')
 def gallery():
-    #images = get_list_of_files(r'D:\coding\bmwlog\img\gallery', ext='.jpg', full_path=False)
+    # images = get_list_of_files(r'D:\coding\bmwlog\img\gallery', ext='.jpg', full_path=False)
     images = Photo.select()
     return {'images': images}
 
@@ -128,11 +129,11 @@ def healthcheck():
 
 if config.DEBUG:
     # serving static files
-    root = os.path.expanduser(config.STATIC_FOLDER)
+    root = os.path.expanduser(config.ROOT_FOLDER)
 
-    @app.route('/<folder>/<filename:path>')
-    def server_static(folder, filename):
-        return static_file(filename, root=root+folder)
+    @app.route('/<filename:path>')
+    def server_static(filename):
+        return static_file(filename, root=root)
 
     @app.route('/favicon.ico')
     def serve_favicon():

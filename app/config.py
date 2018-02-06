@@ -4,6 +4,7 @@ Config module
 import os
 
 SECRET_KEY = ''
+DO_NOT_WRITE_BYTECODE = False
 
 POSTS_PER_PAGE = 10
 
