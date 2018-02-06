@@ -1,16 +1,8 @@
-from __future__ import print_function
-import sys
-
 from bottle import Bottle, Jinja2Template
 from jinja2 import Environment, PackageLoader
 from peewee import MySQLDatabase
 
-
-try:
-    import config
-except ImportError:
-    print('No production config. Trying to load ocal settings', file=sys.stderr)
-    import config_local as config
+import config
 
 
 db = MySQLDatabase(config.DB_NAME,

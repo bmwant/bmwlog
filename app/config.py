@@ -1,6 +1,8 @@
 """
 Config module
 """
+import os
+
 SECRET_KEY = ''
 
 POSTS_PER_PAGE = 10
@@ -20,3 +22,18 @@ DB_PORT = 3306
 DB_USER = ''
 DB_PASS = ''
 DB_NAME = 'bmwlogdb'
+
+
+# Override values from config_local.py if exists
+try:
+    import config_local
+    for key, value in config_local.__dict__.items():
+        if key.isupper() and key in globals():
+            globals()[key] = value
+except ImportError:
+    pass
+
+# Override values from environment
+for key, value in globals().copy().items():
+    if key.isupper() and key in os.environ:
+        globals()[key] = os.environ[key]
