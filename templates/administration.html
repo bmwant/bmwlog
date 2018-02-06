@@ -7,12 +7,20 @@
     <link rel="stylesheet" href="/static/css/admin.page.css">
 {% endblock %}
 
+{% block scripts %}
+    {{ super() }}
+    <script src="/static/js/moment.js"></script>
+{% endblock%}
+
 {% block content %}
 <div id="content">
     <div class="row">
         <div class="column_12">
             <h2 class="admin-header">Адмінська панель</h2>
-            Понеділок <h3>09/Вер/2016</h3> 272/365 32/52
+                <span id="day-name"></span>
+                <h3 id="short-date"></h3>
+                <span id="day-of-year"></span>/<span id="days-in-year"></span>
+                <span id="week-of-year"></span>/<span id="weeks-in-year"></span>
             <table class="admin-table">
                 <tbody>
                     <tr>
@@ -37,11 +45,26 @@
                     </tr>
                 </tbody>
             </table>
-            <ul>
+            <ul class="actions-list">
                 <li><a>Додати прихований текст в шапці</a></li>
                 <li><a>Резервна копія статичних файлів</a></li>
             </ul>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block bottom_scripts %}
+    {{ super() }}
+    <script>
+        var currentYear = moment().year();
+        var totalWeeks = moment().weeksInYear();
+        var totalDays = moment().isLeapYear() ? 366 : 365;
+        $("#day-name").text(moment().format("dddd"));
+        $("#short-date").text(moment().format("D/MMM/YYYY"));
+        $("#day-of-year").text(moment().format("DDD"));
+        $("#days-in-year").text(totalDays);
+        $("#week-of-year").text(moment().format("w"));
+        $("#weeks-in-year").text(totalWeeks);
+    </script>
 {% endblock %}
