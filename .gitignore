@@ -7,12 +7,12 @@ Thumbs.db
 build/
 
 # project-specific
-/venv/
-/prod/
-/files/
-/uploaded/
-/static/img/banners
-/static/img/users
-/static/img/article
-/static/img/gallery
-/app/config.py
+venv/
+prod/
+files/
+uploaded/
+static/img/banners
+static/img/users
+static/img/article
+static/img/gallery
+app/config_local.py
