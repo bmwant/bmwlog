@@ -9,3 +9,11 @@ h2.admin-header {
     margin-bottom: 10px;
     margin-top: 10px;
 }
+
+.actions-list li a {
+    cursor: pointer;
+}
+
+.actions-list {
+    list-style: none;
+}
