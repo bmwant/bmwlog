@@ -9,7 +9,7 @@ from peewee import MySQLDatabase
 try:
     import config
 except ImportError:
-    print('No production config. Trying to local local settings', file=sys.stderr)
+    print('No production config. Trying to load ocal settings', file=sys.stderr)
     import config_local as config
 
 
