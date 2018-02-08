@@ -29,3 +29,4 @@ Deployment
 
     make setup
     make update
+tst
