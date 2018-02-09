@@ -1,3 +1,0 @@
-app_repository: https://github.com/bmwant/bmwlog.git
-app_directory: /data/projects/bmwlog
-app_requirements: "{{ app_directory }}/requirements.txt"

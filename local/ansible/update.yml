@@ -23,10 +23,10 @@
       args:
         chdir: "{{ project_root }}"
 
-    - name: update project config
+    - name: create local overrides for project config
       template:
         src: templates/app_config.py.j2
-        dest: "{{ project_root }}/app/config.py"
+        dest: "{{ project_root }}/app/config_local.py"
       notify: gunicorn reload
 
     - name: create local directories for project

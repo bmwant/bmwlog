@@ -16,3 +16,6 @@ static/img/users
 static/img/article
 static/img/gallery
 app/config_local.py
+
+# Ansible
+*.retry
