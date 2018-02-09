@@ -1,3 +1,6 @@
+log_format tracking '$msec [$time_local] : $remote_addr : $remote_user : '
+                    '$args : $http_referer : $http_user_agent';
+
 upstream bmwlog {
     server {{ bottle_run_host }}:{{ bottle_run_port }};
 }
@@ -6,9 +9,6 @@ server {
     listen 80;
     server_name bmwlog.pp.ua *.bmwlog.pp.ua;
     charset utf-8;
-
-    log_format tracking '$msec [$time_local] : $remote_addr : $remote_user : '
-                        '$args : $http_referer : $http_user_agent';
 
     root {{ project_root }};
     
