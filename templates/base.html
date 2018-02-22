@@ -3,6 +3,7 @@
 <head>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="title" content="BmwLog - IT blog by Misha Behersky">
     <meta name="author" content="Misha Behersky">
     <meta name="rating" content="general">
@@ -43,7 +44,7 @@
             <div class="column_6">
                 <a href="/"><img src="/static/img/logo.png" class="logo"/></a>
             </div>
-            <div class="column_6  text right bold">
+            <div class="column_6 text right bold hide-phone">
             {% set user = app.current_user %}
             {% if user %}
                 Вітаю, <a href="/account">{{ user.nickname }}</a>
@@ -91,12 +92,6 @@
         </div>
     </section>
 
-
-    {#
-    <section class='bck light padding'>
-
-    </section>
-    #}
     {% endblock %}
     {% block content %}{% endblock %}
 
