@@ -113,10 +113,13 @@
       // Render markdown to html
       var postElem = $('#main');
       var converter = new showdown.Converter();
-      var text = postElem.text();
-      var html = converter.makeHtml(text.trim());
-      postElem.html(html);
-
+      var text = postElem.text().trim();
+      if(postElem.html().trim().startsWith('<')) {
+        console.warn('Assuming html for old articles, skip converting to markdown');
+      } else {
+        var html = converter.makeHtml(text.trim());
+        postElem.html(html);
+      }
       var url = document.URL;
       $('.social-sharing').children('a').each(function() {
         var new_href = $(this).attr('href') + url;
