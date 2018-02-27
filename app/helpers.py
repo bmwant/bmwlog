@@ -1,11 +1,11 @@
 import os
 import time
 import subprocess
+from functools import wraps
+from HTMLParser import HTMLParser
 
 import bottle
-
-from functools import wraps, partial
-from HTMLParser import HTMLParser
+from markdown import markdown
 
 from app import env, config
 from helput import unique_filename, join_all_path
@@ -82,8 +82,9 @@ class StripPathMiddleware(object):
 
 
 def strip_tags(html):
+    html_from_markdown = markdown(html)
     s = MLStripper()
-    s.feed(html)
+    s.feed(html_from_markdown)
     return s.get_data()
 
 
@@ -91,6 +92,7 @@ def shorten_text(text):
     text = strip_tags(text)
     if len(text) > 500:
         text = text[:500] + "..."
+    print(text)
     return text
 
 
