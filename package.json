@@ -1,0 +1,31 @@
+{
+  "name": "bmwlog",
+  "version": "1.0.0",
+  "description": "John Travolta",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bmwant/bmwlog.git"
+  },
+  "keywords": [
+    "blog",
+    "bmw",
+    "bmwant",
+    "cake"
+  ],
+  "author": "Misha Behersky",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/bmwant/bmwlog/issues"
+  },
+  "homepage": "https://github.com/bmwant/bmwlog#readme",
+  "dependencies": {
+    "simplemde": "^1.11.2"
+  }
+}

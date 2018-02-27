@@ -3,15 +3,15 @@
 {% block title %}:: Додати новий пост{% endblock %}
 
 {% block scripts %}
-    {{ super() }}
-    <script src="/static/js/ckeditor/ckeditor.js"></script>
-    <script src="/static/js/ckeditor/config.js"></script>
-    <script src="/static/js/dropzone.js"></script>
+  {{ super() }}
+  <script src="/node_modules/simplemde/dist/simplemde.min.js"></script>
+  <script src="/static/js/dropzone.js"></script>
 {% endblock %}
 
 {% block styles %}
-    {{ super() }}
-    <link rel="stylesheet" href="/static/css/flag-icon.min.css">
+  {{ super() }}
+  <link rel="stylesheet" href="/static/css/flag-icon.min.css">
+  <link rel="stylesheet" href="/node_modules/simplemde/dist/simplemde.min.css">
 {% endblock %}
 
 {% block content %}
@@ -75,16 +75,15 @@
             </form>
         </div>
         <div class="column_4">
-            Додати новий пост
             <form action="/up" class="dropzone" id="image-dropzone"></form>
         </div>
     </div>
 </div>
 {% endblock %}
 {% block bottom_scripts %}
-    {{ super() }}
-    <script src="/static/js/tagging.min.js"></script>
-    <script src="/static/js/post.scripts.js"></script>
+  {{ super() }}
+  <script src="/static/js/tagging.min.js"></script>
+  <script src="/static/js/post.scripts.js"></script>
 {% endblock %}
 
 {#
