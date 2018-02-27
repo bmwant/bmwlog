@@ -5,6 +5,7 @@ Thumbs.db
 .idea/
 .cache/
 build/
+node_modules/
 
 # project-specific
 venv/
