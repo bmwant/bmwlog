@@ -5,12 +5,12 @@ install:
 
 setup-freebsd:
 	@echo "Initial production provisioning before deploy"
-	@cd local/ansible && \
+	@cd deploy/ansible && \
 		ansible-playbook setup_freebsd.yml -i hosts -l digital_ocean -vv --ask-vault-pass
 
 update:
 	@echo "Going to update bmwlog on production..."
-	@cd local/ansible && \
+	@cd deploy/ansible && \
 		ansible-playbook update.yml -i hosts -l digital_ocean -vv --ask-vault-pass
 
 tests:

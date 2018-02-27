@@ -8,7 +8,7 @@ Try visiting `the web-site <http://bmwlog.pp.ua/>`_ to see some boring articles.
 
 Run Ansible provisioning manually
 
-``ansible-playbook local/ansible/setup.yml -u vagrant -vv -i local/ansible/hosts -l vagrant --ask-pass``
+``ansible-playbook deploy/ansible/setup.yml -u vagrant -vv -i local/ansible/hosts -l vagrant --ask-pass``
 
 
 Development

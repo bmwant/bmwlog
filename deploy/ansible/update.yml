@@ -23,6 +23,10 @@
       args:
         chdir: "{{ project_root }}"
 
+    - name: install npm dependencies
+      npm:
+        path: "{{ project_root }}"
+
     - name: create local overrides for project config
       template:
         src: templates/app_config.py.j2

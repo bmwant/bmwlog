@@ -15,7 +15,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", inline: $script
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "vv"
-    ansible.playbook = "local/ansible/setup.yml"
+    ansible.playbook = "deploy/ansible/setup.yml"
   end
   config.ssh.forward_agent = true
 end
