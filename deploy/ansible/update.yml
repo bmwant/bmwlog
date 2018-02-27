@@ -1,0 +1,89 @@
+---
+- hosts: all
+
+  tasks:
+
+    - include_vars: "vars/common.yml"
+
+    - name: clone project repository
+      git:
+        repo: "{{ repository_url }}"
+        dest: "{{ project_root }}"
+        version: "{{ repository_branch }}"
+        accept_hostkey: true
+      when: ansible_ssh_user != "vagrant"
+
+    - name: create virtual environment
+      shell: "virtualenv {{ project_venv }}"
+      args:
+        creates: "{{ project_venv }}"
+
+    - name: update project requirements
+      shell: "{{ project_venv }}/bin/pip install -r requirements.txt"
+      args:
+        chdir: "{{ project_root }}"
+
+    - name: install npm dependencies
+      npm:
+        path: "{{ project_root }}"
+
+    - name: create local overrides for project config
+      template:
+        src: templates/app_config.py.j2
+        dest: "{{ project_root }}/app/config_local.py"
+      notify: gunicorn reload
+
+    - name: create local directories for project
+      file:
+        path: "{{ project_root }}/{{ item }}"
+        state: directory
+      with_items:
+        - "prod"
+        - "uploaded"
+
+    - name: copy gunicorn config
+      template:
+        src: templates/gunicorn_settings.py.j2
+        dest: "{{ project_root }}/prod/gunicorn_settings.py"
+      notify: gunicorn reload
+
+    - name: copy supervisor config
+      template:
+        src: templates/supervisor_bmwlog.conf.j2
+        dest: "{{ project_root }}/prod/supervisor_bmwlog.conf"
+      notify: supervisor reload
+
+    - name: copy nginx config
+      template:
+        src: templates/nginx_bmwlog.conf.j2
+        dest: "{{ project_root }}/prod/nginx_bmwlog.conf"
+      notify: nginx reload
+
+    - name: ensure supervisor config linked
+      file:
+        src: "{{ project_root }}/prod/supervisor_bmwlog.conf"
+        dest: /etc/supervisor/conf.d/bmwlog.conf
+        state: link
+      become: true
+
+    - name: ensure nginx config linked
+      file:
+        src: "{{ project_root }}/prod/nginx_bmwlog.conf"
+        dest: /etc/nginx/conf.d/bmwlog.conf
+        state: link
+      become: true
+
+
+  handlers:
+
+    - name: nginx reload
+      shell: "nginx -t && nginx -s reload"
+      become: true
+
+    - name: gunicorn reload
+      shell: "supervisorctl restart bmwlog"
+      become: true
+
+    - name: supervisor reload
+      shell: "supervisorctl reread && supervisorctl update"
+      become: true

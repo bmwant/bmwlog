@@ -1,34 +1,33 @@
 function toDrafts() {
-    $("input[name=draft]").val(1);
+  $("input[name=draft]").val(1);
 }
 
 function publish() {
-    $("input[name=draft]").val(0);
+  $("input[name=draft]").val(0);
 }
 
 function applyTags() {
-    $("input[name=tags]").val(
-        $("#tagBox").tagging('getTags').join(";")
-    );
+  $("input[name=tags]").val(
+    $("#tagBox").tagging('getTags').join(";")
+  );
 }
 
 $(document).ready(function() {
-
-    var tag_options = {
-        "no-duplicate": true,
-        "no-duplicate-callback": undefined,
-        "no-duplicate-text": "Duplicate tags",
-        "type-zone-class": "type-zone",
-        "tag-box-class": "tagging",
-        "forbidden-chars": [",", ".", "_", "?", "!", ":", " "],
-        "edit-on-delete": false,
-        "no-comma": true,
-        "no-enter": true,
-        "no-spacebar": false,
-        "pre-tags-separator": ";",
-        "tag-class": "tag_input",
-        "tags-input-name": "tag_input"
-    };
+  var tagOptions = {
+    "no-duplicate": true,
+    "no-duplicate-callback": undefined,
+    "no-duplicate-text": "Duplicate tags",
+    "type-zone-class": "type-zone",
+    "tag-box-class": "tagging",
+    "forbidden-chars": [",", ".", "_", "?", "!", ":", " "],
+    "edit-on-delete": false,
+    "no-comma": true,
+    "no-enter": true,
+    "no-spacebar": false,
+    "pre-tags-separator": ";",
+    "tag-class": "tag_input",
+    "tags-input-name": "tag_input"
+  };
 
     var currentLanguage = $("input[name=language]").val();
     $(".lang-icon[data-lang="+currentLanguage+"]").addClass("radio-selected");
@@ -38,7 +37,7 @@ $(document).ready(function() {
         $("input[name=language]").val($(this).data("lang"));
     });
     
-    $("#tagBox").tagging(tag_options);
+    $("#tagBox").tagging(tagOptions);
 
     $("#submitter").click(function(){
         applyTags();
@@ -54,7 +53,8 @@ $(document).ready(function() {
         $(this).closest('form').submit();
     });
 
-    var editorInstance = CKEDITOR.replace('article-text');
+  var editor = new SimpleMDE({ element: document.getElementById("article-text") });
+  // var editorInstance = CKEDITOR.replace('article-text');
 
     Dropzone.options.imageDropzone = {
         paramName: "file", // The name that will be used to transfer the file
@@ -73,11 +73,11 @@ $(document).ready(function() {
 });
 
 notifyChangesPresent = function () {
-    var editorInstance = CKEDITOR.instances["article-text"];
-    var isDirty = editorInstance.getData() !== "";
-    if (isDirty) {
-        return "There are unsaved data.";
-    }
+    // var editorInstance = CKEDITOR.instances["article-text"];
+    // var isDirty = editorInstance.getData() !== "";
+    // if (isDirty) {
+    //     return "There are unsaved data.";
+    // }
     return undefined;
 };
 
