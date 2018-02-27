@@ -3,24 +3,24 @@
 {% block title %}:: {{ item.title }}{% endblock %}
 
 {% block meta_tags %}
-    <meta name="keywords" content="{% for tag in item.tags %}{{ tag.text }}, {% endfor %}">
-
+  <meta name="keywords" content="{% for tag in item.tags %}{{ tag.text }}, {% endfor %}">
 {% endblock %}
 
 {% block styles %}
-    {{ super() }}
-    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/static/css/obsidian.css">
+  {{ super() }}
+  <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/static/css/obsidian.css">
 {% endblock %}
 
 {% block scripts %}
-    {{ super() }}
-    <script src="/static/js/highlight.pack.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
+  {{ super() }}
+  <script src="/node_modules/showdown/dist/showdown.min.js"></script>
+  <script src="/static/js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
 {% endblock %}
 
 {% block content %}
-<div id="content" itemscope itemtype="http://schema.org/BlogPosting">
+<div id="content" itemscope itemtype="http://schema.org/BlogPosting" data-post-id="{{ item.post_id }}">
     <div class="row">
 
         <div class="column_8" >
@@ -36,15 +36,10 @@
             </div>
 
             <div class="social-sharing">
-{#                <a href="https://plus.google.com/share?url={URL}" onclick="javascript:window.open(this.href,#}
-{#  '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"><img src="https://www.gstatic.com/images/icons/gplus-32.png" alt="Поділитись на Google+" />#}
-{#                </a>#}
-
-                <a href="http://vkontakte.ru/share.php?url=" target="_blank"><i class="fa fa-vk fa-2x"></i></a>
-                <a href="https://twitter.com/share?url=" target="_blank"><i class="fa fa-twitter fa-2x"></i></A>
-                <a href="https://plus.google.com/share?url=" target="_blank"><i class="fa fa-google-plus fa-2x"></i></a>
-                <a target="_blank" href="http://www.facebook.com/sharer/sharer.php?u="><i class="fa fa-facebook fa-2x"></i></a>
-
+              <a href="http://vkontakte.ru/share.php?url=" target="_blank"><i class="fa fa-vk fa-2x"></i></a>
+              <a href="https://twitter.com/share?url=" target="_blank"><i class="fa fa-twitter fa-2x"></i></A>
+              <a href="https://plus.google.com/share?url=" target="_blank"><i class="fa fa-google-plus fa-2x"></i></a>
+              <a target="_blank" href="http://www.facebook.com/sharer/sharer.php?u="><i class="fa fa-facebook fa-2x"></i></a>
             </div>
             <div class="post-comments">
                 <div id="disqus_thread"></div>
@@ -71,9 +66,9 @@
                {% if user.role.role == 'admin' %}
                 <div class="post-admin-actions bck light padding margin">
 
-                        <div class="myrow"><a href="/post/edit/{{ item.post_id }}">Редагувати статтю</a></div>
-                        <div class="myrow"><a href="/post/delete/{{ item.post_id }}" onclick="return confirm('Видалити статтю?')">Видалити статтю</a></div>
-                        <div class="myrow"><a href="/post/renew/{{ item.post_id }}">Актуалізувати</a></div>
+                  <div class="myrow"><a href="/post/edit/{{ item.post_id }}">Редагувати статтю</a></div>
+                  <div class="myrow"><a href="/post/delete/{{ item.post_id }}" onclick="return confirm('Видалити статтю?')">Видалити статтю</a></div>
+                  <div class="myrow"><a href="/post/renew/{{ item.post_id }}">Актуалізувати</a></div>
 
                 </div>
                {% endif %}
@@ -83,11 +78,11 @@
             <div class="post-info bck light padding margin">
                 <div class="info-block">
 
-                        <div class="info-line">Автор <span class="info-line-r" itemprop="author"><a  href="/user/{{ item.user.user_id }}">{{ item.user.nickname }}</a></span></div>
-                        <div class="info-line">Дата <span class="info-line-r"><time>{{ item.date_posted.strftime('%d/%m/%Y') }}</time></span></div>
-                        <div class="info-line">Категорія <span class="info-line-r" itemprop="articleSection"><a  href="/category/{{ item.category.category_id }}">{{ item.category.category_name }}</a></span></div>
-                        <div class="info-line">Переглядів <span class="info-line-r">{{ item.views }}</span></div>
-                        <div class="info-line">Актуальність<span class="info-line-r">{{ item.actuality|int }}%</span></div>
+                  <div class="info-line">Автор <span class="info-line-r" itemprop="author"><a  href="/user/{{ item.user.user_id }}">{{ item.user.nickname }}</a></span></div>
+                  <div class="info-line">Дата <span class="info-line-r"><time>{{ item.date_posted.strftime('%d/%m/%Y') }}</time></span></div>
+                  <div class="info-line">Категорія <span class="info-line-r" itemprop="articleSection"><a  href="/category/{{ item.category.category_id }}">{{ item.category.category_name }}</a></span></div>
+                  <div class="info-line">Переглядів <span class="info-line-r">{{ item.views }}</span></div>
+                  <div class="info-line">Актуальність<span class="info-line-r">{{ item.actuality|int }}%</span></div>
 
                 </div>
                 <a href="#" onclick="return false" id="like-link">
@@ -112,71 +107,75 @@
 {% endblock %}
 
 {% block bottom_scripts %}
-    {{ super() }}
-    <script>
-        $(document).ready(function() {
-            var url = document.URL;
-            $('.social-sharing').children('a').each(function() {
-               var new_href = $(this).attr('href') + url;
-                $(this).attr('href', new_href);
-            });
-        });
+  {{ super() }}
+  <script>
+    $(document).ready(function() {
+      // Render markdown to html
+      var postElem = $('#main');
+      var converter = new showdown.Converter();
+      var text = postElem.text();
+      var html = converter.makeHtml(text.trim());
+      postElem.html(html);
 
-    </script>
-    <script>
-        /*Like button*/
-        function checkThisPostForLike(post_id) {
-            var posts_string = $.cookie('posts_liked');
-            if(posts_string === undefined) {
-                return false;
+      var url = document.URL;
+      $('.social-sharing').children('a').each(function() {
+        var new_href = $(this).attr('href') + url;
+        $(this).attr('href', new_href);
+      });
+    });
+
+    /*Like button*/
+    function checkThisPostForLike(post_id) {
+      var posts_string = $.cookie('posts_liked');
+      if(posts_string === undefined) {
+        return false;
+      } else {
+        var arr = posts_string.split(",");
+        return arr.indexOf(post_id.toString()) !== -1;
+      }
+    }
+
+    $(document).ready(function() {
+      var post_id = $('#content').data('post-id');
+      if(checkThisPostForLike(post_id)) {
+        $("#like-button")
+          .removeClass('like-button')
+          .addClass('like-button-disabled')
+          .off('click');
+        $("#like-text").hide();
+        $("#likes-count").show();
+        $("#like-icon").addClass('love');
+      }
+      else {
+        $("#like-button").click(function() {
+          $(".doge").slideToggle("fast");
+          setTimeout(function() {$(".doge").slideToggle("fast");}, 1100);
+
+          $.ajax({
+           url: "/like/{{ item.post_id }}"
+          }).done(function() {
+            $.cookie.raw = true;
+            $("#like-text").hide();
+            var likesCounterElem = $('#likes-count');
+            var counter = parseInt(likesCounterElem.text());
+            likesCounterElem.text(counter+1).show();
+            $("#like-icon").addClass('love');
+            $("#like-button")
+              .removeClass('like-button')
+              .addClass('like-button-disabled')
+              .off('click');
+
+            var postsString = $.cookie('posts_liked');
+
+            if(postsString === undefined) {
+              $.cookie("posts_liked", post_id, { expires : 12*30 });
             } else {
-                var arr = posts_string.split(",");
-                if(arr.indexOf(post_id.toString()) != -1) {
-                    return true;
-                }
-                return false;
+              var new_posts = postsString + "," + post_id;
+              $.cookie("posts_liked", new_posts, { expires : 12*30 });
             }
-        }
-
-        $(document).ready(function() {
-            var post_id = {{ item.post_id }};
-            if(checkThisPostForLike(post_id)) {
-                $("#like-button").removeClass('like-button')
-                        .addClass('like-button-disabled')
-                        .off('click');
-                $("#like-text").hide();
-                $("#likes-count").show();
-                $("#like-icon").addClass('love');
-
-            }
-            else {
-                $("#like-button").click(function() {
-                    $(".doge").slideToggle("fast");
-                    setTimeout(function() {$(".doge").slideToggle("fast");}, 1100);
-
-                    $.ajax({
-                        url: "/like/{{ item.post_id }}"
-                    }).done(function() {
-                        $.cookie.raw = true;
-                        $("#like-text").hide();
-                        var counter = parseInt($("#likes-count").text());
-                        $("#likes-count").text(counter+1).show();
-                        $("#like-icon").addClass('love');
-                        $("#like-button").removeClass('like-button').addClass('like-button-disabled').off('click');
-
-                        var posts_string = $.cookie('posts_liked');
-
-                        if(posts_string === undefined) {
-                            $.cookie("posts_liked", post_id, { expires : 12*30 });
-                        }
-                        else {
-                            var new_posts = posts_string + "," + post_id;
-                            $.cookie("posts_liked", new_posts, { expires : 12*30 });
-                        }
-                    });
-                });
-            }
-
+          });
         });
-    </script>
+      }
+    });
+  </script>
 {% endblock %}
