@@ -8,7 +8,6 @@
 
 {% block styles %}
   {{ super() }}
-  <link rel="stylesheet" href="/static/css/font-awesome.min.css">
   <link rel="stylesheet" href="/static/css/obsidian.css">
 {% endblock %}
 
@@ -21,46 +20,43 @@
 
 {% block content %}
 <div id="content" itemscope itemtype="http://schema.org/BlogPosting" data-post-id="{{ item.post_id }}">
-    <div class="row">
+  <div class="row">
+    <div class="column_8" >
+      <meta itemprop="datePublished" content="{{ item.date_posted.isoformat() }}" />
+      <img itemprop="image" src="/img/logo.png" alt="BmwLog" style="display: none" />
 
-        <div class="column_8" >
+      <div class="post-header">
+        <a class="text bold color theme" itemprop="headline">{{ item.title }}</a>
+      </div>
+      <div id="main" class="post-text text justify" itemprop="articleBody">
+        {{ item.post_text }}
+      </div>
 
-            <meta itemprop="datePublished" content="{{ item.date_posted.isoformat() }}" />
-            <img itemprop="image" src="/img/logo.png" alt="BmwLog" style="display: none" />
+      <div class="social-sharing">
+        <a href="http://vkontakte.ru/share.php?url=" target="_blank"><i class="fab fa-vk fa-2x"></i></a>
+        <a href="https://twitter.com/share?url=" target="_blank"><i class="fab fa-twitter-square fa-2x"></i></a>
+        <a href="https://plus.google.com/share?url=" target="_blank"><i class="fab fa-google-plus-square fa-2x"></i></a>
+        <a target="_blank" href="http://www.facebook.com/sharer/sharer.php?u="><i class="fab fa-facebook-square fa-2x"></i></a>
+      </div>
+      <div class="post-comments">
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            var disqus_shortname = 'bmwlog';
 
-            <div class="post-header">
-                <a class="text bold color theme" itemprop="headline">{{ item.title }}</a>
-            </div>
-            <div id="main" class="post-text text justify" itemprop="articleBody">
-                {{ item.post_text }}
-            </div>
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript.</noscript>
+      </div>
+    </div>
 
-            <div class="social-sharing">
-              <a href="http://vkontakte.ru/share.php?url=" target="_blank"><i class="fa fa-vk fa-2x"></i></a>
-              <a href="https://twitter.com/share?url=" target="_blank"><i class="fa fa-twitter fa-2x"></i></A>
-              <a href="https://plus.google.com/share?url=" target="_blank"><i class="fa fa-google-plus fa-2x"></i></a>
-              <a target="_blank" href="http://www.facebook.com/sharer/sharer.php?u="><i class="fa fa-facebook fa-2x"></i></a>
-            </div>
-            <div class="post-comments">
-                <div id="disqus_thread"></div>
-                <script type="text/javascript">
-                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-                    var disqus_shortname = 'bmwlog'; // required: replace example with your forum shortname
-
-                    /* * * DON'T EDIT BELOW THIS LINE * * */
-                    (function () {
-                        var dsq = document.createElement('script');
-                        dsq.type = 'text/javascript';
-                        dsq.async = true;
-                        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                    })();
-                </script>
-                <noscript>Please enable JavaScript.</noscript>
-            </div>
-        </div>
-
-        <div class="column_4">
+    <div class="column_4">
             {% set user = app.current_user %}
             {% if user %}
                {% if user.role.role == 'admin' %}
@@ -87,11 +83,10 @@
                 </div>
                 <a href="#" onclick="return false" id="like-link">
                     <div id="like-button" class="like-button">
-                        <i class="fa fa-heart" id="like-icon"></i> <span id="like-text">лайк</span> <span id="likes-count">{{ item.likes }}</span>
+                        <i class="fas fa-heart" id="like-icon"></i> <span id="like-text">лайк</span> <span id="likes-count">{{ item.likes }}</span>
                     </div>
                 </a>
             </div>
-
 
             <div class="post-tags padding">
                 {% for tag in item.tags %}
@@ -102,7 +97,7 @@
             </div>
         </div>
 
-    </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -113,12 +108,12 @@
       // Render markdown to html
       var postElem = $('#main');
       var converter = new showdown.Converter();
-      var text = postElem.text().trim();
       if(postElem.html().trim().startsWith('<')) {
         console.warn('Assuming html for old articles, skip converting to markdown');
       } else {
-        var html = converter.makeHtml(text.trim());
-        postElem.html(html);
+        var text = postElem.html().replace(/&gt;/g, '>').trim();
+        var newHtml = converter.makeHtml(text);
+        postElem.html(newHtml);
       }
       var url = document.URL;
       $('.social-sharing').children('a').each(function() {

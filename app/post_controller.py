@@ -140,9 +140,7 @@ def post_edit(post_id):
 
         all_categories = Category.select()
         template = env.get_template('post/edit.html')
-        return template.render(item=post,
-                               categories=all_categories,
-                               submit_button=u'Оновити')
+        return template.render(item=post, categories=all_categories)
     elif request.method == 'POST':
         post = Post.get(Post.post_id == post_id)
         post.category = post_get('category_id')

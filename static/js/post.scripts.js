@@ -53,31 +53,32 @@ $(document).ready(function() {
         $(this).closest('form').submit();
     });
 
-  var editor = new SimpleMDE({ element: document.getElementById("article-text") });
-  // var editorInstance = CKEDITOR.replace('article-text');
+  window.editor = new SimpleMDE({
+    element: document.getElementById("article-text")
+  });
 
-    Dropzone.options.imageDropzone = {
-        paramName: "file", // The name that will be used to transfer the file
-        maxFilesize: 3, // MB
-        dictDefaultMessage: "Upload image",
-        success: function(file, status) {
-            var path = $("<input/>", {
-                type: 'text',
-                value: status,
-                readonly: 1
-            });
-            $(".dz-success-mark").append(path);
-            console.log(status);
-        }
-    };
+  Dropzone.options.imageDropzone = {
+    paramName: "file", // The name that will be used to transfer the file
+    maxFilesize: 3, // MB
+    dictDefaultMessage: "Upload image",
+    success: function(file, status) {
+      var path = $("<input/>", {
+        type: 'text',
+        value: status,
+        readonly: 1
+      });
+      $(".dz-success-mark").append(path);
+      console.log(status);
+    }
+  };
 });
 
 notifyChangesPresent = function () {
-    // var editorInstance = CKEDITOR.instances["article-text"];
-    // var isDirty = editorInstance.getData() !== "";
-    // if (isDirty) {
-    //     return "There are unsaved data.";
-    // }
+    var isDirty = window.editor
+      .codemirror.doc.getValue() !== $("#article-text").text();
+    if (isDirty) {
+        return "There are unsaved changes!";
+    }
     return undefined;
 };
 

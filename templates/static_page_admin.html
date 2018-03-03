@@ -1,11 +1,8 @@
 {% extends "base.html" %}
 
-{% block sitename %}dfads{% endblock %}
+{% block sitename %}Pages admin{% endblock %}
 
 {% block styles %}
-    {{ super() }}
-    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
-
 {% endblock %}
 
 {% block scripts %}
@@ -32,7 +29,7 @@
                     {{ field }}
                 {% endfor %}
                 <div class="margin-bottom margin-top">
-                    <button class="button success small icon ok">Додати сторінку</button>
+                    <button class="button success small"><i class="fas fa-check"></i> Додати сторінку</button>
                 </div>
             </form>
         </div>

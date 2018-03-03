@@ -249,33 +249,30 @@ html, body {
     min-width: 48px;
     text-align: center;
     border: 3px solid transparent;
-}
-
-.social-sharing i:hover {
-    background-color: #ffc04f;
-}
-
-.social-sharing .fa {
-    background-color: #dc4e41;
     padding: 7px;
     border-radius: 4px;
     margin: 0 3px;
     color: whitesmoke;
 }
 
-.social-sharing .fa-facebook {
+.social-sharing i.fab:hover {
+    transition: all 0.3s ease-out;
+    background-color: #ffc04f;
+}
+
+.social-sharing i.fa-facebook-square {
     background-color: #3b5998;
 }
 
-.social-sharing .fa-google-plus {
+.social-sharing i.fa-google-plus-square {
     background-color: #dc4e41;
 }
 
-.social-sharing .fa-twitter {
+.social-sharing i.fa-twitter-square {
     background-color: #55acee;
 }
 
-.social-sharing .fa-vk {
+.social-sharing i.fa-vk {
     background-color: #507299;
 }
 
@@ -464,7 +461,7 @@ table.admin-table td:hover {
 }
 
 .post-text ul {
-    list-style-image: url('/img/bullet.png');
+    list-style-image: url('/static/img/bullet.png');
     margin: 3px 0;
     padding-left: 30px;
     font-size: 1.1em;
@@ -505,12 +502,13 @@ kbd {
     white-space: nowrap;
 }
 
-.inline-code {
+p code {
     white-space: pre-wrap;
     padding: 1px 3px;
     border: #c4dae9 1px solid;
     background: #ecf0f1;
     border-radius: 2px;
+    font-family: 'PT Sans Narrow', sans-serif;;
 }
 
 .error-text {
@@ -694,4 +692,27 @@ form.search-form input[type="text"] {
     font-weight: bold;
     font-size: 1.2em;
     /*color: #1abc9c;*/
+}
+
+
+#info-table tr td:first-child {
+    text-align: center;
+    width: 136px;
+}
+
+#info-table tr td:nth-child(2) {
+    padding-left: 1.5em;
+    vertical-align: middle;
+}
+
+#site-menu i {
+    color: #b0b8c0;
+    margin-right: 0.5em;
+}
+
+#site-menu a:hover i {
+    color: #1abc9c;
+}
+#site-menu a.active i {
+    color: #1abc9c;
 }

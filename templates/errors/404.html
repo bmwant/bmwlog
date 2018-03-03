@@ -15,7 +15,7 @@
         function goBack() {
             window.history.go(-1);
             return false;
-            if (document.referrer == "") {
+            if (document.referrer === "") {
                 window.location.href = '/';
             } else {
                 window.history.back();
