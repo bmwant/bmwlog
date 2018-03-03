@@ -20,11 +20,10 @@
     {% block styles %}
     <link rel="stylesheet" href="/static/css/tuktuk.css">
     <link rel="stylesheet" href="/static/css/tuktuk.theme.css">
-    <link rel="stylesheet" href="/static/css/tuktuk.icons.css">
+    <link rel="stylesheet" href="/static/css/fontawesome-all.min.css">
     <link rel="stylesheet" href="/static/css/style.css">
     <link rel="stylesheet" href="/static/css/toastr.css">
     <link rel="stylesheet" href="/static/css/tag-basic-style.css" >
-    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
     {% endblock %}
 
     {% block scripts %}
@@ -69,24 +68,24 @@
         <div class="row text center">
             <nav data-tuktuk="menu" class="column_12 padding text bold">
                 <a href="/post">
-                    <span class="icon pencil"></span>Статті
+                    <i class="fas fa-pencil-alt"></i>Posts
                 </a>
                 <a href="/categories">
-                    <span class="icon folder-open-alt"></span>Категорії
+                    <i class="fas fa-search"></i>Find
                 </a>
                 <a href="/gallery">
-                    <span class="icon camera"></span>Галерея
+                    <i class="fas fa-camera-retro"></i>Photos
                 </a>
                 {% if user and user.is_admin() %}
                     <a href="/ad">
-                        <span class="icon cog"></span>Адмінка
+                        <i class="fas fa-cog"></i>Admin
                     </a>
                     <a href="/play">
-                        <span class="icon beaker"></span>Пісочниця
+                        <i class="fas fa-flask"></i>Playground
                     </a>
                 {% endif %}
                 <a href="/about">
-                    <span class="icon info-sign"></span>Інфо
+                    <i class="fas fa-chess-pawn"></i>About
                 </a>
             </nav>
         </div>
