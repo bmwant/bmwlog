@@ -461,7 +461,7 @@ table.admin-table td:hover {
 }
 
 .post-text ul {
-    list-style-image: url('/img/bullet.png');
+    list-style-image: url('/static/img/bullet.png');
     margin: 3px 0;
     padding-left: 30px;
     font-size: 1.1em;
