@@ -109,12 +109,12 @@
       // Render markdown to html
       var postElem = $('#main');
       var converter = new showdown.Converter();
-      var text = postElem.text().trim();
       if(postElem.html().trim().startsWith('<')) {
         console.warn('Assuming html for old articles, skip converting to markdown');
       } else {
-        var html = converter.makeHtml(text.trim());
-        postElem.html(html);
+        var text = postElem.html().replace(/&gt;/g, '>').trim();
+        var newHtml = converter.makeHtml(text);
+        postElem.html(newHtml);
       }
       var url = document.URL;
       $('.social-sharing').children('a').each(function() {
