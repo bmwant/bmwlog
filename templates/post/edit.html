@@ -16,69 +16,67 @@
 
 {% block content %}
 <div id="content">
-    <div class="row">
-        <div class="column_8">
-            <form action="/post/edit/{{ item.post_id }}" method="post">
-
-
-            <div class="form-field">
-                <label>Заголовок</label>
-                <input type="text" name="title" value="{{ item.title }}" autofocus/>
-            </div>
-            <!--
-            <label for="datepick">Дата розміщення</label>
-            
-            <input type="text" id="datepicker" class="hastDatapicker" /><br />
-            -->
-            <label>Виберіть категорію</label>
-            <div class="select">
-                <select name="category_id">
-                    {% for cat in categories %}
-                        {% if item.category.category_id == cat.category_id %}
-                            <option value="{{ cat.category_id }}" selected="true">{{ cat.category_name}}</option>
-                        {% else %}
-                            <option value="{{ cat.category_id }}">{{ cat.category_name}}</option>
-                        {% endif%}
-                    {% endfor %}
-                </select>
-            </div><br />
-
-            <div class="form-field">
-                <div class="lang-icon" data-lang="eng">
-                    <span class="flag-icon flag-icon-gb"></span>
-                </div>
-                <div class="lang-icon" data-lang="ukr">
-                    <span class="flag-icon flag-icon-ua"></span>
-                </div>
-                <div class="lang-icon" data-lang="rus">
-                    <span class="flag-icon flag-icon-ru"></span>
-                </div>
-                <input type="hidden" name="language" value="{{ item.language }}">
-            </div>
-
-            <label>Текст</label>
-            <textarea id="article-text" name="text" rows="60" cols="80">{{ item.post_text }}</textarea>
-
-            <label>Теги</label>
-            <div id="tagBox">{% for tag in item.tags %}{{ tag.text }};{% endfor %}</div>
-            <input type="hidden" name="tags" />
-            <input type="hidden" name="draft">
-
-            <div class="margin-bottom margin-top">
-                <a id="submitter" class="button success icon ok">
-                    {{ submit_button|default('Опублікувати') }}
-                </a>
-                <a id="drafter" class="button secondary small icon edit">
-                    Зберегти в чорновики
-                </a>
-            </div>
-
-            </form>
+  <div class="row">
+    <div class="column_8">
+      <form action="/post/edit/{{ item.post_id }}" method="post">
+        <div class="form-field">
+          <label>Заголовок</label>
+          <input type="text" name="title" value="{{ item.title }}" autofocus/>
         </div>
-        <div class="column_4">
-            <form action="/up" class="dropzone" id="image-dropzone"></form>
+        <!--
+        <label for="datepick">Дата розміщення</label>
+
+        <input type="text" id="datepicker" class="hastDatapicker" /><br />
+        -->
+        <label>Виберіть категорію</label>
+        <div class="select">
+          <select name="category_id">
+          {% for cat in categories %}
+            {% if item.category.category_id == cat.category_id %}
+            <option value="{{ cat.category_id }}" selected="true">{{ cat.category_name}}</option>
+            {% else %}
+            <option value="{{ cat.category_id }}">{{ cat.category_name}}</option>
+            {% endif%}
+          {% endfor %}
+          </select>
+        </div><br />
+
+        <div class="form-field">
+          <div class="lang-icon" data-lang="eng">
+            <span class="flag-icon flag-icon-gb"></span>
+          </div>
+          <div class="lang-icon" data-lang="ukr">
+            <span class="flag-icon flag-icon-ua"></span>
+          </div>
+          <div class="lang-icon" data-lang="rus">
+            <span class="flag-icon flag-icon-ru"></span>
+          </div>
+          <input type="hidden" name="language" value="{{ item.language }}">
         </div>
-    </div>
+
+        <label>Текст</label>
+        <textarea id="article-text" name="text" rows="60" cols="80">{{ item.post_text }}</textarea>
+
+        <label>Теги</label>
+        <div id="tagBox">{% for tag in item.tags %}{{ tag.text }};{% endfor %}</div>
+        <input type="hidden" name="tags" />
+        <input type="hidden" name="draft">
+
+        <div class="margin-bottom margin-top">
+          <a id="submitter" class="button success">
+            <i class="fas fa-check"></i> {{ 'Опублікувати' if item.draft else 'Оновити' }}
+          </a>
+          <a id="drafter" class="button secondary small">
+            <i class="far fa-edit"></i> {{ 'Зберегти' if item.draft else 'Відправити в чорновики' }}
+          </a>
+        </div>
+
+    </form>
+  </div>
+  <div class="column_4">
+    <form action="/up" class="dropzone" id="image-dropzone"></form>
+  </div>
+</div>
 </div>
 {% endblock %}
 

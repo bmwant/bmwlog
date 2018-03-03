@@ -249,33 +249,30 @@ html, body {
     min-width: 48px;
     text-align: center;
     border: 3px solid transparent;
-}
-
-.social-sharing i:hover {
-    background-color: #ffc04f;
-}
-
-.social-sharing .fa {
-    background-color: #dc4e41;
     padding: 7px;
     border-radius: 4px;
     margin: 0 3px;
     color: whitesmoke;
 }
 
-.social-sharing .fa-facebook {
+.social-sharing i.fab:hover {
+    transition: all 0.3s ease-out;
+    background-color: #ffc04f;
+}
+
+.social-sharing i.fa-facebook-square {
     background-color: #3b5998;
 }
 
-.social-sharing .fa-google-plus {
+.social-sharing i.fa-google-plus-square {
     background-color: #dc4e41;
 }
 
-.social-sharing .fa-twitter {
+.social-sharing i.fa-twitter-square {
     background-color: #55acee;
 }
 
-.social-sharing .fa-vk {
+.social-sharing i.fa-vk {
     background-color: #507299;
 }
 
