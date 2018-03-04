@@ -1,4 +1,4 @@
-from bottle import Bottle, Jinja2Template
+from bottle import Bottle
 from jinja2 import Environment, PackageLoader
 from peewee import MySQLDatabase
 
@@ -8,7 +8,7 @@ import config
 db = MySQLDatabase(config.DB_NAME,
                    host=config.DB_HOST, port=config.DB_PORT,
                    user=config.DB_USER, password=config.DB_PASS)
-db.get_conn().ping(True)
+# db.get_conn().ping(True)
 
 app = Bottle()
 
