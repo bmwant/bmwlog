@@ -1,13 +1,14 @@
 language: python
 python:
   - "2.7"
-  - "3.5"
+  - "3.6"
 install:
   - pip install -r requirements.txt
-script: make tests
 before_script:
   - mysql -u root -e 'create database bmwlogdb;'
+script: make tests
 services:
   - mysql
 env:
-  - DB_USER=root
+  global:
+    - DB_USER=root
