@@ -55,7 +55,7 @@ class User(BaseModel):
     nickname = CharField()
     user_password = CharField()
     picture = CharField(default='default.png')
-    role = ForeignKeyField(db_column='role_id', rel_model=Role)
+    role = ForeignKeyField(Role, field='role_id')
     date_registered = DateTimeField(default=datetime.now)
 
     @staticmethod
@@ -93,8 +93,8 @@ class Post(BaseModel):
     )
 
     post_id = PrimaryKeyField(db_column='post_id')
-    category = ForeignKeyField(db_column='category_id', rel_model=Category)
-    user = ForeignKeyField(db_column='user_id', rel_model=User)
+    category = ForeignKeyField(Category, field='category_id')
+    user = ForeignKeyField(User, field='user_id')
 
     date_posted = DateTimeField(default=datetime.now)
     date_updated = DateTimeField(default=datetime.now)
@@ -258,8 +258,8 @@ class Tag_to_Post(BaseModel):
     class Meta:
         db_table = 'tag_to_post'
 
-    post_id = ForeignKeyField(db_column='post_id', rel_model=Post)
-    tag_id = ForeignKeyField(db_column='tag_id', rel_model=Tag)
+    post_id = ForeignKeyField(Post, field='post_id')
+    tag_id = ForeignKeyField(Tag, field='tag_id')
 
 
 class StreamMessage(BaseModel):
