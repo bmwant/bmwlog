@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 import time
 import subprocess
@@ -92,7 +93,6 @@ def shorten_text(text):
     text = strip_tags(text)
     if len(text) > 500:
         text = text[:500] + "..."
-    print(text)
     return text
 
 
