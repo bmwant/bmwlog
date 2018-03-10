@@ -111,7 +111,10 @@
       if(postElem.html().trim().startsWith('<')) {
         console.warn('Assuming html for old articles, skip converting to markdown');
       } else {
-        var text = postElem.html().replace(/&gt;/g, '>').trim();
+        var text = postElem.html()
+          .replace(/&gt;/g, '>')
+          .replace(/&lt;/g, '<')
+          .trim();
         var newHtml = converter.makeHtml(text);
         postElem.html(newHtml);
       }
