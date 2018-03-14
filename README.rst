@@ -21,6 +21,13 @@ Development
     make tests
     make style-check
 
+Database migrations. Edit ``app/migrations/__main__.py`` and execute
+
+.. code-block:: bash
+
+    export PYTHONPATH=`pwd`
+    python -m app.migrations
+
 
 Deployment
 ----------
