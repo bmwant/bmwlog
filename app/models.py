@@ -1,7 +1,17 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta, datetime
 from bottle import abort
-from peewee import *
+from peewee import (
+    Model,
+    DoesNotExist,
+    PrimaryKeyField,
+    ForeignKeyField,
+    CharField,
+    IntegerField,
+    DateTimeField,
+    BooleanField,
+    TextField,
+)
 from app import app, db
 
 
@@ -101,11 +111,13 @@ class Post(BaseModel):
 
     post_text = CharField()
     title = CharField()
+    slug = CharField()
     language = CharField(default=languages[0][0], choices=languages)
 
     likes = IntegerField(default=0)
     views = IntegerField(default=0)
 
+    show_on_index = BooleanField(default=True)
     draft = BooleanField()
     deleted = BooleanField()
 
