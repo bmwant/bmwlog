@@ -2,7 +2,6 @@
 from datetime import timedelta, datetime
 from bottle import abort
 from peewee import (
-    Model,
     DoesNotExist,
     PrimaryKeyField,
     ForeignKeyField,
@@ -12,7 +11,9 @@ from peewee import (
     BooleanField,
     TextField,
 )
+from playhouse.signals import Model, pre_save
 from app import app, db
+from app.helput import create_slug
 
 
 class UnknownFieldType(object):
@@ -111,7 +112,7 @@ class Post(BaseModel):
 
     post_text = CharField()
     title = CharField()
-    slug = CharField()
+    slug = CharField(default='')
     language = CharField(default=languages[0][0], choices=languages)
 
     likes = IntegerField(default=0)
@@ -218,6 +219,13 @@ class Post(BaseModel):
     def __str__(self):
         return '#{post_id}. {post_title}'.format(
             post_id=self.post_id, post_title=self.title.encode('utf-8'))
+
+
+@pre_save(sender=Post)
+def on_save_handler(model_class, instance, created):
+    # Update every time in case title was updated
+    slug = create_slug(instance.title)
+    instance.slug = slug
 
 
 class Photo(BaseModel):

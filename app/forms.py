@@ -7,7 +7,7 @@ from bottle import request
 from wtforms import FileField, SelectField, StringField, PasswordField,\
     validators, TextAreaField
 from wtforms.validators import InputRequired, Email, EqualTo
-from helput import get_all_dirs, join_all_path, translit_url
+from helput import translit_text
 from helpers import save_file
 from app import config
 
@@ -85,4 +85,4 @@ class StaticPageForm(Form):
 
     def validate_page_url(self, field):
         if not field.data:
-            field.data = translit_url(self.title.data)
+            field.data = translit_text(self.title.data)

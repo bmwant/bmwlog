@@ -2,10 +2,24 @@
 import os
 import uuid
 import hashlib
-import collections
-
+from functools import reduce
 from random import sample
 from string import letters, digits
+from HTMLParser import HTMLParser
+
+from markdown import markdown
+
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.fed = []
+
+    def handle_data(self, d):
+        self.fed.append(d)
+
+    def get_data(self):
+        return ''.join(self.fed)
 
 
 def get_list_of_files(directory, ext='', full_path=True):
@@ -99,11 +113,25 @@ def distort_filename(filename):
             extension=ext)
 
 
-def translit_url(url_text=u''):
+def strip_tags(html):
+    html_from_markdown = markdown(html)
+    s = MLStripper()
+    s.feed(html_from_markdown)
+    return s.get_data()
+
+
+def shorten_text(text):
+    text = strip_tags(text)
+    if len(text) > 500:
+        text = text[:500] + "..."
+    return text
+
+
+def translit_text(text=u''):
     """
     Generate a correct url based on static page title
     """
-    url_text = url_text.lower()
+    text = text.lower()
     char_table = {
         u'а': 'a',
         u'б': 'b',
@@ -143,9 +171,19 @@ def translit_url(url_text=u''):
 
     allowed = '-_'
     result = ''
-    for char in url_text:
+    for char in text:
         if char in char_table:
             result += char_table[char]
         elif char.isalnum() or char in allowed:
             result += char
     return result
+
+
+def create_slug(title):
+    """
+    Generates an alias url for the article by its title.
+    """
+    slug = translit_text(title.replace(' ', '-'))
+    is_allowed = lambda ch: ch.isalpha() or ch == '-'
+    return reduce(lambda acc, ch: acc + ch if is_allowed(ch) else acc,
+                  slug, '')

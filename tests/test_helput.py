@@ -6,7 +6,8 @@ from app.helput import (
     join_all_path,
     unique_filename,
     generate_filename,
-    translit_url,
+    translit_text,
+    create_slug,
 )
 
 
@@ -45,7 +46,7 @@ def test_generate_filename():
     assert third_filename.endswith('suffix')
 
 
-def test_translit_url():
+def test_translit_text():
     data_one = u'дуже довга назва з пробелом'
     expected_one = 'dyzhe_dovha_nazva_z_probelom'
 
@@ -58,12 +59,21 @@ def test_translit_url():
     data_four = '`~@#$%^&*()-_-+={[]};:/?,.<>'
     expected_four = '-_-'
 
-    result_one = translit_url(data_one)
-    result_two = translit_url(data_two)
-    result_three = translit_url(data_three)
-    result_four = translit_url(data_four)
+    result_one = translit_text(data_one)
+    result_two = translit_text(data_two)
+    result_three = translit_text(data_three)
+    result_four = translit_text(data_four)
 
     assert result_one == expected_one
     assert result_two == expected_two
     assert result_three == expected_three
     assert result_four == expected_four
+
+
+def test_create_slug():
+    assert create_slug('1234') == ''
+    assert create_slug('My interesting article') == 'my-interesting-article'
+    assert create_slug('The #3 number can be blank ___') == 'the--number-can-be-blank-'
+    assert create_slug(u'Як побороти расову дискримінацію') == 'jak-poborotu-rasovy-duskruminaciju'
+
+

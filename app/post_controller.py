@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 import json
+from datetime import datetime
 
-from datetime import datetime, timedelta
-from bottle import route, request, get, post, abort
+from bottle import request, abort
 from peewee import fn, IntegrityError
+
 from models import (Post, Tag, Tag_to_Post, Category, Banner, DoesNotExist,
                     StreamMessage, Quote)
-from helpers import shorten_text, redirect, post_get, postd, only_ajax
+from helput import shorten_text
+from helpers import redirect, post_get, only_ajax
 from user_controller import require
 from app import app, env, config
 

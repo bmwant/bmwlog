@@ -6,6 +6,7 @@ Thumbs.db
 .cache/
 build/
 node_modules/
+.pytest_cache/
 
 # project-specific
 venv/
