@@ -183,7 +183,20 @@ def create_slug(title):
     """
     Generates an alias url for the article by its title.
     """
-    slug = translit_text(title.replace(' ', '-'))
+    only_latin = translit_text(title.replace(' ', '-'))
     is_allowed = lambda ch: ch.isalpha() or ch == '-'
-    return reduce(lambda acc, ch: acc + ch if is_allowed(ch) else acc,
-                  slug, '')
+    if not only_latin:
+        return ''
+
+    leave_allowed = reduce(lambda acc, ch: acc + ch if is_allowed(ch) else acc,
+                           only_latin, '')
+    if not leave_allowed:
+        return ''
+
+    remove_duplicates = reduce(
+        lambda acc, ch: acc + ch if ch != '-' or ch != acc[-1] else acc,
+        leave_allowed)
+
+    remove_leading = remove_duplicates.strip('-')
+
+    return remove_leading

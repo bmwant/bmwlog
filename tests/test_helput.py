@@ -72,8 +72,14 @@ def test_translit_text():
 
 def test_create_slug():
     assert create_slug('1234') == ''
+    assert create_slug('ssaaff 1 1 ssdd') == 'ssaaff-ssdd'
     assert create_slug('My interesting article') == 'my-interesting-article'
-    assert create_slug('The #3 number can be blank ___') == 'the--number-can-be-blank-'
-    assert create_slug(u'Як побороти расову дискримінацію') == 'jak-poborotu-rasovy-duskruminaciju'
-
-
+    assert create_slug('single 12 12 12 13 dash 1 1 1 only') == \
+        'single-dash-only'
+    assert create_slug('The #3 number can be blank ___') == \
+        'the-number-can-be-blank'
+    assert create_slug(u'Як побороти расову дискримінацію') == \
+        'jak-poborotu-rasovy-duskruminaciju'
+    assert create_slug('1 1 1 1 1 1') == ''
+    assert create_slug('1 1 no leading or trailing _ 1 _ ') == \
+        'no-leading-or-trailing'
