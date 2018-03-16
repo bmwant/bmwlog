@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import uuid
-import hashlib
 from functools import reduce
 from random import sample
 from string import letters, digits

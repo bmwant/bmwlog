@@ -2,7 +2,6 @@ import time
 import docker
 
 from utils.helpers import info
-from utils.init_db import create_tables, insert_fixture_data
 
 
 def run_mysql_container():
@@ -34,8 +33,8 @@ def init_database(mysql_container, database_name='test'):
     else:
         raise RuntimeError('Was not able to start mysql: %s', er)
 
-    create_tables()
-    insert_fixture_data()
+    # create_tables()
+    # insert_fixture_data()
 
 
 def get_container_ip_address(container):

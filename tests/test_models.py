@@ -1,14 +1,20 @@
-from app.models import Post
+from app import models
 
-
-def setup_module(module):
+try:
+    from importlib import reload
+except ImportError:
     pass
 
 
+def setup_module(module):
+    reload(models)
+
+
 def test_create_slug_for_post():
-    new_post = Post.create(
-        category_id=11,
-        user_id=11,
+    import pdb; pdb.set_trace()
+    new_post = models.Post.create(
+        category_id=1,
+        user_id=1,
         title='Very long post title',
         post_text='Post content',
     )
