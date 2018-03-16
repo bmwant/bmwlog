@@ -1,13 +1,8 @@
+import time
 import docker
-import click
 
-
-def note(message):
-    click.secho(message, fg='green')
-
-
-def info(message):
-    click.secho(message, fg='yellow')
+from utils.helpers import info
+from utils.init_db import create_tables, insert_fixture_data
 
 
 def run_mysql_container():
@@ -23,6 +18,24 @@ def run_mysql_container():
         detach=True,
     )
     return container
+
+
+def init_database(mysql_container):
+    # Wait for mysql to start
+    er = 'Container failed to execute command'
+    for i in range(10):
+        er = mysql_container.exec_run(
+            'mysql -h localhost -e "CREATE DATABASE bmwlogdb_test;"',
+        )
+        if er.exit_code == 0:
+            break
+        info('==> Waiting for mysql server to start...')
+        time.sleep(2)
+    else:
+        raise RuntimeError('Was not able to start mysql: %s', er)
+
+    create_tables()
+    insert_fixture_data()
 
 
 def get_container_ip_address(container):

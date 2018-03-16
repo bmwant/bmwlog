@@ -3,6 +3,7 @@ import sys
 
 from helpers import (
     info,
+    init_database,
     run_mysql_container,
     remove_container,
     get_container_ip_address,
@@ -16,24 +17,27 @@ sys.path.append(project_dir)
 
 
 def pytest_configure(config):
-    info('==> Creating test database')
+    info('==> Create docker container for a database')
     container = run_mysql_container()
     ip_address = get_container_ip_address(container)
     os.environ['DB_HOST'] = ip_address
     os.environ['DB_USER'] = 'root'
+    os.environ['DB_PASS'] = ''
+    os.environ['DB_NAME'] = 'bmwlogdb_test'
+    init_database(container)
     config._mysql_container = container
 
 
 def pytest_unconfigure(config):
-    info('==> Removing database')
+    info('==> Cleaning up container for a database')
     if hasattr(config, '_mysql_container'):
         container = config._mysql_container
         remove_container(container)
 
 
 def pytest_sessionstart():
-    print('Session start is called')
+    pass
 
 
 def pytest_sessionfinish():
-    print('Session finish is called')
+    pass
