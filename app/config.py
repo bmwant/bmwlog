@@ -10,6 +10,7 @@ POSTS_PER_PAGE = 10
 
 STATIC_FOLDER = '/data/projects/bmwlog/static'
 ROOT_FOLDER = '/data/projects/bmwlog'
+TEMPLATES_DIR = '/data/projects/bmwlog/templates'
 
 # Standalone run
 RUN_HOST = '127.0.0.1'

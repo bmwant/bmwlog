@@ -20,12 +20,12 @@ def run_mysql_container():
     return container
 
 
-def init_database(mysql_container):
+def init_database(mysql_container, database_name='test'):
     # Wait for mysql to start
     er = 'Container failed to execute command'
     for i in range(10):
         er = mysql_container.exec_run(
-            'mysql -h localhost -e "CREATE DATABASE bmwlogdb_test;"',
+            'mysql -h localhost -e "CREATE DATABASE %s;"' % database_name,
         )
         if er.exit_code == 0:
             break

@@ -1,6 +1,10 @@
 from app.models import Post
 
 
+def setup_module(module):
+    pass
+
+
 def test_create_slug_for_post():
     new_post = Post.create(
         category_id=11,

@@ -1,7 +1,7 @@
 from peewee import CharField, BooleanField
 from playhouse.migrate import migrate, MySQLMigrator
 
-from app import db, models
+from app import models, connect_database
 
 
 def m_001(migrator):
@@ -27,6 +27,7 @@ def m_002(migrator):
 
 
 def migrate_database():
+    db = connect_database()
     migrator = MySQLMigrator(db)
     migrations = [
         m_001,

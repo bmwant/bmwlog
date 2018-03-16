@@ -12,8 +12,11 @@ from peewee import (
     TextField,
 )
 from playhouse.signals import Model, pre_save
-from app import app, db
-from app.helput import create_slug
+from app import app, connect_database
+from app.helput import create_slug, shorten_text
+
+
+db = connect_database()
 
 
 class UnknownFieldType(object):
@@ -123,7 +126,6 @@ class Post(BaseModel):
     deleted = BooleanField()
 
     def serialize(self):
-        from helpers import shorten_text
         return {
             'id': self.post_id,
             'title': self.title,
