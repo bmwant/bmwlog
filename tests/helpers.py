@@ -1,4 +1,13 @@
 import docker
+import click
+
+
+def note(message):
+    click.secho(message, fg='green')
+
+
+def info(message):
+    click.secho(message, fg='yellow')
 
 
 def run_mysql_container():
@@ -13,22 +22,23 @@ def run_mysql_container():
         },
         detach=True,
     )
+    return container
 
-    ip_address = client.api.inspect_container(container_name)['NetworkSettings']['Networks']['bridge']['IPAddress']
+
+def get_container_ip_address(container):
+    client = docker.from_env()
+    container_data = client.api.inspect_container(container.name)
+    ip_address = container_data\
+        .get('NetworkSettings')\
+        .get('Networks')\
+        .get('bridge')\
+        .get('IPAddress')
     return ip_address
 
 
-# docker.pull('redis')
-# port = unused_port()
-# container = docker.create_container(
-#     image='redis',
-#     name='test-redis-{}'.format(session_id),
-#     ports=[6379],
-#     detach=True,
-#     host_config=docker.create_host_config(
-#         port_bindings={6379: port}))
-# docker.start(container=container['Id'])
-# yield port
-# docker.kill(container=container['Id'])
-# docker.remove_container(container['Id'])
+def remove_container(container):
+    client = docker.from_env()
+    client.api.kill(container.id)
 
+    # No need to remove. `auto_remove` flag above is provided
+    # client.api.remove_container(container.id)
