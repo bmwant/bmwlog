@@ -8,12 +8,10 @@ from helpers import (
     remove_container,
     get_container_ip_address,
 )
+from app.config import PROJECT_DIR
 
 
-project_dir = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), os.pardir)
-)
-sys.path.append(project_dir)
+sys.path.append(PROJECT_DIR)
 
 
 def pytest_configure(config):

@@ -1,12 +1,15 @@
+import os
 import time
 import docker
 
 from utils.helpers import info
+from app.config import PROJECT_DIR
 
 
 def run_mysql_container():
     client = docker.from_env()
     container_name = 'local-mysql'
+    volume_path = os.path.join(PROJECT_DIR, 'tests', 'sql')
     container = client.containers.run(
         'mysql',
         name=container_name,
@@ -15,6 +18,9 @@ def run_mysql_container():
             'MYSQL_ALLOW_EMPTY_PASSWORD': True,
         },
         detach=True,
+        volumes={
+            volume_path: {'bind': '/data/', 'mode': 'ro'},
+        }
     )
     return container
 

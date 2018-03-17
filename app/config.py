@@ -8,6 +8,8 @@ DO_NOT_WRITE_BYTECODE = False
 
 POSTS_PER_PAGE = 10
 
+PROJECT_DIR = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), os.pardir))
 STATIC_FOLDER = '/data/projects/bmwlog/static'
 ROOT_FOLDER = '/data/projects/bmwlog'
 TEMPLATES_DIR = '/data/projects/bmwlog/templates'
