@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from bottle import route, request, response, abort
+from bottle import request, abort
 from models import User, DoesNotExist, Role, Post
 from forms import UserEditForm
 from app import app, env
@@ -105,10 +105,10 @@ def logout():
 def user_view(user_id):
     try:
         user = User.get(User.user_id == user_id)
+        user_posts = Post.get_for_user(user_id).limit(10)
+        return {'user': user, 'posts': user_posts}
     except DoesNotExist:
         abort(404)
-    user_posts = Post.get_for_user(user_id).limit(10)
-    return {'user': user, 'posts': user_posts}
 
 
 @app.get('/account')
