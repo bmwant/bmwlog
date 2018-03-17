@@ -1,9 +1,9 @@
 import pyclbr
 
-import term
 import peewee
 
 from app import models
+from utils.helpers import info
 
 
 def create_tables():
@@ -22,16 +22,14 @@ def create_tables():
         model_class = getattr(models, model)
         try:
             model_class.create_table()
-            term.writeLine('Table for %s created.' %
-                           model, term.green)
+            info('==> Table for %s created.' % model)
         except peewee.OperationalError as e:
             if e.args[0] == 1050:
-                term.writeLine('%s already exists, skipping...' %
-                               model, term.bold)
+                info('==> %s already exists, skipping...' % model)
             else:
                 raise e
-    term.writeLine('Database successfully initialized for %s '
-                   'models.' % len(db_models), term.green)
+    info('==> Database successfully initialized for %s models.' %
+         len(db_models))
 
 
 if __name__ == '__main__':

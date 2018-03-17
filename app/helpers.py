@@ -3,10 +3,9 @@ import os
 import time
 import subprocess
 from functools import wraps
-from HTMLParser import HTMLParser
 
 import bottle
-from markdown import markdown
+
 
 from app import env, config
 from helput import unique_filename, join_all_path
@@ -58,18 +57,6 @@ def only_ajax(func):
     return decorated
 
 
-class MLStripper(HTMLParser):
-    def __init__(self):
-        self.reset()
-        self.fed = []
-
-    def handle_data(self, d):
-        self.fed.append(d)
-
-    def get_data(self):
-        return ''.join(self.fed)
-
-
 class StripPathMiddleware(object):
     """
     Middleware for stripping trailing slashes
@@ -80,20 +67,6 @@ class StripPathMiddleware(object):
     def __call__(self, e, h):
         e['PATH_INFO'] = e['PATH_INFO'].rstrip('/')
         return self.app(e, h)
-
-
-def strip_tags(html):
-    html_from_markdown = markdown(html)
-    s = MLStripper()
-    s.feed(html_from_markdown)
-    return s.get_data()
-
-
-def shorten_text(text):
-    text = strip_tags(text)
-    if len(text) > 500:
-        text = text[:500] + "..."
-    return text
 
 
 def postd():

@@ -1,8 +1,22 @@
 # -*- coding: utf-8 -*-
 from datetime import timedelta, datetime
 from bottle import abort
-from peewee import *
-from app import app, db
+from peewee import (
+    DoesNotExist,
+    PrimaryKeyField,
+    ForeignKeyField,
+    CharField,
+    IntegerField,
+    DateTimeField,
+    BooleanField,
+    TextField,
+)
+from playhouse.signals import Model
+from app import app, connect_database
+from app.helput import create_slug, shorten_text
+
+
+db = connect_database()
 
 
 class UnknownFieldType(object):
@@ -101,16 +115,17 @@ class Post(BaseModel):
 
     post_text = CharField()
     title = CharField()
+    slug = CharField(default='')
     language = CharField(default=languages[0][0], choices=languages)
 
     likes = IntegerField(default=0)
     views = IntegerField(default=0)
 
+    show_on_index = BooleanField(default=True)
     draft = BooleanField()
     deleted = BooleanField()
 
     def serialize(self):
-        from helpers import shorten_text
         return {
             'id': self.post_id,
             'title': self.title,
@@ -158,7 +173,8 @@ class Post(BaseModel):
             where(Tag_to_Post.post_id == self.post_id)
 
     def save(self, *args, **kwargs):
-        return super(Post, self).save(*args, **kwargs)
+        self.slug = create_slug(self.title)
+        return super(Model, self).save(*args, **kwargs)
 
     @classmethod
     def create(cls, **query):
