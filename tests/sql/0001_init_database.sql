@@ -55,6 +55,8 @@ CREATE TABLE `post` (
   `draft` tinyint(1) NOT NULL DEFAULT '1',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `language` varchar(255) NOT NULL,
+  `slug` varchar(255) NOT NULL,
+  `show_on_index` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`post_id`),
   KEY `post_id` (`post_id`),
   KEY `category_id` (`category_id`),

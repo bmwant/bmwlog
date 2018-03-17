@@ -32,23 +32,5 @@ def create_tables():
          len(db_models))
 
 
-def insert_fixture_data():
-    models.Role(
-        role='user'
-    ).save()
-    models.User.create(
-        user_id=1,
-        first_name='Test',
-        last_name='User',
-        mail='test.user@gmail.com',
-        user_password='',
-        nickname='test_user',
-    )
-    models.Category(
-        category_id=1,
-        category_name='Test category',
-    ).save()
-
-
 if __name__ == '__main__':
     create_tables()

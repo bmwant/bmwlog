@@ -39,8 +39,11 @@ def init_database(mysql_container, database_name='test'):
     else:
         raise RuntimeError('Was not able to start mysql: %s', er)
 
-    # create_tables()
-    # insert_fixture_data()
+    info('==> Fill database with test data')
+    er = mysql_container.exec_run('/data/run_sql.sh')
+
+    if er.exit_code != 0:
+        raise RuntimeError('Failed to apply SQL on database')
 
 
 def get_container_ip_address(container):

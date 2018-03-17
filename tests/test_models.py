@@ -11,7 +11,6 @@ def setup_module(module):
 
 
 def test_create_slug_for_post():
-    import pdb; pdb.set_trace()
     new_post = models.Post.create(
         category_id=1,
         user_id=1,

@@ -6,7 +6,6 @@ import config
 
 
 def connect_database():
-    print('db host', config.DB_HOST)
     db = MySQLDatabase(config.DB_NAME,
                        host=config.DB_HOST, port=config.DB_PORT,
                        user=config.DB_USER, password=config.DB_PASS)
