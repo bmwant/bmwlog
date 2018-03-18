@@ -5,7 +5,7 @@ CREATE TABLE `role` (
   `role` varchar(100) NOT NULL,
   `level` int(11) NOT NULL DEFAULT '40',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `user` (
@@ -22,7 +22,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `mail` (`mail`),
   KEY `user_id` (`user_id`),
   KEY `role_id` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `category` (
@@ -30,7 +30,7 @@ CREATE TABLE `category` (
   `category_name` varchar(100) NOT NULL,
   PRIMARY KEY (`category_id`),
   KEY `category_id` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `photo` (
@@ -39,7 +39,7 @@ CREATE TABLE `photo` (
   `desc` varchar(1000) CHARACTER SET utf8 NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`photo_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
 CREATE TABLE `post` (
@@ -63,7 +63,7 @@ CREATE TABLE `post` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `post_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`category_id`),
   CONSTRAINT `post_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `quote` (
@@ -71,7 +71,7 @@ CREATE TABLE `quote` (
   `text` varchar(1000) NOT NULL,
   `author` varchar(500) NOT NULL,
   PRIMARY KEY (`quote_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `session` (
@@ -82,14 +82,14 @@ CREATE TABLE `session` (
   `login_date` datetime NOT NULL,
   `active` tinyint(1) NOT NULL,
   PRIMARY KEY (`session_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `site_joke` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `text` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `static_page` (
@@ -100,7 +100,7 @@ CREATE TABLE `static_page` (
   `text` longtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `static_page_url` (`url`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `stream_message` (
@@ -108,7 +108,7 @@ CREATE TABLE `stream_message` (
   `date` datetime NOT NULL,
   `message` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `tag` (
@@ -116,7 +116,7 @@ CREATE TABLE `tag` (
   `text` varchar(20) NOT NULL,
   PRIMARY KEY (`tag_id`),
   UNIQUE KEY `text` (`text`)
-) ENGINE=InnoDB AUTO_INCREMENT=155 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `tag_to_post` (
@@ -128,7 +128,7 @@ CREATE TABLE `tag_to_post` (
   KEY `post_id` (`post_id`),
   CONSTRAINT `tag_to_post_ibfk_3` FOREIGN KEY (`post_id`) REFERENCES `post` (`post_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `tag_to_post_ibfk_4` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`tag_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=257 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `banner` (
@@ -138,4 +138,4 @@ CREATE TABLE `banner` (
   `img` varchar(500) NOT NULL,
   `disabled` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`banner_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

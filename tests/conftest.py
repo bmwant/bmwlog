@@ -9,6 +9,7 @@ from helpers import (
     get_container_ip_address,
 )
 from app import config as app_config
+from app import models
 
 try:
     from importlib import reload
@@ -23,12 +24,15 @@ sys.path.append(app_config.PROJECT_DIR)
 def update_app_config(config_values):
     os.environ.update(config_values)
     reload(app_config)
+    # Reinitialize database connection
+    reload(models)
 
 
 def pytest_configure(config):
     info('==> Create docker container for a database')
     container = run_mysql_container()
     ip_address = get_container_ip_address(container)
+    print('ip', ip_address)
     db_name = 'bmwlogdb_test'
     new_config_values = {
         'DB_HOST': ip_address,

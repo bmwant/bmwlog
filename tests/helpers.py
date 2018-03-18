@@ -4,6 +4,7 @@ import docker
 
 from utils.helpers import info
 from app.config import PROJECT_DIR
+from app.helput import get_list_of_files
 
 
 def run_mysql_container():
@@ -25,25 +26,45 @@ def run_mysql_container():
     return container
 
 
-def init_database(mysql_container, database_name='test'):
-    # Wait for mysql to start
+def _retry(func, exceptions_list, retries=10):
+    for _ in range(retries):
+        try:
+            func()
+        except exceptions_list:
+            info('==> Waiting to retry function once again...')
+            time.sleep(3)
+    else:
+        raise RuntimeError('Failed to executed %s in %s retries' %
+                           (func, retries))
+
+
+def _retry_container_command(container, command, retries=10):
     er = 'Container failed to execute command'
-    for i in range(10):
-        er = mysql_container.exec_run(
-            'mysql -h localhost -e "CREATE DATABASE %s;"' % database_name,
-        )
+    for i in range(retries):
+        er = container.exec_run(command)
         if er.exit_code == 0:
             break
-        info('==> Waiting for mysql server to start...')
+        info('==> Waiting for container to accept command...')
         time.sleep(2)
     else:
-        raise RuntimeError('Was not able to start mysql: %s', er)
+        raise RuntimeError('Was not able to execute command %s: %s' %
+                           (command, er))
+
+
+def init_database(mysql_container, database_name='test'):
+    info('==> Create database')
+    _retry_container_command(
+        mysql_container,
+        'mysql -h localhost -e "CREATE DATABASE %s;"' % database_name
+    )
 
     info('==> Fill database with test data')
-    er = mysql_container.exec_run('/data/run_sql.sh')
-
-    if er.exit_code != 0:
-        raise RuntimeError('Failed to apply SQL on database')
+    scripts_directory = os.path.join(PROJECT_DIR, 'tests', 'sql')
+    sql_files = get_list_of_files(scripts_directory, '.sql', full_path=False)
+    for filename in sql_files:
+        command = '/bin/bash -c "mysql -h localhost -D %s < /data/%s"' % (
+            database_name, filename)
+        _retry_container_command(mysql_container, command)
 
 
 def get_container_ip_address(container):

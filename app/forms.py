@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Most Wanted'
-
-import os
 import wtforms
 from bottle import request
-from wtforms import FileField, SelectField, StringField, PasswordField,\
-    validators, TextAreaField
+from wtforms import (FileField, SelectField, StringField, PasswordField,
+                     validators, TextAreaField)
 from wtforms.validators import InputRequired, Email, EqualTo
 from helput import translit_text
 from helpers import save_file
-from app import config
 
 
 class Form(wtforms.Form):

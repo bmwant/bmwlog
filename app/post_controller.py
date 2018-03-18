@@ -196,14 +196,15 @@ def category_list(category_id):
 def category_delete(category_id):
     try:
         category = Category.get(Category.category_id == category_id)
+        try:
+            category.delete_instance()
+        except IntegrityError as e:
+            app.flash(u'Категорія містить статті. Неможливо видалити', 'error')
+
+        redirect('/category/add')
+
     except DoesNotExist:
         abort(404)
-    try:
-        category.delete_instance()
-    except IntegrityError as e:
-        app.flash(u'Категорія містить статті. Неможливо видалити', 'error')
-
-    redirect('/category/add')
 
 
 def add_new_tags(tags_string, post_id):
@@ -263,9 +264,9 @@ def like(post_id):
         post = Post.get(Post.post_id == post_id)
         post.likes += 1
         post.save()
+        return 'Ok'
     except DoesNotExist:
         abort(404)
-    return 'Ok'
 
 
 @app.get('/search')
