@@ -26,6 +26,18 @@ def run_mysql_container():
     return container
 
 
+def _retry(func, exceptions_list, retries=10):
+    for _ in range(retries):
+        try:
+            func()
+        except exceptions_list:
+            info('==> Waiting to retry function once again...')
+            time.sleep(3)
+    else:
+        raise RuntimeError('Failed to executed %s in %s retries' %
+                           (func, retries))
+
+
 def _retry_container_command(container, command, retries=10):
     er = 'Container failed to execute command'
     for i in range(retries):

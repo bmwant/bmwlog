@@ -7,3 +7,7 @@ def note(message):
 
 def info(message):
     click.secho(message, fg='yellow')
+
+
+def warn(message):
+    click.secho(message, fg='red')

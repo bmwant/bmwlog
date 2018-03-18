@@ -1,13 +1,11 @@
+import time
 from app import models
-
-try:
-    from importlib import reload
-except ImportError:
-    pass
 
 
 def setup_module(module):
-    reload(models)
+    # WHAT
+    time.sleep(5)  # THE
+    # FUCK??
 
 
 def test_create_slug_for_post():
