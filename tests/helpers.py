@@ -4,6 +4,7 @@ import docker
 
 from utils.helpers import info
 from app.config import PROJECT_DIR
+from app.helput import get_list_of_files
 
 
 def run_mysql_container():
@@ -40,10 +41,16 @@ def init_database(mysql_container, database_name='test'):
         raise RuntimeError('Was not able to start mysql: %s', er)
 
     info('==> Fill database with test data')
-    er = mysql_container.exec_run('/data/run_sql.sh')
 
-    if er.exit_code != 0:
-        raise RuntimeError('Failed to apply SQL on database')
+    scripts_directory = os.path.join(PROJECT_DIR, 'tests', 'sql')
+    sql_files = get_list_of_files(scripts_directory, '.sql', full_path=False)
+    for filename in sql_files:
+        er = mysql_container.exec_run(
+            '/bin/bash -c "mysql -h localhost < /data/%s"' % filename
+        )
+
+        if er.exit_code != 0:
+            raise RuntimeError('Failed to apply SQL on database')
 
 
 def get_container_ip_address(container):
