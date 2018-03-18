@@ -8,7 +8,7 @@ def setup_module(module):
     # FUCK??
 
 
-def test_create_slug_for_post():
+def test_create_slug_for_post(db):
     new_post = models.Post.create(
         category_id=1,
         user_id=1,
