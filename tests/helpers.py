@@ -2,7 +2,7 @@ import os
 import time
 import docker
 
-from utils.helpers import info
+from utils.helpers import info, warn
 from app.config import PROJECT_DIR
 from app.helput import get_list_of_files
 
@@ -52,7 +52,7 @@ def _retry_container_command(container, command, retries=10):
 
 
 def init_database(mysql_container, database_name='test'):
-    info('==> Create database')
+    info('\n==> Create database')
     _retry_container_command(
         mysql_container,
         'mysql -h localhost -e "CREATE DATABASE %s;"' % database_name
@@ -65,6 +65,9 @@ def init_database(mysql_container, database_name='test'):
         command = '/bin/bash -c "mysql -h localhost -D %s < /data/%s"' % (
             database_name, filename)
         _retry_container_command(mysql_container, command)
+
+    warn('==> Waiting for mysql to feel ok...')
+    time.sleep(5)
 
 
 def get_container_ip_address(container):
