@@ -30,6 +30,7 @@ def update_app_config(config_values):
 
 
 def pytest_configure(config):
+    # https://docs.pytest.org/en/latest/_modules/_pytest/hookspec.html
     pass
 
 
@@ -74,7 +75,9 @@ def db(request):
             'DB_NAME': db_name,
         }
         update_app_config(new_config_values)
-        init_database(container, db_name)
+        if not getattr(session, '_database_initialized'):
+            init_database(container, db_name)
+            session._database_initialized = True
 
 
 @pytest.fixture(scope='session', autouse=True)
@@ -92,4 +95,5 @@ def run_mysq_container_if_needed(request):
         if 'db' in item.fixturenames:
             info('\n==> Launching mysql container')
             session._mysql_container = run_mysql_container()
+            session._database_initialized = False
             return
