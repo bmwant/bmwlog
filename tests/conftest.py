@@ -30,20 +30,6 @@ def update_app_config(config_values):
 
 
 def pytest_configure(config):
-    # info('==> Create docker container for a database')
-    # container = run_mysql_container()
-    # ip_address = get_container_ip_address(container)
-    # print('ip', ip_address)
-    # db_name = 'bmwlogdb_test'
-    # new_config_values = {
-    #     'DB_HOST': ip_address,
-    #     'DB_USER': 'root',
-    #     'DB_PASS': '',
-    #     'DB_NAME': db_name,
-    # }
-    # update_app_config(new_config_values)
-    # init_database(container, db_name)
-    # config._mysql_container = container
     pass
 
 
@@ -54,27 +40,56 @@ def pytest_addoption(parser):
 
 
 def pytest_runtest_setup(item):
-    if item.config.getoption('--spin-mysql-container'):
-        print('Need to spin up a container for a test')
-        if 'db' in item.fixturenames:
-            print('We spin a container for this test')
+    pass
 
 
 def pytest_unconfigure(config):
-    if hasattr(config, '_mysql_container'):
-        info('==> Cleaning up container for a database')
-        container = config._mysql_container
-        remove_container(container)
+    pass
 
 
 def pytest_sessionstart():
     pass
 
 
-def pytest_sessionfinish():
-    pass
+def pytest_sessionfinish(session):
+    if hasattr(session, '_mysql_container'):
+        info('\n==> Cleaning up container for a database')
+        container = session._mysql_container
+        remove_container(container)
 
 
 @pytest.fixture
-def db():
-    print('This is a database needed for a test')
+def db(request):
+    # todo: reset database state here
+    # todo: move initialization to `run_mysql_container_if_needed`
+    session = request.session
+    if hasattr(session, '_mysql_container'):
+        container = session._mysql_container
+        ip_address = get_container_ip_address(container)
+        db_name = 'bmwlogdb_test'
+        new_config_values = {
+            'DB_HOST': ip_address,
+            'DB_USER': 'root',
+            'DB_PASS': '',
+            'DB_NAME': db_name,
+        }
+        update_app_config(new_config_values)
+        init_database(container, db_name)
+
+
+@pytest.fixture(scope='session', autouse=True)
+def run_mysq_container_if_needed(request):
+    """
+    Run container only if any test request database feature and command line
+    flag is provided.
+    """
+    session = request.node
+    spin_container = session.config.getoption('--spin-mysql-container')
+    if not spin_container:
+        return
+
+    for item in session.items:
+        if 'db' in item.fixturenames:
+            info('\n==> Launching mysql container')
+            session._mysql_container = run_mysql_container()
+            return

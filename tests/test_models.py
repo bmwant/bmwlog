@@ -2,11 +2,6 @@ import time
 from app import models
 
 
-def setup_module(module):
-    # WHAT
-    time.sleep(5)  # THE
-    # FUCK??
-
 
 def test_create_slug_for_post(db):
     new_post = models.Post.create(
