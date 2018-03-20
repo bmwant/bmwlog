@@ -4,7 +4,9 @@ import sys
 import pytest
 from helpers import (
     info,
-    init_database,
+    init_database_locally,
+    drop_database_locally,
+    init_database_within_container,
     run_mysql_container,
     remove_container,
     get_container_ip_address,
@@ -53,47 +55,70 @@ def pytest_sessionstart():
 
 
 def pytest_sessionfinish(session):
+    if not getattr(session, 'TEST_DB_NAME'):
+        return
+
     if hasattr(session, '_mysql_container'):
         info('\n==> Cleaning up container for a database')
         container = session._mysql_container
         remove_container(container)
+    else:
+        info('\n==> Removing test database')
+        drop_database_locally(session.TEST_DB_NAME,
+                              username=app_config.DB_USER,
+                              password=app_config.DB_PASS)
 
 
 @pytest.fixture
 def db(request):
     # todo: reset database state here
-    # todo: move initialization to `run_mysql_container_if_needed`
     session = request.session
     if hasattr(session, '_mysql_container'):
-        container = session._mysql_container
-        ip_address = get_container_ip_address(container)
-        db_name = 'bmwlogdb_test'
-        new_config_values = {
-            'DB_HOST': ip_address,
-            'DB_USER': 'root',
-            'DB_PASS': '',
-            'DB_NAME': db_name,
-        }
-        update_app_config(new_config_values)
-        if not getattr(session, '_database_initialized'):
-            init_database(container, db_name)
-            session._database_initialized = True
+        print('Skip cleaning state')
+        return
+
+    init_database_locally(session.TEST_DB_NAME,
+                          username=app_config.DB_USER,
+                          password=app_config.DB_PASS)
 
 
 @pytest.fixture(scope='session', autouse=True)
-def run_mysq_container_if_needed(request):
+def init_database_if_needed(request):
     """
     Run container only if any test request database feature and command line
     flag is provided.
     """
     session = request.node
     spin_container = session.config.getoption('--spin-mysql-container')
-    if not spin_container:
-        return
+    use_database = False
 
     for item in session.items:
         if 'db' in item.fixturenames:
-            info('\n==> Launching mysql container')
-            session._mysql_container = run_mysql_container()
-            session._database_initialized = False
-            return
+            use_database = True
+            break
+    else:
+        return
+
+    session.TEST_DB_NAME = 'bmwlogdb_test'
+    if spin_container:
+        info('\n==> Launching mysql container')
+        container = run_mysql_container()
+        session._mysql_container = container
+        ip_address = get_container_ip_address(container)
+        database_config = {
+            'DB_HOST': ip_address,
+            'DB_USER': 'root',
+            'DB_PASS': '',
+            'DB_NAME': session.TEST_DB_NAME,
+        }
+        update_app_config(database_config)
+        init_database_within_container(container, session.TEST_DB_NAME)
+    else:
+        database_config = {
+            'DB_HOST': 'localhost',
+            'DB_NAME': session.TEST_DB_NAME,
+        }
+        update_app_config(database_config)
+        init_database_locally(session.TEST_DB_NAME,
+                              username=app_config.DB_USER,
+                              password=app_config.DB_PASS)

@@ -1,13 +1,16 @@
 -- create tables
 
+DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
   `role_id` int(11) NOT NULL AUTO_INCREMENT,
   `role` varchar(100) NOT NULL,
   `level` int(11) NOT NULL DEFAULT '40',
-  PRIMARY KEY (`role_id`)
+  PRIMARY KEY (`role_id`),
+  KEY `role_id` (`role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
   `first_name` varchar(100) NOT NULL,
@@ -22,9 +25,11 @@ CREATE TABLE `user` (
   UNIQUE KEY `mail` (`mail`),
   KEY `user_id` (`user_id`),
   KEY `role_id` (`role_id`)
+#   CONSTRAINT `user_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE SET NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `category`;
 CREATE TABLE `category` (
   `category_id` int(11) NOT NULL AUTO_INCREMENT,
   `category_name` varchar(100) NOT NULL,
@@ -33,6 +38,7 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `photo`;
 CREATE TABLE `photo` (
   `photo_id` int(11) NOT NULL AUTO_INCREMENT,
   `photo` varchar(1000) CHARACTER SET utf8 NOT NULL,
@@ -42,6 +48,7 @@ CREATE TABLE `photo` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 
+DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post` (
   `post_id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
@@ -66,6 +73,7 @@ CREATE TABLE `post` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `quote`;
 CREATE TABLE `quote` (
   `quote_id` int(11) NOT NULL AUTO_INCREMENT,
   `text` varchar(1000) NOT NULL,
@@ -74,6 +82,7 @@ CREATE TABLE `quote` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `session`;
 CREATE TABLE `session` (
   `session_id` int(11) NOT NULL AUTO_INCREMENT,
   `mail` varchar(255) NOT NULL,
@@ -85,6 +94,7 @@ CREATE TABLE `session` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `site_joke`;
 CREATE TABLE `site_joke` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `text` varchar(200) NOT NULL,
@@ -92,6 +102,7 @@ CREATE TABLE `site_joke` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `static_page`;
 CREATE TABLE `static_page` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL,
@@ -103,6 +114,7 @@ CREATE TABLE `static_page` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `stream_message`;
 CREATE TABLE `stream_message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` datetime NOT NULL,
@@ -111,6 +123,7 @@ CREATE TABLE `stream_message` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `tag`;
 CREATE TABLE `tag` (
   `tag_id` int(11) NOT NULL AUTO_INCREMENT,
   `text` varchar(20) NOT NULL,
@@ -119,6 +132,7 @@ CREATE TABLE `tag` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `tag_to_post`;
 CREATE TABLE `tag_to_post` (
   `tag_id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
@@ -131,6 +145,7 @@ CREATE TABLE `tag_to_post` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `banner`;
 CREATE TABLE `banner` (
   `banner_id` int(11) NOT NULL AUTO_INCREMENT,
   `desc` varchar(200) NOT NULL,
