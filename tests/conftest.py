@@ -55,7 +55,7 @@ def pytest_sessionstart():
 
 
 def pytest_sessionfinish(session):
-    if not getattr(session, 'TEST_DB_NAME'):
+    if not getattr(session, 'TEST_DB_NAME', False):
         return
 
     if hasattr(session, '_mysql_container'):
@@ -71,12 +71,12 @@ def pytest_sessionfinish(session):
 
 @pytest.fixture
 def db(request):
-    # todo: reset database state here
     session = request.session
     if hasattr(session, '_mysql_container'):
         print('Skip cleaning state')
         return
 
+    info('\n==> Reset database state for a test')
     init_database_locally(session.TEST_DB_NAME,
                           username=app_config.DB_USER,
                           password=app_config.DB_PASS)
@@ -90,11 +90,9 @@ def init_database_if_needed(request):
     """
     session = request.node
     spin_container = session.config.getoption('--spin-mysql-container')
-    use_database = False
 
     for item in session.items:
         if 'db' in item.fixturenames:
-            use_database = True
             break
     else:
         return
