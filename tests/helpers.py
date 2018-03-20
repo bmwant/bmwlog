@@ -61,9 +61,9 @@ def _exec_command_locally(command, env=None):
         env=env,
     )
     stdout, stderr = proc.communicate()
-    # if proc.returncode != 0:
-    #     import pdb; pdb.set_trace()
-    #     raise RuntimeError('Error while running command')
+    if proc.returncode != 0:
+        raise RuntimeError('Error while running command %s: %s' %
+                           (command, stdout))
 
 
 def init_database_locally(database_name='test', username='', password=''):
