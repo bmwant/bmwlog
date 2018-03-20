@@ -23,8 +23,8 @@ CREATE TABLE `user` (
   `date_registered` datetime NOT NULL,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `mail` (`mail`),
-  KEY `user_id` (`user_id`),
-  KEY `role_id` (`role_id`)
+  KEY `user_id` (`user_id`)
+#   KEY `role_id` (`role_id`)
 #   CONSTRAINT `user_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE SET NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
