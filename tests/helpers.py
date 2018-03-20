@@ -52,40 +52,61 @@ def _retry_container_command(container, command, retries=10):
                            (command, er))
 
 
+def _exec_command_locally(command, env=None):
+    env = env or {}
+    proc = subprocess.Popen(
+        command,
+        shell=True,
+        stdout=subprocess.PIPE,
+        env=env,
+    )
+    stdout, stderr = proc.communicate()
+    # if proc.returncode != 0:
+    #     import pdb; pdb.set_trace()
+    #     raise RuntimeError('Error while running command')
+
+
 def init_database_locally(database_name='test', username='', password=''):
+    env = {
+        'MYSQL_PWD': password
+    }
     command = (
-        'mysql -h localhost -u {user} -p{password} '
+        'mysql -h localhost -u {user} '
         '-e "CREATE DATABASE IF NOT EXISTS {database};"'.format(
             user=username,
             password=password,
             database=database_name,
         )
     )
-    subprocess.call(command, shell=True)
+    _exec_command_locally(command, env=env)
     scripts_directory = os.path.join(config.PROJECT_DIR, 'tests', 'sql')
     sql_files = get_list_of_files(scripts_directory, '.sql')
     for filename in sql_files:
         command = (
-            'mysql -v -h localhost -u {user} -p{password} '
+            'mysql -v -h localhost -u {user} '
             '-D {database} < {sql_script}'.format(
                 user=username,
                 password=password,
                 database=database_name,
                 sql_script=filename,
-        ))
-        subprocess.call(command, shell=True)
+            )
+        )
+        _exec_command_locally(command, env=env)
 
 
 def drop_database_locally(database_name='test', username='', password=''):
+    env = {
+        'MYSQL_PWD': password
+    }
     command = (
-        'mysql -h localhost -u {user} -p{password} '
+        'mysql -h localhost -u {user} '
         '-e "DROP DATABASE IF EXISTS {database};"'.format(
             user=username,
             password=password,
             database=database_name,
         )
     )
-    subprocess.call(command, shell=True)
+    _exec_command_locally(command, env=env)
 
 
 def init_database_within_container(mysql_container, database_name='test'):
