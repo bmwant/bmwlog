@@ -4,8 +4,6 @@ python:
   - "3.6"
 install:
   - pip install -r requirements.txt
-before_script:
-  - mysql -u root -e 'create database bmwlogdb;'
 script: make tests
 services:
   - mysql

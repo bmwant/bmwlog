@@ -1,16 +1,17 @@
 import os
 import time
+import subprocess
 import docker
 
 from utils.helpers import info, warn
-from app.config import PROJECT_DIR
+from app import config
 from app.helput import get_list_of_files
 
 
 def run_mysql_container():
     client = docker.from_env()
     container_name = 'local-mysql'
-    volume_path = os.path.join(PROJECT_DIR, 'tests', 'sql')
+    volume_path = os.path.join(config.PROJECT_DIR, 'tests', 'sql')
     container = client.containers.run(
         'mysql',
         name=container_name,
@@ -51,7 +52,64 @@ def _retry_container_command(container, command, retries=10):
                            (command, er))
 
 
-def init_database(mysql_container, database_name='test'):
+def _exec_command_locally(command, env=None):
+    env = env or {}
+    proc = subprocess.Popen(
+        command,
+        shell=True,
+        stdout=subprocess.PIPE,
+        env=env,
+    )
+    stdout, stderr = proc.communicate()
+    if proc.returncode != 0:
+        raise RuntimeError('Error while running command %s: %s' %
+                           (command, stdout))
+
+
+def init_database_locally(database_name='test', username='', password=''):
+    env = {
+        'MYSQL_PWD': password
+    }
+    command = (
+        'mysql -h localhost -u {user} '
+        '-e "CREATE DATABASE IF NOT EXISTS {database};"'.format(
+            user=username,
+            password=password,
+            database=database_name,
+        )
+    )
+    _exec_command_locally(command, env=env)
+    scripts_directory = os.path.join(config.PROJECT_DIR, 'tests', 'sql')
+    sql_files = get_list_of_files(scripts_directory, '.sql')
+    for filename in sql_files:
+        command = (
+            'mysql -v -h localhost -u {user} '
+            '-D {database} < {sql_script}'.format(
+                user=username,
+                password=password,
+                database=database_name,
+                sql_script=filename,
+            )
+        )
+        _exec_command_locally(command, env=env)
+
+
+def drop_database_locally(database_name='test', username='', password=''):
+    env = {
+        'MYSQL_PWD': password
+    }
+    command = (
+        'mysql -h localhost -u {user} '
+        '-e "DROP DATABASE IF EXISTS {database};"'.format(
+            user=username,
+            password=password,
+            database=database_name,
+        )
+    )
+    _exec_command_locally(command, env=env)
+
+
+def init_database_within_container(mysql_container, database_name='test'):
     info('\n==> Create database')
     _retry_container_command(
         mysql_container,
@@ -59,7 +117,7 @@ def init_database(mysql_container, database_name='test'):
     )
 
     info('==> Fill database with test data')
-    scripts_directory = os.path.join(PROJECT_DIR, 'tests', 'sql')
+    scripts_directory = os.path.join(config.PROJECT_DIR, 'tests', 'sql')
     sql_files = get_list_of_files(scripts_directory, '.sql', full_path=False)
     for filename in sql_files:
         command = '/bin/bash -c "mysql -h localhost -D %s < /data/%s"' % (
