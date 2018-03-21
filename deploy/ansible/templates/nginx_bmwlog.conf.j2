@@ -5,10 +5,22 @@ upstream bmwlog {
     server {{ bottle_run_host }}:{{ bottle_run_port }};
 }
 
+
 server {
-    listen 80;
-    server_name bmwlog.pp.ua *.bmwlog.pp.ua;
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    server_name bmwlog.pp.ua;
+    return 301 https://$server_name$request_uri;
+}
+
+
+server {
+    listen 443 ssl default_server;
+    server_name bmwlog.pp.ua;
     charset utf-8;
+
+    ssl_certificate /etc/letsencrypt/live/bmwlog.pp.ua/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/bmwlog.pp.ua/privkey.pem;
 
     root {{ project_root }};
     
@@ -43,7 +55,7 @@ server {
         proxy_set_header Host $http_host;
         proxy_redirect off;
         proxy_buffering off;
-        proxy_pass http://bmwlog;
+        proxy_pass https://bmwlog;
     }
 
     error_page 502 /502.html;
