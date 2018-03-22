@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700&subset=latin,cyrillic);
+@import url(https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700&subset=latin,cyrillic);
 
 html, body {
     margin: 0;
@@ -732,6 +732,7 @@ form.search-form input[type="text"] {
 #site-menu a:hover i {
     color: #1abc9c;
 }
+
 #site-menu a.active i {
     color: #1abc9c;
 }

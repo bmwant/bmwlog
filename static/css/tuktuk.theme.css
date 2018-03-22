@@ -1,4 +1,4 @@
-@import url("http://fonts.googleapis.com/css?family=Lato:300,400,700");
+@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700");
 body{color:#34495e;font-size:16px;font-family:"Lato","Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:300;background:#fff;}
 body:not(.color):not(.dark) a{color:#34495e;}
 body:not(.color):not(.dark) a:not(.button):hover,body:not(.color):not(.dark) a:not(.button):active{color:#1abc9c}
