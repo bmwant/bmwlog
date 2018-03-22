@@ -1,7 +1,9 @@
 from peewee import CharField, BooleanField
+from peewee import InternalError, OperationalError
 from playhouse.migrate import migrate, MySQLMigrator
 
 from app import models, connect_database
+from utils.helpers import info, warn, note
 
 
 def m_001(migrator):
@@ -35,7 +37,14 @@ def migrate_database():
     ]
     for m in migrations:
         with db.transaction():
-            m(migrator)
+            try:
+                info('Running migration %s...' % m.__name__)
+                m(migrator)
+            except (InternalError, OperationalError) as e:
+                warn('Seems like migration %s has been already applied: %s' %
+                     (m.__name__, e))
+            else:
+                note('Successfully applied %s migration' % m.__name__)
 
 
 if __name__ == '__main__':
