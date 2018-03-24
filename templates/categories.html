@@ -1,30 +1,28 @@
 {% extends "base.html" %}
 
-{% block title %}:: Список категорій{% endblock %}
+{% block title %}:: Lookup{% endblock %}
 
 {% block content %}
 <div id="content">
-    <div class="row">
-        <div class="column_8">
-            <div class="category-lst">
-                {% for category in categories %}
-                <a href="category/{{ category.category_id }}" class="text bold color theme">
-                    <div class="category-item bck light">{{ category.category_name }} <span class="posts-count">{{ category.posts_count }}</span></div>
-                </a>
-                {% endfor %}
-            </div>
-        </div>
-        <div class="column_4">
-
-            <div class="search-row">
-                <form class="search-form" id="search-form" action="/search">
-                    <input type="text" name="search" placeholder="Пошук..."/>
-                    <button class="button success"><i class="fas fa-search"></i></button>
-                </form>
-            </div>
-
+  <div class="row">
+    <div class="column_8">
+        <div class="category-lst">
+            {% for category in categories %}
+            <a href="category/{{ category.category_id }}" class="text bold color theme">
+                <div class="category-item bck light">{{ category.category_name }} <span class="posts-count">{{ category.posts_count }}</span></div>
+            </a>
+            {% endfor %}
         </div>
     </div>
+    <div class="column_4">
+      <div class="search-row">
+        <form class="search-form" id="search-form" action="/search">
+          <input type="text" name="search" placeholder="Search..."/>
+          <button class="button success"><i class="fas fa-search"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -37,7 +35,7 @@
         if($.isEmptyObject(data)){
             $("<div />", {
                 class: "no-results",
-                text: "Жодних збігів із запитом --->"
+                text: "Nothing matched --->"
             }).appendTo(list);
             return;
         }
