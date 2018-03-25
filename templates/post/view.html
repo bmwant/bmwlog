@@ -74,11 +74,11 @@
             <div class="post-info bck light padding margin">
                 <div class="info-block">
 
-                  <div class="info-line">Автор <span class="info-line-r" itemprop="author"><a  href="/user/{{ item.user.user_id }}">{{ item.user.nickname }}</a></span></div>
-                  <div class="info-line">Дата <span class="info-line-r"><time>{{ item.date_posted.strftime('%d/%m/%Y') }}</time></span></div>
-                  <div class="info-line">Категорія <span class="info-line-r" itemprop="articleSection"><a  href="/category/{{ item.category.category_id }}">{{ item.category.category_name }}</a></span></div>
-                  <div class="info-line">Переглядів <span class="info-line-r">{{ item.views }}</span></div>
-                  <div class="info-line">Актуальність<span class="info-line-r">{{ item.actuality|int }}%</span></div>
+                  <div class="info-line">Author<span class="info-line-r" itemprop="author"><a  href="/user/{{ item.user.user_id }}">{{ item.user.nickname }}</a></span></div>
+                  <div class="info-line">Date<span class="info-line-r"><time>{{ item.date_posted.strftime('%d/%m/%Y') }}</time></span></div>
+                  <div class="info-line">Category<span class="info-line-r" itemprop="articleSection"><a  href="/category/{{ item.category.category_id }}">{{ item.category.category_name }}</a></span></div>
+                  <div class="info-line">Views<span class="info-line-r">{{ item.views }}</span></div>
+                  <div class="info-line">Relevance<span class="info-line-r">{{ item.actuality|int }}%</span></div>
 
                 </div>
                 <a href="#" onclick="return false" id="like-link">

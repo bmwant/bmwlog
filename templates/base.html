@@ -46,11 +46,11 @@
             <div class="column_6 text right bold hide-phone">
             {% set user = app.current_user %}
             {% if user %}
-                Вітаю, <a href="/account">{{ user.nickname }}</a>
-                <a href="/logout" class="button small secondary">Вийти</a>
+                Hey, <a href="/account">{{ user.nickname }}</a>
+                <a href="/logout" class="button small secondary">Logout</a>
             {% else %}
-                <a href="/signup">Реєстрація</a>
-                <a href="/login" class="button small">Вхід</a>
+                <a href="/signup">Sign up</a>
+                <a href="/login" class="button small">Login</a>
             {% endif %}
             </div>
         </div>
