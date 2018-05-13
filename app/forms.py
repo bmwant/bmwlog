@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 import wtforms
 from bottle import request
 from wtforms import (FileField, SelectField, StringField, PasswordField,
@@ -37,20 +39,24 @@ class SimpleUploadForm(Form):
 
 class UploadFileField(FileField):
     def __init__(self, label=u'', validators=None, **kwargs):
+        self.target_subfolder = 'img/users'
         super(UploadFileField, self).__init__(label, validators, **kwargs)
 
     def process_formdata(self, valuelist):
         super(UploadFileField, self).process_formdata(valuelist)
         if self.data:
-            f = save_file(self.data, 'img/users')
+            f = save_file(self.data, self.target_subfolder)
             self.data = f
 
     def __call__(self, **kwargs):
         """
         Renders field with small pictogram
         """
+        filepath = os.path.join('/static', self.target_subfolder,
+                                self.object_data)
+        img_pic = '<img class="small-icon" src="{}">'.format(filepath)
         file_input = super(UploadFileField, self).__call__(**kwargs)
-        return file_input
+        return img_pic + file_input
 
 
 class ConfirmPasswordField(PasswordField):
@@ -68,7 +74,6 @@ class ConfirmPasswordField(PasswordField):
             value = User.encode_password(valuelist[0])
             valuelist = (value, )
         return super(ConfirmPasswordField, self).process_formdata(valuelist)
-
 
 
 class UserEditForm(Form):
