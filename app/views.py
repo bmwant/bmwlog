@@ -3,8 +3,7 @@ import time
 
 from bottle import static_file, error, request, post, abort
 from geventwebsocket import WebSocketError
-from helpers import view, redirect, render_template
-from helput import get_list_of_files
+from helpers import render_template
 
 
 from models import *
@@ -74,7 +73,6 @@ def administration():
 @app.route('/gallery')
 @view('gallery.html')
 def gallery():
-    # images = get_list_of_files(r'D:\coding\bmwlog\img\gallery', ext='.jpg', full_path=False)
     images = Photo.select()
     return {'images': images}
 
@@ -107,7 +105,8 @@ def healthcheck():
     pid = os.getgid()
     ppid = os.getppid()
 
-    current_process = psutil.Process(pid=ppid)  # how about launching under gunicorn?
+    # how about launching under gunicorn?
+    current_process = psutil.Process(pid=ppid)
     process_uptime = current_process.create_time()
     process_uptime_delta = now - process_uptime
     process_uptime_human = humanfriendly.format_timespan(process_uptime_delta)

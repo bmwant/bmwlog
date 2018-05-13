@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import hashlib
 from datetime import timedelta, datetime
 from bottle import abort
 from peewee import (
@@ -74,7 +75,6 @@ class User(BaseModel):
 
     @staticmethod
     def encode_password(password):
-        import hashlib
         m = hashlib.md5()
         m.update(password)
         return m.hexdigest()

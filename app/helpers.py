@@ -6,7 +6,6 @@ from functools import wraps
 
 import bottle
 
-
 from app import env, config
 from helput import unique_filename, join_all_path
 
@@ -38,14 +37,6 @@ def p_count(value):
     Jinja2 custom filter to use for Peewee query count
     """
     return value.count()
-
-
-def dollars(value):
-    try:
-        new_value = str(int(value)) + '$'
-    except ValueError:
-        new_value = value + ' dollars'
-    return new_value
 
 
 def only_ajax(func):
@@ -96,13 +87,15 @@ def save_file(file_obj, where='uploaded'):
     Saves file to where directory on the server
     """
     # todo: check for errors, types or file_obj properties
-    folder = os.path.join(config.ROOT_FOLDER, where)
+    folder = os.path.join(config.STATIC_FOLDER, where)
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
     new_filename = unique_filename(file_obj.filename)
     file_path = os.path.join(folder, new_filename)
     with open(file_path, 'wb') as open_file:
         open_file.write(file_obj.file.read())
     return new_filename  # returns new filename
-    # ? returns relative to browser path to file
 
 
 def backup_db():

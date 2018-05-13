@@ -4,68 +4,67 @@
 
 {% block content %}
 <div id="content">
-    <div class="row">
-        <div class="column_8">
-            {% if posts | p_count %}
-                <h2>Мої чорновики</h2>
-                <div class="post-little-lst">
-                    {% for post in posts %}
-                    <a href="/post/{{ post.post_id }}" class="text bold color theme">
-                        <div class="little-lst-item bck light">{{ post.title }}</div>
-                    </a>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <h2>Немає збережених чорновиків</h2>
-                <p>Напишіть статтю прямо зараз. <a class="button small" href="/post/add">Додати нову</a></p>
-            {% endif %}
-        </div>
-        <div class="column_4">
+  <div class="row">
+    <div class="column_8">
+        {% if posts | p_count %}
+            <h2>Мої чорновики</h2>
+            <div class="post-little-lst">
+                {% for post in posts %}
+                <a href="/post/{{ post.post_id }}" class="text bold color theme">
+                    <div class="little-lst-item bck light">{{ post.title }}</div>
+                </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h2>Немає збережених чорновиків</h2>
+            <p>Напишіть статтю прямо зараз. <a class="button small" href="/post/add">Додати нову</a></p>
+        {% endif %}
+    </div>
+    <div class="column_4">
 
-            <h2 class="text book center color theme"><strong>{{ user.nickname }}</strong></h2>
+        <h2 class="text book center color theme"><strong>{{ user.nickname }}</strong></h2>
 
-            <div class="row">
-                <div class="column_2 text center">
-                    <img class="avatar-img" src="/img/users/{{ user.picture }}" />
-                    <button class="button success "data-tuktuk-modal="edit-modal">Редагувати дані</button>
+        <div class="row">
+            <div class="column_2 text center">
+                <img class="avatar-img" src="/static/img/users/{{ user.picture }}" />
+                <button class="button success "data-tuktuk-modal="edit-modal">Редагувати дані</button>
+            </div>
+            <div class="column_2 user-info">
+                <div class="myrow">
+                    <strong>{{ user.first_name }}</strong>
                 </div>
-                <div class="column_2 user-info">
-                    <div class="myrow">
-                        <strong>{{ user.first_name }}</strong>
-                    </div>
-                    <div class="myrow">
-                        <strong>{{ user.last_name }}</strong>
-                    </div>
-                    <div class="myrow">
-                        <small>{{ user.mail }}</small>
-                    </div>
-                    <div class="myrow">
-                        <a href="/user/{{ user.user_id }}">Як виглядає мій профіль?</a>
-                    </div>
+                <div class="myrow">
+                    <strong>{{ user.last_name }}</strong>
+                </div>
+                <div class="myrow">
+                    <small>{{ user.mail }}</small>
+                </div>
+                <div class="myrow">
+                    <a href="/user/{{ user.user_id }}">Як виглядає мій профіль?</a>
                 </div>
             </div>
-
         </div>
     </div>
+  </div>
 </div>
 
 <div id="edit-modal" data-tuktuk="modal" class="column_5">
-        <header>
-            <h4>Редагувати профіль</h4>
-        </header>
-        <article class="">
-            <form id="acc-form" action="/account/update" method="post" enctype="multipart/form-data">
-                {% for field in form %}
-                <fieldset class="margin-top">
-                    {{ field.label }}
-                    {{ field() }}
-                </fieldset>
-                {% endfor %}
-            </form>
-        </article>
-        <footer class="text right">
-            <button class="button success" onclick="$('#acc-form').submit();"><i class="fas fa-check"></i></button>
-            <button data-modal="close" class="button small secondary">Закрити</button>
-        </footer>
-    </div>
+  <header>
+    <h4>Редагувати профіль</h4>
+  </header>
+  <article class="">
+    <form id="acc-form" action="/account/update" method="post" enctype="multipart/form-data">
+      {% for field in form %}
+      <fieldset class="margin-top">
+        {{ field.label }}
+        {{ field() }}
+      </fieldset>
+      {% endfor %}
+    </form>
+  </article>
+  <footer class="text right">
+    <button class="button success" onclick="$('#acc-form').submit();"><i class="fas fa-check"></i></button>
+    <button data-modal="close" class="button small secondary">Close</button>
+  </footer>
+</div>
 {% endblock %}
