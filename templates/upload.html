@@ -4,35 +4,32 @@
 
 {% block content %}
 <div id="content">
-    <div class="row">
-        <div class="column_8">
-            <form action="/upload" method="post" enctype="multipart/form-data">
+  <div class="row">
+    <div class="column_8">
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <fieldset class="margin-top">
+          <div class="select">
+            {{ form.file_folder.label }}
+            {{ form.file_folder() }}
+          </div>
+        </fieldset>
 
+        <fieldset class="margin-top">
+          {{ form.upload_file.label }}
+          {{ form.upload_file() }}
+        </fieldset>
 
-                <fieldset class="margin-top">
-                    <div class="select">
-                        {{ form.file_folder.label }}
-                        {{ form.file_folder() }}
-                    </div>
-                </fieldset>
-
-                <fieldset class="margin-top">
-                    {{ form.upload_file.label }}
-                    {{ form.upload_file() }}
-                </fieldset>
-
-                <fieldset class="margin-top text right">
-                    <button class="button success small" onclick="$(this).closest('form').submit();">
-                        <i class="fas fa-check"></i> Завантажити
-                    </button>
-                </fieldset>
-
-            </form>
+        <fieldset class="margin-top text right">
+          <button class="button success small" onclick="$(this).closest('form').submit();">
+            <i class="fas fa-check"></i> Завантажити
+          </button>
+        </fieldset>
+      </form>
             {% if uploaded_file %}
                 <p>{{ uploaded_file }}</p>
             {% endif %}
-        </div>
-        <div class="column_4 text">
+    </div>
+    <div class="column_4 text">
             <h1 class="text book center color theme">Завантажити файл</h1>
             <div class="error-text">
                 {% if form.errors %}
@@ -45,7 +42,7 @@
                     </ul>
                 {% endif %}
             </div>
-        </div>
+    </div>
     </div>
 </div>
 {% endblock %}

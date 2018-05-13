@@ -1,11 +1,23 @@
 # -*- coding: utf-8 -*-
 from bottle import request, abort
-from models import User, DoesNotExist, Role, Post
-from forms import UserEditForm
+
 from app import app, env
-from helpers import post_get, redirect, view, save_file
-from .forms import SignupForm
+from app.models import User, DoesNotExist, Role, Post
+from app.forms import UserEditForm, SignupForm
+from app.helpers import post_get, redirect, view
 from functools import wraps
+
+
+__all__ = (
+    'require',
+    'authorize',
+    'login',
+    'signup',
+    'logout',
+    'user_view',
+    'my_account',
+    'update_account',
+)
 
 
 def require(role):
@@ -96,7 +108,7 @@ def signup():
 @authorize
 def logout():
     app.logout()
-    app.flash(u'Ви успішно вийшли')
+    app.flash(u'Successfully logged out!')
     redirect()
 
 
@@ -127,12 +139,9 @@ def update_account():
     user = app.current_user
     update_form = UserEditForm(request.POST, user)
     if update_form.validate():
-        # user.update(**update_form.data).execute()
         update_form.populate_obj(user)
-        print(update_form.data)
         user.save()
-        print(user.picture)
-        app.flash(u'Дані успішно оновлено')
+        app.flash(u'Successfully updated')
     else:
         app.flash(u'Incorrect somtethisd')
     redirect('/account')  # without return redirect because of raise inside
