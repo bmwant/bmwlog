@@ -5,12 +5,12 @@ from datetime import datetime
 from bottle import request, abort
 from peewee import fn, IntegrityError
 
-from models import (Post, Tag, Tag_to_Post, Category, Banner, DoesNotExist,
-                    StreamMessage, Quote)
-from helput import shorten_text
-from helpers import redirect, post_get, only_ajax
-from user_controller import require
 from app import app, env, config
+from app.models import (Post, Tag, Tag_to_Post, Category, Banner, DoesNotExist,
+                        StreamMessage, Quote)
+from app.helput import shorten_text
+from app.helpers import redirect, post_get, only_ajax
+from app.controllers import require
 
 
 @app.get('/post')

@@ -10,9 +10,9 @@ from models import (Photo, Banner, Quote, DoesNotExist, StaticPage,
 from helpers import post_get, redirect, backup_db, only_ajax, static_path
 from helput import (unique_filename, join_all_path, generate_filename,
                     distort_filename)
-from user_controller import require
 from forms import SimpleUploadForm, StaticPageForm
 from app import app, env, config
+from app.controllers import require
 
 
 @app.route('/gallery_add', method=['GET', 'POST'])

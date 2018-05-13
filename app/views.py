@@ -3,19 +3,17 @@ import time
 
 from bottle import static_file, error, request, post, abort
 from geventwebsocket import WebSocketError
-from helpers import render_template
+from peewee import fn
 
-
-from models import *
-
-from post_controller import *
-from user_controller import *
+import app.controllers  # just to import all the available views
+from app import models
+from app.controllers import require
+from app.helpers import render_template, view
 from site_managing import *
 try:
     from gen_views import *
 except ImportError:
     pass
-
 
 from app import app, config
 
@@ -28,17 +26,16 @@ def index():
 @app.get('/try')
 def tr():
     app.flash('Trying flashing bying', 'error')
-    tg = Tag.get(Tag.tag_id == 36)
-    print(tg.posts_count)
-    quote = Quote.select().first()
-    messages = StreamMessage.select()
+    tg = models.Tag.get(models.Tag.tag_id == 36)
+    quote = models.Quote.select().first()
+    messages = models.StreamMessage.select()
     return render_template('info.html', messages=messages, quote=quote)
 
 
 @app.get('/joke')
 @only_ajax
 def get_joke():
-    joke = SiteJoke.select().order_by(fn.Rand()).first()
+    joke = models.SiteJoke.select().order_by(fn.Rand()).first()
     joke_text = u'ᕦ(ò_ó*)ᕤ     неочікуваний результат'
     if joke is not None:
         joke_text = joke.text
@@ -49,7 +46,7 @@ def get_joke():
 @view('categories.html')
 def categories():
     # todo: think and apply some join to get posts count
-    cat_list = Category.select()
+    cat_list = models.Category.select()
 
     def get_count(categ):
         return categ.posts_count
@@ -73,7 +70,7 @@ def administration():
 @app.route('/gallery')
 @view('gallery.html')
 def gallery():
-    images = Photo.select()
+    images = models.Photo.select()
     return {'images': images}
 
 
@@ -91,7 +88,7 @@ def error404(error):
 
 @app.route('/sp/<page_name:re:[a-z\d_]+>')
 def server_static(page_name):
-    page = StaticPage.get_or_404(StaticPage.url == page_name)
+    page = models.StaticPage.get_or_404(StaticPage.url == page_name)
     template = env.get_template('static_page.html')
     return template.render(page=page)
 
