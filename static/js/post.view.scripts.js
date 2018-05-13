@@ -25,19 +25,19 @@ $(document).ready(function() {
 });
 
 /*Like button*/
-function checkThisPostForLike(post_id) {
-  var posts_string = $.cookie('posts_liked');
-  if(posts_string === undefined) {
+function checkThisPostForLike(postId) {
+  var postsString = $.cookie('posts_liked');
+  if(postsString === undefined) {
     return false;
   } else {
-    var arr = posts_string.split(",");
-    return arr.indexOf(post_id.toString()) !== -1;
+    var arr = postsString.split(',');
+    return arr.indexOf(postId.toString()) !== -1;
   }
 }
 
 $(document).ready(function() {
-  var post_id = $('#content').data('post-id');
-  if(checkThisPostForLike(post_id)) {
+  var postId = $('#content').data('post-id');
+  if(checkThisPostForLike(postId)) {
     $("#like-button")
       .removeClass('like-button')
       .addClass('like-button-disabled')
@@ -45,14 +45,13 @@ $(document).ready(function() {
     $("#like-text").hide();
     $("#likes-count").show();
     $("#like-icon").addClass('love');
-  }
-  else {
+  } else {
     $("#like-button").click(function() {
       $(".doge").slideToggle("fast");
       setTimeout(function() {$(".doge").slideToggle("fast");}, 1100);
 
       $.ajax({
-        url: "/like/{{ item.post_id }}"
+        url: "/like/" + postId
       }).done(function() {
         $.cookie.raw = true;
         $("#like-text").hide();
@@ -68,10 +67,10 @@ $(document).ready(function() {
         var postsString = $.cookie('posts_liked');
 
         if(postsString === undefined) {
-          $.cookie("posts_liked", post_id, { expires : 12*30 });
+          $.cookie('posts_liked', postId, { expires : 12*30 });
         } else {
-          var new_posts = postsString + "," + post_id;
-          $.cookie("posts_liked", new_posts, { expires : 12*30 });
+          var new_posts = postsString + "," + postId;
+          $.cookie('posts_liked', new_posts, { expires : 12*30 });
         }
       });
     });
