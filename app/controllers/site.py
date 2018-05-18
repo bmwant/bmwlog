@@ -5,14 +5,31 @@ from urlparse import urlparse
 from bottle import request, abort, static_file
 from geventwebsocket import WebSocketError
 
-from models import (Photo, Banner, Quote, DoesNotExist, StaticPage,
-                    StreamMessage)
-from helpers import post_get, redirect, backup_db, only_ajax, static_path
-from helput import (unique_filename, join_all_path, generate_filename,
-                    distort_filename)
-from forms import SimpleUploadForm, StaticPageForm
+from app.models import (Photo, Banner, Quote, DoesNotExist, StaticPage,
+                        StreamMessage)
+from app.helpers import post_get, redirect, backup_db, only_ajax, static_path
+from app.helput import (unique_filename, join_all_path, generate_filename,
+                        distort_filename)
+from app.forms import SimpleUploadForm, StaticPageForm
 from app import app, env, config
 from app.controllers import require
+
+
+__all__ = (
+    'gallery',
+    'photo_delete',
+    'banners',
+    'banner_delete',
+    'banner_disable',
+    'quote_add',
+    'quote_delete',
+    'upload',
+    'up_file',
+    'backdb',
+    'sp_add',
+    'sp_delete',
+    'sm_add',
+)
 
 
 @app.route('/gallery_add', method=['GET', 'POST'])
@@ -89,6 +106,16 @@ def banner_delete(banner_id):
         redirect('/banners')
     except DoesNotExist:
         abort(404)
+
+
+@app.get('/banner/disable/<banner_id:int>')
+@only_ajax
+@require('admin')
+def banner_disable(banner_id):
+    banner = Banner.get_or_404(Banner.banner_id == banner_id)
+    banner.disabled = not banner.disabled
+    banner.save()
+    return 'Ok'
 
 
 @app.route('/quote/add', method=['GET', 'POST'])
@@ -209,16 +236,6 @@ def sm_add():
     message = post_get('message')
     new_message = StreamMessage(message=message)
     new_message.save()
-    return 'Ok'
-
-
-@app.get('/banner/disable/<banner_id:int>')
-@only_ajax
-@require('admin')
-def disable_banner(banner_id):
-    banner = Banner.get_or_404(Banner.banner_id == banner_id)
-    banner.disabled = not banner.disabled
-    banner.save()
     return 'Ok'
 
 
