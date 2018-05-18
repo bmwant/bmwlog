@@ -118,3 +118,14 @@ class StaticPageForm(Form):
     def validate_page_url(self, field):
         if not field.data:
             field.data = translit_text(self.title.data)
+
+
+class ItemForm(Form):
+    def __init__(self, model_class, url_prefix=None):
+        self._model = model_class
+        self.url_prefix = url_prefix or model_class.__name__.lower()
+        super(ItemForm, self).__init__()
+
+    @property
+    def classname(self):
+        return self._model.__name__

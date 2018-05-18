@@ -6,11 +6,11 @@ from bottle import request, abort, static_file
 from geventwebsocket import WebSocketError
 
 from app.models import (Photo, Banner, Quote, DoesNotExist, StaticPage,
-                        StreamMessage)
+                        StreamMessage, SiteJoke)
 from app.helpers import post_get, redirect, backup_db, only_ajax, static_path
 from app.helput import (unique_filename, join_all_path, generate_filename,
                         distort_filename)
-from app.forms import SimpleUploadForm, StaticPageForm
+from app.forms import SimpleUploadForm, StaticPageForm, ItemForm
 from app import app, env, config
 from app.controllers import require
 
@@ -116,6 +116,22 @@ def banner_disable(banner_id):
     banner.disabled = not banner.disabled
     banner.save()
     return 'Ok'
+
+
+@app.route('/joke/add', method=['GET', 'POST'])
+def joke_add():
+    template = env.get_template('item_add.html')
+    all_jokes = SiteJoke.select()
+    form = ItemForm(model_class=SiteJoke, url_prefix='joke')
+    if request.method == 'POST':
+        SiteJoke.create(
+            text=post_get('text'),
+        )
+        app.flash('New joke is here', 'success')
+    return template.render({
+        'form': form,
+        'items': all_jokes,
+    })
 
 
 @app.route('/quote/add', method=['GET', 'POST'])
