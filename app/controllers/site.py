@@ -219,17 +219,23 @@ def backdb():
 @app.route('/sp/add', method=['GET', 'POST'])
 @require('admin')
 def sp_add():
-    form = StaticPageForm(request.POST)
-    template = env.get_template('static_page_admin.html')
+    form = StaticPageForm(
+        request.POST,
+        model_class=StaticPage,
+        url_prefix='sp',
+    )
+    template = env.get_template('item_add.html')
 
     if form.validate_on_post():
         app.log(form.page_url.data)
-        new_page = StaticPage.create(title=form.title.data,
-                                     url=form.page_url.data,
-                                     text=form.text.data)
+        StaticPage.create(
+            title=form.title.data,
+            url=form.page_url.data,
+            text=form.text.data,
+        )
         app.flash('New page!')
     pages = StaticPage.select()
-    return template.render(form=form, pages=pages)
+    return template.render(form=form, items=pages)
 
 
 @app.get('/sp/delete/<sp_id:int>')

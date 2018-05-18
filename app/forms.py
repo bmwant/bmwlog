@@ -25,6 +25,20 @@ class Form(wtforms.Form):
                 field.populate_obj(obj, name)
 
 
+class ItemForm(Form):
+    def __init__(self, *args, **kwargs):
+        model_class = kwargs.pop('model_class')
+        url_prefix = kwargs.pop('url_prefix', None)
+
+        self._model = model_class
+        self.url_prefix = url_prefix or model_class.__name__.lower()
+        super(ItemForm, self).__init__(*args, **kwargs)
+
+    @property
+    def classname(self):
+        return self._model.__name__
+
+
 class SimpleUploadForm(Form):
     upload_choices = (
         ('img/article', u'Зображення до статті'),
@@ -104,7 +118,7 @@ class SignupForm(Form):
     nickname = StringField(u'Нік', validators=[validators.InputRequired()])
 
 
-class StaticPageForm(Form):
+class StaticPageForm(ItemForm):
     title = StringField(
         u'Назва сторінки',
         validators=[validators.InputRequired()],
@@ -120,12 +134,3 @@ class StaticPageForm(Form):
             field.data = translit_text(self.title.data)
 
 
-class ItemForm(Form):
-    def __init__(self, model_class, url_prefix=None):
-        self._model = model_class
-        self.url_prefix = url_prefix or model_class.__name__.lower()
-        super(ItemForm, self).__init__()
-
-    @property
-    def classname(self):
-        return self._model.__name__
