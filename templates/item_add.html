@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}:: Add new item{% endblock %}
+
+{% block content %}
+<div id="content">
+  <div class="row">
+    <div class="column_8">
+      <div class="list-block">
+        {% for item in items %}
+        <div class="list-item bck light">
+          {{ item }}
+          <div class="list-item-actions">
+            <span class="edit-item">
+              <a href="/{{ form.url_prefix }}/edit/{{ item.get_id() }}" class="bold color theme"><i class="fa fa-pen-square"></i></a>
+            </span>
+            <span class="delete-item">
+              <a href="/{{ form.url_prefix }}/delete/{{ item.get_id() }}" class="bold color theme"><i class="fa fa-times-circle"></i></a>
+            </span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="column_4 text">
+      <h1 class="text book center color theme">Add new {{ form.classname }}</h1>
+      <!--Render form here-->
+      <form action="/{{ form.url_prefix }}/add" method="post">
+        <fieldset class="margin-top">
+            <label>Text</label>
+            <textarea name="text"></textarea>
+        </fieldset>
+
+        <fieldset class="margin-top text right">
+          <button class="button success small" onclick="$(this).closest('form').submit();">
+            <i class="fas fa-check"></i> Add
+          </button>
+        </fieldset>
+        <!--Add form errors-->
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

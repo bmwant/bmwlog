@@ -5,14 +5,31 @@ from urlparse import urlparse
 from bottle import request, abort, static_file
 from geventwebsocket import WebSocketError
 
-from models import (Photo, Banner, Quote, DoesNotExist, StaticPage,
-                    StreamMessage)
-from helpers import post_get, redirect, backup_db, only_ajax, static_path
-from helput import (unique_filename, join_all_path, generate_filename,
-                    distort_filename)
-from forms import SimpleUploadForm, StaticPageForm
+from app.models import (Photo, Banner, Quote, DoesNotExist, StaticPage,
+                        StreamMessage, SiteJoke)
+from app.helpers import post_get, redirect, backup_db, only_ajax, static_path
+from app.helput import (unique_filename, join_all_path, generate_filename,
+                        distort_filename)
+from app.forms import SimpleUploadForm, StaticPageForm, ItemForm
 from app import app, env, config
 from app.controllers import require
+
+
+__all__ = (
+    'gallery',
+    'photo_delete',
+    'banners',
+    'banner_delete',
+    'banner_disable',
+    'quote_add',
+    'quote_delete',
+    'upload',
+    'up_file',
+    'backdb',
+    'sp_add',
+    'sp_delete',
+    'sm_add',
+)
 
 
 @app.route('/gallery_add', method=['GET', 'POST'])
@@ -89,6 +106,32 @@ def banner_delete(banner_id):
         redirect('/banners')
     except DoesNotExist:
         abort(404)
+
+
+@app.get('/banner/disable/<banner_id:int>')
+@only_ajax
+@require('admin')
+def banner_disable(banner_id):
+    banner = Banner.get_or_404(Banner.banner_id == banner_id)
+    banner.disabled = not banner.disabled
+    banner.save()
+    return 'Ok'
+
+
+@app.route('/joke/add', method=['GET', 'POST'])
+def joke_add():
+    template = env.get_template('item_add.html')
+    all_jokes = SiteJoke.select()
+    form = ItemForm(model_class=SiteJoke, url_prefix='joke')
+    if request.method == 'POST':
+        SiteJoke.create(
+            text=post_get('text'),
+        )
+        app.flash('New joke is here', 'success')
+    return template.render({
+        'form': form,
+        'items': all_jokes,
+    })
 
 
 @app.route('/quote/add', method=['GET', 'POST'])
@@ -176,17 +219,23 @@ def backdb():
 @app.route('/sp/add', method=['GET', 'POST'])
 @require('admin')
 def sp_add():
-    form = StaticPageForm(request.POST)
-    template = env.get_template('static_page_admin.html')
+    form = StaticPageForm(
+        request.POST,
+        model_class=StaticPage,
+        url_prefix='sp',
+    )
+    template = env.get_template('item_add.html')
 
     if form.validate_on_post():
         app.log(form.page_url.data)
-        new_page = StaticPage.create(title=form.title.data,
-                                     url=form.page_url.data,
-                                     text=form.text.data)
+        StaticPage.create(
+            title=form.title.data,
+            url=form.page_url.data,
+            text=form.text.data,
+        )
         app.flash('New page!')
     pages = StaticPage.select()
-    return template.render(form=form, pages=pages)
+    return template.render(form=form, items=pages)
 
 
 @app.get('/sp/delete/<sp_id:int>')
@@ -209,16 +258,6 @@ def sm_add():
     message = post_get('message')
     new_message = StreamMessage(message=message)
     new_message.save()
-    return 'Ok'
-
-
-@app.get('/banner/disable/<banner_id:int>')
-@only_ajax
-@require('admin')
-def disable_banner(banner_id):
-    banner = Banner.get_or_404(Banner.banner_id == banner_id)
-    banner.disabled = not banner.disabled
-    banner.save()
     return 'Ok'
 
 

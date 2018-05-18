@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
+import os
 import time
 
-from bottle import static_file, error, request, post, abort
+from bottle import static_file, request, abort
 from geventwebsocket import WebSocketError
 from peewee import fn
 
 import app.controllers  # just to import all the available views
 from app import models
+from app import env
 from app.controllers import require
-from app.helpers import render_template, view
-from site_managing import *
+from app.helpers import render_template, view, redirect, only_ajax
 try:
     from gen_views import *
 except ImportError:
@@ -88,7 +89,7 @@ def error404(error):
 
 @app.route('/sp/<page_name:re:[a-z\d_]+>')
 def server_static(page_name):
-    page = models.StaticPage.get_or_404(StaticPage.url == page_name)
+    page = models.StaticPage.get_or_404(models.StaticPage.url == page_name)
     template = env.get_template('static_page.html')
     return template.render(page=page)
 

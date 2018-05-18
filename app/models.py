@@ -298,6 +298,9 @@ class StaticPage(BaseModel):
     title = CharField()
     text = TextField()
 
+    def __str__(self):
+        return self.title
+
 
 class Session(BaseModel):
     class Meta:
