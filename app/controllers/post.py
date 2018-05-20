@@ -43,24 +43,20 @@ def load_more():
 
 @app.get('/post/<post_id:int>')
 def post_view(post_id):
+    post = Post.get(Post.post_id == post_id)
     try:
-        # todo: rewrite with func in Post
-        post = Post.get(Post.post_id == post_id)
-        if post.deleted:
-            # todo: make it visible to its creator
-            raise DoesNotExist
         cu = app.current_user
-        if post.draft:
-            if cu is not None and cu.user_id != post.user.user_id:
-                raise DoesNotExist
-            if cu is None:
+        if post.deleted or post.draft:
+            if cu is not None and \
+                    (cu.user_id == post.user.user_id or cu.is_admin()):
+                app.log('Showing post to its creator or to admin')
+            else:
                 raise DoesNotExist
     except DoesNotExist:
         abort(404)
     template = env.get_template('post/view.html')
-    # post.update(views=post.views+1).execute() #classmethod!
     post.views += 1
-    post.save()  # instance method!
+    post.save()
     return template.render(item=post)
 
 
