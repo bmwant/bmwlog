@@ -81,13 +81,14 @@ def post_add():
         return template.render(categories=all_categories)
     if request.method == 'POST':
         post = Post.create(
-            category=post_get('category_id'),
+            category=post_get('category-id'),
             post_text=post_get('text'),
             title=post_get('title'),
             user=app.current_user.user_id,
             date_posted=datetime.now(),
-            draft=int(post_get('draft')) == 1,
-            language=post_get('language')
+            draft=bool(int(post_get('draft'))),
+            show_on_index=bool(post_get('show-on-index')),
+            language=post_get('language'),
         )
         post_id = post.post_id
         post.save()
@@ -144,11 +145,12 @@ def post_edit(post_id):
         return template.render(item=post, categories=all_categories)
     elif request.method == 'POST':
         post = Post.get(Post.post_id == post_id)
-        post.category = post_get('category_id')
+        post.category = post_get('category-id')
         post.post_text = post_get('text')
         post.title = post_get('title')
         post.draft = bool(int(post_get('draft')))  # zero int is False
         post.language = post_get('language')
+        post.show_on_index = bool(post_get('show-on-index'))
         new_tags = post_get('tags')
         old_tags = Tag.select().join(Tag_to_Post)\
             .where(Tag_to_Post.post_id == post_id)

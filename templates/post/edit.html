@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}:: Редагувати статтю{% endblock %}
+{% block title %}:: Edit post{% endblock %}
 
 {% block scripts %}
   {{ super() }}
@@ -12,6 +12,7 @@
   {{ super() }}
   <link rel="stylesheet" href="/static/css/flag-icon.min.css">
   <link rel="stylesheet" href="/node_modules/simplemde/dist/simplemde.min.css">
+  <link rel="stylesheet" href="/static/css/jquery.onoff.css">
 {% endblock %}
 
 {% block content %}
@@ -20,7 +21,7 @@
     <div class="column_8">
       <form action="/post/edit/{{ item.post_id }}" method="post">
         <div class="form-field">
-          <label>Заголовок</label>
+          <label>Title</label>
           <input type="text" name="title" value="{{ item.title }}" autofocus/>
         </div>
         <!--
@@ -28,9 +29,9 @@
 
         <input type="text" id="datepicker" class="hastDatapicker" /><br />
         -->
-        <label>Виберіть категорію</label>
+        <label>Category</label>
         <div class="select">
-          <select name="category_id">
+          <select name="category-id">
           {% for cat in categories %}
             {% if item.category.category_id == cat.category_id %}
             <option value="{{ cat.category_id }}" selected="true">{{ cat.category_name}}</option>
@@ -54,20 +55,25 @@
           <input type="hidden" name="language" value="{{ item.language }}">
         </div>
 
-        <label>Текст</label>
-        <textarea id="article-text" name="text" rows="60" cols="80">{{ item.post_text }}</textarea>
+        <label>Text</label>
+        <textarea id="article-text" autofocus name="text" rows="60" cols="80">{{ item.post_text }}</textarea>
 
-        <label>Теги</label>
+        <label>Show on index page</label>
+        <div class="form-onoff">
+          <input type="checkbox" name="show-on-index" {% if item.show_on_index %}checked{% endif %}>
+        </div>
+
+        <label>Tags</label>
         <div id="tagBox">{% for tag in item.tags %}{{ tag.text }};{% endfor %}</div>
         <input type="hidden" name="tags" />
         <input type="hidden" name="draft">
 
         <div class="margin-bottom margin-top">
           <a id="submitter" class="button success">
-            <i class="fas fa-check"></i> {{ 'Опублікувати' if item.draft else 'Оновити' }}
+            <i class="fas fa-check"></i> {{ 'Publish' if item.draft else 'Update' }}
           </a>
           <a id="drafter" class="button secondary small">
-            <i class="far fa-edit"></i> {{ 'Зберегти' if item.draft else 'Відправити в чорновики' }}
+            <i class="far fa-edit"></i> {{ 'Save' if item.draft else 'Відправити в чорновики' }}
           </a>
         </div>
 
@@ -84,4 +90,10 @@
   {{ super() }}
   <script src="/static/js/tagging.min.js"></script>
   <script src="/static/js/post.scripts.js"></script>
+  <script src="/static/js/jquery.onoff.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('input[type=checkbox]').onoff();
+    });
+  </script>
 {% endblock %}
