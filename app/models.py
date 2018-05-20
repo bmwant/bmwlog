@@ -200,12 +200,18 @@ class Post(BaseModel):
         return cls.select().where(Post.deleted == True)
 
     @classmethod
-    def get_posts(cls):
+    def get_posts(cls, index_only=False):
         """
         Get not deleted and not drafts to display in post list
         """
-        return cls.select().where(Post.deleted == False,
-                                  Post.draft == False)
+        queryset = cls.select().where(
+            Post.deleted == False,
+            Post.draft == False,
+        )
+        if index_only:
+            queryset = queryset.where(Post.show_on_index == True)
+
+        return queryset
 
     @classmethod
     def get_for_user(cls, user_id):
