@@ -15,8 +15,10 @@ from app.controllers import require
 
 @app.get('/post')
 def post_index():
-    all_posts = Post.get_posts().order_by(Post.date_posted.desc()).\
+    all_posts = Post.get_posts(index_only=True).\
+        order_by(Post.date_posted.desc()).\
         limit(config.POSTS_PER_PAGE)
+
     for item in all_posts:
         item.post_text = shorten_text(item.post_text)
 
@@ -36,31 +38,28 @@ def post_index():
 @only_ajax
 def load_more():
     page = request.GET.get('page', 2)
-    next_posts = Post.get_posts().order_by(Post.date_posted.desc()).\
-        paginate(int(page), config.POSTS_PER_PAGE)
+    next_posts = Post.get_posts(index_only=True)\
+        .order_by(Post.date_posted.desc())\
+        .paginate(int(page), config.POSTS_PER_PAGE)
     return json.dumps([p.serialize() for p in next_posts])
 
 
 @app.get('/post/<post_id:int>')
 def post_view(post_id):
+    post = Post.get(Post.post_id == post_id)
     try:
-        # todo: rewrite with func in Post
-        post = Post.get(Post.post_id == post_id)
-        if post.deleted:
-            # todo: make it visible to its creator
-            raise DoesNotExist
         cu = app.current_user
-        if post.draft:
-            if cu is not None and cu.user_id != post.user.user_id:
-                raise DoesNotExist
-            if cu is None:
+        if post.deleted or post.draft:
+            if cu is not None and \
+                    (cu.user_id == post.user.user_id or cu.is_admin()):
+                app.log('Showing post to its creator or to admin')
+            else:
                 raise DoesNotExist
     except DoesNotExist:
         abort(404)
     template = env.get_template('post/view.html')
-    # post.update(views=post.views+1).execute() #classmethod!
     post.views += 1
-    post.save()  # instance method!
+    post.save()
     return template.render(item=post)
 
 
@@ -82,13 +81,14 @@ def post_add():
         return template.render(categories=all_categories)
     if request.method == 'POST':
         post = Post.create(
-            category=post_get('category_id'),
+            category=post_get('category-id'),
             post_text=post_get('text'),
             title=post_get('title'),
             user=app.current_user.user_id,
             date_posted=datetime.now(),
-            draft=int(post_get('draft')) == 1,
-            language=post_get('language')
+            draft=bool(int(post_get('draft'))),
+            show_on_index=bool(post_get('show-on-index')),
+            language=post_get('language'),
         )
         post_id = post.post_id
         post.save()
@@ -145,11 +145,12 @@ def post_edit(post_id):
         return template.render(item=post, categories=all_categories)
     elif request.method == 'POST':
         post = Post.get(Post.post_id == post_id)
-        post.category = post_get('category_id')
+        post.category = post_get('category-id')
         post.post_text = post_get('text')
         post.title = post_get('title')
         post.draft = bool(int(post_get('draft')))  # zero int is False
         post.language = post_get('language')
+        post.show_on_index = bool(post_get('show-on-index'))
         new_tags = post_get('tags')
         old_tags = Tag.select().join(Tag_to_Post)\
             .where(Tag_to_Post.post_id == post_id)

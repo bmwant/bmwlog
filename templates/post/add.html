@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}:: Додати новий пост{% endblock %}
+{% block title %}:: Add new post{% endblock %}
 
 {% block scripts %}
   {{ super() }}
@@ -12,56 +12,56 @@
   {{ super() }}
   <link rel="stylesheet" href="/static/css/flag-icon.min.css">
   <link rel="stylesheet" href="/node_modules/simplemde/dist/simplemde.min.css">
+  <link rel="stylesheet" href="/static/css/jquery.onoff.css">
 {% endblock %}
 
 {% block content %}
 <div id="content">
-    <div class="row">
-        <div class="column_8">
-            <form action="/post/add" method="post">
-{#            <script>#}
-{#                //jquery datepicker#}
-{#                $(function() {$("#datepicker").datepicker();});#}
-{#	        </script>#}
+  <div class="row">
+    <div class="column_8">
+      <form action="/post/add" method="post">
 
-            <label>Заголовок</label>
-            <input type="text" name="title" /><br />
-            <!--
-            <label for="datepick">Дата розміщення</label>
-            
-            <input type="text" id="datepicker" class="hastDatapicker" /><br />
-            -->
-            <div class="form-field">
-                <label>Виберіть категорію</label>
-                <div class="select">
-                    <select name="category_id">
-                        {% for item in categories %}
-                        <option value="{{ item.category_id }}">{{ item.category_name}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+        <div class="form-field">
+          <label>Title</label>
+          <input autofocus type="text" name="title"/>
+        </div>
+
+        <div class="form-field">
+          <label>Category</label>
+          <div class="select">
+              <select name="category-id">
+                  {% for item in categories %}
+                  <option value="{{ item.category_id }}">{{ item.category_name}}</option>
+                  {% endfor %}
+              </select>
+          </div>
+        </div>
+
+        <div class="form-field">
+            <div class="lang-icon" data-lang="eng">
+                <span class="flag-icon flag-icon-gb"></span>
             </div>
-
-            <div class="form-field">
-                <div class="lang-icon" data-lang="eng">
-                    <span class="flag-icon flag-icon-gb"></span>
-                </div>
-                <div class="lang-icon" data-lang="ukr">
-                    <span class="flag-icon flag-icon-ua"></span>
-                </div>
-                <div class="lang-icon" data-lang="rus">
-                    <span class="flag-icon flag-icon-ru"></span>
-                </div>
-                <input type="hidden" name="language" value="ukr">
+            <div class="lang-icon" data-lang="ukr">
+                <span class="flag-icon flag-icon-ua"></span>
             </div>
+            <div class="lang-icon" data-lang="rus">
+                <span class="flag-icon flag-icon-ru"></span>
+            </div>
+            <input type="hidden" name="language" value="ukr">
+        </div>
 
-            <label>Текст</label>
-            <textarea id="article-text" name="text"></textarea><br />
+        <label>Text</label>
+        <textarea id="article-text" name="text"></textarea><br />
 
-            <label>Теги</label>
-            <div id="tagBox"></div>
-            <input type="hidden" name="tags" />
-            <input type="hidden" name="draft"/>
+        <label>Show on index page</label>
+        <div class="form-onoff">
+          <input type="checkbox" name="show-on-index" checked>
+        </div>
+
+        <label>Tags</label>
+        <div id="tagBox"></div>
+        <input type="hidden" name="tags" />
+        <input type="hidden" name="draft"/>
 
             <div class="margin-bottom margin-top">
                 <a id="submitter" class="button success">
@@ -73,17 +73,24 @@
             </div>
 
             </form>
-        </div>
-        <div class="column_4">
-            <form action="/up" class="dropzone" id="image-dropzone"></form>
-        </div>
     </div>
+
+    <div class="column_4">
+      <form action="/up" class="dropzone" id="image-dropzone"></form>
+    </div>
+  </div>
 </div>
 {% endblock %}
 {% block bottom_scripts %}
   {{ super() }}
   <script src="/static/js/tagging.min.js"></script>
   <script src="/static/js/post.scripts.js"></script>
+  <script src="/static/js/jquery.onoff.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('input[type=checkbox]').onoff();
+    });
+  </script>
 {% endblock %}
 
 {#

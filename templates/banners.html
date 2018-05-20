@@ -1,72 +1,69 @@
 {% extends "base.html" %}
 
-{% block title %}:: Додати новий банер{% endblock %}
+{% block title %}:: Banners{% endblock %}
 
 {% block styles %}
-    {{ super() }}
-    <link rel="stylesheet" href="/static/css/jquery.onoff.css">
+  {{ super() }}
+  <link rel="stylesheet" href="/static/css/jquery.onoff.css">
 {% endblock %}
 
 {% block content %}
 <div id="content">
-    <div class="row">
+  <div class="row">
 
-        <div class="column_8">
-            <div class="list-block">
-                {% for banner in banners %}
-                    <div class="list-item bck light">{{ banner.desc }}
-                        <span class="disable-item"><input type="checkbox" data-id="{{ banner.banner_id }}" {% if not banner.disabled %}checked{% endif %}></span>
-                        <span class="delete-item"><a href="/banner/delete/{{ banner.banner_id }}" class="bold color theme"><i class="fa fa-times"></i></a></span>
-                    </div>
-                {% endfor %}
-            </div>
+    <div class="column_8">
+      <div class="list-block">
+        {% for banner in banners %}
+        <div class="list-item bck light">{{ banner.desc }}
+          <span class="disable-item"><input type="checkbox" data-id="{{ banner.banner_id }}" {% if not banner.disabled %}checked{% endif %}></span>
+          <span class="delete-item"><a href="/banner/delete/{{ banner.banner_id }}" class="bold color theme"><i class="fa fa-times"></i></a></span>
         </div>
-
-        <div class="column_4">
-            <form action="/banners" method="post" enctype="multipart/form-data">
-                <fieldset class="margin-top">
-                    <label>Опис</label>
-                    <input type="text" name="desc" /><br />
-                </fieldset>
-
-                <fieldset class="margin-top">
-                    <label>Зображення</label>
-                    <input type="file" name="banner_img" /><br />
-                </fieldset>
-
-                <fieldset class="margin-top">
-                    <label>Посилання</label>
-                    <input type="text" name="link" /><br />
-                </fieldset>
-
-                <fieldset class="margin-top text right">
-                  <button class="button success small" onclick="$(this).closest('form').submit();">
-                    <i class="fas fa-check"></i> Додати
-                  </button>
-                </fieldset>
-            </form>
-        </div>
+        {% endfor %}
+      </div>
     </div>
+
+    <div class="column_4">
+        <form action="/banners" method="post" enctype="multipart/form-data">
+            <fieldset class="margin-top">
+                <label>Опис</label>
+                <input type="text" name="desc" /><br />
+            </fieldset>
+
+            <fieldset class="margin-top">
+                <label>Зображення</label>
+                <input type="file" name="banner_img" /><br />
+            </fieldset>
+
+            <fieldset class="margin-top">
+                <label>Посилання</label>
+                <input type="text" name="link" /><br />
+            </fieldset>
+
+            <fieldset class="margin-top text right">
+              <button class="button success small" onclick="$(this).closest('form').submit();">
+                <i class="fas fa-check"></i> Додати
+              </button>
+            </fieldset>
+        </form>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
 {% block bottom_scripts %}
-    {{ super() }}
-    <script src="/static/js/jquery.onoff.js"></script>
-    <script>
-        $('input[type=checkbox]').onoff();
-        $('input[type=checkbox]').click(function() {
-
-            var banner_id = $(this).attr("data-id");
-            console.log(banner_id);
-            $.ajax({
-                type: "GET",
-                url: "/banner/disable/" + banner_id
-            })
-            .done(function(msg) {
-                console.log(msg);
-            });
-        });
-
-    </script>
+  {{ super() }}
+  <script src="/static/js/jquery.onoff.js"></script>
+  <script>
+    $('input[type=checkbox]').onoff();
+    $('input[type=checkbox]').click(function() {
+      var bannerId = $(this).attr("data-id");
+      $.ajax({
+        type: "GET",
+        url: "/banner/disable/" + bannerId
+      })
+      .done(function(msg) {
+        console.log(msg);
+      });
+    });
+  </script>
 {% endblock %}
