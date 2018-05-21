@@ -51,6 +51,9 @@
       template:
         src: templates/supervisor_bmwlog.conf.j2
         dest: "{{ project_root }}/prod/supervisor_bmwlog.conf"
+
+    - name: restart application with supervisor
+      command: "/bin/true"
       notify: supervisor reload
 
     - name: copy nginx config

@@ -6,8 +6,17 @@ from bottle import request, abort
 from peewee import fn, IntegrityError
 
 from app import app, env, config
-from app.models import (Post, Tag, Tag_to_Post, Category, Banner, DoesNotExist,
-                        StreamMessage, Quote)
+from app.models import (
+    Tag,
+    Post,
+    Tag_to_Post,
+    Category,
+    Quote,
+    Banner,
+    DoesNotExist,
+    StreamMessage,
+)
+from app.forms import PostForm
 from app.helput import shorten_text
 from app.helpers import redirect, post_get, only_ajax
 from app.controllers import require
@@ -75,10 +84,14 @@ def post_publish(post_id):
 @app.route('/post/add', method=['GET', 'POST'])
 @require('admin')
 def post_add():
+    form = PostForm()
     if request.method == 'GET':
         all_categories = Category.select()
         template = env.get_template('post/add.html')
-        return template.render(categories=all_categories)
+        return template.render(
+            form=form,
+            categories=all_categories,
+        )
     if request.method == 'POST':
         post = Post.create(
             category=post_get('category-id'),

@@ -54,8 +54,9 @@
   {{ super() }}
   <script src="/static/js/jquery.onoff.js"></script>
   <script>
-    $('input[type=checkbox]').onoff();
-    $('input[type=checkbox]').click(function() {
+    $('input[type=checkbox]')
+      .onoff()
+      .click(function() {
       var bannerId = $(this).attr("data-id");
       $.ajax({
         type: "GET",

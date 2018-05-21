@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "helpers/render_form.html" import render_form %}
 
 {% block title %}:: Add new post{% endblock %}
 
@@ -21,6 +22,7 @@
     <div class="column_8">
       <form action="/post/add" method="post">
 
+        {{ render_form(form) }}
         <div class="form-field">
           <label>Title</label>
           <input autofocus type="text" name="title"/>

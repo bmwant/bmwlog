@@ -49,6 +49,13 @@ class Category(BaseModel):
         return Post.get_posts().\
             where(Post.category == self.category_id).count()
 
+    @classmethod
+    def choices(cls):
+        return [
+            (c.category_id, c.category_name)
+            for c in Category.select().iterator()
+        ]
+
 
 class Role(BaseModel):
     class Meta:

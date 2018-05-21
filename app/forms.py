@@ -1,14 +1,22 @@
 # -*- coding: utf-8 -*-
-import os
-
 import wtforms
 from bottle import request
-from wtforms import (FileField, SelectField, StringField, PasswordField,
-                     validators, TextAreaField)
-
-from app.models import User
-from helput import translit_text
-from helpers import save_file
+from wtforms import (
+    FileField,
+    SelectField,
+    StringField,
+    IntegerField,
+    BooleanField,
+    PasswordField,
+    TextAreaField,
+)
+from wtforms import validators
+from app.fields import (
+    UploadFileField,
+    LanguageSelectField,
+    ConfirmPasswordField,
+)
+from app.helput import translit_text
 
 
 class Form(wtforms.Form):
@@ -49,45 +57,6 @@ class SimpleUploadForm(Form):
                               validators=[validators.InputRequired()])
     upload_file = FileField(u'Виберіть файл',
                             validators=[validators.InputRequired()])
-
-
-class UploadFileField(FileField):
-    def __init__(self, label=u'', validators=None, **kwargs):
-        self.target_subfolder = 'img/users'
-        super(UploadFileField, self).__init__(label, validators, **kwargs)
-
-    def process_formdata(self, valuelist):
-        super(UploadFileField, self).process_formdata(valuelist)
-        if self.data:
-            f = save_file(self.data, self.target_subfolder)
-            self.data = f
-
-    def __call__(self, **kwargs):
-        """
-        Renders field with small pictogram
-        """
-        filepath = os.path.join('/static', self.target_subfolder,
-                                self.object_data)
-        img_pic = '<img class="small-icon" src="{}">'.format(filepath)
-        file_input = super(UploadFileField, self).__call__(**kwargs)
-        return img_pic + file_input
-
-
-class ConfirmPasswordField(PasswordField):
-    def __init__(self, *args, **kwargs):
-        if 'target_name' in kwargs:
-            self.target_name = kwargs.pop('target_name')
-
-        super(ConfirmPasswordField, self).__init__(*args, **kwargs)
-
-    def __call__(self, **kwargs):
-        return super(ConfirmPasswordField, self).__call__(**kwargs)
-
-    def process_formdata(self, valuelist):
-        if valuelist and isinstance(valuelist[0], str):
-            value = User.encode_password(valuelist[0])
-            valuelist = (value, )
-        return super(ConfirmPasswordField, self).process_formdata(valuelist)
 
 
 class UserEditForm(Form):
@@ -134,3 +103,11 @@ class StaticPageForm(ItemForm):
             field.data = translit_text(self.title.data)
 
 
+class PostForm(Form):
+    title = StringField()
+    slug = StringField()
+    category_id = SelectField('Category', choices=('one', 'One'))
+    text = StringField()
+    draft = BooleanField()
+    show_on_index = BooleanField()
+    language = LanguageSelectField()
