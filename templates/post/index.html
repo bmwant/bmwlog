@@ -14,12 +14,11 @@
               <div class="post-date bck light"><time>{{ item.date_posted.strftime('%d/%m/%Y') }}</time></div>
             </div>
             <div class="post-text-lst text justify">
-                {{ item.post_text }}
+              {{ item.post_text }}
             </div>
         </div>
 
         <div class="post-delim"></div>
-
         {% endfor %}
       </div>
       <div class="load-more">
@@ -27,37 +26,34 @@
       </div>
     </div>
     <div class="column_4 hide-tablet hide-phone">
-
-            <div class="padding margin banner-block">
-                {% if banner %}
-                    <div class="myrow">Paid ads</div>
-                    <div class="myrow"><a href="{{ banner.link }}"
-                                          {% if banner.link != "#" %}target="_blank"{% endif %}>
-                        <img width="300" src="/img/banners/{{ banner.img }}" alt="{{ banner.desc }}" title="{{ banner.desc }}"/></a>
-                    </div>
-                {% endif %}
-            </div>
-
-            <div class="padding margin">
-                <a href="https://internetdefenseleague.org">
-                    <img width="300"
-                         src="https://internetdefenseleague.org/images/badges/final/super_badge.png"
-                         alt="Member of The Internet Defense League"/>
-                </a>
-            </div>
-
-            <div class="padding margin">
-                <div class="quote-text">
-                    {{ quote.text }}
-                </div>
-                <div class="quote-author">
-                    {{ quote.author }}
-                </div>
-            </div>
-
+      <div class="padding margin banner-block">
+        {% if banner %}
+        <div class="myrow">Paid ads</div>
+        <div class="myrow">
+          <a href="{{ banner.link }}" {% if banner.link != "#" %}target="_blank"{% endif %}>
+          <img width="300" src="/img/banners/{{ banner.img }}" alt="{{ banner.desc }}" title="{{ banner.desc }}"/></a>
         </div>
-    </div>
+        {% endif %}
+      </div>
 
+      <div class="padding margin">
+          <a href="https://internetdefenseleague.org" target="_blank">
+              <img width="300"
+                   src="https://internetdefenseleague.org/images/badges/final/super_badge.png"
+                   alt="Member of The Internet Defense League"/>
+          </a>
+      </div>
+
+      <div class="padding margin">
+          <div class="quote-text">
+              {{ quote.text }}
+          </div>
+          <div class="quote-author">
+              {{ quote.author }}
+          </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
