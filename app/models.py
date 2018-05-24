@@ -120,7 +120,7 @@ class Post(BaseModel):
     date_posted = DateTimeField(default=datetime.now)
     date_updated = DateTimeField(default=datetime.now)
 
-    post_text = CharField()
+    post_text = TextField()
     title = CharField()
     slug = CharField(default='')
     language = CharField(default=languages[0][0], choices=languages)
