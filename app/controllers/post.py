@@ -164,6 +164,7 @@ def post_edit(post_id):
         post.draft = bool(int(post_get('draft')))  # zero int is False
         post.language = post_get('language')
         post.show_on_index = bool(post_get('show-on-index'))
+        post.date_updated = datetime.now()
         new_tags = post_get('tags')
         old_tags = Tag.select().join(Tag_to_Post)\
             .where(Tag_to_Post.post_id == post_id)
