@@ -57,12 +57,13 @@
 </div>
 
 <script>
-  $(document).ready(function(){
-    var k = $(".quote-text").html().trim();
+  $(document).ready(function() {
+    var quoteText = $('.quote-text');
+    var k = quoteText.html().trim();
     // todo: it seems like you can change it via css
     var re = new RegExp("\n", "g");
     k = k.replace(re, "<br/>");
-    $(".quote-text").html(k);
+    quoteText.html(k);
 
     $.cookie("currentPage", 2); //set additional posts page
   });
