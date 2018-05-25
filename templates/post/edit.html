@@ -73,7 +73,7 @@
             <i class="fas fa-check"></i> {{ 'Publish' if item.draft else 'Update' }}
           </a>
           <a id="drafter" class="button secondary small">
-            <i class="far fa-edit"></i> {{ 'Save' if item.draft else 'Відправити в чорновики' }}
+            <i class="far fa-edit"></i> {{ 'Save' if item.draft else 'To drafts' }}
           </a>
         </div>
 
@@ -91,9 +91,13 @@
   <script src="/static/js/tagging.min.js"></script>
   <script src="/static/js/post.scripts.js"></script>
   <script src="/static/js/jquery.onoff.js"></script>
+  <script src="/node_modules/sticky-kit/dist/sticky-kit.min.js"></script>
   <script>
     $(document).ready(function() {
       $('input[type=checkbox]').onoff();
+      $('#image-dropzone').stick_in_parent({
+        parent: '#content'
+      });
     });
   </script>
 {% endblock %}

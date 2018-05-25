@@ -86,9 +86,13 @@
   <script src="/static/js/tagging.min.js"></script>
   <script src="/static/js/post.scripts.js"></script>
   <script src="/static/js/jquery.onoff.js"></script>
+  <script src="/node_modules/sticky-kit/dist/sticky-kit.min.js"></script>
   <script>
     $(document).ready(function() {
       $('input[type=checkbox]').onoff();
+      $('#image-dropzone').stick_in_parent({
+        parent: '#content'
+      });
     });
   </script>
 {% endblock %}
