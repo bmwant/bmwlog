@@ -123,4 +123,12 @@
 {% block bottom_scripts %}
   {{ super() }}
   <script src="/static/js/post.view.scripts.js"></script>
+  <script src="/node_modules/sticky-kit/dist/sticky-kit.min.js"></script>
+  <script>
+    $(function() {
+      $('.post-info').stick_in_parent({
+        parent: '#content'
+      });
+    });
+  </script>
 {% endblock %}
