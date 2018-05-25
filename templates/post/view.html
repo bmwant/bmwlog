@@ -126,8 +126,13 @@
   <script src="/node_modules/sticky-kit/dist/sticky-kit.min.js"></script>
   <script>
     $(function() {
-      $('.post-info').stick_in_parent({
+      var postInfoBlock = $('.post-info');
+      postInfoBlock.stick_in_parent({
         parent: '#content'
+      });
+      $('.post-tags').stick_in_parent({
+        parent: '#content',
+        offset_top: postInfoBlock.outerHeight(true)
       });
     });
   </script>
