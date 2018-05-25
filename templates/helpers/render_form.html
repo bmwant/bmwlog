@@ -1,0 +1,7 @@
+{% from "helpers/render_field.html" import render_field %}
+
+{% macro render_form(form) %}
+  {% for field in form %}
+    {{ render_field(field) }}
+  {% endfor %}
+{% endmacro %}

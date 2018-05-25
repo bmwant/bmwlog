@@ -49,6 +49,13 @@ class Category(BaseModel):
         return Post.get_posts().\
             where(Post.category == self.category_id).count()
 
+    @classmethod
+    def choices(cls):
+        return [
+            (c.category_id, c.category_name)
+            for c in Category.select().iterator()
+        ]
+
 
 class Role(BaseModel):
     class Meta:
@@ -113,7 +120,7 @@ class Post(BaseModel):
     date_posted = DateTimeField(default=datetime.now)
     date_updated = DateTimeField(default=datetime.now)
 
-    post_text = CharField()
+    post_text = TextField()
     title = CharField()
     slug = CharField(default='')
     language = CharField(default=languages[0][0], choices=languages)

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "helpers/render_form.html" import render_form %}
 
 {% block title %}:: Add new post{% endblock %}
 
@@ -29,25 +30,25 @@
         <div class="form-field">
           <label>Category</label>
           <div class="select">
-              <select name="category-id">
-                  {% for item in categories %}
-                  <option value="{{ item.category_id }}">{{ item.category_name}}</option>
-                  {% endfor %}
-              </select>
+            <select name="category-id">
+              {% for item in categories %}
+              <option value="{{ item.category_id }}">{{ item.category_name}}</option>
+              {% endfor %}
+            </select>
           </div>
         </div>
 
         <div class="form-field">
-            <div class="lang-icon" data-lang="eng">
-                <span class="flag-icon flag-icon-gb"></span>
-            </div>
-            <div class="lang-icon" data-lang="ukr">
-                <span class="flag-icon flag-icon-ua"></span>
-            </div>
-            <div class="lang-icon" data-lang="rus">
-                <span class="flag-icon flag-icon-ru"></span>
-            </div>
-            <input type="hidden" name="language" value="ukr">
+          <div class="lang-icon" data-lang="eng">
+            <span class="flag-icon flag-icon-gb"></span>
+          </div>
+          <div class="lang-icon" data-lang="ukr">
+            <span class="flag-icon flag-icon-ua"></span>
+          </div>
+          <div class="lang-icon" data-lang="rus">
+            <span class="flag-icon flag-icon-ru"></span>
+          </div>
+          <input type="hidden" name="language" value="ukr">
         </div>
 
         <label>Text</label>
@@ -63,16 +64,15 @@
         <input type="hidden" name="tags" />
         <input type="hidden" name="draft"/>
 
-            <div class="margin-bottom margin-top">
-                <a id="submitter" class="button success">
-                  <i class="fas fa-check"></i> Опублікувати
-                </a>
-                <a id="drafter" class="button secondary small">
-                  <i class="far fa-edit"></i> В чорновики
-                </a>
-            </div>
-
-            </form>
+        <div class="margin-bottom margin-top">
+          <a id="submitter" class="button success">
+            <i class="fas fa-check"></i> Опублікувати
+          </a>
+          <a id="drafter" class="button secondary small">
+            <i class="far fa-edit"></i> В чорновики
+          </a>
+        </div>
+      </form>
     </div>
 
     <div class="column_4">

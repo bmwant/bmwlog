@@ -1,9 +1,24 @@
 from peewee import CharField, BooleanField
-from peewee import InternalError, OperationalError
-from playhouse.migrate import migrate, MySQLMigrator
+from peewee import InternalError, OperationalError, Entity
+from playhouse.migrate import migrate, MySQLMigrator, operation
 
 from app import models, connect_database
 from utils.helpers import info, warn, note
+
+
+class ExtendedMySQLMigrator(MySQLMigrator):
+    @operation
+    def change_column_type(self, table, new_field):
+        # ALTER TABLE <table_name> MODIFY <col_name> VARCHAR(65353);
+        ctx = self.make_context()
+        field_ddl = new_field.ddl(ctx)
+        change_ctx = (self
+                      .make_context()
+                      .literal('ALTER TABLE ')
+                      .sql(Entity(table))
+                      .literal(' MODIFY ')
+                      .sql(field_ddl))
+        return change_ctx
 
 
 def m_001(migrator):
@@ -28,12 +43,22 @@ def m_002(migrator):
     )
 
 
+def m_003(migrator):
+    table_name = models.Post._meta.name
+    updated_column = models.Post.post_text
+
+    migrate(
+        migrator.change_column_type(table_name, updated_column)
+    )
+
+
 def migrate_database():
     db = connect_database()
-    migrator = MySQLMigrator(db)
+    migrator = ExtendedMySQLMigrator(db)
     migrations = [
         m_001,
         m_002,
+        m_003,
     ]
     for m in migrations:
         with db.transaction():

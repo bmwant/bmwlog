@@ -5,3 +5,5 @@ bottle_run_host: "127.0.0.1"
 bottle_run_port: 8031
 database_name: "bmwlogdb"
 gunicorn_workers_count: 1
+
+run_migrations: false

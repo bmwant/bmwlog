@@ -2,9 +2,12 @@
 Config module
 """
 import os
+import logging
+
 
 SECRET_KEY = ''
 DO_NOT_WRITE_BYTECODE = False
+LOGGING_LEVEL = logging.INFO
 
 POSTS_PER_PAGE = 10
 
