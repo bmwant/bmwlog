@@ -153,9 +153,14 @@ def post_edit(post_id):
         except Post.DoesNotExist:
             abort(404)
 
+        form = PostForm(obj=post)
         all_categories = Category.select()
         template = env.get_template('post/edit.html')
-        return template.render(item=post, categories=all_categories)
+        return template.render(
+            item=post,
+            form=form,
+            categories=all_categories,
+        )
     elif request.method == 'POST':
         post = Post.get(Post.post_id == post_id)
         post.category = post_get('category-id')

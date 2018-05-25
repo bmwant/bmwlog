@@ -1,6 +1,8 @@
 {% macro render_field(field) %}
 <div class="form-field">
+  {% if field.show_label | default(True) %}
   <label>{{ field.label }}</label>
+  {% endif %}
   {{ field(**kwargs)|safe }}
   {% if field.errors %}
   <ul class=errors>
