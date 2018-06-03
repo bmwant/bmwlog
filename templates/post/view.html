@@ -77,9 +77,15 @@
             <span class="info-line-r" itemprop="author"><a  href="/user/{{ item.user.user_id }}">{{ item.user.nickname }}</a></span>
           </div>
           <div class="info-line">
-            Date
-            <span class="info-line-r"><time>{{ item.date_posted.strftime('%d/%m/%Y') }}</time></span>
+            Published
+            <span class="info-line-r"><time>{{ item.date_posted | format_date }}</time></span>
           </div>
+          {% if item.date_posted | format_date != item.date_updated | format_date %}
+          <div class="info-line">
+            Last update
+            <span class="info-line-r"><time>{{ item.date_updated | format_date }}</time></span>
+          </div>
+          {% endif %}
           <div class="info-line">
             Category
             <span class="info-line-r" itemprop="articleSection"><a  href="/category/{{ item.category.category_id }}">{{ item.category.category_name }}</a></span>
@@ -117,4 +123,17 @@
 {% block bottom_scripts %}
   {{ super() }}
   <script src="/static/js/post.view.scripts.js"></script>
+  <script src="/node_modules/sticky-kit/dist/sticky-kit.min.js"></script>
+  <script>
+    $(function() {
+      var postInfoBlock = $('.post-info');
+      postInfoBlock.stick_in_parent({
+        parent: '#content'
+      });
+      $('.post-tags').stick_in_parent({
+        parent: '#content',
+        offset_top: postInfoBlock.outerHeight(true)
+      });
+    });
+  </script>
 {% endblock %}

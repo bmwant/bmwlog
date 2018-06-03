@@ -39,6 +39,18 @@ def p_count(value):
     return value.count()
 
 
+def format_date(value):
+    """
+    Filter to format date in templates.
+    """
+    return value.strftime(config.DEFAULT_DATE_FORMAT)
+
+
+def setup_filters(jinja_env):
+    jinja_env.filters['p_count'] = p_count
+    jinja_env.filters['format_date'] = format_date
+
+
 def only_ajax(func):
     @wraps(func)
     def decorated(*args, **kwargs):

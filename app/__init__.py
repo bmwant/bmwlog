@@ -26,9 +26,10 @@ app.install(LoggingPlugin(level=config.LOGGING_LEVEL))
 env = Environment(loader=FileSystemLoader(config.TEMPLATES_DIR))
 env.globals['app'] = app
 
-from app.helpers import p_count
+from app.helpers import setup_filters
 
-env.filters['p_count'] = p_count
+setup_filters(env)
+
 
 # if you want to add some views - import them in views.py
 from app.views import *

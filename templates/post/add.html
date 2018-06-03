@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% from "helpers/render_form.html" import render_form %}
+
+{% from "helpers/render_field.html" import render_field %}
 
 {% block title %}:: Add new post{% endblock %}
 
@@ -27,6 +28,8 @@
           <input autofocus type="text" name="title"/>
         </div>
 
+        {{ render_field(form.slug) }}
+
         <div class="form-field">
           <label>Category</label>
           <div class="select">
@@ -38,26 +41,12 @@
           </div>
         </div>
 
-        <div class="form-field">
-          <div class="lang-icon" data-lang="eng">
-            <span class="flag-icon flag-icon-gb"></span>
-          </div>
-          <div class="lang-icon" data-lang="ukr">
-            <span class="flag-icon flag-icon-ua"></span>
-          </div>
-          <div class="lang-icon" data-lang="rus">
-            <span class="flag-icon flag-icon-ru"></span>
-          </div>
-          <input type="hidden" name="language" value="ukr">
-        </div>
+        {{ render_field(form.language) }}
 
         <label>Text</label>
         <textarea id="article-text" name="text"></textarea><br />
 
-        <label>Show on index page</label>
-        <div class="form-onoff">
-          <input type="checkbox" name="show-on-index" checked>
-        </div>
+        {{ render_field(form.show_on_index) }}
 
         <label>Tags</label>
         <div id="tagBox"></div>
@@ -66,10 +55,10 @@
 
         <div class="margin-bottom margin-top">
           <a id="submitter" class="button success">
-            <i class="fas fa-check"></i> Опублікувати
+            <i class="fas fa-check"></i> Publish!
           </a>
           <a id="drafter" class="button secondary small">
-            <i class="far fa-edit"></i> В чорновики
+            <i class="far fa-edit"></i> To drafts
           </a>
         </div>
       </form>
@@ -86,9 +75,13 @@
   <script src="/static/js/tagging.min.js"></script>
   <script src="/static/js/post.scripts.js"></script>
   <script src="/static/js/jquery.onoff.js"></script>
+  <script src="/node_modules/sticky-kit/dist/sticky-kit.min.js"></script>
   <script>
     $(document).ready(function() {
       $('input[type=checkbox]').onoff();
+      $('#image-dropzone').stick_in_parent({
+        parent: '#content'
+      });
     });
   </script>
 {% endblock %}

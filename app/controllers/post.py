@@ -17,7 +17,7 @@ from app.models import (
     StreamMessage,
 )
 from app.forms import PostForm
-from app.helput import shorten_text
+from app.helput import shorten_text, create_slug
 from app.helpers import redirect, post_get, only_ajax
 from app.controllers import require
 
@@ -51,6 +51,13 @@ def load_more():
         .order_by(Post.date_posted.desc())\
         .paginate(int(page), config.POSTS_PER_PAGE)
     return json.dumps([p.serialize() for p in next_posts])
+
+
+@app.get('/get_slug')
+@only_ajax
+def get_slug_for_title():
+    title = request.GET.get('title').decode('utf-8')
+    return create_slug(title) if title else ''
 
 
 @app.get('/post/<post_id:int>')
@@ -97,6 +104,7 @@ def post_add():
             category=post_get('category-id'),
             post_text=post_get('text'),
             title=post_get('title'),
+            slug=post_get('slug'),
             user=app.current_user.user_id,
             date_posted=datetime.now(),
             draft=bool(int(post_get('draft'))),
@@ -153,17 +161,24 @@ def post_edit(post_id):
         except Post.DoesNotExist:
             abort(404)
 
+        form = PostForm(obj=post)
         all_categories = Category.select()
         template = env.get_template('post/edit.html')
-        return template.render(item=post, categories=all_categories)
+        return template.render(
+            item=post,
+            form=form,
+            categories=all_categories,
+        )
     elif request.method == 'POST':
         post = Post.get(Post.post_id == post_id)
         post.category = post_get('category-id')
         post.post_text = post_get('text')
+        post.slug = post_get('slug')
         post.title = post_get('title')
         post.draft = bool(int(post_get('draft')))  # zero int is False
         post.language = post_get('language')
         post.show_on_index = bool(post_get('show-on-index'))
+        post.date_updated = datetime.now()
         new_tags = post_get('tags')
         old_tags = Tag.select().join(Tag_to_Post)\
             .where(Tag_to_Post.post_id == post_id)

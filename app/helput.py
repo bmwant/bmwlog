@@ -126,11 +126,12 @@ def shorten_text(text):
     return text
 
 
-def translit_text(text=u''):
+def translit_text(text=u'', lowercase=True):
     """
     Generate a correct url based on static page title
     """
-    text = text.lower()
+    if lowercase:
+        text = text.lower()
     char_table = {
         u'а': 'a',
         u'б': 'b',
@@ -138,11 +139,14 @@ def translit_text(text=u''):
         u'г': 'h',
         u'ґ': 'g',
         u'д': 'd',
+        u'ё': 'e',
+        u'э': 'e',
         u'е': 'e',
         u'є': 'je',
         u'ж': 'zh',
         u'з': 'z',
         u'и': 'u',
+        u'ы': 'u',
         u'і': 'i',
         u'ї': 'ji',
         u'й': 'ji',
@@ -163,6 +167,7 @@ def translit_text(text=u''):
         u'ш': 'sh',
         u'щ': 'sch',
         u'ь': '',
+        u'ъ': '',
         u'ю': 'ju',
         u'я': 'ja',
         u' ': '_'

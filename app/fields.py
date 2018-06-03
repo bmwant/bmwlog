@@ -3,8 +3,10 @@ import os
 from wtforms import (
     FileField,
     StringField,
+    BooleanField,
     PasswordField,
 )
+from wtforms.widgets import HTMLString, HiddenInput, CheckboxInput
 
 from app.models import User
 from app.helpers import save_file
@@ -49,5 +51,44 @@ class ConfirmPasswordField(PasswordField):
         return super(ConfirmPasswordField, self).process_formdata(valuelist)
 
 
+class LanguageFlagInput(HiddenInput):
+    """
+    Render a flag based language selection input.
+    """
+    def __call__(self, field, **kwargs):
+        kwargs.setdefault('id', field.id)
+        kwargs.setdefault('type', self.input_type)
+        if 'value' not in kwargs:
+            kwargs['value'] = field._value()
+        flags_html = """
+<div class="lang-icon" data-lang="eng">
+  <span class="flag-icon flag-icon-gb"></span>
+</div>
+<div class="lang-icon" data-lang="ukr">
+  <span class="flag-icon flag-icon-ua"></span>
+</div>
+<div class="lang-icon" data-lang="rus">
+  <span class="flag-icon flag-icon-ru"></span>
+</div>
+"""
+        input_html = '<input %s>' % self.html_params(name=field.name, **kwargs)
+        html = flags_html + input_html
+        return HTMLString(html)
+
+
+class OnOffInput(CheckboxInput):
+    def __call__(self, *args, **kwargs):
+        if 'checked' not in kwargs:
+            kwargs['checked'] = True
+        parent_html = super(CheckboxInput, self).__call__(*args, **kwargs)
+        onoff_html = '<div class="form-onoff">{}</div>'.format(parent_html)
+        return HTMLString(onoff_html)
+
+
 class LanguageSelectField(StringField):
-    pass
+    show_label = False
+    widget = LanguageFlagInput()
+
+
+class OnOffField(BooleanField):
+    widget = OnOffInput()

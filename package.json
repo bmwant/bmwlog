@@ -1,6 +1,6 @@
 {
   "name": "bmwlog",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "John Travolta",
   "main": "index.js",
   "directories": {
@@ -24,9 +24,10 @@
   "bugs": {
     "url": "https://github.com/bmwant/bmwlog/issues"
   },
-  "homepage": "https://github.com/bmwant/bmwlog#readme",
+  "homepage": "http://bmwlog.pp.ua/",
   "dependencies": {
     "showdown": "^1.8.6",
-    "simplemde": "^1.11.2"
+    "simplemde": "^1.11.2",
+    "sticky-kit": "^1.1.3"
   }
 }
