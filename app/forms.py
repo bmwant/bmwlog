@@ -110,4 +110,4 @@ class PostForm(Form):
     text = StringField()
     draft = BooleanField()
     show_on_index = OnOffField('Show on index page')
-    language = LanguageSelectField()
+    language = LanguageSelectField(default='eng')
