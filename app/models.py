@@ -182,6 +182,8 @@ class Post(BaseModel):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = create_slug(self.title)
+        # Ensure lowercase
+        self.slug = self.slug.lower()
         return super(Model, self).save(*args, **kwargs)
 
     @classmethod
