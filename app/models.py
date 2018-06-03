@@ -180,7 +180,8 @@ class Post(BaseModel):
             where(Tag_to_Post.post_id == self.post_id)
 
     def save(self, *args, **kwargs):
-        self.slug = create_slug(self.title)
+        if not self.slug:
+            self.slug = create_slug(self.title)
         return super(Model, self).save(*args, **kwargs)
 
     @classmethod

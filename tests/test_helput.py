@@ -83,3 +83,8 @@ def test_create_slug():
     assert create_slug('1 1 1 1 1 1') == ''
     assert create_slug('1 1 no leading or trailing _ 1 _ ') == \
         'no-leading-or-trailing'
+
+
+def test_slug_russian_special():
+    assert create_slug(u'ёЁъЪэЭ') == 'eeee'
+    assert create_slug(u'иИйЙьЬ') == 'uujiji'

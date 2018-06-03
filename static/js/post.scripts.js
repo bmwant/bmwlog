@@ -38,6 +38,11 @@ $(document).ready(function() {
     });
     
     $("#tagBox").tagging(tagOptions);
+    $('input[name="title"]').focusout(function() {
+      $.get('/get_slug', {'title': $(this).val()}, function(data) {
+        $('input[name="slug"]').val(data);
+      });
+    });
 
     $("#submitter").click(function(){
         applyTags();
