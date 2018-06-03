@@ -5,13 +5,13 @@ from wtforms import (
     FileField,
     SelectField,
     StringField,
-    IntegerField,
     BooleanField,
     PasswordField,
     TextAreaField,
 )
 from wtforms import validators
 from app.fields import (
+    OnOffField,
     UploadFileField,
     LanguageSelectField,
     ConfirmPasswordField,
@@ -109,5 +109,5 @@ class PostForm(Form):
     category_id = SelectField('Category', choices=('one', 'One'))
     text = StringField()
     draft = BooleanField()
-    show_on_index = BooleanField()
+    show_on_index = OnOffField('Show on index page')
     language = LanguageSelectField()

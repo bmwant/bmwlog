@@ -3,9 +3,10 @@ import os
 from wtforms import (
     FileField,
     StringField,
+    BooleanField,
     PasswordField,
 )
-from wtforms.widgets import HTMLString, HiddenInput
+from wtforms.widgets import HTMLString, HiddenInput, CheckboxInput
 
 from app.models import User
 from app.helpers import save_file
@@ -72,10 +73,22 @@ class LanguageFlagInput(HiddenInput):
 """
         input_html = '<input %s>' % self.html_params(name=field.name, **kwargs)
         html = flags_html + input_html
-        print(html)
         return HTMLString(html)
+
+
+class OnOffInput(CheckboxInput):
+    def __call__(self, *args, **kwargs):
+        if 'checked' not in kwargs:
+            kwargs['checked'] = True
+        parent_html = super(CheckboxInput, self).__call__(*args, **kwargs)
+        onoff_html = '<div class="form-onoff">{}</div>'.format(parent_html)
+        return HTMLString(onoff_html)
 
 
 class LanguageSelectField(StringField):
     show_label = False
     widget = LanguageFlagInput()
+
+
+class OnOffField(BooleanField):
+    widget = OnOffInput()
