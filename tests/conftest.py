@@ -2,7 +2,10 @@ import os
 import sys
 
 import pytest
-from helpers import (
+
+from app import models
+from app import config as app_config
+from .helpers import (
     info,
     init_database_locally,
     drop_database_locally,
@@ -11,8 +14,7 @@ from helpers import (
     remove_container,
     get_container_ip_address,
 )
-from app import config as app_config
-from app import models
+
 
 try:
     from importlib import reload

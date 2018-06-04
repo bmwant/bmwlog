@@ -89,7 +89,7 @@ def unique_filename(filename):
     The same files have the same filenames
     """
     name, ext = os.path.splitext(filename)
-    new_name = uuid.uuid3(uuid.NAMESPACE_OID, filename.encode('utf-8')).hex
+    new_name = uuid.uuid3(uuid.NAMESPACE_OID, filename).hex
     return new_name + ext
 
 
@@ -124,7 +124,7 @@ def strip_tags(html):
 def shorten_text(text):
     text = strip_tags(text)
     if len(text) > 500:
-        text = text[:500] + "..."
+        text = '{}...'.format(text[:500])
     return text
 
 
