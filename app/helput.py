@@ -3,13 +3,14 @@ import os
 import uuid
 from functools import reduce
 from random import sample
-from string import letters, digits
-from HTMLParser import HTMLParser
+from string import digits
+from string import ascii_lowercase as letters
 
 from markdown import markdown
+from six.moves import html_parser
 
 
-class MLStripper(HTMLParser):
+class MLStripper(html_parser.HTMLParser):
     def __init__(self):
         self.reset()
         self.fed = []

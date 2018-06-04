@@ -34,7 +34,7 @@ DB_NAME = 'bmwlogdb'
 
 # Override values from config_local.py if exists
 try:
-    import config_local
+    from . import config_local
     for key, value in config_local.__dict__.items():
         if key.isupper() and key in globals():
             globals()[key] = value
