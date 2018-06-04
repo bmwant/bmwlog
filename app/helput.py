@@ -3,14 +3,16 @@ import os
 import uuid
 from functools import reduce
 from random import sample
-from string import letters, digits
-from HTMLParser import HTMLParser
+from string import digits
+from string import ascii_lowercase as letters
 
 from markdown import markdown
+from six.moves import html_parser
 
 
-class MLStripper(HTMLParser):
+class MLStripper(html_parser.HTMLParser):
     def __init__(self):
+        super(MLStripper, self).__init__()
         self.reset()
         self.fed = []
 
@@ -87,7 +89,7 @@ def unique_filename(filename):
     The same files have the same filenames
     """
     name, ext = os.path.splitext(filename)
-    new_name = uuid.uuid3(uuid.NAMESPACE_OID, filename.encode('utf-8')).hex
+    new_name = uuid.uuid3(uuid.NAMESPACE_OID, filename).hex
     return new_name + ext
 
 
@@ -122,7 +124,7 @@ def strip_tags(html):
 def shorten_text(text):
     text = strip_tags(text)
     if len(text) > 500:
-        text = text[:500] + "..."
+        text = '{}...'.format(text[:500])
     return text
 
 

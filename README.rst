@@ -1,12 +1,19 @@
 bmwlog
 ======
-This is my simple blog written with Python 2.7 (bottle)
-BmwLOG - *Most Wanted*'s blog.
+
+.. image:: https://travis-ci.org/bmwant/bmwlog.svg?branch=master
+    :target: https://travis-ci.org/bmwant/bmwlog
+
+This is simple blog engine written with `bottle <https://bottlepy.org/docs/dev/>`_
+and Python 2/3 compatible.
+
+BmwLOG - **Most Wanted**'s blog.
 
 Try visiting `the web-site <http://bmwlog.pp.ua/>`_ to see some boring articles.
 
 
-Run Ansible provisioning manually
+Run local Ansible provisioning manually for your guest VM
+(using `Vagrant <https://www.vagrantup.com/>`_):
 
 ``ansible-playbook deploy/ansible/setup.yml -u vagrant -vv -i local/ansible/hosts -l vagrant --ask-pass``
 

@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
 
-from urlparse import urlparse
 from bottle import request, abort, static_file
 from geventwebsocket import WebSocketError
+from six.moves.urllib.parse import urlparse
 
+from app import app, env, config
 from app.models import (Photo, Banner, Quote, DoesNotExist, StaticPage,
                         StreamMessage, SiteJoke)
 from app.helpers import post_get, redirect, backup_db, only_ajax, static_path
 from app.helput import (unique_filename, join_all_path, generate_filename,
                         distort_filename)
 from app.forms import SimpleUploadForm, StaticPageForm, ItemForm
-from app import app, env, config
 from app.controllers import require
 
 

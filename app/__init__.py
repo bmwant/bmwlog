@@ -2,7 +2,8 @@ from bottle import Bottle
 from jinja2 import Environment, FileSystemLoader
 from peewee import MySQLDatabase
 
-import config
+# import config
+from . import config
 
 
 def connect_database():
@@ -15,9 +16,9 @@ def connect_database():
 
 app = Bottle()
 
-from plugins.flash import FlashPlugin
-from plugins.login_manager import LoginManager
-from plugins.logging_plugin import LoggingPlugin
+from .plugins.flash import FlashPlugin
+from .plugins.login_manager import LoginManager
+from .plugins.logging_plugin import LoggingPlugin
 
 app.install(FlashPlugin(secret=config.SECRET_KEY))
 app.install(LoginManager(secret=config.SECRET_KEY))
@@ -26,10 +27,9 @@ app.install(LoggingPlugin(level=config.LOGGING_LEVEL))
 env = Environment(loader=FileSystemLoader(config.TEMPLATES_DIR))
 env.globals['app'] = app
 
-from app.helpers import setup_filters
+from .helpers import setup_filters
 
 setup_filters(env)
 
-
 # if you want to add some views - import them in views.py
-from app.views import *
+from .views import *

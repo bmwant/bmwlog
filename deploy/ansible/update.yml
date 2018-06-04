@@ -60,7 +60,7 @@
 
     - name: restart application with supervisor
       command: "/bin/true"
-      notify: supervisor reload
+      notify: gunicorn reload
 
     - name: copy nginx config
       template:
