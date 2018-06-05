@@ -2,6 +2,7 @@
 import json
 from datetime import datetime
 
+import six
 from bottle import request, abort
 from peewee import fn, IntegrityError
 
@@ -56,7 +57,9 @@ def load_more():
 @app.get('/get_slug')
 @only_ajax
 def get_slug_for_title():
-    title = request.GET.get('title').decode('utf-8')
+    title = request.GET.get('title')
+    if isinstance(title, six.binary_type):
+        title = title.decode('utf-8')
     return create_slug(title) if title else ''
 
 
@@ -259,12 +262,13 @@ def add_new_tags(tags_string, post_id):
 
 
 def remove_tags(old, new, post_id):
-    # todo: maybe delete unused tags
-    new_tags = [nt.decode('utf-8') for nt in new.split(';')]
+    if isinstance(new, six.binary_type):
+        new = new.decode('utf-8')
+    new_tags = [nt for nt in new.split(';')]
     for old_tag in old:
-        if unicode(old_tag.text) not in new_tags:
+        if six.text_type(old_tag.text) not in new_tags:
             Tag_to_Post.delete().\
-                where(Tag_to_Post.post_id == post_id and
+                where(Tag_to_Post.post_id == post_id,
                       Tag_to_Post.tag_id == old_tag.tag_id).execute()
 
 

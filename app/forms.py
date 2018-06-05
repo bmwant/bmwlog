@@ -10,6 +10,7 @@ from wtforms import (
     TextAreaField,
 )
 from wtforms import validators
+from wtforms.meta import DefaultMeta
 from app.fields import (
     OnOffField,
     UploadFileField,
@@ -19,7 +20,17 @@ from app.fields import (
 from app.helput import translit_text
 
 
+class BindNameMeta(DefaultMeta):
+    def bind_field(self, form, unbound_field, options):
+        if 'custom_name' in unbound_field.kwargs:
+            options['name'] = unbound_field.kwargs.pop('custom_name')
+        return unbound_field.bind(form=form, **options)
+
+
 class Form(wtforms.Form):
+
+    Meta = BindNameMeta
+
     def validate_on_post(self):
         if request.method in ('POST', 'PUT'):
             return super(Form, self).validate()
@@ -109,5 +120,6 @@ class PostForm(Form):
     category_id = SelectField('Category', choices=('one', 'One'))
     text = StringField()
     draft = BooleanField()
-    show_on_index = OnOffField('Show on index page')
+    show_on_index = OnOffField('Show on index page',
+                               custom_name='show-on-index')
     language = LanguageSelectField(default='eng')
