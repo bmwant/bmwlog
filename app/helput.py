@@ -126,7 +126,7 @@ def strip_tags(html):
 def shorten_text(text):
     text = strip_tags(text)
     if len(text) > 500:
-        text = '{}...'.format(text[:500])
+        text = u'{}...'.format(text[:500])
     return text
 
 
