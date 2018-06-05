@@ -6,13 +6,15 @@ from random import sample
 from string import digits
 from string import ascii_lowercase as letters
 
+import six
 from markdown import markdown
 from six.moves import html_parser
 
 
 class MLStripper(html_parser.HTMLParser):
     def __init__(self):
-        super(MLStripper, self).__init__()
+        if six.PY3:
+            super(MLStripper, self).__init__()
         self.reset()
         self.fed = []
 
