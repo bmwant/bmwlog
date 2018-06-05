@@ -37,8 +37,11 @@ class LoginManager(object):
             print(msg)
 
     def load_user(self):
-        # todo: add check if invalid cookie is provided
-        usermail = request.get_cookie(self.key, secret=self.secret)
+        try:
+            usermail = request.get_cookie(self.key, secret=self.secret)
+        except ValueError:
+            self._log('Invalid cookie, forcing logout')
+            return self.logout()
 
         if len(request.cookies.getall(self.key)) > 1:
             return self.logout()
