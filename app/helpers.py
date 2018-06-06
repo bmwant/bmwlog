@@ -131,4 +131,6 @@ def root_path(path):
 
 def static_path(path):
     static_full_path = os.path.expanduser(config.STATIC_FOLDER)
+    if not os.path.exists(static_full_path):
+        os.makedirs(static_full_path)
     return os.path.join(static_full_path, path)
