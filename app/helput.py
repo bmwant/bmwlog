@@ -90,6 +90,8 @@ def unique_filename(filename):
     """
     The same files have the same filenames
     """
+    if six.PY2:
+        filename = filename.encode('utf-8')
     name, ext = os.path.splitext(filename)
     new_name = uuid.uuid3(uuid.NAMESPACE_OID, filename).hex
     return new_name + ext

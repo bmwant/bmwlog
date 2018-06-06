@@ -32,6 +32,12 @@ def test_unique_filename():
     assert len(result_name) == 32
 
 
+def test_unique_filename_works_for_unicode():
+    result = unique_filename(u'should_be_fine.jpg')
+    assert isinstance(result, str)
+    assert result.endswith('.jpg')
+
+
 def test_generate_filename():
     filename_length = 10
     first_filename = generate_filename(length=filename_length)
