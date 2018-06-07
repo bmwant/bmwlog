@@ -27,15 +27,6 @@ def index():
     redirect('/post')
 
 
-@app.get('/try')
-def tr():
-    app.flash('Trying flashing bying', 'error')
-    tg = models.Tag.get(models.Tag.tag_id == 36)
-    quote = models.Quote.select().first()
-    messages = models.StreamMessage.select()
-    return render_template('info.html', messages=messages, quote=quote)
-
-
 @app.get('/joke')
 @only_ajax
 def get_joke():
@@ -87,6 +78,12 @@ def playground():
 @app.error(404)
 def error404(error):
     template = env.get_template('errors/404.html')
+    return template.render()
+
+
+@app.error(500)
+def error500(error):
+    template = env.get_template('errors/500.html')
     return template.render()
 
 

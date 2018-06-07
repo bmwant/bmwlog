@@ -1,34 +1,36 @@
-@import "https://fonts.fontstorage.com/import/lobstertwo.css";
 @import url(https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700&subset=latin,cyrillic);
+@font-face {
+  font-family: "Lobster Bold";
+  src: url("/static/webfonts/LobsterTwo-Bold.ttf") format('truetype');
+}
 
-@import url('https://fonts.googleapis.com/css?family=PT+Sans&subset=cyrillic-ext');
+
 html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    /*font-family: "PT Sans Narrow", sans-serif;*/
-    font-family: "PT Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "PT Sans Narrow", sans-serif;
 }
 
 .page {
-    text-align: center;
+  text-align: center;
 }
 
 a {
-    color: #e2b607;
+  color: #e2b607;
 }
 
 p {
-    margin: 0;
-    font-size: 1.5em;
-    padding-top: 10px;
+  margin: 0;
+  font-size: 1.5em;
+  padding-top: 10px;
 }
 
 h2 {
-    margin: 0;
-    padding: 30px 0;
-    font-family: 'Lobster Two', cursive;
-    text-align: center;
-    font-size: 2.5em;
-    text-shadow: 2px 2px #ecf0f1;
+  margin: 0;
+  padding: 30px 0;
+  font-family: 'Lobster Bold', cursive;
+  text-align: center;
+  font-size: 2.5em;
+  text-shadow: 2px 2px #ecf0f1;
 }
