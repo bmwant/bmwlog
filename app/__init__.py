@@ -29,7 +29,7 @@ env.globals['app'] = app
 from .helpers import setup_filters, post_slug_url_filter
 
 setup_filters(env)
-app.router.add_filter('post-slug', post_slug_url_filter)
+app.router.add_filter('slug', post_slug_url_filter)
 
 # if you want to add some views - import them in views.py
 from .views import *

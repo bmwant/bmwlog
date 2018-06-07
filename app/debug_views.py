@@ -2,8 +2,7 @@ import os
 
 from bottle import static_file
 
-from app import app, env, config
-from app import models
+from app import app, config
 from app.helpers import render_template
 
 
@@ -23,11 +22,9 @@ def serve_favicon():
 
 @app.get('/502')
 def test502():
-    template = env.get_template('errors/502.html')
-    return template.render()
+    return render_template('errors/502.html')
 
 
 @app.get('/500')
 def test500():
-    template = env.get_template('errors/500.html')
-    return template.render()
+    return render_template('errors/500.html')

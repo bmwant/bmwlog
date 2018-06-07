@@ -71,7 +71,7 @@ def post_view(post_id):
     return _render_post_page(post)
 
 
-@app.get('/post/<slug:post-slug>')
+@app.get('/post/<slug:slug>')
 def post_view_by_slug(slug):
     post = Post.get_or_404(Post.slug == slug)
     return _render_post_page(post)
