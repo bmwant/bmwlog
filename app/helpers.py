@@ -62,7 +62,7 @@ def only_ajax(func):
 
 def post_slug_url_filter(config):
 
-    regexp = 'post-slug'
+    regexp = r'[a-z,-]+'
 
     def to_python(match):
         return match

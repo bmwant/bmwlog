@@ -9,13 +9,13 @@
       <div id="posts-container">
         {% for item in posts %}
         <div class="box">
-            <a href="/post/{{ item.post_id }}" class="post-header-lst text bold color theme">{{ item.title }}</a>
-            <div class="post-date-lst">
-              <div class="post-date bck light"><time>{{ item.date_posted.strftime('%d/%m/%Y') }}</time></div>
-            </div>
-            <div class="post-text-lst text justify">
-              {{ item.post_text }}
-            </div>
+          <a href="/post/{{ item.url_id }}" class="post-header-lst text bold color theme">{{ item.title }}</a>
+          <div class="post-date-lst">
+            <div class="post-date bck light"><time>{{ item.date_posted.strftime('%d/%m/%Y') }}</time></div>
+          </div>
+          <div class="post-text-lst text justify">
+            {{ item.post_text }}
+          </div>
         </div>
 
         <div class="post-delim"></div>
@@ -37,35 +37,35 @@
       </div>
 
       <div class="padding margin">
-          <a href="https://internetdefenseleague.org" target="_blank">
-              <img width="300"
-                   src="https://internetdefenseleague.org/images/badges/final/super_badge.png"
-                   alt="Member of The Internet Defense League"/>
-          </a>
+        <a href="https://internetdefenseleague.org" target="_blank">
+          <img width="300"
+               src="https://internetdefenseleague.org/images/badges/final/super_badge.png"
+               alt="Member of The Internet Defense League"/>
+        </a>
       </div>
 
       <div class="padding margin">
-          <div class="quote-text">
-              {{ quote.text }}
-          </div>
-          <div class="quote-author">
-              {{ quote.author }}
-          </div>
+        <div class="quote-text">
+          {{ quote.text }}
+        </div>
+        <div class="quote-author">
+          {{ quote.author }}
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  $(document).ready(function() {
-    var quoteText = $('.quote-text');
-    var k = quoteText.html().trim();
-    // todo: it seems like you can change it via css
-    var re = new RegExp("\n", "g");
-    k = k.replace(re, "<br/>");
-    quoteText.html(k);
+$(document).ready(function() {
+  var quoteText = $('.quote-text');
+  var k = quoteText.html().trim();
+  // todo: it seems like you can change it via css
+  var re = new RegExp("\n", "g");
+  k = k.replace(re, "<br/>");
+  quoteText.html(k);
 
-    $.cookie("currentPage", 2); //set additional posts page
-  });
+  $.cookie("currentPage", 2); //set additional posts page
+});
 </script>
 {% endblock %}
