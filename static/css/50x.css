@@ -1,11 +1,13 @@
 @import "https://fonts.fontstorage.com/import/lobstertwo.css";
 @import url(https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700&subset=latin,cyrillic);
 
+@import url('https://fonts.googleapis.com/css?family=PT+Sans&subset=cyrillic-ext');
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: "PT Sans Narrow", sans-serif;
+    /*font-family: "PT Sans Narrow", sans-serif;*/
+    font-family: "PT Sans", sans-serif;
 }
 
 .page {

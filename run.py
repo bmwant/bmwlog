@@ -1,4 +1,4 @@
-from bottle import run, default_app, debug
+from bottle import run
 from app import app, config as conf
 
 

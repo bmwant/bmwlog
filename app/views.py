@@ -2,7 +2,7 @@
 import os
 import time
 
-from bottle import static_file, request, abort
+from bottle import request, abort
 from geventwebsocket import WebSocketError
 from peewee import fn
 
@@ -17,6 +17,9 @@ except ImportError:
     pass
 
 from app import app, config
+
+if config.DEBUG:
+    from . import debug_views  # noqa
 
 
 @app.route('/')
@@ -122,19 +125,6 @@ def healthcheck():
         'system_uptime': system_uptime_human,
         'process_uptime': process_uptime_human,
     }
-
-
-if config.DEBUG:
-    # serving static files
-    root = os.path.expanduser(config.ROOT_FOLDER)
-
-    @app.route('/<filename:path>')
-    def server_static(filename):
-        return static_file(filename, root=root)
-
-    @app.route('/favicon.ico')
-    def serve_favicon():
-        return static_file('favicon.ico', root=root)
 
 
 @app.route('/websocket')

@@ -16,8 +16,8 @@ update:
 tests:
 	@py.test -sv -rs tests
 
-style-check:
-	@pep8 . --count
+flake:
+	@flake . --count
 
 clean:
 	@echo "Removing cached files"
