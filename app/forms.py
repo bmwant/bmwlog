@@ -16,6 +16,7 @@ from app.fields import (
     UploadFileField,
     LanguageSelectField,
     ConfirmPasswordField,
+    AutoFocusTextInput,
 )
 from app.helput import translit_text
 
@@ -115,7 +116,7 @@ class StaticPageForm(ItemForm):
 
 
 class PostForm(Form):
-    title = StringField()
+    title = StringField(widget=AutoFocusTextInput())
     slug = StringField()
     category_id = SelectField('Category', choices=('one', 'One'))
     text = StringField()

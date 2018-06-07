@@ -25,15 +25,17 @@ from app.controllers import require
 
 @app.get('/post')
 def post_index():
-    all_posts = Post.get_posts(index_only=True).\
-        order_by(Post.date_posted.desc()).\
-        limit(config.POSTS_PER_PAGE)
+    all_posts = Post.get_posts(index_only=True)\
+        .order_by(Post.date_posted.desc())\
+        .limit(config.POSTS_PER_PAGE)
 
     for item in all_posts:
         item.post_text = shorten_text(item.post_text)
 
-    random_banner = Banner.select().\
-        where(Banner.disabled == False).order_by(fn.Rand()).first()
+    random_banner = Banner.select()\
+        .where(Banner.disabled == False)\
+        .order_by(fn.Rand())\
+        .first()
     quote = Quote.select().order_by(fn.Rand()).first()
     messages = StreamMessage.select()
 
@@ -65,17 +67,24 @@ def get_slug_for_title():
 
 @app.get('/post/<post_id:int>')
 def post_view(post_id):
-    post = Post.get(Post.post_id == post_id)
-    try:
-        cu = app.current_user
-        if post.deleted or post.draft:
-            if cu is not None and \
-                    (cu.user_id == post.user.user_id or cu.is_admin()):
-                app.log('Showing post to its creator or to admin')
-            else:
-                raise DoesNotExist
-    except DoesNotExist:
-        abort(404)
+    post = Post.get_or_404(Post.post_id == post_id)
+    return _render_post_page(post)
+
+
+@app.get('/post/<slug:post-slug>')
+def post_view_by_slug(slug):
+    post = Post.get_or_404(Post.slug == slug)
+    return _render_post_page(post)
+
+
+def _render_post_page(post):
+    cu = app.current_user
+    if post.deleted or post.draft:
+        if cu is not None and \
+                (cu.user_id == post.user.user_id or cu.is_admin()):
+            app.log('Showing post to its creator or to admin')
+        else:
+            abort(404)
     template = env.get_template('post/view.html')
     post.views += 1
     post.save()

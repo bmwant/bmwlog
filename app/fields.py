@@ -6,7 +6,12 @@ from wtforms import (
     BooleanField,
     PasswordField,
 )
-from wtforms.widgets import HTMLString, HiddenInput, CheckboxInput
+from wtforms.widgets import (
+    HTMLString,
+    HiddenInput,
+    CheckboxInput,
+    TextInput,
+)
 
 from app.models import User
 from app.helpers import save_file
@@ -49,6 +54,12 @@ class ConfirmPasswordField(PasswordField):
             value = User.encode_password(valuelist[0])
             valuelist = (value, )
         return super(ConfirmPasswordField, self).process_formdata(valuelist)
+
+
+class AutoFocusTextInput(TextInput):
+    def __call__(self, field, **kwargs):
+        kwargs.setdefault('autofocus', True)
+        return super(AutoFocusTextInput, self).__call__(field, **kwargs)
 
 
 class LanguageFlagInput(HiddenInput):

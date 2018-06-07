@@ -22,12 +22,7 @@
   <div class="row">
     <div class="column_8">
       <form action="/post/add" method="post">
-
-        <div class="form-field">
-          <label>Title</label>
-          <input autofocus type="text" name="title"/>
-        </div>
-
+        {{ render_field(form.title) }}
         {{ render_field(form.slug) }}
 
         <div class="form-field">
@@ -44,7 +39,7 @@
         {{ render_field(form.language) }}
 
         <label>Text</label>
-        <textarea id="article-text" name="text"></textarea><br />
+        <textarea id="article-text" name="text"></textarea>
 
         {{ render_field(form.show_on_index) }}
 

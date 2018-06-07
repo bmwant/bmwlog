@@ -60,6 +60,19 @@ def only_ajax(func):
     return decorated
 
 
+def post_slug_url_filter(config):
+
+    regexp = 'post-slug'
+
+    def to_python(match):
+        return match
+
+    def to_url(parts):
+        return parts
+
+    return regexp, to_python, to_url
+
+
 class StripPathMiddleware(object):
     """
     Middleware for stripping trailing slashes
