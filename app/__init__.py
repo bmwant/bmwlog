@@ -2,7 +2,6 @@ from bottle import Bottle
 from jinja2 import Environment, FileSystemLoader
 from peewee import MySQLDatabase
 
-# import config
 from . import config
 
 
@@ -27,9 +26,10 @@ app.install(LoggingPlugin(level=config.LOGGING_LEVEL))
 env = Environment(loader=FileSystemLoader(config.TEMPLATES_DIR))
 env.globals['app'] = app
 
-from .helpers import setup_filters
+from .helpers import setup_filters, post_slug_url_filter
 
 setup_filters(env)
+app.router.add_filter('slug', post_slug_url_filter)
 
 # if you want to add some views - import them in views.py
 from .views import *

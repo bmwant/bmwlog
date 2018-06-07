@@ -193,18 +193,24 @@ def upload():
 @app.route('/up', method=['POST'])
 def up_file():
     """
-    Uploads a picture to the article
+    Uploads a picture for the article
     """
     up_file = request.files.get('file')
     web_folder = 'img/article/'
     pictures_folder = static_path(web_folder)
+    if not os.path.exists(pictures_folder):
+        os.makedirs(pictures_folder)
+
     new_filename = unique_filename(up_file.filename)
     file_path = os.path.join(pictures_folder, new_filename)
-    # todo: check for file existence
-    # photo_file.save('/img/gallery/')  # new Bottle
+    web_path = join_all_path(['/', web_folder, new_filename])
+    if os.path.exists(file_path):
+        # Just return it, already here
+        return web_path
+
     with open(file_path, 'wb') as open_file:
         open_file.write(up_file.file.read())
-    return join_all_path(['/', web_folder, new_filename])
+    return web_path
 
 
 @app.get('/ad/backupdb')

@@ -44,18 +44,18 @@ $(document).ready(function() {
       });
     });
 
-    $("#submitter").click(function(){
-        applyTags();
-        publish();
-        window.onbeforeunload = undefined;
-        $(this).closest('form').submit();
+    $("#submitter").click(function() {
+      applyTags();
+      publish();
+      window.onbeforeunload = undefined;
+      $(this).closest('form').submit();
     });
 
-    $("#drafter").click(function(){
-        applyTags();
-        toDrafts();
-        window.onbeforeunload = undefined;
-        $(this).closest('form').submit();
+    $("#drafter").click(function() {
+      applyTags();
+      toDrafts();
+      window.onbeforeunload = undefined;
+      $(this).closest('form').submit();
     });
 
   window.editor = new SimpleMDE({
@@ -79,12 +79,12 @@ $(document).ready(function() {
 });
 
 notifyChangesPresent = function () {
-    var isDirty = window.editor
-      .codemirror.doc.getValue() !== $("#article-text").text();
-    if (isDirty) {
-        return "There are unsaved changes!";
-    }
-    return undefined;
+  var isDirty = window.editor
+    .codemirror.doc.getValue() !== $("#article-text").text();
+  if (isDirty) {
+    return "There are unsaved changes!";
+  }
+  return undefined;
 };
 
 window.onbeforeunload = notifyChangesPresent;

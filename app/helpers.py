@@ -60,6 +60,19 @@ def only_ajax(func):
     return decorated
 
 
+def post_slug_url_filter(config):
+
+    regexp = r'[a-z,-]+'
+
+    def to_python(match):
+        return match
+
+    def to_url(parts):
+        return parts
+
+    return regexp, to_python, to_url
+
+
 class StripPathMiddleware(object):
     """
     Middleware for stripping trailing slashes
@@ -131,4 +144,6 @@ def root_path(path):
 
 def static_path(path):
     static_full_path = os.path.expanduser(config.STATIC_FOLDER)
+    if not os.path.exists(static_full_path):
+        os.makedirs(static_full_path)
     return os.path.join(static_full_path, path)

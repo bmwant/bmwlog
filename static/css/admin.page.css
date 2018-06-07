@@ -1,19 +1,19 @@
 @font-face {
-    font-family: "Lobster";
-    src: url("/static/webfonts/Lobster.ttf")
+  font-family: "Lobster BoldItalic";
+  src: url("/static/webfonts/LobsterTwo-BoldItalic.ttf") format('truetype');
 }
 
 h2.admin-header {
-    font-family: "Lobster", cursive;
-    text-align: center;
-    margin-bottom: 10px;
-    margin-top: 10px;
+  font-family: "Lobster BoldItalic", cursive;
+  text-align: center;
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .actions-list li a {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .actions-list {
-    list-style: none;
+  list-style: none;
 }

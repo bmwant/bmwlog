@@ -137,8 +137,15 @@ class Post(BaseModel):
             'id': self.post_id,
             'title': self.title,
             'date': self.date_posted.strftime('%d/%m/%Y'),
-            'short_text': shorten_text(self.post_text)
+            'short_text': shorten_text(self.post_text),
+            'url_id': self.url_id,
         }
+
+    @property
+    def url_id(self):
+        if self.slug:
+            return self.slug
+        return self.post_id
 
     @property
     def actuality(self):
