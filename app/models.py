@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import hashlib
 from datetime import timedelta, datetime
+
+import six
 from bottle import abort
 from peewee import (
     DoesNotExist,
@@ -13,6 +15,7 @@ from peewee import (
     TextField,
 )
 from playhouse.signals import Model
+
 from app import app, connect_database
 from app.helput import create_slug, shorten_text
 
@@ -82,6 +85,8 @@ class User(BaseModel):
 
     @staticmethod
     def encode_password(password):
+        if not isinstance(password, six.binary_type):
+            password = password.encode('utf-8')
         m = hashlib.md5()
         m.update(password)
         return m.hexdigest()
