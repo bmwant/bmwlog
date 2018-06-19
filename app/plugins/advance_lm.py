@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Most Wanted'
 from bottle import request, response
-from .models import User, DoesNotExist, Session
+from app.models import User, DoesNotExist, Session
 
 
 class LoginManager(object):

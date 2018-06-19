@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from app import models
 
 
@@ -26,3 +27,14 @@ def test_role_is_assigned_on_user_creation(db):
     new_user.save()
     assert isinstance(new_user.user_id, int)
     assert new_user.role.role == 'user'
+
+
+def test_encode_password():
+    p1 = models.User.encode_password('regular-string')
+    assert isinstance(p1, str)
+
+    p2 = models.User.encode_password(u'юникод')
+    assert len(p2) == 32
+
+    p3 = models.User.encode_password(b'bytes-here')
+    assert p3 != p2
