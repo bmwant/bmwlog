@@ -20,7 +20,7 @@ from .plugins.login_manager import LoginManager
 from .plugins.logging_plugin import LoggingPlugin
 
 app.install(FlashPlugin(secret=config.SECRET_KEY))
-app.install(LoginManager(secret=config.SECRET_KEY))
+app.install(LoginManager(secret=config.SECRET_KEY, enable_journaling=True))
 app.install(LoggingPlugin(level=config.LOGGING_LEVEL))
 
 env = Environment(loader=FileSystemLoader(config.TEMPLATES_DIR))
