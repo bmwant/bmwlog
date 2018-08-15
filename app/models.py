@@ -16,6 +16,7 @@ from peewee import (
 )
 from playhouse.signals import Model
 
+from app import config
 from app import app, connect_database
 from app.helput import create_slug, shorten_text
 
@@ -101,7 +102,8 @@ class User(BaseModel):
         return self.role.role == 'admin'
 
     def __repr__(self):
-        date_registered_str = self.date_registered.strftime('%d/%m/%Y')
+        date_registered_str = self.date_registered.strftime(
+            config.DEFAULT_DATE_FORMAT)
         return '{nickname} [{mail}] ({date_registered})'.format(
             nickname=self.nickname,
             mail=self.mail,
@@ -141,7 +143,7 @@ class Post(BaseModel):
         return {
             'id': self.post_id,
             'title': self.title,
-            'date': self.date_posted.strftime('%d/%m/%Y'),
+            'date': self.date_posted.strftime(config.DEFAULT_DATE_FORMAT),
             'short_text': shorten_text(self.post_text),
             'url_id': self.url_id,
         }
@@ -193,10 +195,20 @@ class Post(BaseModel):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = create_slug(self.title)
+            slug = create_slug(self.title)
+            self.slug = self.ensure_unique_slug(slug)
         # Ensure lowercase
         self.slug = self.slug.lower()
         return super(Model, self).save(*args, **kwargs)
+
+    @classmethod
+    def ensure_unique_slug(cls, slug: str) -> str:
+        new_slug = slug
+        slug_exists = cls.select().where(Post.slug == slug.lower()).count()
+        if slug_exists:
+            date_spec = datetime.now().strftime(config.SLUG_DATE_FORMAT)
+            new_slug = '{}-{}'.format(date_spec, slug)
+        return new_slug
 
     @classmethod
     def create(cls, **query):

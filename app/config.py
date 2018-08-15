@@ -11,6 +11,7 @@ LOGGING_LEVEL = logging.INFO
 
 POSTS_PER_PAGE = 10
 DEFAULT_DATE_FORMAT = '%d/%m/%Y'
+SLUG_DATE_FORMAT = '%d-%m-%y'
 
 PROJECT_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), os.pardir))
