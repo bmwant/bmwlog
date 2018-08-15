@@ -5,7 +5,7 @@ bmwlog
     :target: https://travis-ci.org/bmwant/bmwlog
 
 This is simple blog engine written with `bottle <https://bottlepy.org/docs/dev/>`_
-and Python 2/3 compatible.
+(now only Python 3 comatible).
 
 BmwLOG - **Most Wanted**'s blog.
 
