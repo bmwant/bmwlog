@@ -77,20 +77,26 @@ def test_translit_text():
 
 
 def test_create_slug():
-    assert create_slug('1234') == ''
-    assert create_slug('ssaaff 1 1 ssdd') == 'ssaaff-ssdd'
+
+    assert create_slug('ssaaff 1 1 ssdd') == 'ssaaff-1-1-ssdd'
     assert create_slug('My interesting article') == 'my-interesting-article'
-    assert create_slug('single 12 12 12 13 dash 1 1 1 only') == \
+    assert create_slug('single    dash  only') == \
         'single-dash-only'
-    assert create_slug('The #3 number can be blank ___') == \
-        'the-number-can-be-blank'
+    assert create_slug('The #3 number ___') == 'the-3-number'
     assert create_slug(u'Як побороти расову дискримінацію') == \
         'jak-poborotu-rasovy-duskruminaciju'
-    assert create_slug('1 1 1 1 1 1') == ''
-    assert create_slug('1 1 no leading or trailing _ 1 _ ') == \
+    assert create_slug(' no leading or trailing _ _ ') == \
         'no-leading-or-trailing'
 
 
 def test_slug_russian_special():
     assert create_slug(u'ёЁъЪэЭ') == 'eeee'
     assert create_slug(u'иИйЙьЬ') == 'uujiji'
+
+
+def test_slug_numbers_should_be_present():
+    assert create_slug('1234') == '1234'
+    assert create_slug('Notes. Part #1') == 'notes-part-1'
+    assert create_slug('Notes. Part #2') == 'notes-part-2'
+    assert create_slug('42 is the answer') == '42-is-the-answer'
+    assert create_slug('Celebrate 4 of July') == 'celebrate-4-of-july'
