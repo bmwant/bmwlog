@@ -1,0 +1,75 @@
+---
+- hosts: all
+  gather_facts: no
+
+  tasks:
+    - include_vars: "vars/common.yml"
+
+    - name: check which Python 3.7 version is installed
+      shell: "python3.7 --version"
+      register: python_output
+      ignore_errors: true
+
+    - set_fact:
+        python_version_output: "Python {{ python_version }}"
+
+    - block:
+      - name: install the 'Development tools' package group
+        yum:
+          name: "@Development tools"
+          state: present
+
+      - name: ensure other devel libs installed
+        yum:
+          name: "{{ packages }}"
+        vars:
+          packages:
+            - openssl-devel
+            - readline-devel
+        become: true
+
+      - name: download archive with python
+        get_url:
+          url: "https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python_version }}.tgz"
+          dest: "/tmp/python.tgz"
+          force: yes
+
+      - name: extract python archive
+        unarchive:
+          src: "/tmp/python.tgz"
+          dest: "/opt"
+          copy: no
+        become: true
+
+      - name: build python from source code
+        shell: |
+          ./configure && \
+           make && \
+           make install
+        args:
+          chdir: "/opt/Python-{{ python_version }}"
+        become: true
+      when: python_output.stdout != python_version_output
+
+    - name: ensure a list of packages installed
+      yum:
+        name: "{{ packages }}"
+      vars:
+        packages:
+          - git
+          - nginx
+      become: true
+
+    - name: clean any of the previous virtual environments
+      file:
+        path: "{{ project_venv }}"
+        state: absent
+
+    - name: create a virtual environment with proper Python version
+      shell: "python3.7 -m venv {{ project_venv }}"
+
+  handlers:
+
+    - name: nginx reload
+      shell: "nginx -t && nginx -s reload"
+      become: true
