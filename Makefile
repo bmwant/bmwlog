@@ -3,6 +3,11 @@
 install:
 	@local/scripts/install.sh
 
+setup:
+	@echo "Initial production provisioning"
+	@cd deploy/ansible && \
+		ansible-playbook setup_centos.yml -i hosts -l digital_ocean -vv --ask-vault-pass
+
 setup-freebsd:
 	@echo "Initial production provisioning before deploy"
 	@cd deploy/ansible && \

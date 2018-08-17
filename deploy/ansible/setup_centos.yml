@@ -1,0 +1,64 @@
+---
+- hosts: all
+  gather_facts: no
+
+  tasks:
+    - include_vars: "vars/common.yml"
+
+    - name: check which Python 3.7 version is installed
+      shell: "python3.7 --version"
+      register: python_output
+      ignore_errors: true
+
+    - block:
+        - name: install required dev packages
+          apt: name={{item}} state=installed
+          with_items:
+            - build-essential
+            - libssl-dev
+            - libreadline-dev
+            - openssl
+          become: true
+
+        - name: download archive with python
+          get_url:
+            url: "https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python_version }}.tgz"
+            dest: "/tmp/python.tgz"
+            force: yes
+
+        - name: extract python archive
+          unarchive:
+            src: "/tmp/python.tgz"
+            dest: "/opt"
+            copy: no
+
+        - name: build python from source code
+          shell: |
+            ./configure && \
+             make && \
+             make install
+          args:
+            chdir: "/opt/Python-{{ python_version }}"
+          become: true
+      when: python_output.stdout != "Python {{ python_version }}"
+
+    - name: install packages
+      pkgng: name="{{ item }}" state=present
+      with_items:
+        - git
+        - nginx
+      become: true
+
+    - name: clean any of the previous virtual environments
+      file:
+        path: "{{ project_venv }}"
+        state: absent
+
+    - name: create a virtual environment with proper Python version
+      shell: "python3.7 -m venv {{ project_venv }}"
+
+  handlers:
+
+    - name: nginx reload
+      shell: "nginx -t && nginx -s reload"
+      become: true
