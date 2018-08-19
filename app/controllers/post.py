@@ -62,7 +62,9 @@ def get_slug_for_title():
     title = request.GET.get('title')
     if isinstance(title, six.binary_type):
         title = title.decode('utf-8')
-    return create_slug(title) if title else ''
+    slug = create_slug(title) if title else ''
+    unique_slug = Post.ensure_unique_slug(slug)
+    return unique_slug
 
 
 @app.get('/post/<post_id:int>')
