@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}:: Зареєструватись{% endblock %}
+{% block title %}:: Sign up{% endblock %}
 
 {% block content %}
 <div id="content">
@@ -13,15 +13,14 @@
       {% endfor %}
         <div class="margin-bottom margin-top">
           <a class="button success small" onclick="$(this).closest('form').submit();">
-            <i class="fas fa-check"></i> Зареєструватись
+            <i class="fas fa-check"></i> Join
           </a>
         </div>
       </form>
     </div>
 
-
     <div class="column_4 margin-bottom padding">
-      <h1 class="text book center color theme">Створити новий профіль</h1>
+      <h1 class="text book center color theme">Create new acc</h1>
       <div class="error-text">
         {% if form.errors %}
           <ul class="errors">
