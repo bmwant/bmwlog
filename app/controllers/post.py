@@ -318,6 +318,9 @@ def like(post_id):
 
 @app.get('/search')
 def search():
-    title_text = request.query.get('query', '')
-    posts = Post.search(title_text)
-    return json.dumps([p.serialize() for p in posts])
+    title_text = request.query.getunicode('query', default='')
+    result = []
+    if title_text:
+        posts = Post.search(title_text)
+        result = [p.serialize() for p in posts]
+    return json.dumps(result)
