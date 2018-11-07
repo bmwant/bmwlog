@@ -90,7 +90,8 @@ def postd():
 
 
 def post_get(name, default=''):
-    return bottle.request.POST.get(name, default).strip()
+    form = bottle.request.POST
+    return form.getunicode(name, default, encoding='utf-8').strip()
 
 
 def redirect(where=None):

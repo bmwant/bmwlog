@@ -101,7 +101,7 @@ def post_publish(post_id):
     p = Post.get_or_404(Post.post_id == post_id)
     p.draft = False
     p.save()
-    app.flash(u'Стаття опублікована', 'success')
+    app.flash('Post was published', 'success')
     redirect('/post/%s' % post_id)
 
 
@@ -141,7 +141,7 @@ def post_delete(post_id):
         post = Post.get(Post.post_id == post_id)
         post.deleted = True
         post.save()
-        app.flash(u'Статтю видалено', 'success')
+        app.flash('Post has been deleted', 'success')
         redirect()
     except Post.DoesNotExist:
         abort(404)
