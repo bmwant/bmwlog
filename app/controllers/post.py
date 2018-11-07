@@ -59,7 +59,10 @@ def load_more():
 @app.get('/get_slug')
 @only_ajax
 def get_slug_for_title():
-    title = request.GET.get('title')
+    # To be on the safe side, WSGI suggests ISO-8859-1 (aka latin1),
+    # a reversible single-byte codec that can be re-encoded with
+    # a different encoding later.
+    title = request.GET.title
     if isinstance(title, six.binary_type):
         title = title.decode('utf-8')
     slug = create_slug(title) if title else ''
