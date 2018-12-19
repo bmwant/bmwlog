@@ -59,10 +59,15 @@ def load_more():
 @app.get('/get_slug')
 @only_ajax
 def get_slug_for_title():
-    title = request.GET.get('title')
+    # To be on the safe side, WSGI suggests ISO-8859-1 (aka latin1),
+    # a reversible single-byte codec that can be re-encoded with
+    # a different encoding later.
+    title = request.GET.title
     if isinstance(title, six.binary_type):
         title = title.decode('utf-8')
-    return create_slug(title) if title else ''
+    slug = create_slug(title) if title else ''
+    unique_slug = Post.ensure_unique_slug(slug)
+    return unique_slug
 
 
 @app.get('/post/<post_id:int>')
@@ -96,7 +101,7 @@ def post_publish(post_id):
     p = Post.get_or_404(Post.post_id == post_id)
     p.draft = False
     p.save()
-    app.flash(u'Стаття опублікована', 'success')
+    app.flash('Post was published', 'success')
     redirect('/post/%s' % post_id)
 
 
@@ -136,7 +141,7 @@ def post_delete(post_id):
         post = Post.get(Post.post_id == post_id)
         post.deleted = True
         post.save()
-        app.flash(u'Статтю видалено', 'success')
+        app.flash('Post has been deleted', 'success')
         redirect()
     except Post.DoesNotExist:
         abort(404)
@@ -313,6 +318,9 @@ def like(post_id):
 
 @app.get('/search')
 def search():
-    title_text = request.query.get('query', '')
-    posts = Post.search(title_text)
-    return json.dumps([p.serialize() for p in posts])
+    title_text = request.query.getunicode('query', default='')
+    result = []
+    if title_text:
+        posts = Post.search(title_text)
+        result = [p.serialize() for p in posts]
+    return json.dumps(result)

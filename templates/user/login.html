@@ -1,37 +1,35 @@
 {% extends "base.html" %}
 
-{% block title %}:: Увійти{% endblock %}
+{% block title %}:: Login{% endblock %}
 
 {% block content %}
 <div id="content">
-    <div class="row">
-        <div class="column_8">
+  <div class="row">
+    <div class="column_8">
+      <form method="post">
+        <label for="email">E-mail</label>
+        <input id="email" type="text" name="email" /><br />
 
-            <form method="post">
-                <label for="email">E-mail</label>
-                <input id="email" type="text" name="email" /><br />
-
-                <label for="password">Пароль</label>
-                <input id="password" type="password" name="password" /><br />
-                    <!--
-                    <fieldset>
-                        <label>Remember me</label>
-                        <div data-control="checkbox">
-                            <input type="checkbox" value="None" id="prueba" />
-                            <label for="prueba"></label>
-                        </div>
-                    </fieldset>
-                    -->
-                <div class="margin-bottom margin-top">
-                    <button class="center button large" type="submit"><i class="fas fa-check"></i></button>
-                </div>
-            </form>
-        </div>
-        <div class="column_4 margin-bottom padding">
-            <h1 class="text book center color theme">Вхід</h1>
-            <div class="error text color dark">
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" /><br />
+        <!--
+        <fieldset>
+            <label>Remember me</label>
+            <div data-control="checkbox">
+                <input type="checkbox" value="None" id="prueba" />
+                <label for="prueba"></label>
             </div>
+        </fieldset>
+        -->
+        <div class="margin-bottom margin-top">
+          <button class="center button large" type="submit"><i class="fas fa-check"></i></button>
         </div>
+      </form>
     </div>
+    <div class="column_4 margin-bottom padding">
+      <h1 class="text book center color theme">Let me in</h1>
+      <div class="error text color dark"></div>
+    </div>
+  </div>
 </div>
 {% endblock %}

@@ -6,13 +6,13 @@
 <div id="content">
   <div class="row">
     <div class="column_8">
-        <div class="category-lst">
-            {% for category in categories %}
-            <a href="category/{{ category.category_id }}" class="text bold color theme">
-                <div class="category-item bck light">{{ category.category_name }} <span class="posts-count">{{ category.posts_count }}</span></div>
-            </a>
-            {% endfor %}
-        </div>
+      <div class="category-lst">
+          {% for category in categories %}
+          <a href="category/{{ category.category_id }}" class="text bold color theme">
+              <div class="category-item bck light">{{ category.category_name }} <span class="posts-count">{{ category.posts_count }}</span></div>
+          </a>
+          {% endfor %}
+      </div>
     </div>
     <div class="column_4">
       <div class="search-row">
@@ -29,30 +29,30 @@
 {% block bottom_scripts %}
 {{ super() }}
 <script>
-    function showSearchResults(data) {
-        var list = $(".category-lst");
-        list.empty();
-        if($.isEmptyObject(data)){
-            $("<div />", {
-                class: "no-results",
-                text: "Nothing matched --->"
-            }).appendTo(list);
-            return;
-        }
+  function showSearchResults(data) {
+      var list = $(".category-lst");
+      list.empty();
+      if($.isEmptyObject(data)){
+          $("<div />", {
+              class: "no-results",
+              text: "Nothing matched --->"
+          }).appendTo(list);
+          return;
+      }
 
-        $.each(data, function(index, post) {
-            var postLink = $("<a />", {
-                href: "post/" + post.id,
-                class: "text bold color theme"
-            });
+      $.each(data, function(index, post) {
+          var postLink = $("<a />", {
+              href: "post/" + post.id,
+              class: "text bold color theme"
+          });
 
-            $("<div />", {
-                class: "category-item bck light",
-                text: post.title
-            }).appendTo(postLink);
-            list.append(postLink);
-        });
-    }
+          $("<div />", {
+              class: "category-item bck light",
+              text: post.title
+          }).appendTo(postLink);
+          list.append(postLink);
+      });
+  }
 
     $("#search-form").submit(function (event) {
         var action = $(this).attr('action');

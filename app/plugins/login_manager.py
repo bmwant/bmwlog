@@ -46,15 +46,16 @@ class LoginManager(object):
         if len(request.cookies.getall(self.key)) > 1:
             return self.logout()
 
-        if usermail is not None:
-            try:
-                self._log('Try to login this user: %s' % usermail)
-                self.app.current_user = User.get(User.mail == usermail)
-            except DoesNotExist:
-                self.logout()
-        else:
+        if usermail is None:
             self.app.current_user = None
-        self._log('User loaded: %s' % self.app.current_user)
+            return
+
+        try:
+            self._log('Try to login this user: %s' % usermail)
+            self.app.current_user = User.get(User.mail == usermail)
+            self._log('User loaded: %s' % self.app.current_user)
+        except DoesNotExist:
+            self.logout()
 
     def login(self, user):
         self.app.current_user = user
@@ -63,7 +64,6 @@ class LoginManager(object):
     def logout(self):
         self._log('Logout user: %s.' % self.app.current_user)
         self.app.current_user = None
-        self._log('Now offline?: %s.' % self.app.current_user)
         response.delete_cookie(self.key, path='/')
 
     def set_user(self):
@@ -71,12 +71,14 @@ class LoginManager(object):
             self._log('Setting user after request: {current_user}'.format(
                 current_user=self.app.current_user))
 
-            response.set_cookie(name=self.key,
-                                value=self.app.current_user.mail,
-                                secret=self.secret,
-                                path='/',
-                                httponly=True,
-                                max_age=5 * 24 * 60 * 60)  # 5 days in seconds
+            response.set_cookie(
+                name=self.key,
+                value=self.app.current_user.mail,
+                secret=self.secret,
+                path='/',
+                httponly=True,
+                max_age=5*24*60*60,  # 5 days in seconds
+            )
 
     def apply(self, callback, route):
         def wrapper(*args, **kwargs):

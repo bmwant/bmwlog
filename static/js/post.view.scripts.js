@@ -8,6 +8,7 @@ $(document).ready(function() {
     var text = postElem.html()
       .replace(/&gt;/g, '>')
       .replace(/&lt;/g, '<')
+      .replace(/&amp;/g, '&')
       .trim();
     var newHtml = converter.makeHtml(text);
     postElem.html(newHtml);
