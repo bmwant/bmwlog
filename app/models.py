@@ -196,7 +196,7 @@ class Post(BaseModel):
     def save(self, *args, **kwargs):
         if not self.slug:
             slug = create_slug(self.title)
-            self.slug = self.ensure_unique_slug(slug, self.post_id)
+            self.slug = self.ensure_unique_slug(slug, 0)
         # Ensure lowercase
         self.slug = self.slug.lower()
         return super(Model, self).save(*args, **kwargs)

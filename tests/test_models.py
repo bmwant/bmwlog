@@ -16,7 +16,18 @@ def test_create_slug_for_post(db):
 
 def test_ensure_unique_slug_return_same(db):
     slug = 'unique-post-slug'
-    assert models.Post.ensure_unique_slug(slug) == slug
+    assert models.Post.ensure_unique_slug(slug, 0) == slug
+
+
+def test_slug_is_not_recreated_on_update(db):
+    post = models.Post(
+        category_id=1,
+        user_id=1,
+        title='Test post slug',
+        post_text='Post content',
+    )
+    post.save()
+    print(post.slug)
 
 
 def test_ensure_unique_slug_already_exists(db):
@@ -30,7 +41,10 @@ def test_ensure_unique_slug_already_exists(db):
     slug = 'test-post-slug'
     assert post.slug == 'test-post-slug'
 
-    new_slug = models.Post.ensure_unique_slug(slug)
+    same_post_slug = models.Post.ensure_unique_slug(slug, post.post_id)
+    assert same_post_slug == slug
+
+    new_slug = models.Post.ensure_unique_slug(slug, 0)
     assert new_slug != slug
 
 
