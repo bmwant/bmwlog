@@ -39,7 +39,14 @@ $(document).ready(function() {
     
     $("#tagBox").tagging(tagOptions);
     $('input[name="title"]').focusout(function() {
-      $.get('/get_slug', {'title': $(this).val()}, function(data) {
+      var postId = $(this).closest('form').data('post-id');
+      $.get(
+        '/get_slug',
+        {
+          'id': postId,
+          'title': $(this).val()
+        },
+        function(data) {
         $('input[name="slug"]').val(data);
       });
     });

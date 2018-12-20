@@ -21,7 +21,7 @@
 <div id="content">
   <div class="row">
     <div class="column_8">
-      <form action="/post/edit/{{ item.post_id }}" method="post">
+      <form action="/post/edit/{{ item.post_id }}" data-post-id="{{ item.post_id }}" method="post">
         {{ render_field(form.title) }}
         {{ render_field(form.slug) }}
 

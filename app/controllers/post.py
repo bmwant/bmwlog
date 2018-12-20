@@ -63,10 +63,11 @@ def get_slug_for_title():
     # a reversible single-byte codec that can be re-encoded with
     # a different encoding later.
     title = request.GET.title
+    post_id = request.GET.get('id')
     if isinstance(title, six.binary_type):
         title = title.decode('utf-8')
     slug = create_slug(title) if title else ''
-    unique_slug = Post.ensure_unique_slug(slug)
+    unique_slug = Post.ensure_unique_slug(slug, post_id)
     return unique_slug
 
 
