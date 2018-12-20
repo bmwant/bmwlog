@@ -129,7 +129,7 @@ class Post(BaseModel):
 
     post_text = TextField()
     title = CharField()
-    slug = CharField(default='')
+    slug = CharField(default='', unique=True)
     language = CharField(default=languages[0][0], choices=languages)
 
     likes = IntegerField(default=0)
@@ -196,18 +196,24 @@ class Post(BaseModel):
     def save(self, *args, **kwargs):
         if not self.slug:
             slug = create_slug(self.title)
-            self.slug = self.ensure_unique_slug(slug)
+            self.slug = self.ensure_unique_slug(slug, 0)
         # Ensure lowercase
         self.slug = self.slug.lower()
         return super(Model, self).save(*args, **kwargs)
 
     @classmethod
-    def ensure_unique_slug(cls, slug: str) -> str:
+    def ensure_unique_slug(cls, slug: str, post_id: int) -> str:
         new_slug = slug
-        slug_exists = cls.select().where(Post.slug == slug.lower()).count()
-        if slug_exists:
+        post_with_a_slug = cls.select() \
+            .where(Post.slug == slug.lower()).first()
+        if post_with_a_slug is None:
+            return new_slug
+
+        # Some other post have the same slug
+        if post_with_a_slug.post_id != int(post_id):
             date_spec = datetime.now().strftime(config.SLUG_DATE_FORMAT)
             new_slug = '{}-{}'.format(date_spec, slug)
+
         return new_slug
 
     @classmethod

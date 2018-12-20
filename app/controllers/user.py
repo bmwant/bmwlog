@@ -129,7 +129,9 @@ def user_view(user_id):
 def my_account():
     user = app.current_user
     form = UserEditForm(obj=user)
-    my_drafts = Post.get_drafts().where(Post.user == user.user_id)
+    my_drafts = Post.get_drafts() \
+        .where(Post.user == user.user_id) \
+        .order_by(Post.date_updated.desc())
     return {'user': user, 'posts': my_drafts, 'form': form}
 
 
