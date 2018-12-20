@@ -23,11 +23,22 @@ def test_slug_is_not_recreated_on_update(db):
     post = models.Post(
         category_id=1,
         user_id=1,
-        title='Test post slug',
+        title='Test post title',
         post_text='Post content',
     )
     post.save()
-    print(post.slug)
+
+    old_slug = post.slug
+    post.title = 'Updated post title'
+    post.save()
+
+    assert post.slug == old_slug
+
+    # Check content updates
+    post.post_text = 'Updated post content'
+    post.save()
+
+    assert post.slug == old_slug
 
 
 def test_ensure_unique_slug_already_exists(db):
