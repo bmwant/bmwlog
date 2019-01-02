@@ -62,9 +62,9 @@
          {% if user.role.role == 'admin' %}
           <div class="post-admin-actions bck light padding margin">
 
-            <div class="myrow"><a href="/post/edit/{{ item.post_id }}">Редагувати статтю</a></div>
-            <div class="myrow"><a href="/post/delete/{{ item.post_id }}" onclick="return confirm('Видалити статтю?')">Видалити статтю</a></div>
-            <div class="myrow"><a href="/post/renew/{{ item.post_id }}">Актуалізувати</a></div>
+            <div class="myrow"><a href="/post/edit/{{ item.post_id }}">Edit</a></div>
+            <div class="myrow"><a href="/post/delete/{{ item.post_id }}" onclick="return confirm('Do you want to remove it?')">Delete</a></div>
+            <div class="myrow"><a href="/post/renew/{{ item.post_id }}">Revive</a></div>
 
           </div>
          {% endif %}
