@@ -1,13 +1,11 @@
 @import url(https://fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700&subset=latin,cyrillic);
 @import url('https://fonts.googleapis.com/css?family=PT+Sans&subset=cyrillic-ext');
-@import url('https://fonts.googleapis.com/css?family=Arimo');
 
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
   font-family: 'PT Sans Narrow', sans-serif;
-  /*font-family: 'PT Sans', sans-serif;*/
 }
 
 #wrapper {
@@ -110,7 +108,7 @@ html, body {
 }
 
 .post-text ul {
-  font-family: 'Arimo', sans-serif;
+  font-family: 'PT Sans', sans-serif;
   list-style-image: url('/static/img/bullet.png');
   margin: 3px 0;
   padding-left: 30px;
@@ -125,7 +123,7 @@ html, body {
 }
 
 .post-text ol {
-  font-family: 'Arimo', sans-serif;
+  font-family: 'PT Sans', sans-serif;
   list-style-type: none;
   margin: 3px 0;
   padding-left: 10px;
@@ -161,7 +159,7 @@ html, body {
 
 .post-text p {
   font-size: 1em;
-  font-family: 'Arimo', sans-serif;
+  font-family: 'PT Sans', sans-serif;
   line-height: 1.4;
 }
 
