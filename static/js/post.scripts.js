@@ -36,7 +36,7 @@ $(document).ready(function() {
         $(this).addClass("radio-selected");
         $("input[name=language]").val($(this).data("lang"));
     });
-    
+
     $("#tagBox").tagging(tagOptions);
     $('input[name="title"]').focusout(function() {
       var postId = $(this).closest('form').data('post-id');
@@ -66,7 +66,8 @@ $(document).ready(function() {
     });
 
   window.editor = new SimpleMDE({
-    element: document.getElementById("article-text")
+    element: document.getElementById("article-text"),
+    autofocus: true,
   });
 
   Dropzone.options.imageDropzone = {

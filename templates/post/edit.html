@@ -22,7 +22,7 @@
   <div class="row">
     <div class="column_8">
       <form action="/post/edit/{{ item.post_id }}" data-post-id="{{ item.post_id }}" method="post">
-        {{ render_field(form.title) }}
+        {{ render_field(form.title, autofocus=False) }}
         {{ render_field(form.slug) }}
 
         <div class="form-field">

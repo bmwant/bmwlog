@@ -209,9 +209,15 @@ class Post(BaseModel):
         if post_with_a_slug is None:
             return new_slug
 
+        try:
+            post_id = int(post_id)
+        except:
+            post_id = 0
         # Some other post have the same slug
-        if post_with_a_slug.post_id != int(post_id):
+        if post_with_a_slug.post_id != post_id:
             date_spec = datetime.now().strftime(config.SLUG_DATE_FORMAT)
+            if not slug:
+                slug = 'article'
             new_slug = '{}-{}'.format(date_spec, slug)
 
         return new_slug
