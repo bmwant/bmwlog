@@ -25,6 +25,7 @@ Install MySQL database first (`Ubuntu tutorial <https://www.digitalocean.com/com
 
 .. code-block:: bash
 
+    npm install
     pip install -r requirements.txt
     make tests
     make style-check
