@@ -1,8 +1,5 @@
 .PHONY: tests
 
-install:
-	@local/scripts/install.sh
-
 setup:
 	@echo "Initial production provisioning..."
 	@cd deploy/ansible && \
