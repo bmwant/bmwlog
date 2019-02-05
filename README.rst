@@ -7,13 +7,13 @@ bmwlog
 This is simple blog engine written with `bottle <https://bottlepy.org/docs/dev/>`_
 (now only Python 3 comatible).
 
-BmwLOG - **Most Wanted**'s blog.
+BmwLOG - some controversial thoughts from `bmwant <https://twitter.com/bmwant>`_.
 
 Try visiting `the web-site <http://bmwlog.pp.ua/>`_ to see some boring articles.
 
 
 Run local Ansible provisioning manually for your guest VM
-(using `Vagrant <https://www.vagrantup.com/>`_):
+(if using `Vagrant <https://www.vagrantup.com/>`_):
 
 ``ansible-playbook deploy/ansible/setup.yml -u vagrant -vv -i local/ansible/hosts -l vagrant --ask-pass``
 
@@ -21,12 +21,16 @@ Run local Ansible provisioning manually for your guest VM
 Development
 -----------
 
+Install MySQL database first (`Ubuntu tutorial <https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04>`_)
+
 .. code-block:: bash
 
-    make install
-
+    npm install
+    pip install -r requirements.txt
     make tests
     make style-check
+    export PYTHONPATH=`pwd`
+    python run.py
 
 Database migrations. Edit ``app/migrations/__main__.py`` and execute
 

@@ -3,6 +3,7 @@ Config module
 """
 import os
 import logging
+from pathlib import Path
 
 
 SECRET_KEY = ''
@@ -15,9 +16,10 @@ SLUG_DATE_FORMAT = '%d-%m-%y'
 
 PROJECT_DIR = os.path.abspath(
     os.path.join(os.path.dirname(__file__), os.pardir))
-STATIC_FOLDER = '/data/projects/bmwlog/static'
-ROOT_FOLDER = '/data/projects/bmwlog'
-TEMPLATES_DIR = '/data/projects/bmwlog/templates'
+
+ROOT_FOLDER = Path(PROJECT_DIR)
+STATIC_FOLDER = ROOT_FOLDER / 'static'
+TEMPLATES_DIR = ROOT_FOLDER / 'templates'
 
 # Standalone run
 RUN_HOST = '127.0.0.1'

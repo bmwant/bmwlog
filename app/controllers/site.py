@@ -265,17 +265,3 @@ def sm_add():
     new_message = StreamMessage(message=message)
     new_message.save()
     return 'Ok'
-
-
-@app.route('/websocket')
-def handle_websocket():
-    wsock = request.environ.get('wsgi.websocket')
-    if not wsock:
-        abort(400, 'Expected WebSocket request.')
-
-    while True:
-        try:
-            message = wsock.receive()
-            wsock.send("Your message was: %r" % message)
-        except WebSocketError:
-            break
