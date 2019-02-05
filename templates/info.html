@@ -4,24 +4,12 @@
 
 {% block content %}
 <div id="content">
-    <div class="row">
+  <div class="row">
 
-        <script type="text/javascript">
-
-            var ws = new WebSocket("ws://bmwlog.pp.ua/websocket");
-                ws.onopen = function() {
-                ws.send("Hello, web-sockets!");
-            };
-                ws.onmessage = function (evt) {
-                alert(evt.data);
-            };
-
-        </script>
-
-        <div class="column_8">
-            <div class="mydiv"></div>
-            text
-        </div>
+    <div class="column_8">
+        <div class="mydiv"></div>
+        text
+    </div>
 
         <div class="column_4">
 
@@ -81,7 +69,5 @@
         console.log(window.location.href);
         console.log(document.URL);
     });
-
-
 </script>
 {% endblock %}
