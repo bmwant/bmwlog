@@ -64,18 +64,18 @@ class SimpleUploadForm(Form):
         ('img/article', u'Зображення до статті'),
         ('uploaded', u'Інші файли'),
     )
-    file_folder = SelectField(u'Куди завантажити',
+    file_folder = SelectField('Upload destination',
                               choices=upload_choices,
                               validators=[validators.InputRequired()])
-    upload_file = FileField(u'Виберіть файл',
+    upload_file = FileField('Choose a file',
                             validators=[validators.InputRequired()])
 
 
 class UserEditForm(Form):
-    first_name = StringField(u'Ім\'я')
-    last_name = StringField(u'Прізвище')
-    nickname = StringField(u'Псевдонім')
-    picture = UploadFileField(u'Фото')
+    first_name = StringField('Name')
+    last_name = StringField('Last name')
+    nickname = StringField('Nickname')
+    picture = UploadFileField('Profile picture')
     change_password = ConfirmPasswordField(target_name='user_password')
 
     def populate_obj(self, obj):
@@ -89,24 +89,24 @@ class UserEditForm(Form):
 
 
 class SignupForm(Form):
-    mail = StringField(u'E-mail', validators=[validators.Email()])
-    password = PasswordField(u'Пароль',
+    mail = StringField('E-mail', validators=[validators.Email()])
+    password = PasswordField('Password',
                              validators=[validators.InputRequired(),
                                          validators.Length(min=6)])
-    first_name = StringField(u'Ім\'я', validators=[validators.InputRequired()])
-    last_name = StringField(u'Прізвище',
+    first_name = StringField(u'Name', validators=[validators.InputRequired()])
+    last_name = StringField(u'Last name',
                             validators=[validators.InputRequired()])
-    nickname = StringField(u'Нік', validators=[validators.InputRequired()])
+    nickname = StringField(u'Nickname', validators=[validators.InputRequired()])
 
 
 class StaticPageForm(ItemForm):
     title = StringField(
-        u'Назва сторінки',
+        'Page name',
         validators=[validators.InputRequired()],
     )
     page_url = StringField('Url')
     text = TextAreaField(
-        u'Текст сторінки',
+        'Content',
         validators=[validators.InputRequired()],
     )
 

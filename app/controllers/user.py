@@ -31,9 +31,9 @@ def require(role):
                 r = Role.get(Role.role == role)
                 if app.current_user.role.level >= r.level:
                     return func(*args, **kwargs)
-                app.flash(u'У Вас недостатньо прав для перегляду')
+                app.flash('You have no permissions to view this')
                 redirect()
-            app.flash(u'Увійдіть, щоб переглянути дану сторінку')
+            app.flash('Login first')
             redirect('/login?back=' + request.path)
         return wrapper
     return decorator
@@ -47,7 +47,7 @@ def authorize(func):
     def wrapper(*args, **kwargs):
         if app.current_user is not None:
             return func(*args, **kwargs)
-        app.flash(u'Увійдіть, щоб переглянути дану сторінку')
+        app.flash('Login to view this page')
         redirect('/login?back=' + request.path)
     return wrapper
 
@@ -59,21 +59,24 @@ def login():
     else:
         back = '/'
     if app.current_user is not None:
-        app.flash(u'Вийдіть з поточної сесії, щоб увійти під іншим акаунтом')
+        app.flash(
+            'Log out from current session in order to use different account',
+            category='info',
+        )
         redirect(back)
     if request.method == 'POST':
         try:
             user = User.get(User.mail == post_get('email'))
         except DoesNotExist:
-            app.flash(u'Немає такого користувача')
+            app.flash('No such user')
         else:
             if user.user_password == User.encode_password(
                     post_get('password')):
-                app.flash(u'Ви успішно увійшли')
+                app.flash('Successfully logged in')
                 app.login(user)
                 redirect(back)
             else:
-                app.flash(u'Невірний пароль')
+                app.flash('Wrong password', category='info')
 
     template = env.get_template('user/login.html')
 
@@ -95,12 +98,15 @@ def signup():
                     user_password=User.encode_password(form.password.data),
                     first_name=form.first_name.data,
                     last_name=form.last_name.data,
-                    nickname=form.nickname.data
+                    nickname=form.nickname.data,
                 )
-                app.flash(u'Успішна реєстрація. Тепер ви можете увійти')
+                app.flash('Well done! Now you can log in')
                 redirect('/login')
             else:
-                app.flash(u'Користувач з такою поштою уже існує')
+                app.flash(
+                    'User with such an email already exists',
+                    category='info',
+                )
     return template.render(form=form)
 
 
@@ -108,7 +114,7 @@ def signup():
 @authorize
 def logout():
     app.logout()
-    app.flash(u'Successfully logged out!')
+    app.flash('Successfully logged out!')
     redirect()
 
 
@@ -117,7 +123,9 @@ def logout():
 def user_view(user_id):
     try:
         user = User.get(User.user_id == user_id)
-        user_posts = Post.get_for_user(user_id).limit(10)
+        user_posts = Post.get_for_user(user_id) \
+            .order_by(Post.views.desc()) \
+            .limit(10)
         return {'user': user, 'posts': user_posts}
     except DoesNotExist:
         abort(404)
@@ -132,7 +140,11 @@ def my_account():
     my_drafts = Post.get_drafts() \
         .where(Post.user == user.user_id) \
         .order_by(Post.date_updated.desc())
-    return {'user': user, 'posts': my_drafts, 'form': form}
+    return {
+        'user': user,
+        'posts': my_drafts,
+        'form': form,
+    }
 
 
 @app.post('/account/update')
@@ -143,9 +155,9 @@ def update_account():
     if update_form.validate():
         update_form.populate_obj(user)
         user.save()
-        app.flash(u'Successfully updated')
+        app.flash('Successfully updated')
     else:
-        app.flash(u'Incorrect somtethisd')
+        app.flash('Check your form', category='error')
     redirect('/account')  # without return redirect because of raise inside
 
 
