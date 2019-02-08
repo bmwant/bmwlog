@@ -6,33 +6,32 @@
 <div id="content">
   <div class="row">
     <div class="column_8">
-      <h2>Статті користувача</h2>
+      <h2>Top user's articles</h2>
 
       <div class="post-little-lst">
-          {% for post in posts %}
-          <a href="/post/{{ post.post_id }}" class="text bold color theme">
-              <div class="little-lst-item bck light">{{ post.title }}</div>
-          </a>
-          {% endfor %}
+        {% for post in posts %}
+        <a href="/post/{{ post.post_id }}" class="text bold color theme">
+          <div class="little-lst-item bck light">{{ post.title }}</div>
+        </a>
+        {% endfor %}
       </div>
     </div>
     <div class="column_4">
       <h2 class="text book center color theme"><strong>{{ user.nickname }}</strong></h2>
       <div class="row">
         <div class="column_2">
-            <img class="avatar-img" src="/static/img/users/{{ user.picture }}" />
-
+          <img class="avatar-img" src="/static/img/users/{{ user.picture }}" />
         </div>
         <div class="column_2 user-info">
-            <div class="myrow">
-                <strong>{{ user.first_name }}</strong>
-            </div>
-            <div class="myrow">
-                <strong>{{ user.last_name }}</strong>
-            </div>
-            <div class="myrow">
-                <small>{{ user.mail }}</small>
-            </div>
+          <div class="myrow">
+            <strong>{{ user.first_name }}</strong>
+          </div>
+          <div class="myrow">
+            <strong>{{ user.last_name }}</strong>
+          </div>
+          <div class="myrow">
+            <small>{{ user.mail }}</small>
+          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,3 @@
-from functools import wraps
 from bottle import request, response, hook
 
 
