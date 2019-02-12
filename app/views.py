@@ -3,7 +3,6 @@ import os
 import time
 
 from bottle import request, abort
-from geventwebsocket import WebSocketError
 from peewee import fn
 
 import app.controllers  # just to import all the available views
@@ -31,7 +30,7 @@ def index():
 @only_ajax
 def get_joke():
     joke = models.SiteJoke.select().order_by(fn.Rand()).first()
-    joke_text = u'ᕦ(ò_ó*)ᕤ     неочікуваний результат'
+    joke_text = 'ᕦ(ò_ó*)ᕤ     unexpected result'
     if joke is not None:
         joke_text = joke.text
     return {'text': joke_text}
@@ -122,17 +121,3 @@ def healthcheck():
         'system_uptime': system_uptime_human,
         'process_uptime': process_uptime_human,
     }
-
-
-@app.route('/websocket')
-def handle_websocket():
-    wsock = request.environ.get('wsgi.websocket')
-    if not wsock:
-        abort(400, 'Expected Weesoo request.')
-
-    while True:
-        try:
-            message = wsock.receive()
-            wsock.send('Your message %s' % message)
-        except WebSocketError:
-            break

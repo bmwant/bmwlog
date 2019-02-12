@@ -2,7 +2,6 @@
 import os
 
 from bottle import request, abort, static_file
-from geventwebsocket import WebSocketError
 from six.moves.urllib.parse import urlparse
 
 from app import app, env, config
@@ -52,7 +51,7 @@ def gallery():
 
         photo = Photo.create(desc=post_get('desc'),
                              photo=f_name)
-        app.flash(u'Фото успішно додане')
+        app.flash('Picture added to the gallery')
         redirect('/gallery_add')
 
 
@@ -93,7 +92,7 @@ def banners():
         banner = Banner.create(desc=post_get('desc'),
                                link=link,
                                img=banner_img.filename)
-        app.flash(u'+1 новий банер')
+        app.flash('+1 banner')
         redirect('/banners')
 
 
@@ -142,7 +141,7 @@ def quote_add():
     if request.method == 'POST':
         quote = Quote.create(text=post_get('text'),
                              author=post_get('author'))
-        app.flash(u'Цитата додана', 'success')
+        app.flash('Quote added', 'success')
     return template.render({'quotes': all_quotes})
 
 
@@ -152,7 +151,7 @@ def quote_delete(quote_id):
     try:
         quote = Quote.get(Quote.quote_id == quote_id)
         quote.delete_instance()
-        app.flash(u'Цитата видалена', 'success')
+        app.flash('Quote removed', 'success')
         redirect('/quote/add')
     except DoesNotExist:
         abort(404)
@@ -185,7 +184,7 @@ def upload():
         uploaded_file = join_all_path(['/',
                                        form.file_folder.data,
                                        new_filename]).replace('\\', '/')
-        app.flash(u'Файл завантажено')
+        app.flash('File uploaded')
         return template.render(form=form, uploaded_file=uploaded_file)
     return template.render(form=form)
 
@@ -250,7 +249,7 @@ def sp_delete(sp_id):
     try:
         sp = StaticPage.get(StaticPage.id == sp_id)
         sp.delete_instance()
-        app.flash(u'Сторінка видалена', 'success')
+        app.flash('Page was deleted', 'success')
         redirect('/sp/add')
     except DoesNotExist:
         abort(404)

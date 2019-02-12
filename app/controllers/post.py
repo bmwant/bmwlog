@@ -106,6 +106,7 @@ def post_publish(post_id):
     redirect('/post/%s' % post_id)
 
 
+@app.get('/new')
 @app.route('/post/add', method=['GET', 'POST'])
 @require('admin')
 def post_add():
