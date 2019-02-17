@@ -129,7 +129,7 @@ def backup_db():
         db=config.DB_NAME,
         date=time.strftime('%d_%m_%Y_%H-%M'))
     backup_file = join_all_path([config.ROOT_FOLDER, 'uploaded', backup_name])
-    command = '/usr/local/bin/mysqldump -u{user} -p{password} {db}'.format(
+    command = '/usr/bin/mysqldump -u{user} -p{password} {db}'.format(
         user=config.DB_USER, password=config.DB_PASS, db=config.DB_NAME)
 
     with open(backup_file, 'w') as output:
