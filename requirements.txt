@@ -9,7 +9,7 @@ pycrypto==2.6
 wheel==0.24.0
 WTForms==2.0.1
 peewee==3.1.2
-PyMySQL==0.8.0
+PyMySQL==0.9.3
 six==1.11.0
 ### Testing
 click==6.7
