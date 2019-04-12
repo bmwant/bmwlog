@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 import pytest
 import peewee
 
@@ -109,7 +111,12 @@ def test_tag_with_length_more_than_twenty_charts():
     assert len(t1.text) > 20
 
 
+@pytest.mark.skipif(os.environ.get('TRAVIS'),
+                    reason='not running on TravisCI')
 def test_tag_length_longer_than_max():
+    """
+    On TravisCI it's just a warning so skip this test
+    """
     with pytest.raises(peewee.DataError) as e:
         t1 = models.Tag.create(
             text='this-is-really-long-tag-which-should-not-be-created-here')
