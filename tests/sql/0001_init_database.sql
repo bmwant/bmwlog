@@ -131,7 +131,7 @@ CREATE TABLE `stream_message` (
 
 CREATE TABLE `tag` (
   `tag_id` int(11) NOT NULL AUTO_INCREMENT,
-  `text` varchar(20) NOT NULL,
+  `text` varchar(50) NOT NULL,
   PRIMARY KEY (`tag_id`),
   UNIQUE KEY `text` (`text`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

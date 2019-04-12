@@ -60,6 +60,9 @@ def pytest_sessionfinish(session):
     if not getattr(session, 'TEST_DB_NAME', False):
         return
 
+    # close all connections
+    models.db.close()
+
     if hasattr(session, '_mysql_container'):
         info('\n==> Cleaning up container for a database')
         container = session._mysql_container

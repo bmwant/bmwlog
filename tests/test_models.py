@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
+
+import pytest
+import peewee
+
 from app import models
 
 
@@ -99,3 +104,21 @@ def test_encode_password():
 
     p3 = models.User.encode_password(b'bytes-here')
     assert p3 != p2
+
+
+def test_tag_with_length_more_than_twenty_charts():
+    t1 = models.Tag.create(text='reinforcement-learning')
+    assert len(t1.text) > 20
+
+
+@pytest.mark.skipif(os.environ.get('TRAVIS') is not None,
+                    reason='not running on TravisCI')
+def test_tag_length_longer_than_max():
+    """
+    On TravisCI it's just a warning so skip this test
+    """
+    with pytest.raises(peewee.DataError) as e:
+        t1 = models.Tag.create(
+            text='this-is-really-long-tag-which-should-not-be-created-here')
+
+    assert 'too long' in str(e.value)
