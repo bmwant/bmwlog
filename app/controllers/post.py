@@ -204,7 +204,7 @@ def post_edit(post_id):
         remove_tags(old_tags, new_tags, post_id)
         add_new_tags(new_tags, post_id)
         post.save()
-        app.flash(u'Статтю успішно оновлено')
+        app.flash('Article updated')
         redirect('/post/' + str(post_id))
 
 
@@ -261,19 +261,23 @@ def add_new_tags(tags_string, post_id):
     """
     tags = tags_string.split(';')
     for tag in tags:
-        tg = tag.replace(' ', '')
-        if not tg:
+        tag = tag.strip()
+        if not tag:
             continue
         try:
+            breakpoint()
             old_tag = Tag.get(Tag.text == tag)
             try:
                 tmp = Tag_to_Post.get(Tag_to_Post.post_id == post_id,
                                       Tag_to_Post.tag_id == old_tag.tag_id)
             except Tag_to_Post.DoesNotExist:
                 Tag_to_Post.create(post_id=post_id, tag_id=old_tag.tag_id)
-        except Tag.DoesNotExist:
+        except DoesNotExist:
             new_tag = Tag.create(text=tag)
             Tag_to_Post.create(post_id=post_id, tag_id=new_tag.tag_id)
+        except Exception as e:
+            breakpoint()
+            print('here we go')
     return
 
 
@@ -299,9 +303,9 @@ def posts_for_tag(tag_id):
         where(Tag_to_Post.tag_id == tag_id)
     how = posts.count()
     if how:
-        info = u'Статті, відмічені тегом "%s" (%s)' % (tag.text, how)
+        info = 'Tagged with [%s] (%s)' % (tag.text, how)
     else:
-        info = u'Для рідкісного тега "%s" немає статтей' % tag.text
+        info = 'No posts for [%s] tag' % tag.text
     template = env.get_template('post/list.html')
     return template.render(posts=posts, info=info)
 

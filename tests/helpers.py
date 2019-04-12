@@ -60,7 +60,13 @@ def _exec_command_locally(command, env=None):
         stdout=subprocess.PIPE,
         env=env,
     )
-    stdout, stderr = proc.communicate()
+    try:
+        stdout, stderr = proc.communicate(timeout=15)
+    except subprocess.TimeoutExpired:
+        warn('\n==>Command %s took too long. Forcefully killing it' % command)
+        proc.kill()
+        stdout, stderr = proc.communicate()
+
     if proc.returncode != 0:
         raise RuntimeError('Error while running command %s: %s' %
                            (command, stdout))
