@@ -3,12 +3,12 @@ from playhouse.migrate import migrate
 from app import models
 
 
-def m_004(migrator):
+def m_003(migrator):
     """
-    Allow tags to be more than 20 characters
+    Update post text field
     """
-    table_name = models.Tag._meta.name
-    updated_column = models.Tag.text
+    table_name = models.Post._meta.name
+    updated_column = models.Post.post_text
 
     migrate(
         migrator.change_column_type(table_name, updated_column)

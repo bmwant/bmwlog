@@ -255,9 +255,9 @@ def category_delete(category_id):
         abort(404)
 
 
-def add_new_tags(tags_string, post_id):
+def add_new_tags(tags_string: str, post_id: int):
     """
-    Add new tags or create connection to post with existed
+    Add new tags or create connection to post with existed.
     """
     tags = tags_string.split(';')
     for tag in tags:
@@ -265,20 +265,17 @@ def add_new_tags(tags_string, post_id):
         if not tag:
             continue
         try:
-            breakpoint()
             old_tag = Tag.get(Tag.text == tag)
             try:
-                tmp = Tag_to_Post.get(Tag_to_Post.post_id == post_id,
-                                      Tag_to_Post.tag_id == old_tag.tag_id)
+                tmp = Tag_to_Post.get(
+                    Tag_to_Post.post_id == post_id,
+                    Tag_to_Post.tag_id == old_tag.tag_id,
+                )
             except Tag_to_Post.DoesNotExist:
                 Tag_to_Post.create(post_id=post_id, tag_id=old_tag.tag_id)
         except DoesNotExist:
             new_tag = Tag.create(text=tag)
             Tag_to_Post.create(post_id=post_id, tag_id=new_tag.tag_id)
-        except Exception as e:
-            breakpoint()
-            print('here we go')
-    return
 
 
 def remove_tags(old, new, post_id):
@@ -303,7 +300,7 @@ def posts_for_tag(tag_id):
         where(Tag_to_Post.tag_id == tag_id)
     how = posts.count()
     if how:
-        info = 'Tagged with [%s] (%s)' % (tag.text, how)
+        info = 'Tagged with [%s] x%d' % (tag.text, how)
     else:
         info = 'No posts for [%s] tag' % tag.text
     template = env.get_template('post/list.html')

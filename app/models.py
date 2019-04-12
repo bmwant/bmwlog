@@ -311,7 +311,7 @@ class Tag(BaseModel):
         db_table = 'tag'
 
     tag_id = PrimaryKeyField(db_column='tag_id')
-    text = CharField(null=False, unique=True)
+    text = CharField(null=False, unique=True, max_length=50)
 
     @property
     def posts_count(self):
