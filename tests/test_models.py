@@ -111,7 +111,7 @@ def test_tag_with_length_more_than_twenty_charts():
     assert len(t1.text) > 20
 
 
-@pytest.mark.skipif(os.environ.get('TRAVIS'),
+@pytest.mark.skipif(os.environ.get('TRAVIS') is not None,
                     reason='not running on TravisCI')
 def test_tag_length_longer_than_max():
     """
