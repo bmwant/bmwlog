@@ -196,10 +196,7 @@ def post_edit(post_id):
         post.title = post_get('title')
         post.draft = bool(int(post_get('draft')))  # zero int is False
         post.language = post_get('language')
-        si = post_get_checkbox('show_on_index')
-        print('Show on index value is', si)
-        # breakpoint()
-        post.show_on_index = si
+        post.show_on_index = post_get_checkbox('show_on_index')
         post.date_updated = datetime.now()
         new_tags = post_get('tags')
         old_tags = Tag.select().join(Tag_to_Post)\

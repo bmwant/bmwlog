@@ -47,7 +47,7 @@ $(document).ready(function() {
         'title': $(this).val()
       },
       function(data) {
-      $('input[name="slug"]').val(data);
+        $('input[name="slug"]').val(data);
     });
   });
 
