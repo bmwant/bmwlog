@@ -19,7 +19,7 @@ from app.models import (
 )
 from app.forms import PostForm
 from app.helput import shorten_text, create_slug
-from app.helpers import redirect, post_get, only_ajax
+from app.helpers import redirect, post_get, post_get_checkbox, only_ajax
 from app.controllers import require
 
 
@@ -103,7 +103,7 @@ def post_publish(post_id):
     p.draft = False
     p.save()
     app.flash('Post was published', 'success')
-    redirect('/post/%s' % post_id)
+    return redirect('/post/%s' % post_id)
 
 
 @app.get('/new')
@@ -127,7 +127,7 @@ def post_add():
             user=app.current_user.user_id,
             date_posted=datetime.now(),
             draft=bool(int(post_get('draft'))),
-            show_on_index=bool(post_get('show-on-index')),
+            show_on_index=post_get_checkbox('show_on_index'),
             language=post_get('language'),
         )
         post_id = post.post_id
@@ -156,7 +156,7 @@ def post_renew(post_id):
         post = Post.get(Post.post_id == post_id)
         post.date_updated = datetime.now()
         post.save()
-        app.flash(u'Стаття актуалізована')
+        app.flash('Article was revived')
         redirect('/post/%s' % post_id)
     except DoesNotExist:
         abort(404)
@@ -166,7 +166,7 @@ def post_renew(post_id):
 @require('admin')
 def deleted_posts():
     posts = Post.get_deleted()
-    info = u'Видалені статті'
+    info = 'Deleted articles'
     template = env.get_template('post/list.html')
     return template.render(posts=posts, info=info)
 
@@ -196,7 +196,10 @@ def post_edit(post_id):
         post.title = post_get('title')
         post.draft = bool(int(post_get('draft')))  # zero int is False
         post.language = post_get('language')
-        post.show_on_index = bool(post_get('show-on-index'))
+        si = post_get_checkbox('show_on_index')
+        print('Show on index value is', si)
+        # breakpoint()
+        post.show_on_index = si
         post.date_updated = datetime.now()
         new_tags = post_get('tags')
         old_tags = Tag.select().join(Tag_to_Post)\
@@ -205,7 +208,7 @@ def post_edit(post_id):
         add_new_tags(new_tags, post_id)
         post.save()
         app.flash('Article updated')
-        redirect('/post/' + str(post_id))
+        return redirect('/post/' + str(post_id))
 
 
 @app.route('/category/add', method=['GET', 'POST'])
@@ -217,7 +220,7 @@ def category_add():
         return template.render(categories=all_categories)
     if request.method == 'POST':
         new_category = Category.create(category_name=post_get('category_name'))
-        app.flash(u'Нова категорія була успішно додана')
+        app.flash('New category was added')
         redirect('/category/add')
 
 
@@ -235,7 +238,7 @@ def category_list(category_id):
     template = env.get_template('post/list.html')
     return template.render(
         posts=all_posts,
-        info=u'Статті у категорії "%s"' % category.category_name
+        info='Articles for category "%s"' % category.category_name
     )
 
 

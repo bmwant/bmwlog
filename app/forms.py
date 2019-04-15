@@ -93,10 +93,10 @@ class SignupForm(Form):
     password = PasswordField('Password',
                              validators=[validators.InputRequired(),
                                          validators.Length(min=6)])
-    first_name = StringField(u'Name', validators=[validators.InputRequired()])
-    last_name = StringField(u'Last name',
+    first_name = StringField('Name', validators=[validators.InputRequired()])
+    last_name = StringField('Last name',
                             validators=[validators.InputRequired()])
-    nickname = StringField(u'Nickname', validators=[validators.InputRequired()])
+    nickname = StringField('Nickname', validators=[validators.InputRequired()])
 
 
 class StaticPageForm(ItemForm):
@@ -104,7 +104,7 @@ class StaticPageForm(ItemForm):
         'Page name',
         validators=[validators.InputRequired()],
     )
-    page_url = StringField('Url')
+    page_url = StringField('URL')
     text = TextAreaField(
         'Content',
         validators=[validators.InputRequired()],
@@ -121,6 +121,5 @@ class PostForm(Form):
     category_id = SelectField('Category', choices=('one', 'One'))
     text = StringField()
     draft = BooleanField()
-    show_on_index = OnOffField('Show on index page',
-                               custom_name='show-on-index')
+    show_on_index = OnOffField('Show on index page')
     language = LanguageSelectField(default='eng')

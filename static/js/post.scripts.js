@@ -29,41 +29,41 @@ $(document).ready(function() {
     "tags-input-name": "tag_input"
   };
 
-    var currentLanguage = $("input[name=language]").val();
-    $(".lang-icon[data-lang="+currentLanguage+"]").addClass("radio-selected");
-    $(".lang-icon").click(function() {
-        $(".lang-icon").removeClass("radio-selected");
-        $(this).addClass("radio-selected");
-        $("input[name=language]").val($(this).data("lang"));
-    });
+  var currentLanguage = $("input[name=language]").val();
+  $(".lang-icon[data-lang="+currentLanguage+"]").addClass("radio-selected");
+  $(".lang-icon").click(function() {
+      $(".lang-icon").removeClass("radio-selected");
+      $(this).addClass("radio-selected");
+      $("input[name=language]").val($(this).data("lang"));
+  });
 
-    $("#tagBox").tagging(tagOptions);
-    $('input[name="title"]').focusout(function() {
-      var postId = $(this).closest('form').data('post-id');
-      $.get(
-        '/get_slug',
-        {
-          'id': postId,
-          'title': $(this).val()
-        },
-        function(data) {
-        $('input[name="slug"]').val(data);
-      });
+  $("#tagBox").tagging(tagOptions);
+  $('input[name="title"]').focusout(function() {
+    var postId = $(this).closest('form').data('post-id');
+    $.get(
+      '/get_slug',
+      {
+        'id': postId,
+        'title': $(this).val()
+      },
+      function(data) {
+      $('input[name="slug"]').val(data);
     });
+  });
 
-    $("#submitter").click(function() {
-      applyTags();
-      publish();
-      window.onbeforeunload = undefined;
-      $(this).closest('form').submit();
-    });
+  $("#submitter").click(function() {
+    applyTags();
+    publish();
+    window.onbeforeunload = undefined;
+    $(this).closest('form').submit();
+  });
 
-    $("#drafter").click(function() {
-      applyTags();
-      toDrafts();
-      window.onbeforeunload = undefined;
-      $(this).closest('form').submit();
-    });
+  $("#drafter").click(function() {
+    applyTags();
+    toDrafts();
+    window.onbeforeunload = undefined;
+    $(this).closest('form').submit();
+  });
 
   window.editor = new SimpleMDE({
     element: document.getElementById("article-text"),

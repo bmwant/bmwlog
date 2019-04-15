@@ -45,10 +45,7 @@
         <label>Text</label>
         <textarea id="article-text" name="text" rows="60" cols="80">{{ item.post_text }}</textarea>
 
-        <label>Show on index page</label>
-        <div class="form-onoff">
-          <input type="checkbox" name="show-on-index" {% if item.show_on_index %}checked{% endif %}>
-        </div>
+        {{ render_field(form.show_on_index) }}
 
         <label>Tags</label>
         <div id="tagBox">{% for tag in item.tags %}{{ tag.text }};{% endfor %}</div>
@@ -81,7 +78,13 @@
   <script src="/node_modules/sticky-kit/dist/sticky-kit.min.js"></script>
   <script>
     $(document).ready(function() {
-      $('input[type=checkbox]').onoff();
+      $('input[type=checkbox]')
+        .onoff()
+        .click(function() {
+          var val = $(this).val();
+          $(this).val(val === 'on' ? 'off' : 'on');
+        });
+
       $('#image-dropzone').stick_in_parent({
         parent: '#content'
       });

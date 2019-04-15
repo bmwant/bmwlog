@@ -89,9 +89,22 @@ def postd():
     return bottle.request.forms
 
 
-def post_get(name, default=''):
+def post_get(name, default=None):
     form = bottle.request.POST
-    return form.getunicode(name, default, encoding='utf-8').strip()
+    value = form.getunicode(name, encoding='utf-8')
+    if value is None:
+        if default is None:
+            raise ValueError('Post data does not contain value for %s' % name)
+        return default
+    return value.strip()
+
+
+def post_get_checkbox(name: str) -> bool:
+    form = bottle.request.POST
+    value = form.getunicode(name, encoding='utf-8')
+    if value == 'on':
+        return True
+    return False
 
 
 def redirect(where=None):
