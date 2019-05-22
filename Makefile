@@ -16,7 +16,7 @@ update:
 		ansible-playbook update.yml -i hosts -l digital_ocean -vv --ask-vault-pass
 
 tests:
-	@py.test -sv -rs tests
+	@pytest -sv -rs tests
 
 flake:
 	@flake . --count

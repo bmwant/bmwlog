@@ -1,16 +1,14 @@
-bmwlog
-======
+## bmwlog
 
 .. image:: https://travis-ci.org/bmwant/bmwlog.svg?branch=master
     :target: https://travis-ci.org/bmwant/bmwlog
 
 This is simple blog engine written with `bottle <https://bottlepy.org/docs/dev/>`_
-(now only Python 3 comatible).
+(now only Python 3 compatible).
 
 BmwLOG - some controversial thoughts from `bmwant <https://twitter.com/bmwant>`_.
 
 Try visiting `the web-site <http://bmwlog.pp.ua/>`_ to see some boring articles.
-
 
 Run local Ansible provisioning manually for your guest VM
 (if using `Vagrant <https://www.vagrantup.com/>`_):
@@ -18,19 +16,19 @@ Run local Ansible provisioning manually for your guest VM
 ``ansible-playbook deploy/ansible/setup.yml -u vagrant -vv -i local/ansible/hosts -l vagrant --ask-pass``
 
 
-Development
+### Development
 -----------
 
-Install MySQL database first (`Ubuntu tutorial <https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04>`_)
+* Install [Poetry](https://poetry.eustace.io/docs/#installation)
+* Install [Node and NPM](https://nodejs.org/en/download/)
 
-.. code-block:: bash
-
-    npm install
-    pip install -r requirements.txt
-    make tests
-    make style-check
-    export PYTHONPATH=`pwd`
-    python run.py
+```bash
+$ npm install
+$ poetry install
+$ make tests
+$ make flake
+$ python run.py  # launch dev server
+```
 
 Database migrations. Edit ``app/migrations/__main__.py`` and execute
 
@@ -40,17 +38,14 @@ Database migrations. Edit ``app/migrations/__main__.py`` and execute
     python -m app.migrations
 
 
-Deployment
-----------
+### Deployment
 
-.. code-block:: bash
+```bash
+$ make setup
+$ make update
+```
 
-    make setup
-    make update
-
-
-License
--------
+### License
 
     This is free and unencumbered software released into the public domain.
 

@@ -1,0 +1,4 @@
+docs/
+.eggs/
+*.egg-info/
+node_modules/
