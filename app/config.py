@@ -30,8 +30,8 @@ RELOADER = False
 # Database
 DB_HOST = '127.0.0.1'
 DB_PORT = 3306
-DB_USER = ''
-DB_PASS = ''
+DB_USER = 'bmwlog'
+DB_PASS = 'qwerty12345'
 DB_NAME = 'bmwlogdb'
 
 

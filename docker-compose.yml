@@ -1,0 +1,25 @@
+# compatible with docker engine 1.13.0+
+version: '3'
+services:
+  app:
+    image: "bmwant/bmwlog:latest"
+    env_file: ".dev.env"
+    volumes:
+      - .:/opt/app
+    network_mode: bridge  # https://docs.docker.com/compose/compose-file/#network_mode
+    ports:
+      - "8031:8031"  # https://docs.docker.com/compose/compose-file/#ports
+#    depends_on:
+#      - database
+#  database:
+#    image: "mariadb:latest"
+##    env_file: "dev-workers.env"
+#    environment:
+#      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+#      MYSQL_ROOT_PASSWORD: ""
+#      MYSQL_USER: "bmwlog"
+#      MYSQL_PASSWORD: "qwerty12345"
+#      MYSQL_DATABASE: "bmwlogdb"
+##    volumes:
+##      - .:/opt/app
+#    network_mode: bridge  # https://docs.docker.com/network/bridge/
