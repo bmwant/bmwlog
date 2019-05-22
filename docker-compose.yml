@@ -3,23 +3,35 @@ version: '3'
 services:
   app:
     image: "bmwant/bmwlog:latest"
-    env_file: ".dev.env"
+    env_file: "dev/.env"
     volumes:
       - .:/opt/app
-    network_mode: bridge  # https://docs.docker.com/compose/compose-file/#network_mode
+    # https://docs.docker.com/network/bridge/#differences-between-user-defined-bridges-and-the-default-bridge
+    networks:
+      - dev-network
     ports:
       - "8031:8031"  # https://docs.docker.com/compose/compose-file/#ports
-#    depends_on:
-#      - database
-#  database:
-#    image: "mariadb:latest"
-##    env_file: "dev-workers.env"
-#    environment:
-#      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-#      MYSQL_ROOT_PASSWORD: ""
-#      MYSQL_USER: "bmwlog"
-#      MYSQL_PASSWORD: "qwerty12345"
-#      MYSQL_DATABASE: "bmwlogdb"
-##    volumes:
-##      - .:/opt/app
-#    network_mode: bridge  # https://docs.docker.com/network/bridge/
+    command: |
+      poetry run gunicorn run:app
+        -w 1
+        -b 0.0.0.0:8031
+        -k sync
+    depends_on:
+      - database
+  database:
+    image: "mariadb:latest"
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_USER: "bmwlog"
+      MYSQL_PASSWORD: "qwerty12345"
+      MYSQL_DATABASE: "bmwlogdb"
+    networks:
+      - dev-network
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./dev/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - .:/opt/app
+networks:
+  dev-network:
+    driver: bridge
