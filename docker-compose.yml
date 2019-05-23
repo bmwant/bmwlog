@@ -13,17 +13,20 @@ services:
       - "8031:8031"  # https://docs.docker.com/compose/compose-file/#ports
     command: |
       poetry run gunicorn run:app
-        -w 1
-        -b 0.0.0.0:8031
-        -k sync
+        --workers 1
+        --bind 0.0.0.0:8031
+        --worker-class sync
+        --capture-output
+        --error-logfile -
+        --access-logfile -
+        --log-level info
     depends_on:
       - database
   database:
     image: "mariadb:latest"
     environment:
-      MYSQL_ROOT_PASSWORD: ""
       MYSQL_USER: "bmwlog"
-      MYSQL_PASSWORD: "qwerty12345"
+      MYSQL_PASSWORD: "Qwerty12#45"
       MYSQL_DATABASE: "bmwlogdb"
     networks:
       - dev-network
@@ -31,7 +34,7 @@ services:
       - "3306:3306"
     volumes:
       - ./dev/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
-      - .:/opt/app
+      - /usr/local/var/mariadb:/var/lib/mysql
 networks:
   dev-network:
     driver: bridge
