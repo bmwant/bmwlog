@@ -7,8 +7,6 @@ import sys
 import inspect
 import peewee
 import wtforms
-import argparse
-import importlib
 from shutil import copyfile
 from bs4 import BeautifulSoup
 from jinja2 import Template
@@ -28,10 +26,7 @@ PEEWEE_TO_WTFORMS = {
 }
 
 
-class BMG:
-    """
-
-    """
+class BMG(object):
     def __init__(self, command):
         print('You are trying to do %s' % command)
         if command == 'list':
