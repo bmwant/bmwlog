@@ -1,0 +1,40 @@
+# compatible with docker engine 1.13.0+
+version: '3'
+services:
+  app:
+    image: "bmwant/bmwlog:latest"
+    env_file: "dev/.env"
+    volumes:
+      - .:/opt/app
+    # https://docs.docker.com/network/bridge/#differences-between-user-defined-bridges-and-the-default-bridge
+    networks:
+      - dev-network
+    ports:
+      - "8031:8031"  # https://docs.docker.com/compose/compose-file/#ports
+    command: |
+      poetry run gunicorn run:app
+        --workers 1
+        --bind 0.0.0.0:8031
+        --worker-class sync
+        --capture-output
+        --error-logfile -
+        --access-logfile -
+        --log-level info
+    depends_on:
+      - database
+  database:
+    image: "mariadb:latest"
+    environment:
+      MYSQL_USER: "bmwlog"
+      MYSQL_PASSWORD: "Qwerty12#45"
+      MYSQL_DATABASE: "bmwlogdb"
+    networks:
+      - dev-network
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./dev/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - /usr/local/var/mariadb:/var/lib/mysql
+networks:
+  dev-network:
+    driver: bridge

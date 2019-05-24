@@ -10,3 +10,4 @@ services:
 env:
   global:
     - DB_USER=root
+    - DB_PASS=
