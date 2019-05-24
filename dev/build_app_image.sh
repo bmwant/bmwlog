@@ -4,7 +4,7 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOT_DIR=$(dirname "${DIR}")
 
-info "Root directory is ${ROOT_DIR}"
+echo "Root directory is ${ROOT_DIR}"
 
 function check_image_exists() {
   # Try to pull image provided as argument

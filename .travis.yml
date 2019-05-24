@@ -14,7 +14,12 @@ jobs:
         - docker
       install: skip
       script:
-        - ./dev/build_and_push_app_image.sh
+        - ./dev/build_app_image.sh
+      deploy:
+        provider: script
+        script: ./dev/push_app_image.sh
+        on:
+          branch: master
     - stage: test
       name: "Run Python unittests"
       services:
