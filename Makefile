@@ -19,7 +19,7 @@ tests:
 	@pytest -sv -rs tests
 
 flake:
-	@flake . --count
+	@flake8 . --count
 
 clean:
 	@echo "Removing cached files"
