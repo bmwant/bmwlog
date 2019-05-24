@@ -125,7 +125,7 @@ def init_database_if_needed(request):
     else:
         database_config = {
             'DB_HOST': 'localhost',
-            'DB_NAME': session.TEST_DB_NAME,
+            'DB_NAME': TEST_DB_NAME,
         }
         update_app_config(database_config)
         init_database_locally(TEST_DB_NAME,
