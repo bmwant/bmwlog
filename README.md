@@ -1,23 +1,15 @@
 ## bmwlog
 
-.. image:: https://travis-ci.org/bmwant/bmwlog.svg?branch=master
-    :target: https://travis-ci.org/bmwant/bmwlog
+[![Build Status](https://travis-ci.org/bmwant/bmwlog.svg?branch=master)](https://travis-ci.org/bmwant/bmwlog)
 
-This is simple blog engine written with `bottle <https://bottlepy.org/docs/dev/>`_
+This is simple blog engine written with [bottle](https://bottlepy.org/docs/dev/)
 (now only Python 3 compatible).
 
-BmwLOG - some controversial thoughts from `bmwant <https://twitter.com/bmwant>`_.
+BmwLOG - some controversial thoughts from [bmwant](https://twitter.com/bmwant)
 
-Try visiting `the web-site <http://bmwlog.pp.ua/>`_ to see some boring articles.
-
-Run local Ansible provisioning manually for your guest VM
-(if using `Vagrant <https://www.vagrantup.com/>`_):
-
-``ansible-playbook deploy/ansible/setup.yml -u vagrant -vv -i local/ansible/hosts -l vagrant --ask-pass``
-
+Try visiting [the web-site](http://bmwlog.pp.ua/) to see some boring articles.
 
 ### Development
------------
 
 * Install [Poetry](https://poetry.eustace.io/docs/#installation)
 * Install [Node and NPM](https://nodejs.org/en/download/)
@@ -30,13 +22,12 @@ $ make flake
 $ python run.py  # launch dev server
 ```
 
-Database migrations. Edit ``app/migrations/__main__.py`` and execute
+Database migrations. Edit `app/migrations/__main__.py` and execute
 
-.. code-block:: bash
-
-    export PYTHONPATH=`pwd`
-    python -m app.migrations
-
+```bash
+$ export PYTHONPATH=`pwd`
+$ python -m app.migrations
+```
 
 ### Deployment
 
@@ -70,4 +61,4 @@ $ make update
     ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     OTHER DEALINGS IN THE SOFTWARE.
 
-    For more information, please refer to `unlicense.org <http://unlicense.org>`_
+For more information, please refer to [unlicense.org](http://unlicense.org)
