@@ -2,17 +2,33 @@ dist: xenial
 language: python
 python:
   - "3.7"
-services:
-  - mysql
 env:
   global:
     - DB_USER=root
     - DB_PASS=
-before_install:
-  - pip install --upgrade pip
-  - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
-  - export PATH="$HOME/.poetry/bin:$PATH"
-install:
-  - poetry install
-script:
-  - poetry run pytest -sv -rs tests/
+jobs:
+  include:
+    - stage: build
+      name: "Build docker images"
+      services:
+        - docker
+      install: skip
+      script:
+        - ./dev/build_app_image.sh
+      deploy:
+        provider: script
+        script: ./dev/push_app_image.sh
+        on:
+          branch: master
+    - stage: test
+      name: "Run Python unittests"
+      services:
+        - mysql
+      before_install:
+        - pip install --upgrade pip
+        - curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
+        - export PATH="$HOME/.poetry/bin:$PATH"
+      install:
+        - poetry install
+      script:
+        - poetry run pytest -sv -rs tests/
