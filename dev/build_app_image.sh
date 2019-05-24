@@ -4,30 +4,18 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOT_DIR=$(dirname "${DIR}")
 
+source "${DIR}/common.sh"
+
 echo "Root directory is ${ROOT_DIR}"
-
-function check_image_exists() {
-  # Try to pull image provided as argument
-  # Allow command to fail
-  # Suppress any output to stdout/stderr
-  # Print exit code. Zero exit code means that the image exists
-  set +e
-  docker pull $1 > /dev/null 2>&1
-  local rc=$?
-  set -e
-
-  echo ${rc}
-}
-
 pushd "${ROOT_DIR}"
-  echo "Getting current tag for worker image"
-  TAG=$(sha1sum poetry.lock | awk '{ print $1 }')
-  echo "Current tag is ${TAG}"
+  echo "Getting current app image tag"
+  TAG=$(get_current_tag)
   IMAGE_NAME="bmwant/bmwlog:${TAG}"
+  echo -e "Current tag: ${TAG}\nImage: ${IMAGE_NAME}"
 
   NOT_PRESENT=$(check_image_exists ${IMAGE_NAME})
   if [[ ${NOT_PRESENT} -eq 0 ]]; then
-    note "Image already exists, skipping build"
+    echo "Image already exists, skipping build"
     exit 0
   fi
 
