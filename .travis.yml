@@ -6,6 +6,9 @@ env:
   global:
     - DB_USER=root
     - DB_PASS=
+branches:
+  only:
+    - master
 jobs:
   include:
     - stage: build

@@ -4,6 +4,7 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOT_DIR=$(dirname "${DIR}")
 
+# Set via `travis env set DOCKER_USERNAME username`
 echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 TAG=$(sha1sum poetry.lock | awk '{ print $1 }')
 echo "Current tag is ${TAG}"
