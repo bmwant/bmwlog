@@ -32,7 +32,7 @@ def _retry(func, exceptions_list, retries=10):
         try:
             func()
         except exceptions_list:
-            info('==> Waiting to retry function once again...')
+            info('Waiting to retry function once again...')
             time.sleep(3)
     else:
         raise RuntimeError('Failed to executed %s in %s retries' %
@@ -45,7 +45,7 @@ def _retry_container_command(container, command, retries=10):
         er = container.exec_run(command)
         if er.exit_code == 0:
             break
-        info('==> Waiting for container to accept command...')
+        info('Waiting for container to accept command...')
         time.sleep(2)
     else:
         raise RuntimeError('Was not able to execute command %s: %s' %
@@ -63,7 +63,7 @@ def _exec_command_locally(command, env=None):
     try:
         stdout, stderr = proc.communicate(timeout=15)
     except subprocess.TimeoutExpired:
-        warn('\n==>Command %s took too long. Forcefully killing it' % command)
+        warn('Command %s took too long. Forcefully killing it' % command)
         proc.kill()
         stdout, stderr = proc.communicate()
 
@@ -116,13 +116,13 @@ def drop_database_locally(database_name='test', username='', password=''):
 
 
 def init_database_within_container(mysql_container, database_name='test'):
-    info('\n==> Create database')
+    info('Create database')
     _retry_container_command(
         mysql_container,
         'mysql -h localhost -e "CREATE DATABASE %s;"' % database_name
     )
 
-    info('==> Fill database with test data')
+    info('Fill database with test data')
     scripts_directory = os.path.join(config.PROJECT_DIR, 'tests', 'sql')
     sql_files = get_list_of_files(scripts_directory, '.sql', full_path=False)
     for filename in sql_files:
@@ -130,7 +130,7 @@ def init_database_within_container(mysql_container, database_name='test'):
             database_name, filename)
         _retry_container_command(mysql_container, command)
 
-    warn('==> Waiting for mysql to feel ok...')
+    warn('Waiting for mysql to feel ok...')
     time.sleep(5)
 
 

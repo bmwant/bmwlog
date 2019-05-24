@@ -2,12 +2,12 @@ import click
 
 
 def note(message):
-    click.secho(message, fg='green')
+    click.secho(f'\n==> {message}', fg='green')
 
 
 def info(message):
-    click.secho(message, fg='yellow')
+    click.secho(f'\n==> {message}', fg='yellow')
 
 
 def warn(message):
-    click.secho(message, fg='red')
+    click.secho(f'\n==> {message}', fg='red')

@@ -7,6 +7,7 @@ from app import models
 from app import config as app_config
 from .helpers import (
     info,
+    warn,
     init_database_locally,
     drop_database_locally,
     init_database_within_container,
@@ -64,11 +65,11 @@ def pytest_sessionfinish(session):
     models.db.close()
 
     if hasattr(session, '_mysql_container'):
-        info('\n==> Cleaning up container for a database')
+        info('Cleaning up container for a database')
         container = session._mysql_container
         remove_container(container)
     else:
-        info('\n==> Removing test database')
+        info('Removing test database')
         drop_database_locally(session.TEST_DB_NAME,
                               username=app_config.DB_USER,
                               password=app_config.DB_PASS)
@@ -81,7 +82,7 @@ def db(request):
         print('Skip cleaning state')
         return
 
-    info('\n==> Reset database state for a test')
+    info('Reset database state for a test')
     init_database_locally(session.TEST_DB_NAME,
                           username=app_config.DB_USER,
                           password=app_config.DB_PASS)
@@ -102,26 +103,33 @@ def init_database_if_needed(request):
     else:
         return
 
-    session.TEST_DB_NAME = 'bmwlogdb_test'
+    TEST_DB_NAME = 'bmwlogdb_test'
     if spin_container:
-        info('\n==> Launching mysql container')
-        container = run_mysql_container()
+        info('Launching mysql container')
+        try:
+            container = run_mysql_container()
+        except Exception as e:
+            warn('Spinning container failed with %s' % e)
+            return pytest.exit('Cannot launch container for database')
+
         session._mysql_container = container
         ip_address = get_container_ip_address(container)
         database_config = {
             'DB_HOST': ip_address,
             'DB_USER': 'root',
             'DB_PASS': '',
-            'DB_NAME': session.TEST_DB_NAME,
+            'DB_NAME': TEST_DB_NAME,
         }
         update_app_config(database_config)
-        init_database_within_container(container, session.TEST_DB_NAME)
+        init_database_within_container(container, TEST_DB_NAME)
     else:
         database_config = {
             'DB_HOST': 'localhost',
             'DB_NAME': session.TEST_DB_NAME,
         }
         update_app_config(database_config)
-        init_database_locally(session.TEST_DB_NAME,
+        init_database_locally(TEST_DB_NAME,
                               username=app_config.DB_USER,
                               password=app_config.DB_PASS)
+    # Store a flag that database was used and initialized without any errors
+    session.TEST_DB_NAME = TEST_DB_NAME
