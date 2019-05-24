@@ -35,3 +35,9 @@ $ mysql -u root -p bmwlogdb < /tmp/dump.sql
 ```bash
 $ docker-compose up
 ```
+
+### Getting current app tag
+
+```bash
+$ sha1sum poetry.lock | awk '{ print $1 }'
+```

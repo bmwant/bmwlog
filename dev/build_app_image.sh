@@ -23,4 +23,14 @@ pushd "${ROOT_DIR}"
   echo "Getting current tag for worker image"
   TAG=$(sha1sum poetry.lock | awk '{ print $1 }')
   echo "Current tag is ${TAG}"
+  IMAGE_NAME="bmwant/bmwlog:${TAG}"
+
+  NOT_PRESENT=$(check_image_exists ${IMAGE_NAME})
+  if [[ ${NOT_PRESENT} -eq 0 ]]; then
+    note "Image already exists, skipping build"
+    exit 0
+  fi
+
+  echo "Building app docker image"
+  docker build -t ${IMAGE_NAME} .
 popd
