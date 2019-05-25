@@ -6,7 +6,7 @@ import six
 from bottle import abort
 from peewee import (
     DoesNotExist,
-    PrimaryKeyField,
+    AutoField,
     ForeignKeyField,
     CharField,
     IntegerField,
@@ -43,9 +43,9 @@ class BaseModel(Model):
 
 class Category(BaseModel):
     class Meta:
-        db_table = 'category'
+        table_name = 'category'
 
-    category_id = PrimaryKeyField(db_column='category_id')
+    category_id = AutoField(column_name='category_id')
     category_name = CharField()
 
     @property
@@ -63,18 +63,18 @@ class Category(BaseModel):
 
 class Role(BaseModel):
     class Meta:
-        db_table = 'role'
+        table_name = 'role'
 
-    role_id = PrimaryKeyField()
+    role_id = AutoField()
     level = IntegerField(default=40)
     role = CharField(null=False)
 
 
 class User(BaseModel):
     class Meta:
-        db_table = 'user'
+        table_name = 'user'
 
-    user_id = PrimaryKeyField(db_column='user_id')
+    user_id = AutoField(column_name='user_id')
     first_name = CharField(null=True)
     last_name = CharField(null=True)
     mail = CharField(null=False, unique=True)
@@ -112,7 +112,7 @@ class User(BaseModel):
 
 class Post(BaseModel):
     class Meta:
-        db_table = 'post'
+        table_name = 'post'
 
     languages = (
         ('ukr', u'Українська'),
@@ -120,7 +120,7 @@ class Post(BaseModel):
         ('rus', u'Русский'),
     )
 
-    post_id = PrimaryKeyField(db_column='post_id')
+    post_id = AutoField(column_name='post_id')
     category = ForeignKeyField(Category, field='category_id')
     user = ForeignKeyField(User, field='user_id')
 
@@ -278,9 +278,9 @@ class Post(BaseModel):
 
 class Photo(BaseModel):
     class Meta:
-        db_table = 'photo'
+        table_name = 'photo'
 
-    photo_id = PrimaryKeyField(db_column='photo_id')
+    photo_id = AutoField(column_name='photo_id')
     photo = CharField()
     desc = CharField()
     date_added = DateTimeField(default=datetime.now)
@@ -288,9 +288,9 @@ class Photo(BaseModel):
 
 class Banner(BaseModel):
     class Meta:
-        db_table = 'banner'
+        table_name = 'banner'
 
-    banner_id = PrimaryKeyField(db_column='banner_id')
+    banner_id = AutoField(column_name='banner_id')
     desc = CharField()
     link = CharField()
     img = CharField()
@@ -299,18 +299,18 @@ class Banner(BaseModel):
 
 class Quote(BaseModel):
     class Meta:
-        db_table = 'quote'
+        table_name = 'quote'
 
-    quote_id = PrimaryKeyField(db_column='quote_id')
+    quote_id = AutoField(column_name='quote_id')
     text = CharField(null=False)
     author = CharField(null=False)
 
 
 class Tag(BaseModel):
     class Meta:
-        db_table = 'tag'
+        table_name = 'tag'
 
-    tag_id = PrimaryKeyField(db_column='tag_id')
+    tag_id = AutoField(column_name='tag_id')
     text = CharField(null=False, unique=True, max_length=50)
 
     @property
@@ -324,7 +324,7 @@ class Tag(BaseModel):
 
 class Tag_to_Post(BaseModel):
     class Meta:
-        db_table = 'tag_to_post'
+        table_name = 'tag_to_post'
 
     post_id = ForeignKeyField(Post, field='post_id')
     tag_id = ForeignKeyField(Tag, field='tag_id')
@@ -332,18 +332,18 @@ class Tag_to_Post(BaseModel):
 
 class StreamMessage(BaseModel):
     class Meta:
-        db_table = 'stream_message'
+        table_name = 'stream_message'
 
-    id = PrimaryKeyField()
+    id = AutoField()
     date = DateTimeField(default=datetime.now)
     message = CharField()
 
 
 class StaticPage(BaseModel):
     class Meta:
-        db_table = 'static_page'
+        table_name = 'static_page'
 
-    id = PrimaryKeyField()
+    id = AutoField()
 
     url = CharField(unique=True)
     date = DateTimeField(default=datetime.now)
@@ -356,9 +356,9 @@ class StaticPage(BaseModel):
 
 class Session(BaseModel):
     class Meta:
-        db_table = 'session'
+        table_name = 'session'
 
-    session_id = PrimaryKeyField()
+    session_id = AutoField()
     mail = CharField(null=False)
     expires = IntegerField(default=0)
     ip = CharField(null=True)
@@ -368,9 +368,9 @@ class Session(BaseModel):
 
 class SiteJoke(BaseModel):
     class Meta:
-        db_table = 'site_joke'
+        table_name = 'site_joke'
 
-    id = PrimaryKeyField()
+    id = AutoField()
     text = CharField(null=False)
 
     def __str__(self):
