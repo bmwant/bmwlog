@@ -13,7 +13,6 @@ from .helpers import (
     init_database_within_container,
     run_mysql_container,
     remove_container,
-    get_container_ip_address,
 )
 
 
@@ -113,9 +112,8 @@ def init_database_if_needed(request):
             return pytest.exit('Cannot launch container for database')
 
         session._mysql_container = container
-        ip_address = get_container_ip_address(container)
         database_config = {
-            'DB_HOST': ip_address,
+            'DB_HOST': '127.0.0.1',
             'DB_USER': 'root',
             'DB_PASS': '',
             'DB_NAME': TEST_DB_NAME,
@@ -124,7 +122,7 @@ def init_database_if_needed(request):
         init_database_within_container(container, TEST_DB_NAME)
     else:
         database_config = {
-            'DB_HOST': 'localhost',
+            'DB_HOST': '127.0.0.1',
             'DB_NAME': TEST_DB_NAME,
         }
         update_app_config(database_config)

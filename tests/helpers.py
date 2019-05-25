@@ -9,6 +9,9 @@ from app.helput import get_list_of_files
 
 
 def run_mysql_container():
+    """
+    The docker (Linux) bridge network is not reachable from the macOS host.
+    """
     client = docker.from_env()
     container_name = 'local-mysql'
     volume_path = os.path.join(config.PROJECT_DIR, 'tests', 'sql')
@@ -16,6 +19,9 @@ def run_mysql_container():
         'mysql',
         name=container_name,
         auto_remove=True,
+        ports={
+            '3306/tcp': 3306
+        },
         environment={
             'MYSQL_ALLOW_EMPTY_PASSWORD': True,
         },
