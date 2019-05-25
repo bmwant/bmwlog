@@ -35,6 +35,8 @@ services:
     volumes:
       - ./dev/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
       - /usr/local/var/mariadb:/var/lib/mysql
+    logging:
+      driver: none
 networks:
   dev-network:
     driver: bridge
