@@ -1,0 +1,13 @@
+---
+
+- name: nginx reload
+  shell: "nginx -t && nginx -s reload"
+  become: true
+
+- name: gunicorn reload
+  shell: "supervisorctl restart bmwlog"
+  become: true
+
+- name: supervisor reload
+  shell: "supervisorctl reread && supervisorctl update"
+  become: true
