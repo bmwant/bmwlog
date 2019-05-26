@@ -33,6 +33,7 @@ $ mysql -u root -p bmwlogdb < /tmp/dump.sql
 ### Launch application locally with Docker Compose
 
 ```bash
+$ docker pull bmwant/bmwlog:latest
 $ docker-compose up
 ```
 

@@ -22,13 +22,13 @@ def create_tables():
         model_class = getattr(models, model)
         try:
             model_class.create_table()
-            info('==> Table for %s created.' % model)
+            info('Table for %s created.' % model)
         except peewee.OperationalError as e:
             if e.args[0] == 1050:
-                info('==> %s already exists, skipping...' % model)
+                info('%s already exists, skipping...' % model)
             else:
                 raise e
-    info('==> Database successfully initialized for %s models.' %
+    info('Database successfully initialized for %s models.' %
          len(db_models))
 
 
