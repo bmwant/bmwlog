@@ -20,5 +20,6 @@ pushd "${ROOT_DIR}"
   fi
 
   echo "Building app docker image"
-  docker build -t ${IMAGE_NAME} .
+  COMMIT_SHA=$(git rev-parse HEAD)
+  docker build -t ${IMAGE_NAME} --label "commit=${COMMIT_SHA}" .
 popd

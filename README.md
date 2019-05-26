@@ -29,6 +29,14 @@ $ export PYTHONPATH=`pwd`
 $ python -m app.migrations
 ```
 
+Launch unittests with `poetry run pytest -sv -rs tests`. In case you don't have
+local MySQL database server you can use test one within docker container.
+
+```bash
+$ docker pull mysql  # not to wait pulling within Python client
+$ poetry run pytest -sv -rs tests --spin-mysql-container
+```
+
 ### Deployment
 
 ```bash

@@ -22,6 +22,3 @@ function get_current_tag() {
   TAG=$(sha1sum poetry.lock | awk '{ print $1 }')
   echo ${TAG}
 }
-
-
-
