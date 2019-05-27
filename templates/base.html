@@ -37,166 +37,157 @@
 <body>
 <img src="/static/dot.dot" style="display: none;">
 <div id="wrapper">
-    {% block header %}
-    <div id="header" class="bck light padding">
-        <div class="row">
-            <div class="column_6">
-                <a href="/"><img src="/static/img/logo.png" class="logo"/></a>
-            </div>
-            <div class="column_6 text right bold hide-phone">
-            {% set user = app.current_user %}
-            {% if user %}
-                Hey, <a href="/account">{{ user.nickname }}</a>
-                <a href="/logout" class="button small secondary">Logout</a>
-            {% else %}
-                <a href="/signup">Sign up</a>
-                <a href="/login" class="button small">Login</a>
-            {% endif %}
-            </div>
-        </div>
+  {% block header %}
+  <div id="header" class="bck light padding">
+      <div class="row">
+          <div class="column_6">
+              <a href="/"><img src="/static/img/logo.png" class="logo"/></a>
+          </div>
+          <div class="column_6 text right bold hide-phone">
+          {% set user = app.current_user %}
+          {% if user %}
+              Hey, <a href="/account">{{ user.nickname }}</a>
+              <a href="/logout" class="button small secondary">Logout</a>
+          {% else %}
+              <a href="/signup">Sign up</a>
+              <a href="/login" class="button small">Login</a>
+          {% endif %}
+          </div>
+      </div>
+  </div>
+
+  <section id="site-joke" class="bck color">
+    <div class="row text center bold">
+      <div class="column_12 padding text bold" id="joke-text">
+        {{ site_joke }}
+      </div>
     </div>
+  </section>
 
-    <section id="site-joke" class="bck color">
-        <div class="row text center bold">
-            <div class="column_12 padding text bold" id="joke-text">
-                {{ site_joke }}
-            </div>
-        </div>
-    </section>
-
-    <section id="site-menu" class="bck color">
-        <div class="row text center">
-            <nav data-tuktuk="menu" class="column_12 padding text bold">
-                <a href="/post">
-                    <i class="fas fa-pencil-alt"></i>Posts
-                </a>
-                <a href="/categories">
-                    <i class="fas fa-search"></i>Find
-                </a>
-                <a href="/gallery">
-                    <i class="fas fa-camera-retro"></i>Photos
-                </a>
-                {% if user and user.is_admin() %}
-                    <a href="/ad">
-                        <i class="fas fa-cog"></i>Admin
-                    </a>
-                    <a href="/play">
-                        <i class="fas fa-flask"></i>Playground
-                    </a>
-                {% endif %}
-                <a href="/about">
-                    <i class="fas fa-chess-pawn"></i>About
-                </a>
-            </nav>
-        </div>
-    </section>
-
-    {% endblock %}
-    {% block content %}{% endblock %}
-
-    <div class="doge">
+  <section id="site-menu" class="bck color">
+    <div class="row text center">
+      <nav data-tuktuk="menu" class="column_12 padding text bold">
+        <a href="/post"><i class="fas fa-pencil-alt"></i>Posts</a>
+        <a href="/categories"><i class="fas fa-search"></i>Find</a>
+        <a href="/gallery"><i class="fas fa-camera-retro"></i>Photos</a>
+        {% if user and user.is_admin() %}
+        <a href="/ad"><i class="fas fa-cog"></i>Admin</a>
+        <a href="/play"><i class="fas fa-flask"></i>Playground</a>
+        {% endif %}
+        <a href="/about"><i class="fas fa-chess-pawn"></i>About</a>
+      </nav>
     </div>
+  </section>
+
+  {% endblock %}
+  {% block content %}{% endblock %}
+
+  <div class="doge">
+  </div>
 
 {% block footer %}
-    <div id="footer" class="padding text right">
-        <a data-tuktuk-modal="hood">Open the hood</a>
-        <a href="https://github.com/bmwant/bmwlog" target="_blank">Github</a>
-        <a href="mailto:bmwant@gmail.com">Mail me</a>
-    </div>
-    <div id="hood" data-tuktuk="modal" class="column_5">
-        <header>
-            <h4 class="text thin">What's inside?</h4>
-        </header>
-        <article class="tools-list">
-            <a href="https://www.centos.org/" target="_blank">CentOS 7</a>
-            <a href="http://nginx.org" target="_blank">nginx</a>
-            <a href="http://gunicorn.org" target="_blank">Gunicorn</a>
-            <a href="http://www.mysql.com" target="_blank">MySQL</a>
-            <a href="https://www.python.org" target="_blank">Python</a>
-            <a href="http://bottlepy.org/docs/dev/index.html" target="_blank">Bottle</a>
-            <a href="http://jinja.pocoo.org/docs/dev/" target="_blank">Jinja2</a>
-            <a href="https://github.com/soyjavi/tuktuk" target="_blank">TukTuk</a>
-            <a href="http://jquery.com" target="_blank">jQuery</a>
-        </article>
-        <footer>
-            <button data-modal="close" class="anchor"><i class="fas fa-times"></i> Close</button>
-        </footer>
-    </div>
+  <div id="footer" class="padding text right">
+    <a data-tuktuk-modal="hood">Open the hood</a>
+    <a href="https://github.com/bmwant/bmwlog" target="_blank">Github</a>
+    <a href="mailto:bmwant@gmail.com">Mail me</a>
+  </div>
+  <div id="hood" data-tuktuk="modal" class="column_5">
+    <header>
+      <h4 class="text thin">What's inside?</h4>
+    </header>
+      <article class="tools-list">
+        <a href="https://www.centos.org/" target="_blank">CentOS 7</a>
+        <a href="https://docs.docker.com/install/" target="_blank">Docker</a>
+        <a href="http://nginx.org" target="_blank">nginx</a>
+        <a href="http://gunicorn.org" target="_blank">Gunicorn</a>
+        <a href="https://mariadb.org/" target="_blank">MariaDB</a>
+        <a href="https://www.python.org" target="_blank">Python</a>
+        <a href="https://poetry.eustace.io/" target="_blank">Poetry</a>
+        <a href="http://bottlepy.org/docs/dev/index.html" target="_blank">Bottle</a>
+        <a href="http://jinja.pocoo.org/docs/dev/" target="_blank">Jinja2</a>
+        <a href="https://www.npmjs.com/" target="_blank">NPM</a>
+        <a href="https://github.com/soyjavi/tuktuk" target="_blank">TukTuk</a>
+        <a href="http://jquery.com" target="_blank">jQuery</a>
+      </article>
+      <footer>
+        <button data-modal="close" class="anchor"><i class="fas fa-times"></i> Close</button>
+      </footer>
+  </div>
 {% endblock %}
 
 {% block bottom_scripts %}
-    <script src="/static/js/tuktuk.js"></script>
-    <script>
-        setActiveLink();
-        toastr.options = {
-          "closeButton": false,
-          "debug": false,
-          "positionClass": "toast-bottom-left",
-          "onclick": null,
-          "showDuration": "0",
-          "hideDuration": "0",
-          "timeOut": "5000",
-          "extendedTimeOut": "15000",
-          "showEasing": "swing",
-          "hideEasing": "linear",
-          "showMethod": "fadeIn",
-          "hideMethod": "fadeOut"
-        };
-        var jokeHeight = $("#site-menu").height();
-        $("#site-joke").height(jokeHeight).css("line-height", jokeHeight/2 + "px");
-        var timer; //Show joke only after ~2 seconds
-        $(".logo").mouseenter(function() {
-           timer = setTimeout(function() {
-               $("#site-joke").slideDown("fast");
-           }, 1700);
-        }).mouseleave(function() {
-            $("#site-joke").slideUp("fast");
-            clearTimeout(timer);
-        });
-        $.getJSON("/joke", function(data) {
-            $("#joke-text").text(data.text);
-        });
-    </script>
+  <script src="/static/js/tuktuk.js"></script>
+  <script>
+      setActiveLink();
+      toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "positionClass": "toast-bottom-left",
+        "onclick": null,
+        "showDuration": "0",
+        "hideDuration": "0",
+        "timeOut": "5000",
+        "extendedTimeOut": "15000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      };
+      var jokeHeight = $("#site-menu").height();
+      $("#site-joke").height(jokeHeight).css("line-height", jokeHeight/2 + "px");
+      var timer; //Show joke only after ~2 seconds
+      $(".logo").mouseenter(function() {
+         timer = setTimeout(function() {
+             $("#site-joke").slideDown("fast");
+         }, 1700);
+      }).mouseleave(function() {
+          $("#site-joke").slideUp("fast");
+          clearTimeout(timer);
+      });
+      $.getJSON("/joke", function(data) {
+          $("#joke-text").text(data.text);
+      });
+  </script>
 
-    {# Google analytics #}
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  {# Google analytics #}
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-      ga('create', 'UA-56776081-1', 'auto');
-      ga('send', 'pageview');
-    </script>
+    ga('create', 'UA-56776081-1', 'auto');
+    ga('send', 'pageview');
+  </script>
 
-    {# Author #}
-    <script type="application/ld+json">
-    { "@context" : "http://schema.org",
-      "@type" : "Person",
-      "name" : "Misha Behersky",
-      "url" : "http://bmwlog.pp.ua",
-      "sameAs" : [
-          "http://plus.google.com/+MishaBehersky"
-          ]
-    }
-    </script>
-
+  {# Author #}
+  <script type="application/ld+json">
+  { "@context" : "http://schema.org",
+    "@type" : "Person",
+    "name" : "Misha Behersky",
+    "url" : "http://bmwlog.pp.ua",
+    "sameAs" : [
+        "http://plus.google.com/+MishaBehersky"
+        ]
+  }
+  </script>
 {% endblock %}
-    {# Flash messages #}
-    {% set messages = app.get_flashed_messages() %}
-    {% if messages %}
-        <script>
-            {% for m, cat in messages %}
-                {% if cat == 'error' %}
-                    toastr.error('{{ m }}');
-                {% elif cat == 'success' %}
-                    toastr.success('{{ m }}');
-                {% else %}
-                    toastr.info('{{ m }}');
-                {% endif %}
-            {% endfor %}
-        </script>
-    {% endif %}
+
+{# Flash messages #}
+{% set messages = app.get_flashed_messages() %}
+{% if messages %}
+  <script>
+      {% for m, cat in messages %}
+          {% if cat == 'error' %}
+              toastr.error('{{ m }}');
+          {% elif cat == 'success' %}
+              toastr.success('{{ m }}');
+          {% else %}
+              toastr.info('{{ m }}');
+          {% endif %}
+      {% endfor %}
+  </script>
+{% endif %}
 
 </div>
 </body>
