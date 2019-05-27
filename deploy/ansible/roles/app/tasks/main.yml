@@ -2,6 +2,12 @@
 
 - include_vars: "vars/common.yml"
 
+- name: install docker-py
+  pip:
+    name: docker
+    state: present
+  become: true
+
 - name: clone project repository
   git:
     repo: "{{ repository_url }}"
@@ -13,7 +19,6 @@
   template:
     src: "templates/app_config.py.j2"
     dest: "{{ project_root }}/app/config_local.py"
-  notify: gunicorn reload
 
 - name: create local directories for project
   file:
@@ -45,6 +50,8 @@
     detach: no
     cleanup: yes
     auto_remove: yes  # enable auto-removal of the container on daemon side
+    volumes:
+      - "{{ project_root }}:/opt/app"
     command: "poetry run python -m app.migrations"
   when: run_migrations
 
