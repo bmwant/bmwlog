@@ -6,6 +6,7 @@
   pip:
     name: docker
     state: present
+    executable: "/usr/local/bin/pip3"
   become: true
 
 - name: clone project repository
@@ -30,9 +31,8 @@
 
 - name: copy gunicorn config
   template:
-    src: templates/gunicorn_settings.py.j2
+    src: "templates/gunicorn_settings.py.j2"
     dest: "{{ project_root }}/prod/gunicorn_settings.py"
-  notify: gunicorn reload
 
 - name: pull latest app image
   docker_image:
@@ -49,11 +49,23 @@
     restart_policy: "no"
     detach: no
     cleanup: yes
-    auto_remove: yes  # enable auto-removal of the container on daemon side
     volumes:
       - "{{ project_root }}:/opt/app"
+    # https://docs.docker.com/network/host/
+    network_mode: host
     command: "poetry run python -m app.migrations"
   when: run_migrations
+
+- name: run app within docker container
+  docker_container:
+    name: bmwlog-app
+    image: "bmwant/bmwlog:latest"
+    restart_policy: always
+    volumes:
+      - "{{ project_root }}:/opt/app"
+    command: |
+      poetry run gunicorn run:app --config /opt/app/prod/gunicorn_settings.py
+  notify: docker cleanup
 
 - name: copy nginx config
   template:

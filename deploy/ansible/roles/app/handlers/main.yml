@@ -11,3 +11,6 @@
 - name: supervisor reload
   shell: "supervisorctl reread && supervisorctl update"
   become: true
+
+- name: docker cleanup
+  shell: "docker system prune --force"
