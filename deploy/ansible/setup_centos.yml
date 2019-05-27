@@ -8,6 +8,23 @@
   tasks:
     - include_vars: "vars/common.yml"
 
+    - name: ensure a list of packages installed
+      yum:
+        name: "{{ packages }}"
+      vars:
+        packages:
+          - git
+          - nginx
+          - libselinux-python
+      become: true
+
+    - name: install docker-py
+      pip:
+        name: docker
+        state: present
+        executable: "/usr/local/bin/pip3"
+      become: true
+
     - name: check which Python 3.7 version is installed
       shell: "python3.7 --version"
       register: python_output
@@ -53,22 +70,6 @@
           chdir: "/opt/Python-{{ python_version }}"
         become: true
       when: python_output.stdout != python_version_output
-
-    - name: ensure a list of packages installed
-      yum:
-        name: "{{ packages }}"
-      vars:
-        packages:
-          - git
-          - nginx
-      become: true
-
-    - name: install docker-py
-      pip:
-        name: docker
-        state: present
-        executable: "/usr/local/bin/pip3"
-      become: true
 
   handlers:
 

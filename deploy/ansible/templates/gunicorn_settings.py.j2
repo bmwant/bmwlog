@@ -1,5 +1,8 @@
 bind = '{{ app_run_host }}:{{ app_run_port }}'  # match to nginx settings file
 workers = {{ gunicorn_workers_count }}
 worker_class = 'sync'
-accesslog = '/var/log/bmwlog.gunicorn.access.log'
-errorlog = '/var/log/bmwlog.gunicorn.error.log'
+# forward everything to stdout
+accesslog = '-'
+errorlog = '-'
+capture_output = True
+loglevel = 'info'

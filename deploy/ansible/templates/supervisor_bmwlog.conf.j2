@@ -1,9 +1,0 @@
-[program:bmwlog]
-command={{ project_venv }}/bin/gunicorn run:app --config prod/gunicorn_settings.py
-directory={{ project_root }}
-user={{ ansible_user }}
-autostart=true
-autorestart=true
-redirect_stderr=true
-stdout_logfile=/var/log/bmwlog.supervisor.stdout
-stopsignal=QUIT
