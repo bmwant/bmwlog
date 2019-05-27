@@ -38,9 +38,14 @@
     force_source: yes
 
 - name: apply database migrations
-  shell: "{{ project_venv }}/bin/python -m app.migrations"
-  args:
-    chdir: "{{ project_root }}"
+  docker_container:
+    name: bmwlog-app
+    image: "bmwant/bmwlog:latest"
+    restart_policy: "no"
+    detach: no
+    cleanup: yes
+    auto_remove: yes  # enable auto-removal of the container on daemon side
+    command: "poetry run python -m app.migrations"
   when: run_migrations
 
 - name: copy nginx config
