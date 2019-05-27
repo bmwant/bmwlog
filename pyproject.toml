@@ -23,6 +23,7 @@ click = "^7.0"
 flake8 = "^3.7"
 docker = "^4.0"
 pytest = "^4.5"
+ansible = "^2.8"
 
 [build-system]
 requires = ["poetry>=0.12"]

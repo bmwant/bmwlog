@@ -5,14 +5,10 @@ setup:
 	@cd deploy/ansible && \
 		ansible-playbook setup_centos.yml -i hosts -l digital_ocean -vv --ask-vault-pass
 
-setup-freebsd:
-	@echo "Initial production provisioning before deploy..."
-	@cd deploy/ansible && \
-		ansible-playbook setup_freebsd.yml -i hosts -l digital_ocean -vv --ask-vault-pass
-
 update:
 	@echo "Going to update bmwlog on production..."
 	@cd deploy/ansible && \
+		poetry run \
 		ansible-playbook update.yml -i hosts -l digital_ocean -vv --ask-vault-pass
 
 tests:
