@@ -3,9 +3,9 @@ repository_branch: "origin/master"
 
 python_version: "3.7.0"
 
-bottle_run_host: "127.0.0.1"
-bottle_run_port: 8031
+app_run_host: "127.0.0.1"
+app_run_port: 8031
 database_name: "bmwlogdb"
 gunicorn_workers_count: 1
 
-run_migrations: false
+run_migrations: no

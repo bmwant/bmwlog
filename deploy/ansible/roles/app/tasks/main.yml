@@ -1,0 +1,78 @@
+---
+
+- include_vars: "vars/common.yml"
+
+- name: clone project repository
+  git:
+    repo: "{{ repository_url }}"
+    dest: "{{ project_root }}"
+    version: "{{ repository_branch }}"
+    accept_hostkey: true
+
+- name: create local overrides for project config
+  template:
+    src: "templates/app_config.py.j2"
+    dest: "{{ project_root }}/app/config_local.py"
+
+- name: create local directories for project
+  file:
+    path: "{{ project_root }}/{{ item }}"
+    state: directory
+  with_items:
+    - "prod"
+    - "uploaded"
+
+- name: copy gunicorn config
+  template:
+    src: "templates/gunicorn_settings.py.j2"
+    dest: "{{ project_root }}/prod/gunicorn_settings.py"
+
+- name: pull latest app image
+  docker_image:
+    name: "bmwant/bmwlog"
+    state: present
+    tag: latest
+    source: pull
+    force_source: yes
+
+- name: apply database migrations
+  docker_container:
+    name: bmwlog-app
+    image: "bmwant/bmwlog:latest"
+    restart_policy: "no"
+    detach: no
+    cleanup: yes
+    volumes:
+      - "{{ project_root }}:/opt/app"
+    # https://docs.docker.com/network/host/
+    network_mode: host
+    command: "poetry run python -m app.migrations"
+  when: run_migrations | bool
+
+- name: run app within docker container
+  docker_container:
+    name: bmwlog-app
+    image: "bmwant/bmwlog:latest"
+    restart_policy: always
+    volumes:
+      - "{{ project_root }}:/opt/app"
+    ports:
+      - "8031:8031"
+    network_mode: host
+    restart: yes  # force a matching container to be stopped and restarted
+    command: |
+      poetry run gunicorn run:app --config /opt/app/prod/gunicorn_settings.py
+  notify: docker cleanup
+
+- name: copy nginx config
+  template:
+    src: "templates/nginx_bmwlog.conf.j2"
+    dest: "{{ project_root }}/prod/nginx_bmwlog.conf"
+  notify: nginx reload
+
+- name: ensure nginx config linked
+  file:
+    src: "{{ project_root }}/prod/nginx_bmwlog.conf"
+    dest: "/etc/nginx/conf.d/bmwlog.conf"
+    state: link
+  become: true

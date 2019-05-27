@@ -7,7 +7,7 @@
 
     # hack to allow run via 'ansible-playbook' and via 'vagrant provision'
     - include_vars: "group_vars/vagrant.yml"
-      when: ansible_ssh_user == "vagrant"
+      when: ansible_user == "vagrant"
 
     - name: update package manager
       shell: "pkg update"
@@ -92,7 +92,7 @@
         dest: "{{ project_root }}"
         version: "{{ repository_branch }}"
         accept_hostkey: true
-      when: ansible_ssh_user != "vagrant"
+      when: ansible_user != "vagrant"
 
     - name: install requirements
       shell: "{{ project_venv }}/bin/pip install -r requirements.txt"

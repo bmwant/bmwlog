@@ -1,3 +1,8 @@
-bind = '{{ bottle_run_host }}:{{ bottle_run_port }}'  # match to nginx settings file
+bind = '{{ app_run_host }}:{{ app_run_port }}'  # match to nginx settings file
 workers = {{ gunicorn_workers_count }}
 worker_class = 'sync'
+# forward everything to stdout
+accesslog = '-'
+errorlog = '-'
+capture_output = True
+loglevel = 'info'
