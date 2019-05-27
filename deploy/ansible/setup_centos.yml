@@ -1,7 +1,10 @@
 ---
 - hosts: all
   gather_facts: no
-
+  #    - role: geerlingguy.docker
+  #      docker_users:
+  #        - "{{ ansible_user }}"
+  #      become: true
   tasks:
     - include_vars: "vars/common.yml"
 
@@ -60,13 +63,12 @@
           - nginx
       become: true
 
-    - name: clean any of the previous virtual environments
-      file:
-        path: "{{ project_venv }}"
-        state: absent
-
-    - name: create a virtual environment with proper Python version
-      shell: "python3.7 -m venv {{ project_venv }}"
+    - name: install docker-py
+      pip:
+        name: docker
+        state: present
+        executable: "/usr/local/bin/pip3"
+      become: true
 
   handlers:
 

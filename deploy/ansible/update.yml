@@ -3,10 +3,4 @@
 - hosts: all
 
   roles:
-
-    - role: geerlingguy.docker
-      docker_users:
-        - "{{ ansible_user }}"
-      become: true
-
     - role: app

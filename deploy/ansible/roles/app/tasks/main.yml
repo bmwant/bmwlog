@@ -2,13 +2,6 @@
 
 - include_vars: "vars/common.yml"
 
-- name: install docker-py
-  pip:
-    name: docker
-    state: present
-    executable: "/usr/local/bin/pip3"
-  become: true
-
 - name: clone project repository
   git:
     repo: "{{ repository_url }}"
