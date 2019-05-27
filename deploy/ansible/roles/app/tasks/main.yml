@@ -47,7 +47,7 @@
     # https://docs.docker.com/network/host/
     network_mode: host
     command: "poetry run python -m app.migrations"
-  when: run_migrations
+  when: run_migrations | bool
 
 - name: run app within docker container
   docker_container:
@@ -56,6 +56,10 @@
     restart_policy: always
     volumes:
       - "{{ project_root }}:/opt/app"
+    ports:
+      - "8031:8031"
+    network_mode: host
+    restart: yes  # force a matching container to be stopped and restarted
     command: |
       poetry run gunicorn run:app --config /opt/app/prod/gunicorn_settings.py
   notify: docker cleanup
