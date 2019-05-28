@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: bmwlog
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bmwlog
+        server: bottle
+    spec:
+      containers:
+        - name: bmwlog
+          image: bmwant/bmwlog:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8031
+      restartPolicy: Always
