@@ -1,6 +1,6 @@
 ## bmwlog
 
-[![Build Status](https://travis-ci.org/bmwant/bmwlog.svg?branch=master)](https://travis-ci.org/bmwant/bmwlog)
+[![Build Status](https://travis-ci.com/bmwant/bmwlog.svg?branch=master)](https://travis-ci.com/bmwant/bmwlog)
 
 This is simple blog engine written with [bottle](https://bottlepy.org/docs/dev/)
 (now only Python 3 compatible).
