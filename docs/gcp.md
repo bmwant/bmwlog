@@ -34,6 +34,16 @@ List databases available
 $ gcloud sql databases list --instance=bmwlogdb
 ```
 
+### Creating a new user
+
+Do not use `root` user when connecting to the main database and create an
+application specific one with command below
+
+```bash
+$ gcloud sql users create bmwlog \
+   --host=% --instance=bmwlogdb --password=[PASSWORD]
+```
+
 ### Connect to the database
 
 ```bash
