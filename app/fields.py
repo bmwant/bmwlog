@@ -1,6 +1,7 @@
 import os
 
 from wtforms import (
+    Field,
     FileField,
     StringField,
     BooleanField,
@@ -88,10 +89,10 @@ class LanguageFlagInput(HiddenInput):
 
 
 class OnOffInput(CheckboxInput):
-    def __call__(self, *args, **kwargs):
-        if 'checked' not in kwargs:
+    def __call__(self, field, *args, **kwargs):
+        if field.data is True:
             kwargs['checked'] = True
-        parent_html = super(CheckboxInput, self).__call__(*args, **kwargs)
+        parent_html = super().__call__(field, **kwargs)
         onoff_html = '<div class="form-onoff">{}</div>'.format(parent_html)
         return HTMLString(onoff_html)
 
@@ -103,3 +104,16 @@ class LanguageSelectField(StringField):
 
 class OnOffField(BooleanField):
     widget = OnOffInput()
+
+    def process_data(self, value):
+        """
+        This will be called during form construction by the form's `kwargs` or
+        `obj` argument.
+        """
+        self.data = bool(value)
+        self.raw_data = bool(value)
+
+    def _value(self):
+        if self.raw_data:
+            return 'on'
+        return 'off'

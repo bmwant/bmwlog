@@ -10,7 +10,6 @@ from wtforms import (
     TextAreaField,
 )
 from wtforms import validators
-from wtforms.meta import DefaultMeta
 from app.fields import (
     OnOffField,
     UploadFileField,
@@ -21,16 +20,7 @@ from app.fields import (
 from app.helput import translit_text
 
 
-class BindNameMeta(DefaultMeta):
-    def bind_field(self, form, unbound_field, options):
-        if 'custom_name' in unbound_field.kwargs:
-            options['name'] = unbound_field.kwargs.pop('custom_name')
-        return unbound_field.bind(form=form, **options)
-
-
 class Form(wtforms.Form):
-
-    Meta = BindNameMeta
 
     def validate_on_post(self):
         if request.method in ('POST', 'PUT'):
@@ -93,10 +83,10 @@ class SignupForm(Form):
     password = PasswordField('Password',
                              validators=[validators.InputRequired(),
                                          validators.Length(min=6)])
-    first_name = StringField(u'Name', validators=[validators.InputRequired()])
-    last_name = StringField(u'Last name',
+    first_name = StringField('Name', validators=[validators.InputRequired()])
+    last_name = StringField('Last name',
                             validators=[validators.InputRequired()])
-    nickname = StringField(u'Nickname', validators=[validators.InputRequired()])
+    nickname = StringField('Nickname', validators=[validators.InputRequired()])
 
 
 class StaticPageForm(ItemForm):
@@ -104,7 +94,7 @@ class StaticPageForm(ItemForm):
         'Page name',
         validators=[validators.InputRequired()],
     )
-    page_url = StringField('Url')
+    page_url = StringField('URL')
     text = TextAreaField(
         'Content',
         validators=[validators.InputRequired()],
@@ -121,6 +111,5 @@ class PostForm(Form):
     category_id = SelectField('Category', choices=('one', 'One'))
     text = StringField()
     draft = BooleanField()
-    show_on_index = OnOffField('Show on index page',
-                               custom_name='show-on-index')
+    show_on_index = OnOffField('Show on index page')
     language = LanguageSelectField(default='eng')

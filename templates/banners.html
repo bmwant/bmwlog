@@ -23,28 +23,28 @@
     </div>
 
     <div class="column_4">
-        <form action="/banners" method="post" enctype="multipart/form-data">
-            <fieldset class="margin-top">
-                <label>Опис</label>
-                <input type="text" name="desc" /><br />
-            </fieldset>
+      <form action="/banners" method="post" enctype="multipart/form-data">
+        <fieldset class="margin-top">
+          <label>Description</label>
+          <input type="text" name="desc" />
+        </fieldset>
 
-            <fieldset class="margin-top">
-                <label>Зображення</label>
-                <input type="file" name="banner_img" /><br />
-            </fieldset>
+        <fieldset class="margin-top">
+          <label>Banner image</label>
+          <input type="file" name="banner_img" />
+        </fieldset>
 
-            <fieldset class="margin-top">
-                <label>Посилання</label>
-                <input type="text" name="link" /><br />
-            </fieldset>
+        <fieldset class="margin-top">
+          <label>Link</label>
+          <input type="text" name="link" />
+        </fieldset>
 
-            <fieldset class="margin-top text right">
-              <button class="button success small" onclick="$(this).closest('form').submit();">
-                <i class="fas fa-check"></i> Додати
-              </button>
-            </fieldset>
-        </form>
+        <fieldset class="margin-top text right">
+          <button class="button success small" onclick="$(this).closest('form').submit();">
+            <i class="fas fa-check"></i> Add
+          </button>
+        </fieldset>
+      </form>
     </div>
   </div>
 </div>
@@ -57,14 +57,14 @@
     $('input[type=checkbox]')
       .onoff()
       .click(function() {
-      var bannerId = $(this).attr("data-id");
-      $.ajax({
-        type: "GET",
-        url: "/banner/disable/" + bannerId
-      })
-      .done(function(msg) {
-        console.log(msg);
-      });
+        var bannerId = $(this).attr("data-id");
+        $.ajax({
+          type: "GET",
+          url: "/banner/disable/" + bannerId
+        })
+        .done(function(msg) {
+          console.log(msg);
+        });
     });
   </script>
 {% endblock %}
