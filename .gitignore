@@ -8,6 +8,7 @@ build/
 node_modules/
 .pytest_cache/
 .tox/
+.python-version
 
 # project-specific
 venv/
