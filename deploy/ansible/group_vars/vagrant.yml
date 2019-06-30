@@ -1,5 +1,0 @@
-ansible_python_interpreter: /usr/local/bin/python
-
-project_root: "/home/vagrant/workspace/bmwlog"
-project_static: "/home/vagrant/workspace/bmwlog/static"
-project_venv: "/home/vagrant/workspace/venv"

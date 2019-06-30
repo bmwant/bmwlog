@@ -3,5 +3,4 @@ ansible_ssh_private_key_file: ~/.ssh/id_rsa
 ansible_python_interpreter: /usr/local/bin/python3
 
 project_root: "/data/projects/bmwlog"
-project_static: "/data/projects/bmwlog/static"
-project_venv: "/data/virtualenvs/bmwlog"
+project_static: "/data/projects/bmwlog/static"  # temp for nginx
