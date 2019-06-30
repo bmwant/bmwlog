@@ -2,12 +2,9 @@
 Config module. File generated automatically by Ansible {{ ansible_version.full }}
 """
 SECRET_KEY = '{{ secret_key }}'
-DEBUG = True
-RELOADER = True
+DEBUG = True  # on prod?
+RELOADER = True  # on prod?
 POSTS_PER_PAGE = 10
-
-STATIC_FOLDER = '{{ project_static }}'
-ROOT_FOLDER = '{{ project_root }}'
 
 RUN_HOST = '{{ app_run_host }}'
 RUN_PORT = {{ app_run_port }}
