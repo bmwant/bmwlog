@@ -21,6 +21,7 @@ static/img/article
 static/img/gallery
 app/config_local.py
 *.dump
+dump.sql
 
 # Ansible
 *.retry

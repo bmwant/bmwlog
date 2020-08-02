@@ -3,6 +3,7 @@
 
 ```bash
 $ vue create bmwlog
+$ firebase init
 ```
 
 ### Developing
@@ -33,5 +34,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### Deploy with Firebase
 
 ```bash
-$
+$ npm run build
+$ firebase deploy --only hosting
 ```
