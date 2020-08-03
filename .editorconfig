@@ -11,13 +11,7 @@ end_of_line = lf
 [*.py]
 max_line_length = 79
 
-[*.html]
-indent_size = 2
-
-[*.css]
-indent_size = 2
-
-[*.js]
+[*.{html,css,js,vue}]
 indent_size = 2
 
 [*.sql]

@@ -1,28 +1,37 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Header />
+    <BlogHome />
+    <Footer />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import old js files
+// import './assets/js/jquery-1.9.1.js';
+// import './assets/js/jquery.cookie.js';
+import './assets/js/functions.js';
+import './assets/js/toastr.min.js';
+// import HelloWorld from './components/HelloWorld.vue'
+import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+import BlogHome from '@/components/BlogHome.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Header,
+    Footer,
+    BlogHome
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import './assets/styles/tuktuk.css';
+@import './assets/styles/tuktuk.theme.css';
+/* @  import './assets/styles/fontawesome-all.min.css'; */
+@import './assets/styles/style.css';
+@import './assets/styles/toastr.css';
+@import './assets/styles/tag-basic-style.css';
 </style>

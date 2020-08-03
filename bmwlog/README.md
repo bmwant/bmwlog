@@ -22,6 +22,7 @@ $ npm run serve
 
 ```bash
 $ npm run build
+$ serve -s dist
 ```
 
 ### Lints and fixes files
