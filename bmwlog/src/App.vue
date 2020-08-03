@@ -11,7 +11,7 @@
 // import './assets/js/jquery-1.9.1.js';
 // import './assets/js/jquery.cookie.js';
 import './assets/js/functions.js';
-import './assets/js/toastr.min.js';
+// import './assets/js/toastr.min.js';
 // import HelloWorld from './components/HelloWorld.vue'
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'

@@ -1,4 +1,7 @@
 <script>
+import { db } from '@/db'
+
+
 export default {
   name: 'blog-home',
   data() {
@@ -6,6 +9,9 @@ export default {
       page_title: 'Blog',
       posts: []
     }
+  },
+  firestore: {
+    posts: db.collection('posts'),
   },
   methods: {
     getPosts() {
@@ -24,7 +30,7 @@ export default {
     }
   },
   created() {
-    this.getPosts()
+    // this.getPosts()
   }
 }
 </script>

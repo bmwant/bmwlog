@@ -1,11 +1,14 @@
 import Vue from 'vue'
+import { firestorePlugin } from 'vuefire'
 import App from './App.vue'
 import Router from './router'
 
 Vue.config.productionTip = false
-window.$ = window.jQuery = require('jquery')
+Vue.use(firestorePlugin)
 
 new Vue({
   render: h => h(App),
-  router: Router,
+  router: Router
 }).$mount('#app')
+
+
