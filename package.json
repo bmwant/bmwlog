@@ -27,7 +27,7 @@
   "homepage": "http://bmwlog.pp.ua/",
   "dependencies": {
     "mathjax": "^2.7.5",
-    "showdown": "^1.8.6",
+    "showdown": "^1.9.1",
     "simplemde": "^1.11.2",
     "sticky-kit": "^1.1.3"
   }
