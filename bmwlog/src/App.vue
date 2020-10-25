@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header />
-    <BlogHome />
+    <router-view></router-view>
     <Footer />
   </div>
 </template>
@@ -15,14 +15,13 @@ import './assets/js/functions.js';
 // import HelloWorld from './components/HelloWorld.vue'
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
-import BlogHome from '@/components/BlogHome.vue'
+// import BlogHome from '@/components/BlogHome.vue'
 
 export default {
   name: 'App',
   components: {
     Header,
-    Footer,
-    BlogHome
+    Footer
   }
 }
 </script>
