@@ -1,8 +1,11 @@
 <script>
-import $ from 'jquery'
+import { $, jQuery } from 'jquery'
+window.$ = $;
+window.jQuery = jQuery;
 // import '../assets/js/modernizr'
 // import '../assets/js/cube.transitions'
-// import '../assets/js/funny.text.min'
+// import '../assets/js/funny.text.min' // eslint-disable-line
+import { funnyText } from '../assets/js/funny.text.min'
 
 export default {
   name: 'about-page',
@@ -14,15 +17,13 @@ export default {
   methods: {
   },
   mounted() {
-    $(document).ready(function() {
-      $('#name-text').funnyText({
-          speed: 700,
-          borderColor: 'black',
-          activeColor: 'white',
-          color: 'black',
-          fontSize: '5em',
-          direction: 'both'
-      });
+    funnyText('#name-text', {
+      speed: 700,
+      borderColor: 'black',
+      activeColor: 'white',
+      color: 'black',
+      fontSize: '5em',
+      direction: 'both'
     });
   }
 }
