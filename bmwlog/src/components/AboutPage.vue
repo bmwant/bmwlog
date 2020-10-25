@@ -1,7 +1,4 @@
 <script>
-import { $, jQuery } from 'jquery'
-window.$ = $;
-window.jQuery = jQuery;
 // import '../assets/js/modernizr'
 // import '../assets/js/cube.transitions'
 // import '../assets/js/funny.text.min' // eslint-disable-line

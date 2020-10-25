@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import BlogHome from '@/components/BlogHome'
 import BlogPost from '@/components/BlogPost'
 import AboutPage from '@/components/AboutPage'
+import PhotosPage from '@/components/PhotosPage'
 
 Vue.use(Router)
 
@@ -27,7 +28,7 @@ export default new Router({
     {
       path: '/gallery',
       name: 'photos-page',
-      component: BlogHome
+      component: PhotosPage
     },
     {
       path: '/ad',

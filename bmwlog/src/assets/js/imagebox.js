@@ -1,20 +1,22 @@
-(function (){
+import $ from 'jquery'
+
+export function imageBox() {
 // ACTIVITY INDICATOR
 
 var activityIndicatorOn = function () {
-        $('<div id="imagelightbox-loading"><div></div></div>').appendTo('body');
+      $('<div id="imagelightbox-loading"><div></div></div>').appendTo('body');
     },
     activityIndicatorOff = function () {
-        $('#imagelightbox-loading').remove();
+      $('#imagelightbox-loading').remove();
     },
 
 
 // OVERLAY
     overlayOn = function () {
-        $('<div id="imagelightbox-overlay"></div>').appendTo('body');
+      $('<div id="imagelightbox-overlay"></div>').appendTo('body');
     },
     overlayOff = function () {
-        $('#imagelightbox-overlay').remove();
+      $('#imagelightbox-overlay').remove();
     },
 
 
@@ -48,5 +50,4 @@ var activityIndicatorOn = function () {
         onLoadStart: 	function() { captionOff(); activityIndicatorOn(); },
         onLoadEnd:	 	function() { captionOn(); activityIndicatorOff(); }
     });
-
-})();
+}

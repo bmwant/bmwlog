@@ -1,66 +1,52 @@
 <script>
-import { db } from '@/db'
-
+// import { imageBox } from '@/assets/js/imagebox'
+import { collagePlus } from '@/assets/js/jquery.collagePlus.js'
 
 export default {
-  name: 'blog-home',
+  name: 'photos-page',
   data() {
     return {
-      page_title: 'Blog',
-      posts: []
+      pageTitle: 'Instagram',
     }
   },
-  firestore: {
-    posts: db.collection('posts'),
+  mounted() {
+    // imageBox()
   },
   methods: {
-    getPosts() {
-      this.posts = [
-        {
-          slug: "first-post",
-          title: "My first post",
-          description: "The short description"
-        },
-        {
-          slug: "second-post",
-          title: "My second post",
-          description: "The short description"
-        },
-      ]
+    onImgLoad() {
+      // update gallery
+      collagePlus('.gallery', {
+        'effect': 'effect-2',
+        'allowPartialLastRow': true,
+        'targetHeight': 200,
+        'direction': 'vertical'
+      })
     }
-  },
-  created() {
-    // this.getPosts()
   }
 }
 </script>
 
 <template>
 <div id="content">
-  <div class="row">
-    <div class="column_8 padding-bottom padding-top margin-bottom margin-top">
-      <div id="posts-container">
-        <div class="box"
-          v-for="(post,index) in posts"
-          :key="post.slug + '_' + index"
-        >
-          <router-link :to="'/post/' + post.slug">
-            <a href="" class="post-header-lst text bold color theme">{{ post.title }}</a>
-          </router-link>
-          <div class="post-date-lst">
-            <div class="post-date bck light"><time>21/11/2020</time></div>
-          </div>
-          <div class="post-text-lst text justify">
-            {{ post.description }}
-          </div>
-        </div>
-
-        <div class="post-delim"></div>
-      </div>
-      <div class="load-more">
-        <button id="load-button" class="button success" onclick="loadMore()">I want more!</button>
+  <div id="gallery-content">
+    <div class="row">
+      <div class="gallery">
+        <a href="#">
+          <img class="gallerimg" height="200" src="../assets/img/oneme.jpg" alt="Desc" @load="onImgLoad"/>
+        </a>
+         <a href="#">
+          <img class="gallerimg" height="200" src="../assets/img/oneme.jpg" alt="Desc"/>
+        </a>
+        <a href="#">
+          <img class="gallerimg" height="200" src="../assets/img/oneme.jpg" alt="Desc"/>
+        </a>
       </div>
     </div>
   </div>
 </div>
 </template>
+
+<style scoped>
+@import '../assets/styles/gallery-transitions.css';
+@import '../assets/styles/imagebox.css';
+</style>
