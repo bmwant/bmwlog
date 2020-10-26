@@ -9,6 +9,6 @@ Vue.use(firestorePlugin)
 new Vue({
   render: h => h(App),
   router: Router
-}).$mount('#app')
+}).$mount('#wrapper')
 
 
