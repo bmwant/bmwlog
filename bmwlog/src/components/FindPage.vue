@@ -1,36 +1,53 @@
 <script>
-import { db } from '@/db'
+import $ from 'jquery'
 
+function showSearchResults(data) {
+  var list = $(".category-lst");
+  list.empty();
+  if($.isEmptyObject(data)) {
+      $("<div />", {
+          class: "no-results",
+          text: "Nothing matched --->"
+      }).appendTo(list);
+      return;
+  }
+
+  $.each(data, function(index, post) {
+      var postLink = $("<a />", {
+          href: "post/" + post.id,
+          class: "text bold color theme"
+      });
+
+      $("<div />", {
+          class: "category-item bck light",
+          text: post.title
+      }).appendTo(postLink);
+      list.append(postLink);
+  });
+}
 
 export default {
-  name: 'blog-home',
+  name: 'search-page',
   data() {
     return {
-      page_title: 'Blog',
-      posts: []
-    }
-  },
-  firestore: {
-    posts: db.collection('posts'),
-  },
-  methods: {
-    getPosts() {
-      this.posts = [
-        {
-          slug: "first-post",
-          title: "My first post",
-          description: "The short description"
-        },
-        {
-          slug: "second-post",
-          title: "My second post",
-          description: "The short description"
-        },
+      pageTitle: 'Lookup',
+      categories: [
+        { name: 'Foo', postsCount: 20 },
+        { name: 'Bar', postsCount: 4 }
       ]
     }
   },
-  created() {
-    // this.getPosts()
+  methods: {
+  },
+  mounted() {
+    $("#search-form").submit(function (event) {
+        var action = $(this).attr('action');
+        var query = $("input[name='search']").val();
+        $.getJSON(action, {
+            query: query
+        }, showSearchResults);
+        event.preventDefault();
+    });
   }
 }
 </script>
@@ -38,27 +55,19 @@ export default {
 <template>
 <div id="content">
   <div class="row">
-    <div class="column_8 padding-bottom padding-top margin-bottom margin-top">
-      <div id="posts-container">
-        <div class="box"
-          v-for="(post,index) in posts"
-          :key="post.slug + '_' + index"
-        >
-          <router-link :to="'/post/' + post.slug">
-            <a href="" class="post-header-lst text bold color theme">{{ post.title }}</a>
-          </router-link>
-          <div class="post-date-lst">
-            <div class="post-date bck light"><time>21/11/2020</time></div>
-          </div>
-          <div class="post-text-lst text justify">
-            {{ post.description }}
-          </div>
-        </div>
-
-        <div class="post-delim"></div>
+    <div class="column_8">
+      <div class="category-lst">
+        <a v-for="category in categories" :key="category.name" href="category/#" class="text bold color theme">
+          <div class="category-item bck light">{{ category.name }} <span class="posts-count">{{ category.postsCount }}</span></div>
+        </a>
       </div>
-      <div class="load-more">
-        <button id="load-button" class="button success" onclick="loadMore()">I want more!</button>
+    </div>
+    <div class="column_4">
+      <div class="search-row">
+        <form class="search-form" id="search-form" action="/search">
+          <input type="text" name="search" placeholder="Search..."/>
+          <button class="button success"><i class="fas fa-search"></i></button>
+        </form>
       </div>
     </div>
   </div>

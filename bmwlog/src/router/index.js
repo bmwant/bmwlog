@@ -5,6 +5,7 @@ import BlogPost from '@/components/BlogPost'
 import AboutPage from '@/components/AboutPage'
 import PhotosPage from '@/components/PhotosPage'
 import AdminPage from '@/components/AdminPage'
+import SearchPage from '@/components/FindPage'
 
 Vue.use(Router)
 
@@ -24,7 +25,7 @@ export default new Router({
     {
       path: '/search',
       name: 'search-page',
-      component: BlogHome
+      component: SearchPage
     },
     {
       path: '/gallery',

@@ -30,7 +30,7 @@
     <div class="row text center">
       <nav data-tuktuk="menu" class="column_12 padding text bold">
         <router-link to="/post"><i class="fas fa-pencil-alt"></i>Posts</router-link>
-        <router-link to="/categories"><i class="fas fa-search"></i>Find</router-link>
+        <router-link to="/search"><i class="fas fa-search"></i>Find</router-link>
         <router-link to="/gallery"><i class="fas fa-camera-retro"></i>Photos</router-link>
         <!-- {% if user and user.is_admin() %} -->
         <router-link to="/ad"><i class="fas fa-cog"></i>Admin</router-link>
