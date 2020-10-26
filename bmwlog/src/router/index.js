@@ -4,6 +4,7 @@ import BlogHome from '@/components/BlogHome'
 import BlogPost from '@/components/BlogPost'
 import AboutPage from '@/components/AboutPage'
 import PhotosPage from '@/components/PhotosPage'
+import AdminPage from '@/components/AdminPage'
 
 Vue.use(Router)
 
@@ -33,7 +34,7 @@ export default new Router({
     {
       path: '/ad',
       name: 'admin-page',
-      component: BlogHome
+      component: AdminPage
     },
     {
       path: '/play',
