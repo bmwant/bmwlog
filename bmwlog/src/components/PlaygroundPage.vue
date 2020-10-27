@@ -1,0 +1,225 @@
+<script>
+export default {
+  name: 'playground-page',
+  data() {
+    return {
+      pageTitle: 'Portfolio',
+    }
+  },
+  methods: {
+  },
+  mounted() {
+  }
+}
+</script>
+
+<template>
+<div id="content">
+    <div class="row">
+        <div class="column_8">
+            <div class="project-lst">
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+                            <img src="@/assets/img/projects/webart.png">
+                        </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">Webart Studio <span class="pr-date">з березня 2014</span> <i class="fa fa-thumb-tack" title="Неактивний"></i></div>
+                        <div class="pr-text">
+                            <p>webart.in.ua</p>
+                            Студія веб-розробки. Створювали як звичайні сайт-сторінку/блог/інтернет-магазин на різноманітних CMS та фреймворках для php (Joomla, yii), так і
+                            складні індивідуальні рішення на Python. Забезпечували хостингом, доменним ім'ям та просуванням в пошуковиках.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+                            <img src="@/assets/img/projects/kinostars.png">
+                        </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">Kinostars <span class="pr-date">з грудня 2013</span></div>
+                        <div class="pr-text">
+                            <p>kinostars.bmwlog.pp.ua</p>
+                            Веб-гра "Вгадай актора". Раніше така була на сайті Кинопоиска, але після того, як Яндекс купив його, вона безслідно зникла. Я написав
+                            аналог і тепер граюся у вільний час.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+                            <img src="@/assets/img/projects/elife.png">
+                        </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">Extreme Life <span class="pr-date">з жовтня 2013</span></div>
+                        <div class="pr-text">
+                            <p>elife.in.ua</p>
+                            Перший в Україні інтернет-магазин фікседів: велосипедів з однією передачею, де з'єднання "педалі-колесо" зафіксоване (немає вільної прокрутки
+                            колеса, коли педалі нерухомі); гальмування теж відбувається зупинкою обертання педалей і, відповідно, колеса.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+                            <img src="@/assets/img/projects/menudict.png">
+                        </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">Menudict <span class="pr-date">з кінця 2013</span> <i class="fa fa-thumb-tack" title="Неактивний"></i></div>
+                        <div class="pr-text">
+                            <p>menudict.com</p>
+                            Сервіс, який допомагає правильно харчуватися. Він генерує тижневий здоровий раціон на основі ваших персональних даних, а також побажань
+                            щодо кінцевого результату (схуднення, нормалізація ваги, посилені тренування). Можлива генерація на основі бази даних продуктів чи меню
+                            якогось закладу харчування. (Python, Flask, PostgreSQL, Zurb Foundation, jQuery)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+                            <img src="@/assets/img/projects/fas.png">
+                        </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">Fifth Avenue Shop <span class="pr-date">з січня 2014</span> <i class="fa fa-thumb-tack" title="Неактивний"></i></div>
+                        <div class="pr-text">
+                            <p>fifth-avenue-shop.com.ua</p>
+                            Онлайн-магазин косметики і всякого іншого товару для макіяжу і гарного зовнішнього вигляду.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+                            <img src="@/assets/img/projects/vd.png">
+                        </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">Volun Deer <span class="pr-date">квітень 2015</span></div>
+                        <div class="pr-text">
+                            <p>localhost</p>
+                            Сервіс для волонтерів, який дозволяє знайти існуючі волонтерські програми чи запропонувати свою допомогу. В кожному проекті
+                            можна брати участь або отримувати новини про останні події.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+                            <img src="@/assets/img/projects/bmg.png">
+                        </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">BMG <span class="pr-date">з березня 2015</span></div>
+                        <div class="pr-text">
+                            <p>localhost</p>
+                            Генератор шаблонного коду для швидкого створення проектів на пайтоні. Дозволяє в декілька кліків, вибравши базу даних (якщо необхідно)
+                            та css-фреймворк, отримати готовий до запуску проект. Також дозволяє генерувати типовий код для роботи
+                            з сутностями вашої бази даних (перегляд/створення/редагування/видалення). Відпадає необхідність рутинно переписувати однотипний код по
+                            декілька разів. Ідеально для швидкого старту.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+                            <img src="@/assets/img/projects/travelmoto.png">
+                        </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">Travel Moto <span class="pr-date">грудень 2013</span></div>
+                        <div class="pr-text">
+                            <p>travel-moto.com.ua</p>
+                            Сайт, який надає послуги прокату мотовсюдиходів (щось схоже на квадроцикли, але більші та із захистом). Прокат відбувався на
+                            території нашого) Криму.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+                            <img src="@/assets/img/projects/fixshop.png">
+                        </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">FixShop <span class="pr-date">листопад 2014</span></div>
+                        <div class="pr-text">
+                            <p>localhost</p>
+                            Односторінковий інтернет-магазин велосипедів (взагалі, будь-чого) для швидкої покупки і зручного перегляду
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+                            <img src="@/assets/img/projects/attachr.png">
+                        </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">Attachr <span class="pr-date">з січня 2015</span></div>
+                        <div class="pr-text">
+                            <p>attachr.me</p>
+                            Сервіс, який дозволяє завантажувати одним архівом всі вкладення вашої електронної пошти Gmail. Присутнє групування
+                            за категоріями, що надає можливість водночас отримати всі фотографії чи документи без необхідності вручну
+                            витрачати час на одиничне завантаження серед купи листів.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+                            <img src="@/assets/img/projects/analytics.png">
+                        </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">Analytics <span class="pr-date">травень 2015</span></div>
+                        <div class="pr-text">
+                            <p>internal</p>
+                            Внутрішній ресурс, що дозволяє зберігати та відображати різноманітні показники активності гравців для
+                            ігр в соціальних мережах.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project">
+                    <div class="pr-image grid">
+                        <figure class="effect-roxy">
+                            <img src="@/assets/img/projects/ccm.png">
+                        </figure>
+                    </div>
+                    <div class="pr-description">
+                        <div class="pr-name">Cloud Cluster Manager <span class="pr-date">листопад 2015</span></div>
+                        <div class="pr-text">
+                            <p>internal</p>
+                            Внутрішній ресурс для Mesosphere, який дозволяє керувати вашими кластерами з DCOS.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="column_4">
+        </div>
+    </div>
+</div>
+</template>
+
+<style>
+@import '../assets/styles/playground.page.css';
+</style>

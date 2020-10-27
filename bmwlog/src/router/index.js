@@ -6,6 +6,7 @@ import AboutPage from '@/components/AboutPage'
 import PhotosPage from '@/components/PhotosPage'
 import AdminPage from '@/components/AdminPage'
 import SearchPage from '@/components/FindPage'
+import PlaygroundPage from '@/components/PlaygroundPage'
 
 Vue.use(Router)
 
@@ -40,7 +41,7 @@ export default new Router({
     {
       path: '/play',
       name: 'playground-page',
-      component: BlogHome
+      component: PlaygroundPage
     },
     {
       path: '/about',
