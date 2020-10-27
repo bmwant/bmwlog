@@ -1,9 +1,12 @@
 <script>
 import { db } from '@/db'
-
+import Banners from '@/components/blocks/Banners'
 
 export default {
   name: 'blog-home',
+  components: {
+    Banners,
+  },
   data() {
     return {
       pageTitle: 'Posts',
@@ -65,9 +68,7 @@ export default {
         <button id="load-button" class="button success" onclick="loadMore()">I want more!</button>
       </div>
     </div>
-    <div class="column_4 hide-tablet hide-phone">
-
-    </div>
+    <Banners />
   </div>
 </div>
 </template>
