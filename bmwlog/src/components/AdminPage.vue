@@ -1,0 +1,71 @@
+<script>
+import $ from 'jquery'
+import moment from 'moment'
+
+export default {
+  name: 'admin-page',
+  data() {
+    return {
+      pageTitle: 'sudo rm -rf /',
+    }
+  },
+  methods: {
+  },
+  mounted() {
+    var currentYear = moment().year();  // eslint-disable-line
+    var totalWeeks = moment().weeksInYear();
+    var totalDays = moment().isLeapYear() ? 366 : 365;
+    $("#day-name").text(moment().format("dddd"));
+    $("#short-date").text(moment().format("D/MMM/YYYY"));
+    $("#day-of-year").text(moment().format("DDD"));
+    $("#days-in-year").text(totalDays);
+    $("#week-of-year").text(moment().format("w"));
+    $("#weeks-in-year").text(totalWeeks);
+  }
+}
+</script>
+
+<template>
+<div id="content">
+  <div class="row">
+    <div class="column_12">
+      <h2 class="admin-header">Admin panel</h2>
+      <span id="day-name"></span>
+      <h3 id="short-date"></h3>
+      <span id="day-of-year"></span>/<span id="days-in-year"></span>
+      <span id="week-of-year"></span>/<span id="weeks-in-year"></span>
+      <table class="admin-table">
+        <tbody>
+          <tr>
+            <td><a href="/post/add"><i class="fas fa-file-alt fa-4x"></i>Add post</a></td>
+            <td><a href="/post/deleted"><i class="fas fa-trash-alt fa-4x"></i>Видалені статті</a></td>
+            <td><a href="/category/add"><i class="far fa-list-alt fa-4x"></i>Додати категорію</a></td>
+            <td><a href="/upload"><i class="fas fa-cloud-upload-alt fa-4x"></i>Завантажити файл</a></td>
+          </tr>
+
+          <tr>
+            <td><a href="/user/list"><i class="fas fa-users fa-4x"></i>Список користувачів</a></td>
+            <td><a href="/banners"><i class="far fa-newspaper fa-4x"></i>Додати банер</a></td>
+            <td><a href="/gallery_add"><i class="far fa-image fa-4x"></i>Додати зображення в галерею</a></td>
+            <td><a href="http://" target="_blank"><i class="fas fa-paper-plane fa-4x"></i>phpMyAdmin (inactive)</a></td>
+          </tr>
+
+          <tr>
+            <td><a href="/ad/backupdb"><i class="fas fa-database fa-4x"></i>Backup db (inactive)</a></td>
+            <td><a href="/files"><i class="far fa-folder fa-4x"></i>Менеджер файлів</a></td>
+            <td><a href="/quote/add"><i class="fas fa-quote-left fa-4x"></i>Додати цитату</a></td>
+            <td><a href="/sp/add"><i class="far fa-bookmark fa-4x"></i>Додати cторінку</a></td>
+          </tr>
+        </tbody>
+      </table>
+      <ul class="actions-list">
+        <li><a href="/joke/add">Add header joke</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</template>
+
+<style>
+@import '../assets/styles/admin.page.css';
+</style>
